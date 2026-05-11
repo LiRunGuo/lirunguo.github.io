@@ -3,8 +3,9 @@
    ========================================================================== */
 
 /*
-   Wider main column for LLM Libs subpages
-   ----------------------------------------
+   Wider main column for single-layout subpages (posts, publications,
+   portfolio, llm-libs, and the home page).
+   ------------------------------------------------------------------
    Problem
    -------
    The base theme makes `.sidebar` `position: fixed` at viewport ≥1024px so
@@ -15,23 +16,25 @@
    so the sidebar visually overlaps the start of `.page`. The default
    templates hide the symptom by padding-right 16.95% inside `.page`, which
    pushes the *visible text* further right — but the .page box itself still
-   overlaps.
+   overlaps, and the readable width ends up cramped.
    Fix
    ---
-   On LLM Libs pages, push `#main` clear of the fixed sidebar by reserving
-   ~260px of left padding at the same breakpoint where the sidebar goes
-   fixed. Inside, `.page` becomes a normal block (no Susy float) that fills
-   the remaining width, so we get more room for long technical docs.
+   On every single-layout page, push `#main` clear of the fixed sidebar by
+   reserving ~260px of left padding at the same breakpoint where the
+   sidebar goes fixed. Inside, `.page` becomes a normal block (no Susy
+   float) that fills the remaining width.
+   Archive pages (`layout--archive`) are left alone — their layout reads
+   content lists, which fit fine in the narrower default column.
    ========================================================================== */
 
 @media screen and (min-width: 1024px) {
-  body.collection--llm-libs #main {
+  body.layout--single #main {
     padding-left: 260px;
     padding-right: 1.5em;
     max-width: none;     /* override base 1280 cap so the body can grow */
   }
 
-  body.collection--llm-libs .page {
+  body.layout--single .page {
     width: auto;
     float: none;
     margin-right: 0;
@@ -41,7 +44,7 @@
 }
 
 @media screen and (min-width: 80em) /* ≥1280px: cap the readable column */ {
-  body.collection--llm-libs #main {
+  body.layout--single #main {
     max-width: 1500px;
   }
 }
