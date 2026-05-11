@@ -1,0 +1,24 @@
+---
+layout: null
+permalink: /daily.xml
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Daily AI Digest — Runguo Li</title>
+    <atom:link href="{{ site.url }}/daily.xml" rel="self" type="application/rss+xml" />
+    <link>{{ site.url }}/daily/</link>
+    <description>Daily machine-generated digest of new AI papers, research blog posts, and industry news. Summaries and keywords are produced by an LLM in academic English; each item links to the original source.</description>
+    <language>en-US</language>
+    {% assign digests = site.daily | sort: "date" | reverse | slice: 0, 30 %}
+    {% for d in digests %}
+    <item>
+      <title>{{ d.title | default: d.date | date: "Daily Digest — %Y-%m-%d" | xml_escape }}</title>
+      <link>{{ site.url }}{{ d.url }}</link>
+      <guid isPermaLink="true">{{ site.url }}{{ d.url }}</guid>
+      <pubDate>{{ d.date | date_to_rfc822 }}</pubDate>
+      <description>{{ d.tagline | default: "Daily AI digest" | xml_escape }}</description>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

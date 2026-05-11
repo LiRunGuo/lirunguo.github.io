@@ -28,23 +28,38 @@
    ========================================================================== */
 
 @media screen and (min-width: 1024px) {
-  body.layout--single #main {
+  body.layout--single #main,
+  body.layout--daily #main {
     padding-left: 260px;
     padding-right: 1.5em;
     max-width: none;     /* override base 1280 cap so the body can grow */
   }
 
-  body.layout--single .page {
+  body.layout--single .page,
+  body.layout--daily .page {
     width: auto;
     float: none;
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
   }
+
+  /* When #main gains a 260px left padding (above), the fixed author
+     sidebar would inherit the padded position (the base theme does not
+     set an explicit `left`) and drift right along with it. Pin it to the
+     viewport's left edge instead — but only on pages where we actually
+     apply the padding. Archive pages are unaffected. */
+  body.layout--single .sidebar.sticky,
+  body.layout--daily .sidebar.sticky {
+    left: 1em;
+    width: auto;
+    max-width: 240px;
+  }
 }
 
 @media screen and (min-width: 80em) /* ≥1280px: cap the readable column */ {
-  body.layout--single #main {
+  body.layout--single #main,
+  body.layout--daily #main {
     max-width: 1500px;
   }
 }
@@ -498,4 +513,104 @@ mjx-container {
 
 mjx-container[display="true"] {
   margin: 1em 0 !important;
+}
+
+/* ==========================================================================
+   Daily AI Digest
+   ========================================================================== */
+
+.daily-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 0.5em 0;
+    border-bottom: 1px solid var(--global-border-color);
+    font-size: 0.95em;
+  }
+
+  .daily-tagline {
+    color: var(--global-text-color-light);
+    font-size: 0.9em;
+  }
+}
+
+.daily-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+
+.daily-item {
+  border: 1px solid var(--global-border-color);
+  border-radius: 6px;
+  padding: 1em 1.2em;
+  background: var(--global-bg-color);
+
+  &__title {
+    margin: 0 0 0.3em 0;
+    font-size: 1.05em;
+    line-height: 1.35;
+
+    a {
+      color: var(--global-text-color);
+      border-bottom: 0;
+
+      &:hover {
+        color: var(--global-link-color);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__meta {
+    margin: 0 0 0.6em 0;
+    color: var(--global-text-color-light);
+    font-size: 0.82em;
+  }
+
+  &__source {
+    font-weight: 600;
+  }
+
+  &__summary {
+    margin: 0 0 0.6em 0;
+    color: var(--global-text-color);
+    font-size: 0.92em;
+    line-height: 1.6;
+  }
+
+  &__keywords {
+    margin: 0 0 0.4em 0;
+    line-height: 1.8;
+  }
+
+  &__link {
+    margin: 0;
+    font-size: 0.82em;
+
+    a {
+      color: var(--global-link-color);
+      border-bottom: 0;
+    }
+  }
+}
+
+.daily-kw {
+  display: inline-block;
+  padding: 2px 8px;
+  margin-right: 4px;
+  margin-bottom: 2px;
+  font-size: 0.72em;
+  font-weight: 500;
+  color: var(--global-text-color-light);
+  background: var(--global-footer-bg-color);
+  border: 1px solid var(--global-border-color);
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+html[data-theme="dark"] .daily-item {
+  background: transparent;
 }

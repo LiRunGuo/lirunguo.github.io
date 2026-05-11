@@ -1,0 +1,78 @@
+name: Daily AI Digest
+
+on:
+  schedule:
+    # 03:00 Asia/Shanghai (UTC+8) == 19:00 UTC
+    - cron: "0 19 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Skip LLM calls (stub summaries)"
+        required: false
+        type: boolean
+        default: false
+      digest_date:
+        description: "Override the digest date (YYYY-MM-DD). Leave blank for today UTC+8."
+        required: false
+        type: string
+
+concurrency:
+  group: daily-digest
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write    # we commit _daily/*.md and scripts/daily/state.json back
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history lets us commit without dancing around shallow clone issues.
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: scripts/daily/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/daily/requirements.txt
+
+      - name: Build digest
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_MODEL: deepseek/deepseek-chat
+          OPENROUTER_FALLBACK: deepseek/deepseek-v4-flash
+          DIGEST_DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
+          DIGEST_DATE: ${{ github.event.inputs.digest_date }}
+        run: python scripts/daily/build_digest.py
+
+      - name: Show what changed
+        run: |
+          git status --short
+          echo "---"
+          ls -la _daily/ 2>/dev/null | tail -5 || true
+
+      - name: Commit and push
+        run: |
+          set -e
+          git config user.name  "runguoli-bot"
+          git config user.email "runguoli-bot@users.noreply.github.com"
+          git add _daily scripts/daily/state.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          DATE="$(date -u -d '+8 hours' +%Y-%m-%d)"
+          git commit -m "chore(daily): digest for ${DATE}"
+          # Re-sync in case a human push landed between checkout and now.
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

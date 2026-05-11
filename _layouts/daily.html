@@ -1,0 +1,88 @@
+---
+layout: default
+---
+
+{% include base_path %}
+
+<div id="main" role="main">
+  {% include sidebar.html %}
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <div class="page__inner-wrap">
+      <header>
+        <h1 class="page__title" itemprop="headline">{{ page.title | default: page.date | date: "Daily Digest — %Y-%m-%d" }}</h1>
+        <p class="page__meta">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          {{ page.date | date: "%A, %B %d, %Y" }}
+          {% if page.item_count %} · {{ page.item_count }} items{% endif %}
+          {% if page.llm_model %} · model: <code>{{ page.llm_model }}</code>{% endif %}
+        </p>
+      </header>
+
+      <section class="page__content" itemprop="text">
+        <div class="content-with-toc">
+
+          {% if page.tagline %}
+            <p class="page__lead">{{ page.tagline }}</p>
+          {% endif %}
+
+          {% if page.source_errors and page.source_errors.size > 0 %}
+            <div class="notice--warning">
+              <strong>⚠️ Source issues today:</strong>
+              <ul>
+                {% for err in page.source_errors %}<li><code>{{ err.source }}</code>: {{ err.message }}</li>{% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          {% if page.sections %}
+            {% for section in page.sections %}
+              <h2 id="{{ section.id }}">{{ section.title }}{% if section.items.size > 0 %} <small style="font-weight: normal; color: var(--global-text-color-light);">({{ section.items.size }})</small>{% endif %}</h2>
+
+              {% if section.items.size == 0 %}
+                <p><em>No new items today.</em></p>
+              {% else %}
+                <div class="daily-items">
+                  {% for item in section.items %}
+                    <article class="daily-item">
+                      <h3 class="daily-item__title">
+                        <a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.title }}</a>
+                      </h3>
+                      <p class="daily-item__meta">
+                        <span class="daily-item__source">{{ item.source }}</span>
+                        {% if item.authors %} · <span class="daily-item__authors">{{ item.authors }}</span>{% endif %}
+                        {% if item.published %} · <span class="daily-item__date">{{ item.published | date: "%Y-%m-%d" }}</span>{% endif %}
+                      </p>
+                      {% if item.summary %}
+                        <p class="daily-item__summary">{{ item.summary }}</p>
+                      {% endif %}
+                      {% if item.keywords and item.keywords.size > 0 %}
+                        <p class="daily-item__keywords">
+                          {% for kw in item.keywords %}<span class="daily-kw">{{ kw }}</span>{% endfor %}
+                        </p>
+                      {% endif %}
+                      <p class="daily-item__link">
+                        <a href="{{ item.url }}" target="_blank" rel="noopener">Read original →</a>
+                      </p>
+                    </article>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            {{ content }}
+          {% endif %}
+
+          <hr />
+          <p style="color: var(--global-text-color-light); font-size: 0.85em;">
+            Generated automatically at {{ page.generated_at | default: page.date | date: "%Y-%m-%d %H:%M UTC" }}.
+            Summaries and keywords are produced by an LLM and may contain inaccuracies — always consult the original article.
+          </p>
+
+        </div>
+      </section>
+
+      {% include post_pagination.html %}
+    </div>
+  </article>
+</div>

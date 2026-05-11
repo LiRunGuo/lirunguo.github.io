@@ -1,0 +1,94 @@
+# Sources for the daily AI digest.
+#
+# kind: "rss" parses with feedparser, then optionally fetches full page text
+#       with trafilatura for LLM summarisation.
+# kind: "arxiv" uses the arXiv Atom API to pull submissions from the last
+#       N hours; the feed's own <summary> is used as the article text
+#       (no separate page fetch needed).
+#
+# `section` groups items on the rendered digest page.
+# `fallback` is used if the primary URL returns non-2xx; optional.
+
+sections:
+  - id: labs
+    title: "🏛️ Research Labs"
+  - id: papers
+    title: "📜 arXiv Papers"
+  - id: media
+    title: "📰 Industry Media"
+  - id: cn
+    title: "🇨🇳 中文媒体"
+
+sources:
+  # --- Labs ---------------------------------------------------------------
+  - name: "OpenAI News"
+    kind: rss
+    section: labs
+    url: "https://openai.com/news/rss.xml"
+    fetch_full_text: true
+
+  - name: "Hugging Face Blog"
+    kind: rss
+    section: labs
+    url: "https://huggingface.co/blog/feed.xml"
+    fetch_full_text: true
+
+  - name: "Google AI Blog"
+    kind: rss
+    section: labs
+    url: "https://blog.google/technology/ai/rss/"
+    fallback: "https://blog.research.google/feeds/posts/default"
+    fetch_full_text: true
+
+  # --- arXiv (handled by the dedicated kind) ------------------------------
+  - name: "arXiv cs.AI"
+    kind: arxiv
+    section: papers
+    category: "cs.AI"
+    # Pull submissions from the last 28 hours (gives us ~1 day + a safety
+    # margin for daylight shifts / holidays with no new submissions).
+    lookback_hours: 28
+    max_items: 120
+    fetch_full_text: false   # use Atom <summary> directly
+
+  - name: "arXiv cs.LG"
+    kind: arxiv
+    section: papers
+    category: "cs.LG"
+    lookback_hours: 28
+    max_items: 80
+    fetch_full_text: false
+
+  # --- Industry media -----------------------------------------------------
+  - name: "MIT Tech Review — AI"
+    kind: rss
+    section: media
+    url: "https://www.technologyreview.com/topic/artificial-intelligence/feed/"
+    fetch_full_text: true
+
+  - name: "MarkTechPost"
+    kind: rss
+    section: media
+    url: "https://www.marktechpost.com/feed/"
+    fetch_full_text: true
+
+  - name: "AI News"
+    kind: rss
+    section: media
+    url: "https://artificialintelligence-news.com/feed/"
+    fetch_full_text: true
+
+  # --- Chinese media ------------------------------------------------------
+  - name: "机器之心 (JiqiZhixin)"
+    kind: rss
+    section: cn
+    url: "https://rsshub.app/jiqizhixin"
+    fallback: "https://www.jiqizhixin.com/rss"
+    fetch_full_text: true
+
+  - name: "量子位 (QbitAI)"
+    kind: rss
+    section: cn
+    url: "https://rsshub.app/qbitai"
+    fallback: "https://www.qbitai.com/feed"
+    fetch_full_text: true

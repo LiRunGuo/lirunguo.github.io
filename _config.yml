@@ -235,6 +235,9 @@ collections:
   llm-libs:
     output: true
     permalink: /llm-libs/:path/
+  daily:
+    output: true
+    permalink: /daily/:path/
 
 
 # These settings control how pages and collections are included in the site
@@ -300,6 +303,15 @@ defaults:
       layout: single
       author_profile: true
       share: true
+  # _daily
+  - scope:
+      path: ""
+      type: daily
+    values:
+      layout: daily
+      author_profile: true
+      share: false
+      toc: false
 
 
 # Sass/SCSS

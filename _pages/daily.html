@@ -1,0 +1,36 @@
+---
+layout: archive
+title: "Daily AI Digest"
+permalink: /daily/
+author_profile: true
+toc: false
+---
+
+{% include base_path %}
+
+<p class="page__lead">
+  A daily machine-generated digest of new papers, research blog posts, and industry news from 9 curated AI sources. Summaries and keywords are produced by an LLM in academic English; click any title to read the original article. Updated every day at <strong>03:00 UTC+8</strong>.
+</p>
+
+<p>
+  <a class="btn btn--inverse" href="/daily.xml">
+    <i class="fa fa-rss" aria-hidden="true"></i> Subscribe (RSS)
+  </a>
+</p>
+
+<hr />
+
+{% assign digests = site.daily | sort: "date" | reverse %}
+{% if digests.size == 0 %}
+  <p><em>No digests yet — the first one will land the morning after the automation runs.</em></p>
+{% else %}
+  <ul class="daily-index">
+    {% for d in digests %}
+      <li>
+        <a href="{{ d.url }}"><strong>{{ d.date | date: "%Y-%m-%d (%A)" }}</strong></a>
+        {% if d.item_count %} — {{ d.item_count }} items{% endif %}
+        {% if d.tagline %} · <span class="daily-tagline">{{ d.tagline }}</span>{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
