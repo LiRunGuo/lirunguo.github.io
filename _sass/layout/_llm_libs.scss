@@ -14,7 +14,12 @@
   width: 100%;
 }
 
-@media screen and (min-width: 1400px) {
+/* Hide the aside entirely when JS detected zero headings */
+.toc-sidebar.toc-empty {
+  display: none !important;
+}
+
+@media screen and (min-width: 1024px) {
   .page__content {
     position: relative;
   }
@@ -24,7 +29,7 @@
     position: fixed;
     top: 80px;
     right: max(calc((100vw - 1280px) / 2 + 20px), 20px);
-    width: 240px;
+    width: 220px;
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     z-index: 10;
@@ -51,6 +56,8 @@
     i {
       margin-right: 4px;
     }
+
+    .toc-caret { display: none; }
   }
 
   .toc-list {
@@ -122,12 +129,12 @@
 
   /* Content leaves space for TOC on the right */
   .content-with-toc {
-    max-width: calc(100% - 270px);
+    max-width: calc(100% - 250px);
   }
 }
 
-/* Mobile: show TOC as collapsible at top */
-@media screen and (max-width: 1399px) {
+/* Mobile / narrow: TOC as collapsible at top — collapsed by default */
+@media screen and (max-width: 1023px) {
   .toc-sidebar {
     display: block;
     margin-bottom: 1.5em;
@@ -137,33 +144,53 @@
     background-color: var(--global-toc-bg-color);
     border: 1px solid var(--global-border-color);
     border-radius: 6px;
-    padding: 10px 14px;
+    padding: 8px 14px;
   }
 
   .toc-title {
-    margin: 0 0 6px 0;
+    margin: 0;
     font-size: 0.8em;
     font-weight: 700;
     color: var(--global-text-color);
     cursor: pointer;
     user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     i { margin-right: 4px; }
+
+    .toc-caret {
+      display: inline-block;
+      font-size: 0.9em;
+      transition: transform 0.15s ease;
+      margin-left: 6px;
+    }
+  }
+
+  /* Collapsed by default — JS toggles .toc-open on the aside */
+  .toc-sidebar .toc-list {
+    display: none;
+    margin: 8px 0 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .toc-sidebar.toc-open .toc-list {
+    display: block;
+  }
+
+  .toc-sidebar.toc-open .toc-title .toc-caret {
+    transform: rotate(180deg);
   }
 
   .toc-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    column-count: 2;
-    column-gap: 20px;
-
     a {
       display: block;
       padding: 2px 0;
       color: var(--global-link-color);
-      font-size: 0.72em;
-      line-height: 1.4;
+      font-size: 0.78em;
+      line-height: 1.5;
       text-decoration: none;
       border-bottom: 0;
     }
@@ -174,8 +201,8 @@
       margin: 0;
       padding: 0;
       list-style: none;
-      li a { padding-left: 10px; }
-      ul li a { padding-left: 20px; }
+      li a { padding-left: 12px; }
+      ul li a { padding-left: 24px; }
     }
   }
 }

@@ -3,19 +3,33 @@ title: "FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Envi
 collection: publications
 category: conferences
 permalink: /publication/2026-08-finvault
-excerpt: 'A benchmark for evaluating the safety of financial agents in execution-grounded environments.'
-date: 2026-08-01
-venue: 'Under review at ACL 2026'
-citation: 'Runguo Li*, et al. (2026). &quot;FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments.&quot; <i>Under review at ACL 2026</i>. (* First Co-Author)'
+excerpt: 'The first execution-grounded security benchmark for LLM-based financial agents — 31 regulatory sandbox scenarios, 107 real-world vulnerabilities, 963 test cases. Submitted to EMNLP 2026.'
+date: 2026-01-09
+venue: 'Submitted to EMNLP 2026'
+paperurl: 'https://arxiv.org/abs/2601.07853'
+citation: 'Zhi Yang, Runguo Li, Qiqi Qiang, Jiashun Wang, Fangqi Lou, et al. (2026). &quot;FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments.&quot; <i>arXiv preprint arXiv:2601.07853</i>. Submitted to EMNLP 2026.'
 ---
 
-**FinVault** is a benchmark designed to evaluate the safety of financial AI agents in *execution-grounded* environments — settings in which an agent does not merely produce text answers, but actually executes actions (queries, trades, transfers, account look-ups) inside a simulated financial system.
+**Status:** Submitted to **EMNLP 2026** · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853)
 
-The benchmark stresses agents along multiple safety dimensions, including:
+### Authors
 
-- compliance with financial regulations,
-- robustness to prompt-injection and jailbreak attacks,
-- correctness under partial / inconsistent information,
-- recovery from execution errors.
+Zhi Yang, **Runguo Li**, Qiqi Qiang, Jiashun Wang, Fangqi Lou, Mengping Li, Dongpo Cheng, Rui Xu, Heng Lian, Shuo Zhang, Xiaolong Liang, Xiaoming Huang, Zheng Wei, Zhaowei Liu, Xin Guo, Huacan Wang, Ronghao Chen, Liwen Zhang.
 
-Status: under review at **ACL 2026** (first co-author).
+### Abstract
+
+Financial agents powered by large language models (LLMs) are increasingly deployed for investment analysis, risk assessment, and automated decision-making, where their abilities to plan, invoke tools, and manipulate mutable state introduce new security risks in high-stakes and highly regulated financial environments. However, existing safety evaluations largely focus on language-model-level content compliance or abstract agent settings, failing to capture **execution-grounded risks** arising from real operational workflows and state-changing actions.
+
+To bridge this gap, we propose **FinVault**, the first execution-grounded security benchmark for financial agents, comprising:
+
+- **31 regulatory case-driven sandbox scenarios** with state-writable databases and explicit compliance constraints,
+- **107 real-world vulnerabilities**, and
+- **963 test cases** systematically covering prompt injection, jailbreaking, financially adapted attacks, and benign inputs for false-positive evaluation.
+
+### Key Findings
+
+Experimental results reveal that existing defense mechanisms remain ineffective in realistic financial agent settings, with **average attack success rates (ASR) reaching up to 50.0%** on state-of-the-art models and **remaining non-negligible even for the most robust systems (ASR 6.7%)** — highlighting the limited transferability of current safety designs and the need for stronger financial-specific defenses.
+
+### Categories
+
+Cryptography and Security (cs.CR); Artificial Intelligence (cs.AI).

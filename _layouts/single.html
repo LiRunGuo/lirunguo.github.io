@@ -45,14 +45,14 @@ layout: default
       {% endunless %}
 
       <section class="page__content" itemprop="text">
-        {% if page.toc or page.collection == 'llm-libs' %}
+        {% unless page.toc == false %}
           <aside class="toc-sidebar" id="toc-sidebar">
             <nav class="toc-nav">
-              <h4 class="toc-title"><i class="fa fa-list"></i> 目录</h4>
+              <h4 class="toc-title" id="toc-title"><i class="fa fa-list"></i> 目录 <span class="toc-caret" aria-hidden="true">▾</span></h4>
               <ul class="toc-list" id="toc-list"></ul>
             </nav>
           </aside>
-        {% endif %}
+        {% endunless %}
         <div class="content-with-toc">
         {{ content }}
 
