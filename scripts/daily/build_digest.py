@@ -62,8 +62,9 @@ STATE_PATH = SCRIPT_DIR / "state.json"
 DAILY_DIR = REPO_ROOT / "_daily"
 
 USER_AGENT = (
-    "runguoli.com daily-digest bot "
-    "(+https://runguoli.com/daily/) python-requests"
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/124.0 Safari/537.36 "
+    "runguoli-daily-digest/1.0 (+https://runguoli.com/daily/)"
 )
 HTTP_TIMEOUT = 20  # seconds
 LLM_TIMEOUT = 90
@@ -279,12 +280,28 @@ def entry_authors(entry) -> str | None:
 
 def collect_rss_source(src: dict, seen: dict) -> tuple[list[Item], SourceError | None]:
     """Fetch one RSS feed and convert unseen entries to Items."""
-    parsed = parse_feed(src["url"])
-    if parsed is None and src.get("fallback"):
-        log.info("Primary %s failed, trying fallback %s", src["url"], src["fallback"])
-        parsed = parse_feed(src["fallback"])
+    candidates: list[str] = [src["url"]]
+    fb = src.get("fallback")
+    if isinstance(fb, str):
+        candidates.append(fb)
+    elif isinstance(fb, list):
+        candidates.extend(fb)
+
+    parsed = None
+    for url in candidates:
+        parsed = parse_feed(url)
+        if parsed is not None and parsed.entries:
+            if url != candidates[0]:
+                log.info("Using fallback %s for %s", url, src["name"])
+            break
+        if parsed is None:
+            log.info("  fetch failed: %s", url)
+        elif not parsed.entries:
+            log.info("  feed parsed but no entries: %s", url)
+            parsed = None  # try next fallback
+
     if parsed is None:
-        return [], SourceError(src["name"], f"feed unreachable: {src['url']}")
+        return [], SourceError(src["name"], f"all feed URLs failed (last tried: {candidates[-1]})")
 
     now_iso = dt.datetime.now(dt.timezone.utc).isoformat()
     items: list[Item] = []
@@ -639,12 +656,31 @@ def main() -> int:
     md = render_markdown(today, sections_out, errors, effective_model)
 
     DAILY_DIR.mkdir(exist_ok=True)
-    target = DAILY_DIR / f"{today.isoformat()}.md"
-    target.write_text(md)
-    log.info("Wrote %s (%d bytes)", target, len(md))
-
-    save_state(state)
-    log.info("State saved (%d guids retained).", len(seen))
+    if dry_run:
+        # Never overwrite the canonical YYYY-MM-DD.md or the seen-guid state
+        # during a dry run — we don't want a verification run to (a) replace
+        # a real digest with a stub or (b) eat the guids of items that the
+        # next real run is supposed to process.
+        target = DAILY_DIR / f"dryrun-{today.isoformat()}.md"
+        target.write_text(md)
+        log.info("Dry-run output: %s (%d bytes). state.json was NOT updated.", target, len(md))
+    else:
+        target = DAILY_DIR / f"{today.isoformat()}.md"
+        # Refuse to overwrite an existing real digest with an empty one — if
+        # every source failed today, leave yesterday's content where it is and
+        # surface the failure via Actions logs / commit diff.
+        total_items = sum(len(s["items"]) for s in sections_out)
+        if total_items == 0 and target.exists():
+            log.warning(
+                "Refusing to overwrite existing %s with a 0-item digest. "
+                "Inspect the source-error list above and rerun once the feeds recover.",
+                target,
+            )
+            return 1
+        target.write_text(md)
+        log.info("Wrote %s (%d bytes)", target, len(md))
+        save_state(state)
+        log.info("State saved (%d guids retained).", len(seen))
 
     return 0
 

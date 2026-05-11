@@ -66,7 +66,13 @@ jobs:
           set -e
           git config user.name  "runguoli-bot"
           git config user.email "runguoli-bot@users.noreply.github.com"
-          git add _daily scripts/daily/state.json
+          # Only stage the canonical YYYY-MM-DD.md files and the state.
+          # Anything matching dryrun-*.md is left as a workflow artifact for
+          # inspection and never reaches the repo.
+          git add 'scripts/daily/state.json' 2>/dev/null || true
+          for f in _daily/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].md; do
+            [ -e "$f" ] && git add "$f"
+          done
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
@@ -76,3 +82,12 @@ jobs:
           # Re-sync in case a human push landed between checkout and now.
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload dry-run artefact
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dryrun-digest
+          path: _daily/dryrun-*.md
+          if-no-files-found: ignore
+          retention-days: 7

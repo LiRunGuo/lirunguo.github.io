@@ -79,16 +79,26 @@ sources:
     fetch_full_text: true
 
   # --- Chinese media ------------------------------------------------------
+  # The official 机器之心 / 量子位 RSS feeds are flaky (mismatched-tag XML and
+  # 403s). We try a chain of public RSSHub mirrors first; if all fail, the
+  # source is reported as unavailable in the digest header. Self-hosted
+  # RSSHub on Cloudflare Workers / Vercel would be the long-term fix.
   - name: "机器之心 (JiqiZhixin)"
     kind: rss
     section: cn
     url: "https://rsshub.app/jiqizhixin"
-    fallback: "https://www.jiqizhixin.com/rss"
+    fallback:
+      - "https://rsshub.rssforever.com/jiqizhixin"
+      - "https://rss.shab.fun/jiqizhixin"
+      - "https://www.jiqizhixin.com/rss"
     fetch_full_text: true
 
   - name: "量子位 (QbitAI)"
     kind: rss
     section: cn
     url: "https://rsshub.app/qbitai"
-    fallback: "https://www.qbitai.com/feed"
+    fallback:
+      - "https://rsshub.rssforever.com/qbitai"
+      - "https://rss.shab.fun/qbitai"
+      - "https://www.qbitai.com/feed"
     fetch_full_text: true
