@@ -232,6 +232,9 @@ collections:
   talks:
     output: true
     permalink: /:collection/:path/
+  llm-libs:
+    output: true
+    permalink: /llm-libs/:path/
 
 
 # These settings control how pages and collections are included in the site
@@ -287,6 +290,14 @@ defaults:
       type: talks
     values:
       layout: talk
+      author_profile: true
+      share: true
+  # _llm-libs
+  - scope:
+      path: ""
+      type: llm-libs
+    values:
+      layout: single
       author_profile: true
       share: true
 
