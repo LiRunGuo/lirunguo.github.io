@@ -34,22 +34,108 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('div.highlighter-rouge, figure.highlight').forEach(function(block) {
     var btn = document.createElement('button');
     btn.className = 'copy-btn';
-    btn.textContent = 'Copy';
+    btn.setAttribute('aria-label', 'Copy code');
+    btn.textContent = ' Copy';
     btn.addEventListener('click', function() {
       var code = block.querySelector('code');
       if (!code) return;
       var text = code.textContent || code.innerText;
       navigator.clipboard.writeText(text).then(function() {
-        btn.textContent = 'Copied!';
         btn.classList.add('copied');
+        btn.textContent = ' Copied!';
         setTimeout(function() {
-          btn.textContent = 'Copy';
           btn.classList.remove('copied');
+          btn.textContent = ' Copy';
         }, 2000);
       });
     });
+    block.style.position = 'relative';
     block.appendChild(btn);
   });
+});
+</script>
+
+<!-- Generate TOC from headings -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var tocList = document.getElementById('toc-list');
+  if (!tocList) return;
+
+  var content = document.querySelector('.content-with-toc');
+  if (!content) return;
+
+  var headings = content.querySelectorAll('h2, h3, h4');
+  if (headings.length === 0) return;
+
+  var currentH2 = null;
+  var currentH3 = null;
+  var h2Ul = null;
+  var h3Ul = null;
+
+  headings.forEach(function(h) {
+    // Generate id if missing
+    if (!h.id) {
+      h.id = h.textContent.trim()
+        .toLowerCase()
+        .replace(/[^\w\u4e00-\u9fff]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent.trim();
+    li.appendChild(a);
+
+    if (h.tagName === 'H2') {
+      tocList.appendChild(li);
+      currentH2 = li;
+      h2Ul = null;
+      h3Ul = null;
+    } else if (h.tagName === 'H3') {
+      if (!h2Ul && currentH2) {
+        h2Ul = document.createElement('ul');
+        currentH2.appendChild(h2Ul);
+      }
+      if (h2Ul) {
+        h2Ul.appendChild(li);
+        currentH3 = li;
+        h3Ul = null;
+      } else {
+        tocList.appendChild(li);
+        currentH3 = li;
+        h3Ul = null;
+      }
+    } else if (h.tagName === 'H4') {
+      if (!h3Ul && currentH3) {
+        h3Ul = document.createElement('ul');
+        currentH3.appendChild(h3Ul);
+      }
+      if (h3Ul) {
+        h3Ul.appendChild(li);
+      } else if (h2Ul) {
+        h2Ul.appendChild(li);
+      } else {
+        tocList.appendChild(li);
+      }
+    }
+  });
+
+  // Active state tracking on scroll
+  var tocLinks = tocList.querySelectorAll('a');
+  if (tocLinks.length > 0) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(function(l) { l.classList.remove('toc-active'); });
+          var activeLink = tocList.querySelector('a[href="#' + entry.target.id + '"]');
+          if (activeLink) activeLink.classList.add('toc-active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+
+    headings.forEach(function(h) { observer.observe(h); });
+  }
 });
 </script>
 

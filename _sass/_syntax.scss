@@ -1,75 +1,31 @@
 /* ==========================================================================
-   Syntax highlighting
+   Syntax highlighting — Light theme (Solarized Light)
    ========================================================================== */
 
 div.highlighter-rouge, figure.highlight {
   position: relative;
   margin-bottom: 1em;
   padding: 1em;
-  border: 1px solid #dcdcdc;
-  border-radius: $border-radius;
-  background-color: #f8f8f8;
-  box-shadow: $box-shadow;
+  border-radius: 6px;
+  background-color: var(--code-bg, #f6f8fa);
+  border: 1px solid var(--code-border, #e1e4e8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   font-size: $type-size-4;
-
-  /* Copy button */
-  .copy-btn {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    padding: 4px 8px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #e8e8e8;
-    color: #555;
-    font-size: 0.7em;
-    font-family: $monospace;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-    z-index: 2;
-
-    &:hover {
-      background-color: #ddd;
-    }
-
-    &.copied {
-      background-color: #d4edda;
-      color: #155724;
-      border-color: #c3e6cb;
-    }
-  }
-
-  &:hover .copy-btn {
-    opacity: 1;
-  }
 
   .highlight {
     margin: 0;
     font-family: $monospace;
-    font-size: $type-size-6;
-    line-height: 1.8;
+    font-size: 0.8em;
+    line-height: 1.7;
   }
 }
 
 .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
 
-
 /*
-   Solarized Light - fixed for both themes
+   Solarized Light
    http://ethanschoonover.com/solarized
-
-   SOLARIZED HEX      ROLE
-   --------- -------- ------------------------------------------
-   base01    #586e75  body text / default code / primary content
-   base1     #93a1a1  comments / secondary content
-   base3     #fdf6e3  background
-   orange    #cb4b16  constants
-   red       #dc322f  regex, special keywords
-   blue      #22b3eb  reserved keywords
-   cyan      #2aa198  strings, numbers
-   green     #859900  operators, other keywords
    ========================================================================== */
 
 .highlight .c { color: #93a1a1 } /* Comment */
@@ -140,27 +96,3 @@ div.highlighter-rouge, figure.highlight {
 .highlight .vg { color: #22b3eb } /* Name.Variable.Global */
 .highlight .vi { color: #22b3eb } /* Name.Variable.Instance */
 .highlight .il { color: #2aa198 } /* Literal.Number.Integer.Long */
-
-/* Code blocks in dark theme — keep light background for readability */
-html[data-theme="dark"] div.highlighter-rouge,
-html[data-theme="dark"] figure.highlight {
-  border-color: #555;
-  background-color: #f8f8f8;
-
-  .copy-btn {
-    background-color: #e8e8e8;
-    color: #555;
-    border-color: #ccc;
-
-    &:hover {
-      background-color: #ddd;
-    }
-  }
-}
-
-/* Inline code in dark theme — also keep light */
-html[data-theme="dark"] code,
-html[data-theme="dark"] .page__content code {
-  background-color: #f0f0f0;
-  color: #333;
-}
