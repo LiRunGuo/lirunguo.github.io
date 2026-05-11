@@ -133,11 +133,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  /* Narrow-screen collapse toggle. */
+  /* Title click toggles the TOC. Behaviour depends on screen width:
+     - narrow (≤1199px): toggles `.toc-open` (closed by default).
+     - wide  (≥1200px): toggles `.toc-collapsed` (open by default).
+     We mirror the wide-screen state onto <body> so CSS can grow the body
+     width back to 100% without relying on :has(). */
   if (tocTitle) {
     tocTitle.addEventListener('click', function() {
       if (window.matchMedia('(max-width: 1199px)').matches) {
         tocSidebar.classList.toggle('toc-open');
+      } else {
+        var collapsed = tocSidebar.classList.toggle('toc-collapsed');
+        document.body.classList.toggle('toc-collapsed-state', collapsed);
       }
     });
   }

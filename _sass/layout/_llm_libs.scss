@@ -3,6 +3,31 @@
    ========================================================================== */
 
 /*
+   Wider main column for LLM Libs subpages
+   ----------------------------------------
+   The base theme reserves ~17% of the row for an empty right gutter (Susy
+   `suffix(2 of 12)` on `.page`) plus a 1280px cap on `#main`. That makes long
+   technical docs feel cramped. For LLM Libs subpages we kill the suffix and
+   raise the cap so the body has more room. The right-rail TOC is fixed-
+   positioned and does not need this gutter.
+   ========================================================================== */
+
+@media screen and (min-width: 64em) /* matches Susy $large = 925px */ {
+  body.collection--llm-libs .page {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+    width: 95% !important;        /* drop the 2/12 suffix */
+    float: none;
+  }
+}
+
+@media screen and (min-width: 80em) /* ~1280px and up */ {
+  body.collection--llm-libs #main {
+    max-width: 1500px;
+  }
+}
+
+/*
    Right-side TOC sidebar
    ========================================================================== */
 
@@ -19,6 +44,22 @@
   display: none !important;
 }
 
+/* Caret indicator — visible on every screen so user can collapse/expand */
+.toc-title {
+  cursor: pointer;
+  user-select: none;
+
+  .toc-caret {
+    display: inline-block;
+    transition: transform 0.15s ease;
+    margin-left: 6px;
+  }
+}
+/* When TOC is collapsed (closed), point caret right; when open, point down */
+.toc-sidebar:not(.toc-open) .toc-caret {
+  transform: rotate(-90deg);
+}
+
 @media screen and (min-width: 1200px) {
   .page__content {
     position: relative;
@@ -29,10 +70,28 @@
     position: fixed;
     top: 80px;
     right: 16px;
-    width: 200px;
+    width: 220px;
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     z-index: 10;
+  }
+
+  /* Desktop: open by default; user can collapse via the caret */
+  .toc-sidebar .toc-list {
+    display: block;
+  }
+  .toc-sidebar.toc-collapsed .toc-list {
+    display: none;
+  }
+  .toc-sidebar.toc-collapsed {
+    width: auto;
+    max-width: 200px;
+  }
+  .toc-sidebar.toc-collapsed .toc-caret {
+    transform: rotate(-90deg);
+  }
+  .toc-sidebar:not(.toc-collapsed) .toc-caret {
+    transform: none;
   }
 
   .toc-nav {
@@ -52,12 +111,17 @@
     border-bottom: 1px solid var(--global-border-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    i {
-      margin-right: 4px;
-    }
+    i { margin-right: 4px; }
+  }
 
-    .toc-caret { display: none; }
+  .toc-sidebar.toc-collapsed .toc-title {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin: 0;
   }
 
   .toc-list {
@@ -127,9 +191,13 @@
     border-radius: 2px;
   }
 
-  /* Content leaves space for TOC on the right */
+  /* Content leaves space for TOC on the right when expanded */
   .content-with-toc {
-    max-width: calc(100% - 220px);
+    max-width: calc(100% - 240px);
+  }
+  /* When TOC is collapsed give the body the full width back */
+  body.toc-collapsed-state .content-with-toc {
+    max-width: 100%;
   }
 }
 
@@ -149,7 +217,7 @@
 
   .toc-title {
     margin: 0;
-    font-size: 0.8em;
+    font-size: 0.85em;
     font-weight: 700;
     color: var(--global-text-color);
     cursor: pointer;
@@ -159,13 +227,6 @@
     justify-content: space-between;
 
     i { margin-right: 4px; }
-
-    .toc-caret {
-      display: inline-block;
-      font-size: 0.9em;
-      transition: transform 0.15s ease;
-      margin-left: 6px;
-    }
   }
 
   /* Collapsed by default — JS toggles .toc-open on the aside */
@@ -180,8 +241,11 @@
     display: block;
   }
 
-  .toc-sidebar.toc-open .toc-title .toc-caret {
-    transform: rotate(180deg);
+  .toc-sidebar.toc-open .toc-caret {
+    transform: rotate(0deg);
+  }
+  .toc-sidebar:not(.toc-open) .toc-caret {
+    transform: rotate(-90deg);
   }
 
   .toc-list {
@@ -189,8 +253,8 @@
       display: block;
       padding: 2px 0;
       color: var(--global-link-color);
-      font-size: 0.78em;
-      line-height: 1.5;
+      font-size: 0.82em;
+      line-height: 1.55;
       text-decoration: none;
       border-bottom: 0;
     }

@@ -29,13 +29,12 @@ Selected Highlights
 
 News
 ======
+- **2026.08** — Will join the National University of Singapore for the Master's program in Computer Science.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉
 - **2026.03** — Joined Shanghai Jiao Tong University as a research intern (LLM for Code, advised by Prof. Xiaodong Gu).
+- **2026.04** — *FinVault* submitted to **EMNLP 2026**.
 - **2026.01** — Started working with the Head Office of ICBC on scientist-discovery agents.
 - **2025.10** — Joined Tencent Youtu AI Lab as a research intern.
-- **2025.08** — *FinVault* submitted to **EMNLP 2026**.
-- **2026.08** — Will join the National University of Singapore for the Master's program in Computer Science.
-
 ---
 
 中文简介 (Chinese)
