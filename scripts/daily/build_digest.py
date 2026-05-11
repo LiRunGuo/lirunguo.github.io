@@ -353,15 +353,20 @@ def arxiv_query(category: str, lookback_hours: int, max_items: int) -> list[dict
     recent entries with timezone edge cases.
     """
     url = (
-        "http://export.arxiv.org/api/query"
+        "https://export.arxiv.org/api/query"
         f"?search_query=cat:{category}"
         f"&start=0&max_results={max_items}"
         "&sortBy=submittedDate&sortOrder=descending"
     )
     r = http_get(url)
     if r is None:
+        log.warning("arXiv API request failed for %s", category)
         return []
     parsed = feedparser.parse(r.content)
+    if parsed.bozo and not parsed.entries:
+        log.warning("arXiv response unparseable for %s: %s", category, parsed.bozo_exception)
+        return []
+    log.info("  arXiv %s: API returned %d entries", category, len(parsed.entries))
     cutoff = dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=lookback_hours)
     out: list[dict] = []
     for entry in parsed.entries:
@@ -379,7 +384,10 @@ def arxiv_query(category: str, lookback_hours: int, max_items: int) -> list[dict
 def collect_arxiv_source(src: dict, seen: dict) -> tuple[list[Item], SourceError | None]:
     entries = arxiv_query(src["category"], src["lookback_hours"], src["max_items"])
     if not entries:
-        return [], SourceError(src["name"], f"arXiv returned no entries for {src['category']}")
+        # An empty result is normal on quiet days (weekends/holidays); don't
+        # surface it as a source error. We still log the count below.
+        log.info("  %s: 0 new items (no recent submissions in window)", src["name"])
+        return [], None
 
     now_iso = dt.datetime.now(dt.timezone.utc).isoformat()
     items: list[Item] = []
