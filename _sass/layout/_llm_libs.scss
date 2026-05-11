@@ -5,26 +5,42 @@
 /*
    Wider main column for LLM Libs subpages
    ----------------------------------------
-   Base theme `.page` (compiled):
-     width: 83.0508%; float: right; padding-left: 4.2373%; padding-right: 16.9492%;
-   The padding-right is the empty `suffix(2 of 12)` Susy gutter. We reclaim
-   it: keep float:right and padding-left (so we don't overlap the author
-   sidebar on the left), but drop padding-right and grow width so .page
-   fills everything to the right of the sidebar.
-   Sidebar is span(2 of 12) ≈ 14.4068% of the row, so the maximum width
-   we can take without overlapping is 100% - 14.4068% = 85.5932%.
+   Problem
+   -------
+   The base theme makes `.sidebar` `position: fixed` at viewport ≥1024px so
+   it floats at the left edge of the *viewport* (0..250px). `#main` is
+   centred in the viewport and `.page` floats inside `#main` with width
+   83.05% — i.e., its left edge is at ~16.95% of `#main`. For viewports up
+   to ~1500px, `16.95% * #main_width` is **less** than the sidebar's 250px,
+   so the sidebar visually overlaps the start of `.page`. The default
+   templates hide the symptom by padding-right 16.95% inside `.page`, which
+   pushes the *visible text* further right — but the .page box itself still
+   overlaps.
+   Fix
+   ---
+   On LLM Libs pages, push `#main` clear of the fixed sidebar by reserving
+   ~260px of left padding at the same breakpoint where the sidebar goes
+   fixed. Inside, `.page` becomes a normal block (no Susy float) that fills
+   the remaining width, so we get more room for long technical docs.
    ========================================================================== */
 
-@media screen and (min-width: 64em) /* matches Susy $large = 925px */ {
+@media screen and (min-width: 1024px) {
+  body.collection--llm-libs #main {
+    padding-left: 260px;
+    padding-right: 1.5em;
+    max-width: none;     /* override base 1280 cap so the body can grow */
+  }
+
   body.collection--llm-libs .page {
-    width: 85.5932%;
-    padding-right: 0;
+    width: auto;
+    float: none;
     margin-right: 0;
-    /* keep the inherited padding-left: ~4.24% and float:right */
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
-@media screen and (min-width: 80em) /* ~1280px and up */ {
+@media screen and (min-width: 80em) /* ≥1280px: cap the readable column */ {
   body.collection--llm-libs #main {
     max-width: 1500px;
   }
