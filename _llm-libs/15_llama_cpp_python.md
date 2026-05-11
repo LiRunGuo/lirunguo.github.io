@@ -4,6 +4,7 @@ excerpt: "Llama类、create_completion/chat、GBNF语法约束、嵌入提取、
 collection: llm-libs
 permalink: /llm-libs/15-llama-cpp-python
 category: inference
+toc: true
 ---
 
 

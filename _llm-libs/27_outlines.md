@@ -4,6 +4,7 @@ excerpt: "generate.text/choice/regex/json/cfg、FSM驱动采样、logit偏置原
 collection: llm-libs
 permalink: /llm-libs/27-outlines
 category: agent
+toc: true
 ---
 
 

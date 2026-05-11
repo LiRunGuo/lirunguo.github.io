@@ -4,6 +4,7 @@ excerpt: "load_dataset、map批量处理、流式加载(streaming)、Arrow零拷
 collection: llm-libs
 permalink: /llm-libs/10b-datasets
 category: training
+toc: true
 ---
 
 

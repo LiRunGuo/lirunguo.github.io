@@ -4,6 +4,7 @@ excerpt: "Accelerator、DDP/FSDP/DeepSpeed集成、device_map自动分片、混�
 collection: llm-libs
 permalink: /llm-libs/10-accelerate
 category: training
+toc: true
 ---
 
 

@@ -4,6 +4,7 @@ excerpt: "IVF/PQ/HNSW索引、hybrid_search、存算分离架构、MilvusClient"
 collection: llm-libs
 permalink: /llm-libs/37-milvus
 category: vector
+toc: true
 ---
 
 

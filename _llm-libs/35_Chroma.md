@@ -4,6 +4,7 @@ excerpt: "PersistentClient、Collection CRUD、嵌入函数、元数据过滤、
 collection: llm-libs
 permalink: /llm-libs/35-chroma
 category: vector
+toc: true
 ---
 
 

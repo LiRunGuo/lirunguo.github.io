@@ -4,6 +4,7 @@ excerpt: "BPE/WordPiece/Unigram算法、训练自定义分词器、与transforme
 collection: llm-libs
 permalink: /llm-libs/06-tokenizers
 category: core
+toc: true
 ---
 
 

@@ -1,0 +1,138 @@
+/* ==========================================================================
+   LLM Libs custom styles — TOC, code blocks, math
+   ========================================================================== */
+
+/*
+   Right-side TOC for llm-libs pages
+   ========================================================================== */
+
+.page__content .sidebar__right {
+  display: none;
+}
+
+@media screen and (min-width: 1280px) {
+  .page__content .sidebar__right {
+    display: block;
+    position: sticky;
+    top: 80px;
+    float: right;
+    width: 220px;
+    margin-left: 20px;
+    margin-bottom: 1em;
+    z-index: 10;
+  }
+
+  /* Make room for TOC on wide screens */
+  .page__content {
+    position: relative;
+  }
+
+  /* Limit content width when TOC is present */
+  .sidebar__right ~ h2,
+  .sidebar__right ~ h3,
+  .sidebar__right ~ h4,
+  .sidebar__right ~ p,
+  .sidebar__right ~ ul,
+  .sidebar__right ~ ol,
+  .sidebar__right ~ pre,
+  .sidebar__right ~ div,
+  .sidebar__right ~ blockquote,
+  .sidebar__right ~ table,
+  .sidebar__right ~ hr {
+    max-width: calc(100% - 250px);
+  }
+}
+
+/* TOC styling */
+.page__content .toc {
+  background-color: var(--global-toc-bg-color);
+  border: 1px solid var(--global-border-color);
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125);
+  padding: 12px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  font-size: 0.75em;
+
+  .nav__title {
+    color: var(--global-text-color);
+    font-size: 0.85em;
+    font-weight: bold;
+    background: transparent;
+    border: 0;
+    padding: 0 0 8px 0;
+    margin: 0;
+  }
+
+  .toc__menu {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    list-style: none;
+
+    a {
+      display: block;
+      padding: 3px 0;
+      color: var(--global-link-color);
+      font-size: 0.85em;
+      font-weight: normal;
+      line-height: 1.4;
+      border-bottom: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:hover {
+        text-decoration: underline;
+        color: var(--global-link-color-hover);
+      }
+    }
+
+    > li > a {
+      font-weight: bold;
+    }
+
+    li ul > li a {
+      padding-left: 0.8rem;
+      font-weight: normal;
+    }
+
+    li ul li ul > li a {
+      padding-left: 1.6rem;
+    }
+
+    li ul li ul li ul > li a {
+      padding-left: 2.4rem;
+    }
+  }
+}
+
+/*
+   Code block improvements
+   ========================================================================== */
+
+/* Ensure code blocks have consistent light background in both themes */
+div.highlighter-rouge pre,
+figure.highlight pre {
+  background-color: transparent !important;
+}
+
+/* Remove the FA icon in top-right corner (replaced by copy button) */
+div.highlighter-rouge:before,
+figure.highlight:before {
+  display: none;
+}
+
+/*
+   Math formula styling
+   ========================================================================== */
+
+mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+mjx-container[display="true"] {
+  margin: 1em 0 !important;
+}

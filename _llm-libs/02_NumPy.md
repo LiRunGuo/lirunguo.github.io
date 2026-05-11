@@ -4,6 +4,7 @@ excerpt: "ndarray、广播机制、矩阵运算、线性代数(SVD/特征值)、
 collection: llm-libs
 permalink: /llm-libs/02-numpy
 category: core
+toc: true
 ---
 
 

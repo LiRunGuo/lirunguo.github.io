@@ -4,6 +4,7 @@ excerpt: "Tracking/Models/Registry/Projects、autolog、HuggingFace集成"
 collection: llm-libs
 permalink: /llm-libs/10g-mlflow
 category: training
+toc: true
 ---
 
 

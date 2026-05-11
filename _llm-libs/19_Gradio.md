@@ -4,6 +4,7 @@ excerpt: "Interface/Blocks、Chatbot组件、流式输出、HF Spaces部署"
 collection: llm-libs
 permalink: /llm-libs/19-gradio
 category: inference
+toc: true
 ---
 
 

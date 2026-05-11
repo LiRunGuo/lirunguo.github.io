@@ -4,6 +4,7 @@ excerpt: "LLMTestCase、Hallucination/Bias/Toxicity等指标、GEval通用评估
 collection: llm-libs
 permalink: /llm-libs/32-deepeval
 category: eval
+toc: true
 ---
 
 

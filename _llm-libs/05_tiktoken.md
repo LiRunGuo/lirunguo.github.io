@@ -4,6 +4,7 @@ excerpt: "BPE分词、encoding_for_model、token计数与成本估算、cl100k_b
 collection: llm-libs
 permalink: /llm-libs/05-tiktoken
 category: core
+toc: true
 ---
 
 

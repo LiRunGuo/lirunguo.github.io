@@ -4,6 +4,7 @@ excerpt: "PreTrainedModel/AutoModel架构、from_pretrained加载流程、genera
 collection: llm-libs
 permalink: /llm-libs/07-transformers
 category: training
+toc: true
 ---
 
 

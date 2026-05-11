@@ -4,6 +4,7 @@ excerpt: "response_model、流式模式、Mode(TOOLS/JSON/MD_JSON)、Pydantic验
 collection: llm-libs
 permalink: /llm-libs/26-instructor
 category: agent
+toc: true
 ---
 
 

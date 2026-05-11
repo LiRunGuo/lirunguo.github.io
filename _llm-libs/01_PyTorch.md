@@ -4,6 +4,7 @@ excerpt: "张量操作、autograd、nn.Module、优化器、分布式训练(DDP/
 collection: llm-libs
 permalink: /llm-libs/01-pytorch
 category: core
+toc: true
 ---
 
 

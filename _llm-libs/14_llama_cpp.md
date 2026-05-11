@@ -4,6 +4,7 @@ excerpt: "GGUF格式、Q4_0~Q6_K量化、CPU/GPU推理、mmap内存映射"
 collection: llm-libs
 permalink: /llm-libs/14-llama-cpp
 category: inference
+toc: true
 ---
 
 

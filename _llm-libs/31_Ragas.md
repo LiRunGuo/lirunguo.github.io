@@ -4,6 +4,7 @@ excerpt: "evaluate()、Faithfulness/AnswerRelevancy/ContextPrecision等指标、
 collection: llm-libs
 permalink: /llm-libs/31-ragas
 category: eval
+toc: true
 ---
 
 

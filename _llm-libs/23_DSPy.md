@@ -4,6 +4,7 @@ excerpt: "Signature、Module(Predict/ChainOfThought/ReAct)、Optimizer自动优�
 collection: llm-libs
 permalink: /llm-libs/23-dspy
 category: agent
+toc: true
 ---
 
 

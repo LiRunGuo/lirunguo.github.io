@@ -4,6 +4,7 @@ excerpt: "wandb.init/log、Sweep超参搜索、Artifact版本管理、HF集成"
 collection: llm-libs
 permalink: /llm-libs/10f-wandb
 category: training
+toc: true
 ---
 
 

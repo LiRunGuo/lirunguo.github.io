@@ -6,24 +6,42 @@ div.highlighter-rouge, figure.highlight {
   position: relative;
   margin-bottom: 1em;
   padding: 1em;
-  border: 1px solid var(--global-border-color);
+  border: 1px solid #dcdcdc;
   border-radius: $border-radius;
-  background-color: var(--global-code-background-color);
+  background-color: #f8f8f8;
   box-shadow: $box-shadow;
   font-size: $type-size-4;
 
-  &:before {
+  /* Copy button */
+  .copy-btn {
     position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0.5em;
-    background-color: mix(#fff, #7a8288, 90%);
-    content: "\f121";
-    font-family: "Font Awesome 6 Free" !important;
-    font-size: $type-size-6;
-    line-height: 1;
-    text-transform: none;
-    speak: none;
+    top: 4px;
+    right: 4px;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #e8e8e8;
+    color: #555;
+    font-size: 0.7em;
+    font-family: $monospace;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 2;
+
+    &:hover {
+      background-color: #ddd;
+    }
+
+    &.copied {
+      background-color: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+    }
+  }
+
+  &:hover .copy-btn {
+    opacity: 1;
   }
 
   .highlight {
@@ -39,7 +57,7 @@ div.highlighter-rouge, figure.highlight {
 
 
 /*
-   Solarized Light
+   Solarized Light - fixed for both themes
    http://ethanschoonover.com/solarized
 
    SOLARIZED HEX      ROLE
@@ -122,3 +140,27 @@ div.highlighter-rouge, figure.highlight {
 .highlight .vg { color: #22b3eb } /* Name.Variable.Global */
 .highlight .vi { color: #22b3eb } /* Name.Variable.Instance */
 .highlight .il { color: #2aa198 } /* Literal.Number.Integer.Long */
+
+/* Code blocks in dark theme — keep light background for readability */
+html[data-theme="dark"] div.highlighter-rouge,
+html[data-theme="dark"] figure.highlight {
+  border-color: #555;
+  background-color: #f8f8f8;
+
+  .copy-btn {
+    background-color: #e8e8e8;
+    color: #555;
+    border-color: #ccc;
+
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+}
+
+/* Inline code in dark theme — also keep light */
+html[data-theme="dark"] code,
+html[data-theme="dark"] .page__content code {
+  background-color: #f0f0f0;
+  color: #333;
+}

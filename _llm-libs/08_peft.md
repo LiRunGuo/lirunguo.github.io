@@ -4,6 +4,7 @@ excerpt: "LoRA/AdaLora/QLoRA数学原理、LoraLayer注入与合并、get_peft_m
 collection: llm-libs
 permalink: /llm-libs/08-peft
 category: training
+toc: true
 ---
 
 
