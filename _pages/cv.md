@@ -24,9 +24,12 @@ Research & Industry Experience
 * Contributed to a unified multi-label content-moderation model on an XLM-RoBERTa backbone.
 * Co-developed a multimodal embedding model for cross-modal retrieval.
 
-**SUFE FinAI Center** — Research Assistant *(2025.6 – present)*
+**SUFE FinAI Center** — Research Intern, advised by Prof. **Liwen Zhang (张立文)** *(2025.6 – present)*
 * Financial reasoning LLM: CoT data curation, SFT + GRPO training, evaluation on FinEval / FinQA / ConvFinQA.
 * Co-design of financial evaluation suites and agent-safety benchmarks.
+
+**Shanghai Jiao Tong University (SJTU)** — Research Intern, advised by Prof. **Xiaodong Gu (顾小东)** *(2026.3 – present)*
+* Research direction: **LLM for Code** — code generation, repair, and program understanding.
 
 **ICBC Head Office, Private Banking Department** — Research Intern *(2026.1 – 2026.4)*
 * Agent + RAG system for scientist discovery, relationship construction, and one-customer-one-strategy marketing.

@@ -28,6 +28,12 @@ window.MathJax = {
     await mermaid.run({querySelector:'code.language-mermaid'});
 </script>
 
+<!--
+  IMPORTANT: the scripts below avoid `//` line comments on purpose.
+  Jekyll's compress_html layout strips newlines, which would turn `// foo`
+  into a comment that swallows the rest of the script. Use /* ... */ only.
+-->
+
 <!-- Copy button for code blocks -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -38,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.textContent = ' Copy';
     btn.addEventListener('click', function() {
       var code = block.querySelector('code');
-      if (!code) return;
+      if (!code) { return; }
       var text = code.textContent || code.innerText;
       navigator.clipboard.writeText(text).then(function() {
         btn.classList.add('copied');
@@ -61,13 +67,13 @@ document.addEventListener('DOMContentLoaded', function() {
   var tocSidebar = document.getElementById('toc-sidebar');
   var tocList = document.getElementById('toc-list');
   var tocTitle = document.getElementById('toc-title');
-  if (!tocSidebar || !tocList) return;
+  if (!tocSidebar || !tocList) { return; }
 
   var content = document.querySelector('.content-with-toc');
   if (!content) { tocSidebar.classList.add('toc-empty'); return; }
 
   var headings = content.querySelectorAll('h2, h3, h4');
-  // Hide TOC entirely if the page has fewer than 2 headings — a one-heading TOC is noise.
+  /* Hide TOC entirely if the page has fewer than 2 headings. */
   if (headings.length < 2) {
     tocSidebar.classList.add('toc-empty');
     return;
@@ -79,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var h3Ul = null;
 
   headings.forEach(function(h) {
-    // Generate id if missing
+    /* Generate id if missing. */
     if (!h.id) {
       h.id = h.textContent.trim()
         .toLowerCase()
@@ -127,17 +133,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Narrow-screen collapse toggle (click the title to expand/collapse)
+  /* Narrow-screen collapse toggle. */
   if (tocTitle) {
     tocTitle.addEventListener('click', function() {
-      // Only act when narrow — on wide screens the list is always visible via CSS.
-      if (window.matchMedia('(max-width: 1023px)').matches) {
+      if (window.matchMedia('(max-width: 1199px)').matches) {
         tocSidebar.classList.toggle('toc-open');
       }
     });
   }
 
-  // Active state tracking on scroll
+  /* Active state tracking on scroll. */
   var tocLinks = tocList.querySelectorAll('a');
   if (tocLinks.length > 0) {
     var observer = new IntersectionObserver(function(entries) {
@@ -145,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (entry.isIntersecting) {
           tocLinks.forEach(function(l) { l.classList.remove('toc-active'); });
           var activeLink = tocList.querySelector('a[href="#' + entry.target.id + '"]');
-          if (activeLink) activeLink.classList.add('toc-active');
+          if (activeLink) { activeLink.classList.add('toc-active'); }
         }
       });
     }, { rootMargin: '-80px 0px -70% 0px' });
