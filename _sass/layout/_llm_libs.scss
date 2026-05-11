@@ -5,19 +5,22 @@
 /*
    Wider main column for LLM Libs subpages
    ----------------------------------------
-   The base theme reserves ~17% of the row for an empty right gutter (Susy
-   `suffix(2 of 12)` on `.page`) plus a 1280px cap on `#main`. That makes long
-   technical docs feel cramped. For LLM Libs subpages we kill the suffix and
-   raise the cap so the body has more room. The right-rail TOC is fixed-
-   positioned and does not need this gutter.
+   Base theme `.page` (compiled):
+     width: 83.0508%; float: right; padding-left: 4.2373%; padding-right: 16.9492%;
+   The padding-right is the empty `suffix(2 of 12)` Susy gutter. We reclaim
+   it: keep float:right and padding-left (so we don't overlap the author
+   sidebar on the left), but drop padding-right and grow width so .page
+   fills everything to the right of the sidebar.
+   Sidebar is span(2 of 12) ≈ 14.4068% of the row, so the maximum width
+   we can take without overlapping is 100% - 14.4068% = 85.5932%.
    ========================================================================== */
 
 @media screen and (min-width: 64em) /* matches Susy $large = 925px */ {
   body.collection--llm-libs .page {
-    padding-right: 0 !important;
-    margin-right: 0 !important;
-    width: 95% !important;        /* drop the 2/12 suffix */
-    float: none;
+    width: 85.5932%;
+    padding-right: 0;
+    margin-right: 0;
+    /* keep the inherited padding-left: ~4.24% and float:right */
   }
 }
 
@@ -70,22 +73,18 @@
     position: fixed;
     top: 80px;
     right: 16px;
-    width: 220px;
+    width: 220px;          /* fixed width, regardless of expand/collapse */
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     z-index: 10;
   }
 
-  /* Desktop: open by default; user can collapse via the caret */
+  /* Desktop: open by default; user can collapse via the caret. */
   .toc-sidebar .toc-list {
     display: block;
   }
   .toc-sidebar.toc-collapsed .toc-list {
     display: none;
-  }
-  .toc-sidebar.toc-collapsed {
-    width: auto;
-    max-width: 200px;
   }
   .toc-sidebar.toc-collapsed .toc-caret {
     transform: rotate(-90deg);
@@ -191,13 +190,10 @@
     border-radius: 2px;
   }
 
-  /* Content leaves space for TOC on the right when expanded */
+  /* Body width is constant — TOC area is always reserved.
+     Width does not change when TOC collapses/expands. */
   .content-with-toc {
     max-width: calc(100% - 240px);
-  }
-  /* When TOC is collapsed give the body the full width back */
-  body.toc-collapsed-state .content-with-toc {
-    max-width: 100%;
   }
 }
 
