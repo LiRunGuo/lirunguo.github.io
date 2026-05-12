@@ -44,18 +44,21 @@ sources:
     kind: arxiv
     section: papers
     category: "cs.AI"
-    # Pull submissions from the last 28 hours (gives us ~1 day + a safety
-    # margin for daylight shifts / holidays with no new submissions).
-    lookback_hours: 28
-    max_items: 120
-    fetch_full_text: false   # use Atom <summary> directly
+    # arXiv announces daily on weekdays but often batches weekend
+    # submissions into Monday's early-UTC announcement. A wider window
+    # prevents days where the API returns entries whose 'published' is
+    # just outside a tight 24-hour cutoff. State-based dedup still
+    # prevents repeats across runs.
+    lookback_hours: 72
+    max_items: 200
+    fetch_full_text: false
 
   - name: "arXiv cs.LG"
     kind: arxiv
     section: papers
     category: "cs.LG"
-    lookback_hours: 28
-    max_items: 80
+    lookback_hours: 72
+    max_items: 200
     fetch_full_text: false
 
   # --- Industry media -----------------------------------------------------

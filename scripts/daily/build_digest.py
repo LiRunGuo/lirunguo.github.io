@@ -577,6 +577,74 @@ def build_tagline(sections: list[dict], total: int) -> str:
     return f"{total} items · {per_section}"
 
 
+def merge_with_existing_digest(path: Path, new_sections: list[dict]) -> list[dict]:
+    """Combine already-published items for this date with the new items
+    we just collected, keyed by URL.
+
+    Returns the merged sections list in the same shape as new_sections.
+    Items are deduplicated by URL; first occurrence wins so new summaries
+    don't overwrite existing ones (re-running a specific date after a
+    template change is done by first deleting the file).
+    """
+    if not path.exists():
+        return new_sections
+
+    existing_sections: list[dict] = []
+    try:
+        raw = path.read_text()
+        # Extract the YAML front matter between the first two '---' lines.
+        m = re.match(r"^---\s*\n(.*?)\n---\s*\n", raw, re.DOTALL)
+        if not m:
+            log.warning("Existing %s has no YAML front matter — not merging.", path)
+            return new_sections
+        fm = yaml.safe_load(m.group(1)) or {}
+        existing_sections = fm.get("sections") or []
+    except Exception as e:
+        log.warning("Could not parse existing %s: %s — not merging.", path, e)
+        return new_sections
+
+    # index existing items by url
+    existing_by_url: dict[str, dict] = {}
+    for sec in existing_sections:
+        for item in sec.get("items", []) or []:
+            url = item.get("url")
+            if url:
+                existing_by_url[url] = item
+
+    # Build merged output in the order of new_sections (which follows
+    # sources.yml); carry existing items forward into their matching
+    # section (by id), plus any new items whose url wasn't there before.
+    section_titles = {s["id"]: s["title"] for s in new_sections}
+    merged: dict[str, list[dict]] = {s["id"]: [] for s in new_sections}
+
+    # Start from existing items, respecting their original section
+    for sec in existing_sections:
+        sec_id = sec.get("id")
+        if sec_id in merged:
+            for item in sec.get("items", []) or []:
+                merged[sec_id].append(item)
+
+    # Append new items not already present
+    added = 0
+    for sec in new_sections:
+        for item in sec.get("items", []) or []:
+            url = item.get("url")
+            if not url:
+                continue
+            if url in existing_by_url:
+                continue
+            merged[sec["id"]].append(item)
+            existing_by_url[url] = item
+            added += 1
+
+    log.info("Merged digest: carried forward %d existing items, added %d new.", len(existing_by_url) - added, added)
+
+    return [
+        {"id": sid, "title": section_titles[sid], "items": merged[sid]}
+        for sid in (s["id"] for s in new_sections)
+    ]
+
+
 # -----------------------------------------------------------------------------
 # Main
 # -----------------------------------------------------------------------------
@@ -674,10 +742,20 @@ def main() -> int:
         log.info("Dry-run output: %s (%d bytes). state.json was NOT updated.", target, len(md))
     else:
         target = DAILY_DIR / f"{today.isoformat()}.md"
-        # Refuse to overwrite an existing real digest with an empty one — if
-        # every source failed today, leave yesterday's content where it is and
-        # surface the failure via Actions logs / commit diff.
+
+        # If today's digest already exists from an earlier run, merge its
+        # items with what we just produced (keyed by URL), so that multiple
+        # runs on the same day accumulate rather than overwrite. Without
+        # this, a scheduled run that follows a manual one (or vice versa)
+        # would publish only its own delta and lose the prior content —
+        # because state.json makes the earlier items look "already seen".
+        sections_out = merge_with_existing_digest(target, sections_out)
         total_items = sum(len(s["items"]) for s in sections_out)
+
+        # Regenerate the markdown after merging so item_count / tagline /
+        # generated_at reflect the merged view.
+        md = render_markdown(today, sections_out, errors, effective_model)
+
         if total_items == 0 and target.exists():
             log.warning(
                 "Refusing to overwrite existing %s with a 0-item digest. "
@@ -686,7 +764,7 @@ def main() -> int:
             )
             return 1
         target.write_text(md)
-        log.info("Wrote %s (%d bytes)", target, len(md))
+        log.info("Wrote %s (%d bytes, %d total items after merge)", target, len(md), total_items)
         save_state(state)
         log.info("State saved (%d guids retained).", len(seen))
 
