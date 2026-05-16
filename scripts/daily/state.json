@@ -1396,6 +1396,9 @@
     "https://huggingface.co/blog/transformersjs-chrome-extension": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/trl-v1": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/waypoint-1-5": "2026-05-11T16:20:03.148169+00:00",
+    "https://openai.com/academy/codex-for-work/how-business-operations-teams-use-codex": "2026-05-16T20:01:19.975537+00:00",
+    "https://openai.com/academy/codex-for-work/how-data-science-teams-use-codex": "2026-05-16T20:01:19.975537+00:00",
+    "https://openai.com/academy/codex-for-work/how-sales-teams-use-codex": "2026-05-16T20:01:19.975537+00:00",
     "https://openai.com/academy/how-finance-teams-use-codex": "2026-05-13T20:44:55.552120+00:00",
     "https://openai.com/business/guides-and-resources/how-enterprises-are-scaling-ai": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/advanced-account-security": "2026-05-11T16:19:50.841125+00:00",
@@ -1406,6 +1409,7 @@
     "https://openai.com/index/building-the-compute-infrastructure-for-the-intelligence-age": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/chatgpt-recognize-context-in-sensitive-conversations": "2026-05-14T20:27:11.869888+00:00",
     "https://openai.com/index/cybersecurity-in-the-intelligence-age": "2026-05-11T16:19:50.841125+00:00",
+    "https://openai.com/index/databricks": "2026-05-16T20:01:19.975537+00:00",
     "https://openai.com/index/delivering-low-latency-voice-ai-at-scale": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/gpt-5-5-instant": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/gpt-5-5-instant-system-card": "2026-05-11T16:19:50.841125+00:00",
@@ -1414,6 +1418,7 @@
     "https://openai.com/index/introducing-b2b-signals": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/introducing-chatgpt-futures-class-of-2026": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/introducing-trusted-contact-in-chatgpt": "2026-05-11T16:19:50.841125+00:00",
+    "https://openai.com/index/malta-chatgpt-plus-partnership": "2026-05-16T20:01:19.975537+00:00",
     "https://openai.com/index/mrc-supercomputer-networking": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/new-ways-to-buy-chatgpt-ads": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/next-phase-of-microsoft-partnership": "2026-05-11T16:19:50.841125+00:00",
@@ -1487,6 +1492,10 @@
     "https://www.marktechpost.com/?p=79882": "2026-05-15T20:17:02.905918+00:00",
     "https://www.marktechpost.com/?p=79888": "2026-05-15T20:17:02.905918+00:00",
     "https://www.marktechpost.com/?p=79891": "2026-05-15T20:17:02.905918+00:00",
+    "https://www.marktechpost.com/?p=79899": "2026-05-16T20:01:27.461664+00:00",
+    "https://www.marktechpost.com/?p=79902": "2026-05-16T20:01:27.461664+00:00",
+    "https://www.marktechpost.com/?p=79905": "2026-05-16T20:01:27.461664+00:00",
+    "https://www.marktechpost.com/?p=79912": "2026-05-16T20:01:27.461664+00:00",
     "https://www.technologyreview.com/?p=1136721": "2026-05-11T16:20:11.935713+00:00",
     "https://www.technologyreview.com/?p=1136739": "2026-05-11T16:20:11.935713+00:00",
     "https://www.technologyreview.com/?p=1136772": "2026-05-11T16:20:11.935713+00:00",
@@ -1502,6 +1511,7 @@
     "https://www.technologyreview.com/?p=1137161": "2026-05-14T20:27:16.569532+00:00",
     "https://www.technologyreview.com/?p=1137168": "2026-05-14T20:27:16.569532+00:00",
     "https://www.technologyreview.com/?p=1137203": "2026-05-13T20:45:01.056086+00:00",
-    "https://www.technologyreview.com/?p=1137326": "2026-05-15T20:17:00.529836+00:00"
+    "https://www.technologyreview.com/?p=1137326": "2026-05-15T20:17:00.529836+00:00",
+    "https://www.technologyreview.com/?p=1137357": "2026-05-16T20:01:25.671063+00:00"
   }
 }
