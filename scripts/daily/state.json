@@ -1366,6 +1366,7 @@
     "https://huggingface.co/blog/Hcompany/holotab": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/Hcompany/holotron-12b": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/OpenMed/training-mrna-models-25-species": "2026-05-11T16:20:03.148169+00:00",
+    "https://huggingface.co/blog/PaddlePaddle/paddleocr-transformers": "2026-05-18T20:24:09.337427+00:00",
     "https://huggingface.co/blog/ServiceNow-AI/correctness-before-corrections": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/ServiceNow-AI/eva": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/allenai/emo": "2026-05-11T16:20:03.148169+00:00",
@@ -1379,11 +1380,13 @@
     "https://huggingface.co/blog/ibm-granite/granite-4-1": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/ibm-granite/granite-4-vision": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/ibm-granite/granite-embedding-multilingual-r2": "2026-05-14T20:27:13.529905+00:00",
+    "https://huggingface.co/blog/ibm-research/open-agent-leaderboard": "2026-05-18T20:24:09.337427+00:00",
     "https://huggingface.co/blog/ibm-research/vakra-benchmark-analysis": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/inference-providers-deepinfra": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/introducing-gradio-server": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/liberate-your-openclaw": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/multimodal-sentence-transformers": "2026-05-11T16:20:03.148169+00:00",
+    "https://huggingface.co/blog/nvidia/cosmos-fine-tuning-for-robot-video-generation": "2026-05-18T20:24:09.337427+00:00",
     "https://huggingface.co/blog/nvidia/domain-specific-embedding-finetune": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence": "2026-05-11T16:20:03.148169+00:00",
     "https://huggingface.co/blog/open-asr-leaderboard-private-data": "2026-05-11T16:20:03.148169+00:00",
@@ -1411,6 +1414,7 @@
     "https://openai.com/index/cybersecurity-in-the-intelligence-age": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/databricks": "2026-05-16T20:01:19.975537+00:00",
     "https://openai.com/index/delivering-low-latency-voice-ai-at-scale": "2026-05-11T16:19:50.841125+00:00",
+    "https://openai.com/index/dell-codex-enterprise-partnership": "2026-05-18T20:24:08.130172+00:00",
     "https://openai.com/index/gpt-5-5-instant": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/gpt-5-5-instant-system-card": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber": "2026-05-11T16:19:50.841125+00:00",
@@ -1516,6 +1520,8 @@
     "https://www.technologyreview.com/?p=1137168": "2026-05-14T20:27:16.569532+00:00",
     "https://www.technologyreview.com/?p=1137203": "2026-05-13T20:45:01.056086+00:00",
     "https://www.technologyreview.com/?p=1137326": "2026-05-15T20:17:00.529836+00:00",
-    "https://www.technologyreview.com/?p=1137357": "2026-05-16T20:01:25.671063+00:00"
+    "https://www.technologyreview.com/?p=1137357": "2026-05-16T20:01:25.671063+00:00",
+    "https://www.technologyreview.com/?p=1137412": "2026-05-18T20:24:13.342592+00:00",
+    "https://www.technologyreview.com/?p=1137439": "2026-05-18T20:24:13.342592+00:00"
   }
 }
