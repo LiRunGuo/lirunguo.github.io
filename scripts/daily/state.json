@@ -3158,6 +3158,7 @@
     "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-april-2026/": "2026-05-11T16:20:07.602870+00:00",
     "https://blog.google/innovation-and-ai/technology/ai/google-io-2026-all-our-announcements/": "2026-05-20T20:58:52.669502+00:00",
     "https://blog.google/innovation-and-ai/technology/ai/io-2026-dialogues-recap/": "2026-05-22T20:43:18.585721+00:00",
+    "https://blog.google/innovation-and-ai/technology/ai/io-2026-keynote-moment-videos/": "2026-05-28T21:11:03.398845+00:00",
     "https://blog.google/innovation-and-ai/technology/developers-tools/event-driven-webhooks/": "2026-05-11T16:20:07.602870+00:00",
     "https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-collection/": "2026-05-19T20:44:45.514249+00:00",
     "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/": "2026-05-11T16:20:07.602870+00:00",
@@ -3233,6 +3234,7 @@
     "https://openai.com/index/building-self-improving-tax-agents-with-codex": "2026-05-27T21:01:32.265695+00:00",
     "https://openai.com/index/building-the-compute-infrastructure-for-the-intelligence-age": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/chatgpt-recognize-context-in-sensitive-conversations": "2026-05-14T20:27:11.869888+00:00",
+    "https://openai.com/index/cisco": "2026-05-28T21:11:01.054294+00:00",
     "https://openai.com/index/cybersecurity-in-the-intelligence-age": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/databricks": "2026-05-16T20:01:19.975537+00:00",
     "https://openai.com/index/delivering-low-latency-voice-ai-at-scale": "2026-05-11T16:19:50.841125+00:00",
@@ -3256,6 +3258,7 @@
     "https://openai.com/index/nvidia": "2026-05-13T20:44:55.552120+00:00",
     "https://openai.com/index/openai-available-at-fedramp-moderate": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/openai-campus-network-student-club-interest-form": "2026-05-11T16:19:50.841125+00:00",
+    "https://openai.com/index/openai-frontier-governance-framework": "2026-05-28T21:11:01.054294+00:00",
     "https://openai.com/index/openai-launches-the-deployment-company": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/openai-on-aws": "2026-05-11T16:19:50.841125+00:00",
     "https://openai.com/index/openai-pwc-finance-collaboration": "2026-05-11T16:19:50.841125+00:00",
@@ -3309,6 +3312,8 @@
     "https://www.artificialintelligence-news.com/?p=113472": "2026-05-26T20:53:19.024842+00:00",
     "https://www.artificialintelligence-news.com/?p=113483": "2026-05-27T21:01:50.311612+00:00",
     "https://www.artificialintelligence-news.com/?p=113487": "2026-05-27T21:01:50.311612+00:00",
+    "https://www.artificialintelligence-news.com/?p=113496": "2026-05-28T21:11:31.997374+00:00",
+    "https://www.artificialintelligence-news.com/?p=113505": "2026-05-28T21:11:31.997374+00:00",
     "https://www.marktechpost.com/?p=79692": "2026-05-11T16:20:12.807184+00:00",
     "https://www.marktechpost.com/?p=79695": "2026-05-11T16:20:12.807184+00:00",
     "https://www.marktechpost.com/?p=79699": "2026-05-11T16:20:12.807184+00:00",
@@ -3387,6 +3392,9 @@
     "https://www.marktechpost.com/?p=80126": "2026-05-27T21:01:46.807955+00:00",
     "https://www.marktechpost.com/?p=80132": "2026-05-27T21:01:46.807955+00:00",
     "https://www.marktechpost.com/?p=80137": "2026-05-27T21:01:46.807955+00:00",
+    "https://www.marktechpost.com/?p=80146": "2026-05-28T21:11:27.631952+00:00",
+    "https://www.marktechpost.com/?p=80152": "2026-05-28T21:11:27.631952+00:00",
+    "https://www.marktechpost.com/?p=80156": "2026-05-28T21:11:27.631952+00:00",
     "https://www.technologyreview.com/?p=1136721": "2026-05-11T16:20:11.935713+00:00",
     "https://www.technologyreview.com/?p=1136739": "2026-05-11T16:20:11.935713+00:00",
     "https://www.technologyreview.com/?p=1136772": "2026-05-11T16:20:11.935713+00:00",
@@ -3414,6 +3422,7 @@
     "https://www.technologyreview.com/?p=1137756": "2026-05-22T20:43:21.039353+00:00",
     "https://www.technologyreview.com/?p=1137813": "2026-05-22T20:43:21.039353+00:00",
     "https://www.technologyreview.com/?p=1137855": "2026-05-26T20:53:15.076815+00:00",
-    "https://www.technologyreview.com/?p=1137865": "2026-05-26T20:53:15.076815+00:00"
+    "https://www.technologyreview.com/?p=1137865": "2026-05-26T20:53:15.076815+00:00",
+    "https://www.technologyreview.com/?p=1138053": "2026-05-28T21:11:25.382954+00:00"
   }
 }
