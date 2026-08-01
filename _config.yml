@@ -12,7 +12,7 @@ site_theme               : "default" # The available themes options are "default
 title                    : "Runguo Li"
 title_separator          : "-"
 name                     : &name "Runguo Li"
-description              : &description "Personal academic homepage of Runguo Li (李润果) — Master's student in Computer Science at NUS, working on LLMs, Multimodal Models, Agents and FinTech."
+description              : &description "Personal academic homepage of Runguo Li (李润果) — incoming Fall 2026 student at UIUC, interested in LLMs, Multimodal Models, Coding Agents and FinTech."
 url                      : https://runguoli.com
 baseurl                  : ""
 repository               : "LiRunGuo/lirunguo.github.io"
@@ -25,9 +25,9 @@ author:
   avatar           : "profile.jpg"
   name             : "Runguo Li"
   pronouns         : # example: "she/her"  
-  bio              : "Master's student in Computer Science @ NUS. Interested in LLMs, Multimodal Models, Agents and FinTech."
+  bio              : "Incoming Fall 2026 student @ UIUC. Interested in LLMs, Multimodal Models, Coding Agents and FinTech."
   location         : "Singapore / Shanghai"
-  employer         : "National University of Singapore"
+  employer         : "University of Illinois Urbana-Champaign"
   uri              : "https://runguoli.com"
   email            : "li19107254665@gmail.com" 
 

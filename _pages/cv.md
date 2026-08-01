@@ -12,7 +12,7 @@ redirect_from:
 
 Education
 ======
-* **M.S. in Computer Science**, National University of Singapore (NUS), 2026.8 – 2028.7 (expected)
+* **Incoming Fall 2026 Student**, University of Illinois Urbana-Champaign (UIUC)
 * **B.S. in Business Analytics**, Shanghai University of Finance and Economics (SUFE), 2022.9 – 2026.6
   * TOEFL: 101 · GRE: 327 · JLPT: N2
 
@@ -24,11 +24,11 @@ Research & Industry Experience
 * Contributed to a unified multi-label content-moderation model on an XLM-RoBERTa backbone.
 * Co-developed a multimodal embedding model for cross-modal retrieval.
 
-**SUFE FinAI Center** — Research Intern, advised by Prof. **Liwen Zhang (张立文)** *(2025.6 – present)*
+**SUFE FinAI Center** — Research Intern, advised by Prof. **Liwen Zhang (张立文)** *(2025.7 – 2026.7)*
 * Financial reasoning LLM: CoT data curation, SFT + GRPO training, evaluation on FinEval / FinQA / ConvFinQA.
 * Co-design of financial evaluation suites and agent-safety benchmarks.
 
-**Shanghai Jiao Tong University (SJTU)** — Research Intern, advised by Prof. **Xiaodong Gu (顾小东)** *(2026.3 – present)*
+**Shanghai Jiao Tong University (SJTU)** — Research Intern, advised by Prof. **Xiaodong Gu (顾小东)** *(2026.3 – 2026.7)*
 * Research direction: **LLM for Code** — code generation, repair, and program understanding.
 
 **ICBC Head Office, Private Banking Department** — Research Intern *(2026.1 – 2026.4)*
@@ -56,9 +56,9 @@ Selected Projects
 
 Skills
 ======
-* **LLM Development** — SFT / GRPO / PPO, distillation, deployment (vLLM, HuggingFace)
+* **LLMs** — SFT / GRPO / PPO, distillation, deployment (vLLM, HuggingFace)
 * **Multimodal Models** — VLM fine-tuning, model merging (SLERP / TIES / DARE), adversarial data synthesis
-* **Agents & RAG** — agent workflow orchestration, retrieval, knowledge bases
+* **Coding Agents & RAG** — code generation, repair, agent workflow orchestration, retrieval, knowledge bases
 * **Frameworks & Tools** — Python, PyTorch, HuggingFace, FAISS, Linux, Docker
 
 Talks

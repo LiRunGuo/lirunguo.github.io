@@ -3,14 +3,14 @@ title: "FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Envi
 collection: publications
 category: conferences
 permalink: /publication/2026-08-finvault
-excerpt: 'The first execution-grounded security benchmark for LLM-based financial agents — 31 regulatory sandbox scenarios, 107 real-world vulnerabilities, 963 test cases. Submitted to EMNLP 2026.'
+excerpt: 'The first execution-grounded security benchmark for LLM-based financial agents — 31 regulatory sandbox scenarios, 107 real-world vulnerabilities, 963 test cases. arXiv preprint.'
 date: 2026-01-09
-venue: 'Submitted to EMNLP 2026'
+venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2601.07853'
-citation: 'Zhi Yang, Runguo Li, Qiqi Qiang, Jiashun Wang, Fangqi Lou, et al. (2026). &quot;FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments.&quot; <i>arXiv preprint arXiv:2601.07853</i>. Submitted to EMNLP 2026.'
+citation: 'Zhi Yang, Runguo Li, Qiqi Qiang, Jiashun Wang, Fangqi Lou, et al. (2026). &quot;FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments.&quot; <i>arXiv preprint arXiv:2601.07853</i>.'
 ---
 
-**Status:** Submitted to **EMNLP 2026** · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853)
+**Status:** arXiv preprint · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853)
 
 ### Authors
 
