@@ -14,7 +14,6 @@ Education
 ======
 * **Incoming Fall 2026 Student**, University of Illinois Urbana-Champaign (UIUC)
 * **B.S. in Business Analytics**, Shanghai University of Finance and Economics (SUFE), 2022.9 – 2026.6
-  * TOEFL: 101 · GRE: 327 · JLPT: N2
 
 Research & Industry Experience
 ======
@@ -61,24 +60,8 @@ Skills
 * **Coding Agents & RAG** — code generation, repair, agent workflow orchestration, retrieval, knowledge bases
 * **Frameworks & Tools** — Python, PyTorch, HuggingFace, FAISS, Linux, Docker
 
-Talks
-======
-  <ul>{% for post in site.talks reversed %}
-    {% include archive-single-talk-cv.html  %}
-  {% endfor %}</ul>
-
-Teaching
-======
-  <ul>{% for post in site.teaching reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-
 Honors & Awards
 ======
 * National Encouragement Scholarship
 * People's Scholarship, 2nd Class
 * Silver Medal, FLTRP English Competition (Municipal)
-
-Languages
-======
-* Chinese (native), English (TOEFL 101 · GRE 327), Japanese (JLPT N2)

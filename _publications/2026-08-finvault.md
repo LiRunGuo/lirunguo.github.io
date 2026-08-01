@@ -7,7 +7,6 @@ excerpt: 'The first execution-grounded security benchmark for LLM-based financia
 date: 2026-01-09
 venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2601.07853'
-citation: 'Zhi Yang, Runguo Li, Qiqi Qiang, Jiashun Wang, Fangqi Lou, et al. (2026). &quot;FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments.&quot; <i>arXiv preprint arXiv:2601.07853</i>.'
 ---
 
 **Status:** arXiv preprint · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853)

@@ -25,8 +25,8 @@ Research Interests
 Selected Highlights
 ======
 - 📝 **FinVault** — *Benchmarking Financial Agent Safety in Execution-Grounded Environments* — **arXiv preprint**. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
-- 📝 **RVCFT** — *Reasoning-Visual Critical Token Fine-Tuning for Multimodal Reasoning* — manuscript. [PDF](/files/rvcft-multimodal-reasoning.pdf)
-- 📝 **VeriBRT** — *Plan-Guided, Evidence-Based Automated Bug Reproduction* — manuscript. [PDF](/files/veribrt-bug-reproduction.pdf)
+- 📝 **RVCFT** — [*Reasoning-Visual Critical Token Fine-Tuning for Multimodal Reasoning*](/publication/2026-07-rvcft) — manuscript.
+- 📝 **VeriBRT** — [*Plan-Guided, Evidence-Based Automated Bug Reproduction*](/publication/2026-07-veribrt) — manuscript.
 - 🛠️ **ARH (AI Research Helper)** — open-source CLI-first research assistant agent with tool use, three-layer memory, skill self-learning and multi-LLM fallback. [github.com/LiRunGuo/Arhelper](https://github.com/LiRunGuo/Arhelper)
 
 News
@@ -38,18 +38,6 @@ News
 - **2026.01** — *FinVault* released as an arXiv preprint.
 - **2026.01** — Started working with the Head Office of ICBC on scientist-discovery agents.
 - **2025.10** — Joined Tencent Youtu AI Lab as a research intern.
----
-
-中文简介 (Chinese)
-======
-我是**李润果**，本科毕业于**上海财经大学**商务分析专业，将于 2026 年秋季入学**伊利诺伊大学厄巴纳-香槟分校（UIUC）**。
-
-我主要关注**大语言模型**、**多模态模型**、**Coding Agents** 与**金融科技**。我的研究与实习经历包括**腾讯优图实验室**、**上财财经 AI 中心**（导师：**张立文** 教授）、**上海交通大学**（导师：**顾小东** 教授，方向 **LLM for Code**）以及**中国工商银行总行私人银行部**。
-
-代表性工作包括金融 Agent 安全基准 **FinVault**（[arXiv:2601.07853](https://arxiv.org/abs/2601.07853)）、多模态推理论文 **RVCFT** 和自动缺陷复现论文 **VeriBRT**；开源项目 **ARH**（AI 科研辅助 Agent）——[github.com/LiRunGuo/Arhelper](https://github.com/LiRunGuo/Arhelper)。
-
-如需联系，欢迎邮件：<li19107254665@gmail.com>。
-
 ---
 
 Get in Touch
