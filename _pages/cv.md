@@ -12,7 +12,7 @@ redirect_from:
 
 Education
 ======
-* **Incoming Fall 2026 Student**, University of Illinois Urbana-Champaign (UIUC)
+* **M.S. in Information Science**, University of Illinois Urbana-Champaign (UIUC), 2026.8 – 2028.7 (expected)
 * **B.S. in Business Analytics**, Shanghai University of Finance and Economics (SUFE), 2022.9 – 2026.6
 
 Research & Industry Experience

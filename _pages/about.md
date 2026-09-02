@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-I am an incoming **Fall 2026 student** at the **University of Illinois Urbana-Champaign (UIUC)** and a graduate of **Shanghai University of Finance and Economics (SUFE)** with a B.S. in Business Analytics.
+I am an **M.S. student in Information Science** at the **University of Illinois Urbana-Champaign (UIUC)** and a graduate of **Shanghai University of Finance and Economics (SUFE)** with a B.S. in Business Analytics.
 
 My research and engineering interests center on **Large Language Models (LLMs)**, **Multimodal Models**, **Coding Agents**, and **FinTech**. I enjoy bridging cutting-edge model research with real-world industrial systems.
 
@@ -31,7 +31,7 @@ Selected Highlights
 
 News
 ======
-- **2026.08** — Will join the University of Illinois Urbana-Champaign as a Fall 2026 student.
+- **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉
 - **2026.03** — Joined Shanghai Jiao Tong University as a research intern (LLM for Code, advised by Prof. Xiaodong Gu).
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.
