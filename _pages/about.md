@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-I am an **M.S. student in Information Science** at the **University of Illinois Urbana-Champaign (UIUC)** and a graduate of **Shanghai University of Finance and Economics (SUFE)** with a B.S. in Business Analytics.
+I am an **M.S. student in Information Science** at the **University of Illinois Urbana-Champaign (UIUC)** and a graduate of **Shanghai University of Finance and Economics (SUFE)** with a B.S. in Data Analytics.
 
 My research and engineering interests center on **Large Language Models (LLMs)**, **Multimodal Models**, **Coding Agents**, and **FinTech**. I enjoy bridging cutting-edge model research with real-world industrial systems.
 
