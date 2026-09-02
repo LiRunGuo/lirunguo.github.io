@@ -235,6 +235,9 @@ collections:
   llm-libs:
     output: true
     permalink: /llm-libs/:path/
+  course-notes:
+    output: true
+    permalink: /course-notes/:path/
   daily:
     output: true
     permalink: /daily/:path/
@@ -299,6 +302,14 @@ defaults:
   - scope:
       path: ""
       type: llm-libs
+    values:
+      layout: single
+      author_profile: true
+      share: true
+  # _course-notes
+  - scope:
+      path: ""
+      type: course-notes
     values:
       layout: single
       author_profile: true
