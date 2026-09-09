@@ -11,9 +11,6 @@ main:
   - title: "Portfolio"
     url: /portfolio/
 
-  - title: "LLM Libs"
-    url: /llm-libs/
-
   - title: "Course Notes"
     url: /course-notes/
 

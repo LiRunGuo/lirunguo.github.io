@@ -7,8 +7,17 @@ author_profile: true
 
 {% include base_path %}
 
+<p>I contribute to open-source AI infrastructure, with a focus on distributed training, GPU compiler correctness, and reinforcement learning systems.</p>
 
-{% for post in site.portfolio %}
+<h2 class="archive__subtitle">Open-source contributions</h2>
+{% assign contributions = site.portfolio | where: "category", "contribution" | sort: "order" %}
+{% for post in contributions %}
   {% include archive-single.html %}
 {% endfor %}
 
+<h2 class="archive__subtitle">Personal projects</h2>
+{% for post in site.portfolio %}
+  {% unless post.category == "contribution" %}
+  {% include archive-single.html %}
+  {% endunless %}
+{% endfor %}

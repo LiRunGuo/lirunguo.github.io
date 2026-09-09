@@ -165,6 +165,8 @@ include:
   - _pages
   - files
 exclude:
+  - _llm-libs
+  - _pages/llm-libs.md
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache
@@ -232,9 +234,6 @@ collections:
   talks:
     output: true
     permalink: /:collection/:path/
-  llm-libs:
-    output: true
-    permalink: /llm-libs/:path/
   course-notes:
     output: true
     permalink: /course-notes/:path/
@@ -296,14 +295,6 @@ defaults:
       type: talks
     values:
       layout: talk
-      author_profile: true
-      share: true
-  # _llm-libs
-  - scope:
-      path: ""
-      type: llm-libs
-    values:
-      layout: single
       author_profile: true
       share: true
   # _course-notes
