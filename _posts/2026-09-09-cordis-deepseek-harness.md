@@ -53,7 +53,7 @@ Shigma 在 QQ 机器人圈子里是相当出名的存在。他的 GitHub 账号�
 
 这是一套**一个人撑起来的技术栈**：Cordis 是骨架（生命周期与依赖），Schemastery 管配置校验，Minato 管数据存取，Satorijs 管平台协议，Koishi 是集大成者，整个体系共同运行在 Cordis 之上。这篇文章里讲到的每一个概念（fiber、effect、Schema、Service），都出自他一人之手。
 
-![Shigma 的 GitHub 主页（132 个公开仓库）](https://developer.qcloudimg.com/http-save/yehe-2025107/5944ec5b3692eb43ac181477f5d61148.png)
+![Shigma 的 GitHub 主页（132 个公开仓库）](/images/posts/cordis-deepseek-harness/5944ec5b3692eb43ac181477f5d61148.png)
 
 Shigma 在 2023 年底接受过腾讯媒体研究院《20 多岁做什么时间更有价值》系列的专访（[BV1AQ4y157S8](https://www.bilibili.com/video/BV1AQ4y157S8/)），那时他是研二学生，做 QQ 机器人开发五年了。被问到 AI 会不会取代人类时，他说旧的岗位被取代，一定会创造出新的岗位，人类反而更有机会生活在更好的世界里。他做 QQ 机器人的初衷之一，就是帮自己提升工作效率。那时 Cordis 还在 Koishi 的小圈子里，没人想到它两年后会成为 DeepSeek Harness 的心脏。
 
@@ -134,7 +134,7 @@ export function apply(ctx: Context) {
 
 `ctx.plugin(child)` 不是简单的"注册"，而是派生出一个子上下文。插件因此不是平铺的，而是一棵树：
 
-![Cordis 插件树示意图：ctx.plugin 派生子上下文，卸载按层级递归](https://developer.qcloudimg.com/http-save/yehe-2025107/44c58a9997b3b3595210bbb1b0eab509.png)
+![Cordis 插件树示意图：ctx.plugin 派生子上下文，卸载按层级递归](/images/posts/cordis-deepseek-harness/44c58a9997b3b3595210bbb1b0eab509.png)
 
 子上下文能看到父上下文的一切（继承），但卸载是按层级的：父插件卸载，它的所有子插件递归卸载；子插件卸载，不影响兄弟和父级。这棵插件树是 Cordis 一切生命周期语义的骨架。
 
@@ -144,7 +144,7 @@ export function apply(ctx: Context) {
 
 Cordis 4 为每个已加载的插件实例维护一个 fiber（纤维），状态机如下：
 
-![fiber 生命周期状态机示意图：PENDING / LOADING / ACTIVE / FAILED / UNLOADING / DISPOSED](https://developer.qcloudimg.com/http-save/yehe-2025107/9d302f3d7d88398b4063d02813d97a2e.png)
+![fiber 生命周期状态机示意图：PENDING / LOADING / ACTIVE / FAILED / UNLOADING / DISPOSED](/images/posts/cordis-deepseek-harness/9d302f3d7d88398b4063d02813d97a2e.png)
 
 - PENDING：已声明，但 `inject` 的服务尚未就绪，等待中；
 - LOADING / ACTIVE：`apply` 正在执行、已完成；
@@ -252,7 +252,7 @@ ctx.on('some/decision', async (input, next) => {
 
 多个互不相识的插件，就这样组成一条决策链。这里有一条 DSH 明文纪律：**只负责观察和记录的 waterfall 监听器必须调用 `next()`**，否则会无声地吞掉下游所有默认行为。
 
-![事件分发模式与 waterfall 决策链示意图](https://developer.qcloudimg.com/http-save/yehe-2025107/c6de29c09ab9f182805cad5623091b3d.png)
+![事件分发模式与 waterfall 决策链示意图](/images/posts/cordis-deepseek-harness/c6de29c09ab9f182805cad5623091b3d.png)
 
 > 在 DSH 里：工具执行管道 `tools/pre-execute → tools/execute → tools/post-execute` 就是一条 waterfall 链；`approval/request`、`agent/request` 也是。
 
@@ -318,7 +318,7 @@ async function boot(binName, configPath, patches, prepare, baseUrl) {
 
 DSH 引入了 Profile 概念：`$DSH_HOME/profiles/<名字>` 下的一个目录，包含 manifest（`dsh.profile.bundles` 列出按顺序应用的组合包）和用户自己的 `cordis.patch.yml`。配置树的组装顺序：
 
-![配置树组装顺序示意图：Profile → bundle → patch](https://developer.qcloudimg.com/http-save/yehe-2025107/71a137e388c46088ec279647f8fe5ab2.png)
+![配置树组装顺序示意图：Profile → bundle → patch](/images/posts/cordis-deepseek-harness/71a137e388c46088ec279647f8fe5ab2.png)
 
 Bundle（组合包）就是一个 npm 包，其 `package.json` 声明 `"dsh": { "bundle": { "patch": "./cordis.patch.yml" } }`。核心组合包 `@deepseek-ai/dsh-base` 的 patch 就是把几十个插件一次 insert 进空根：
 
@@ -343,7 +343,7 @@ Bundle（组合包）就是一个 npm 包，其 `package.json` 声明 `"dsh": { 
 
 部署方想改默认行为，无需改任何源码，在自己的 patch 层按 `id` 覆盖一行即可（后写覆盖先写、可 `insert`、可 `disabled`）。**连"应用由哪些插件组成、各是什么配置"本身，都是可叠加、可覆盖、可审计的声明**，这就是"一切皆插件"的技术底座。
 
-![DeepSeek Harness 设置页插件清单](https://developer.qcloudimg.com/http-save/yehe-2025107/023f2553a5477b21802b802175a765df.png)
+![DeepSeek Harness 设置页插件清单](/images/posts/cordis-deepseek-harness/023f2553a5477b21802b802175a765df.png)
 
 ### 3.3 工具流水线：Agent 的每一项能力
 
@@ -418,7 +418,7 @@ DSH 的扩展点不是一个"API 列表"，而是一张 Cordis 服务注册表�
 
 DSH 对"可替换能力"有一套固定模式，**Service Definition、Service Provider、Consumer** 三种角色，以 `shell` 为例：
 
-![Service Definition / Service Provider / Consumer 三种角色示意图](https://developer.qcloudimg.com/http-save/yehe-2025107/f1c41fbe8a374ec20b03025fb662a71a.png)
+![Service Definition / Service Provider / Consumer 三种角色示意图](/images/posts/cordis-deepseek-harness/f1c41fbe8a374ec20b03025fb662a71a.png)
 
 - Definition 只声明服务与类型，几乎不变；
 - Provider 可以独立替换，换一个提供方（比如换成沙箱执行），通过 `cordis.yml` 改一行配置，Definition 和所有 Consumer 保持不变；
@@ -461,10 +461,10 @@ DSH 对"可替换能力"有一套固定模式，**Service Definition、Service P
 
 这些插件大多自带界面，下面四张图分别来自四个社区插件（图片均取自各自仓库的 README）：
 
-![dsh-visualize 插件截图](https://developer.qcloudimg.com/http-save/yehe-2025107/a5b343d1422b38d101537d84d2395e09.png)
-![dsh-web-ui 插件截图（任务面板）](https://developer.qcloudimg.com/http-save/yehe-2025107/d2be1c1f6580ad82b29ce20053c4cdf4.png)
-![dsh-stock-market 插件截图](https://developer.qcloudimg.com/http-save/yehe-2025107/348688d9fddb0aa15f48aaac8a5cc425.png)
-![dsh-task-status 插件截图](https://developer.qcloudimg.com/http-save/yehe-2025107/3ddc680be6b00b6d224b22b2c0c5983c.png)
+![dsh-visualize 插件截图](/images/posts/cordis-deepseek-harness/a5b343d1422b38d101537d84d2395e09.png)
+![dsh-web-ui 插件截图（任务面板）](/images/posts/cordis-deepseek-harness/d2be1c1f6580ad82b29ce20053c4cdf4.png)
+![dsh-stock-market 插件截图](/images/posts/cordis-deepseek-harness/348688d9fddb0aa15f48aaac8a5cc425.png)
+![dsh-task-status 插件截图](/images/posts/cordis-deepseek-harness/3ddc680be6b00b6d224b22b2c0c5983c.png)
 
 
 ### 4.5 可能的插件：常规与"惊艳"
@@ -543,7 +543,7 @@ e : Γ → Γ × (Γ → Γ)
 
 **Cordis 中所有上下文变更都归结为 `ctx.effect` 这一个原语**，提供服务、挂载插件、注册监听器全是它的特例。现在它有了证明。
 
-![可逆副作用示意图：effect 携带逆函数，累加器按 LIFO 组合](https://developer.qcloudimg.com/http-save/yehe-2025107/1faa936dcf99da1a4a7837cb8159cd2e.png)
+![可逆副作用示意图：effect 携带逆函数，累加器按 LIFO 组合](/images/posts/cordis-deepseek-harness/1faa936dcf99da1a4a7837cb8159cd2e.png)
 
 #### 5.3.2 关键性质 1：精确恢复
 
@@ -585,7 +585,7 @@ neutral      ：与满足性无关
 
 这就是 `inject` 的数学形式：`inject: ['greeter']` 就是声明 `d = {greeter}`，fiber 保持 PENDING 直到 `σ ⊨ d`，提供方卸载时 `d` 失满足 → deactivating → 依赖方自动卸载，提供方恢复 → activating → 自动重载。
 
-![响应式余效应示意图：满足性变化被分类为 activating / deactivating / neutral](https://developer.qcloudimg.com/http-save/yehe-2025107/592b406f597878f10863c67fd4cee157.png)
+![响应式余效应示意图：满足性变化被分类为 activating / deactivating / neutral](/images/posts/cordis-deepseek-harness/592b406f597878f10863c67fd4cee157.png)
 
 #### 5.4.3 隔离与拦截：调整"解析"而非"存储"
 
@@ -606,7 +606,7 @@ neutral      ：与满足性无关
 
 自相似的递归类型：当前状态（递归）、累加器（恢复本层 effect）、依赖表（coeffect 信息）。三个投影让"效果"与"余效应"两个方向**收进同一个 `ctx`**，每个操作都能归因到调用它的具体上下文，进而归因到拥有该上下文的组件。由于 Σ 的值类型无约束，"任何需要在组件间共享的状态都可以编码成一个依赖"，Σ 不只是依赖表，它**包含了一切共享可变状态**。
 
-![统一上下文 Γ∞ 递归类型示意图](https://developer.qcloudimg.com/http-save/yehe-2025107/091ab42e17c2f9449d503239580ca8ec.png)
+![统一上下文 Γ∞ 递归类型示意图](/images/posts/cordis-deepseek-harness/091ab42e17c2f9449d503239580ca8ec.png)
 
 层次组合是递归结构的直接推论：**加载组件 = 插电（执行其 effect），卸载 = 拔电（恢复其 effect）**，父上下文聚合子 effect，任意嵌套，这正是 Cordis 的插件树（见 2.2）。
 
@@ -769,7 +769,7 @@ Webpack / Vite HMR
 - `@koishijs` 官方 scope：155 个包，其中插件 112 个、各平台适配器 19 个（QQ、Discord、Telegram、Lark……）；
 - **社区 `koishi-plugin-*` 前缀：约 3951 个包**。
 
-![Koishi 插件市场截图](https://developer.qcloudimg.com/http-save/yehe-2025107/1c6b1bf5ba0ec7349a72cc28e007f0c4.png)
+![Koishi 插件市场截图](/images/posts/cordis-deepseek-harness/1c6b1bf5ba0ec7349a72cc28e007f0c4.png)
 
 只看插件数量，还低估了它的规模。另一组 2026 年 8 月实测的数据：
 
