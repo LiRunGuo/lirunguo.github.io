@@ -12,7 +12,7 @@ site_theme               : "default" # The available themes options are "default
 title                    : "Runguo Li"
 title_separator          : "-"
 name                     : &name "Runguo Li"
-description              : &description "Personal academic homepage of Runguo Li (李润果) — M.S. student in Information Science at UIUC, interested in LLMs, Multimodal Models, Coding Agents and FinTech."
+description              : &description "Personal academic homepage of Runguo Li (李润果) — M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference and expert streaming, distributed training and rollout, and GPU compiler correctness."
 url                      : https://runguoli.com
 baseurl                  : ""
 repository               : "LiRunGuo/lirunguo.github.io"
