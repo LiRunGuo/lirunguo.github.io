@@ -44,4 +44,4 @@ Get in Touch
 ======
 - ✉️  Email: [li19107254665@gmail.com](mailto:li19107254665@gmail.com)
 - 🐙 GitHub: [github.com/LiRunGuo](https://github.com/LiRunGuo)
-- 📄 [Curriculum Vitae](/cv/)
+- 📄 [Curriculum Vitae](/files/RunguoLi-ML-Systems-Resume.pdf)
