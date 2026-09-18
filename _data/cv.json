@@ -1,7 +1,7 @@
 {
   "basics": {
     "name": "Runguo Li",
-    "email": "runguol2@illinois.edu",
+    "email": "runguo.ai@gmail.com",
     "website": "https://runguoli.com",
     "summary": "M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, distributed training and rollout infrastructure, RL post-training systems, and GPU compiler and kernel-level correctness. Merged open-source contributions to colibri, DeepSpeed, Triton, verl, and LMCache; research background in LLM reasoning, multimodal learning, and agent safety.",
     "profiles": [

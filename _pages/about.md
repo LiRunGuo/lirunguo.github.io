@@ -61,6 +61,6 @@ News
 
 Get in Touch
 ======
-- ✉️  Email: [runguol2@illinois.edu](mailto:runguol2@illinois.edu) · [li19107254665@gmail.com](mailto:li19107254665@gmail.com)
+- ✉️  Email: [runguo.ai@gmail.com](mailto:runguo.ai@gmail.com)
 - 🐙 GitHub: [github.com/LiRunGuo](https://github.com/LiRunGuo)
 - 📄 [Curriculum Vitae](/files/RunguoLi-ML-Systems-Resume.pdf)
