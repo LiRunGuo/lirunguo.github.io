@@ -1,27 +1,100 @@
 {
   "basics": {
     "name": "Runguo Li",
-    "email": "li19107254665@gmail.com",
+    "email": "runguol2@illinois.edu",
     "website": "https://runguoli.com",
-    "summary": "M.S. student in Information Science at UIUC, interested in LLMs, Multimodal Models, Coding Agents and FinTech.",
-    "profiles": [{"network": "GitHub", "username": "LiRunGuo", "url": "https://github.com/LiRunGuo"}]
+    "summary": "M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, distributed training and rollout infrastructure, RL post-training systems, and GPU compiler and kernel-level correctness. Merged open-source contributions to colibri, DeepSpeed, Triton, verl, and LMCache; research background in LLM reasoning, multimodal learning, and agent safety.",
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "LiRunGuo",
+        "url": "https://github.com/LiRunGuo"
+      }
+    ]
   },
-  "work": [],
+  "work": [
+
+  ],
   "education": [
-    {"institution": "University of Illinois Urbana-Champaign", "area": "M.S. in Information Science", "startDate": "2026-08"},
-    {"institution": "Shanghai University of Finance and Economics", "area": "B.S. in Data Analytics", "startDate": "2022-09", "endDate": "2026-06"}
+    {
+      "institution": "University of Illinois Urbana-Champaign",
+      "area": "M.S. in Information Science",
+      "startDate": "2026-08",
+      "endDate": "2028-07"
+    },
+    {
+      "institution": "Shanghai University of Finance and Economics",
+      "area": "B.S. in Business Analytics",
+      "startDate": "2022-09",
+      "endDate": "2026-06",
+      "gpa": "3.71/4.0"
+    }
   ],
-  "skills": [],
-  "languages": [],
+  "skills": [
+
+  ],
+  "languages": [
+
+  ],
   "interests": [
-    {"name": "Large Language Models"},
-    {"name": "Multimodal Models"},
-    {"name": "Coding Agents"},
-    {"name": "FinTech"}
+    {
+      "name": "ML Systems for Large Models",
+      "keywords": [
+        "MoE inference",
+        "expert streaming",
+        "KV-cache budgeting",
+        "performance profiling"
+      ]
+    },
+    {
+      "name": "Distributed Training and Rollout",
+      "keywords": [
+        "ZeRO-3",
+        "FSDP",
+        "Megatron-LM",
+        "Hybrid Engine",
+        "RL rollout systems"
+      ]
+    },
+    {
+      "name": "GPU Compiler and Kernel Correctness",
+      "keywords": [
+        "MLIR",
+        "Triton",
+        "CUDA"
+      ]
+    },
+    {
+      "name": "LLM Reasoning and Multimodal Learning",
+      "keywords": [
+        "chain-of-thought supervision",
+        "selective fine-tuning",
+        "retrieval and fusion"
+      ]
+    },
+    {
+      "name": "Agents and Security",
+      "keywords": [
+        "agentic planning",
+        "RAG",
+        "execution-grounded evaluation",
+        "runtime safety gates"
+      ]
+    }
   ],
-  "references": [],
-  "publications": [],
-  "presentations": [],
-  "teaching": [],
-  "portfolio": []
+  "references": [
+
+  ],
+  "publications": [
+
+  ],
+  "presentations": [
+
+  ],
+  "teaching": [
+
+  ],
+  "portfolio": [
+
+  ]
 }
