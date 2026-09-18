@@ -1,9 +1,11 @@
 name: Daily AI Digest
 
 on:
-  schedule:
-    # 03:00 Asia/Shanghai (UTC+8) == 19:00 UTC
-    - cron: "0 19 * * *"
+  # Scheduled digest paused while the Daily section is offline.
+  # Restore the cron block below (and _config.yml output: true) to resume.
+  # schedule:
+  #   # 03:00 Asia/Shanghai (UTC+8) == 19:00 UTC
+  #   - cron: "0 19 * * *"
   workflow_dispatch:
     inputs:
       dry_run:

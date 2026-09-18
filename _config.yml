@@ -238,7 +238,7 @@ collections:
     output: true
     permalink: /course-notes/:path/
   daily:
-    output: true
+    output: false   # offline for now; set back to true to republish /daily/
     permalink: /daily/:path/
 
 
