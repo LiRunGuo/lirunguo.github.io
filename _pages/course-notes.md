@@ -10,6 +10,7 @@ toc: false
 
 {% include base_path %}
 
-{% for post in site.course-notes %}
+{% assign notes = site.course-notes | where_exp: "n", "n.chapter != true" %}
+{% for post in notes %}
   {% include archive-single.html %}
 {% endfor %}
