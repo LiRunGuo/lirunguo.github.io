@@ -14,12 +14,12 @@ main:
   - title: "Course Notes"
     url: /course-notes/
 
-# Temporarily offline while the content is being reworked.
+# The Daily section is still offline while its content is being reworked.
 #  - title: "Daily"
 #    url: /daily/
-#
-#  - title: "Blog"
-#    url: /year-archive/
+
+  - title: "Blog"
+    url: /year-archive/
 
   - title: "CV"
     url: /files/RunguoLi-ML-Systems-Resume.pdf
