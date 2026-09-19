@@ -9,7 +9,7 @@ toc_sticky: true
 > [目录](/course-notes/stanford-cs149-parallel-computing/) · [← l18](/course-notes/stanford-cs149-parallel-computing/l18)
 
 {% raw %}
-# 核心术语表（Glossary）
+## 核心术语表（Glossary）
 
 > 按字母顺序排列，涵盖全部 18 讲中定义的关键术语。
 
@@ -363,9 +363,9 @@ toc_sticky: true
 
 ---
 
-# 附录：资料与作业说明
+## 附录：资料与作业说明
 
-## 已获取的公开资料清单
+### 已获取的公开资料清单
 
 所有资料均下载自课程公开网站，保存在本工作目录 `cs149_fall25/` 下：
 
@@ -379,7 +379,7 @@ toc_sticky: true
 | 结构化数据记录 | `lectures_data.json` | 每讲的编号、日期、主题、材料链接、文本路径 |
 | 最终学习笔记 | `cs149_fall2025_learning_notes.md` | 本文档 |
 
-## 讲座幻灯片 PDF 链接（公开）
+### 讲座幻灯片 PDF 链接（公开）
 
 | 讲次 | 标题 | 幻灯片 PDF |
 |---|---|---|
@@ -402,13 +402,13 @@ toc_sticky: true
 | 17 | Transactional Memory (Part I) | https://gfxcourses.stanford.edu/cs149/fall25content/media/transactions/17_transactionalmem.pdf |
 | 18 | Transactional Memory (Part II) + AMA | https://gfxcourses.stanford.edu/cs149/fall25content/media/wrapup/18_transactionalmem_A4wu1Q8.pdf |
 
-## 无法访问的内容（已记录，未下载）
+### 无法访问的内容（已记录，未下载）
 
 - **2025 年讲座视频**：课程主页明确说明 "We cannot distribute lecture videos to the public this year"。替代资源：2023 年版公开播放列表 https://www.youtube.com/playlist?list=PLoROMvodv4rMp7MTFr4hQsDEcX7Bx6Odp
 - **Ed Discussion 论坛 / Canvas 内容**：需校内账号登录，非公开。
 - **作业内部文件**（如测试用例、手写提纲图片、AWS 配置说明等 GitHub 仓库内非 README 文件）：编程作业主体（README）公开，其余 starter code 需注册学生身份使用。
 
-## 作业说明汇总
+### 作业说明汇总
 
 - **Programming Assignment 1**（10 月 6 日截止，100 分 + 6 分附加）：在 myth 机器的四核 Intel Core i7（4.2GHz、AVX2、每核 2 硬件线程）上，分析 SIMD（AVX2 8 宽单精度）与多核并行、超线程对程序性能的影响；练习测量与推理并行程序性能。编程量小，分析为主。对应第 1–4 讲（处理器架构、ISPC、并行化思路）。
 - **Programming Assignment 2**（10 月 16 日截止，100 分）：从零实现一个 C++ 任务执行库：先支持批量数据并行任务启动（类似 ISPC task launch），再扩展为支持带依赖的任务图调度；使用线程池、互斥锁、条件变量。对应第 5 讲（工作分配与调度）与第 15 讲（同步原语）。

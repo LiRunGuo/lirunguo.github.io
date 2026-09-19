@@ -9,11 +9,11 @@ toc_sticky: true
 > [目录](/course-notes/cs106l-modern-cpp/) · [← l17](/course-notes/cs106l-modern-cpp/l17)
 
 {% raw %}
-# 现代 C++ 核心特性速查表（Modern C++ Cheat Sheet）
+## 现代 C++ 核心特性速查表（Modern C++ Cheat Sheet）
 
 > 按类别汇总 CS106L 全课程涉及的关键特性与语法。标准标注：C++11 / C++14 / C++17 / C++20 / C++23 / C++26。
 
-## 1. 类型推导（Type Deduction）
+### 1. 类型推导（Type Deduction）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -26,7 +26,7 @@ toc_sticky: true
 | 结构化绑定 | `auto [k, v] = map_pair;` | C++17 | 解构 pair/tuple/struct |
 | `using` 类型别名 | `using Zeros = std::pair<double,double>;` | C++11 | 替代 C++98 的 `typedef`，可带模板参数 |
 
-## 2. 初始化（Initialization）
+### 2. 初始化（Initialization）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -36,7 +36,7 @@ toc_sticky: true
 | 默认构造 `= default` | `Foo() = default;` | C++11 | 显式保留编译器生成的版本 |
 | 删除函数 | `Foo(const Foo&) = delete;` | C++11 | 禁止拷贝等操作（如 `unique_ptr`） |
 
-## 3. 引用与移动语义（References & Move Semantics）
+### 3. 引用与移动语义（References & Move Semantics）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -48,7 +48,7 @@ toc_sticky: true
 | `std::forward` | `std::forward<T>(x)` | C++11 | 完美转发，保留实参的左右值类别 |
 | 移动后状态 | 源对象"有效但未指定" | C++11 | 通常应把源指针置 `nullptr`；只允许对源对象销毁或重新赋值 |
 
-## 4. 特殊成员函数（Special Member Functions）与规则
+### 4. 特殊成员函数（Special Member Functions）与规则
 
 | 规则 | 内容 | 说明 |
 |---|---|---|
@@ -57,7 +57,7 @@ toc_sticky: true
 | **Rule of Three** | 需要自定义析构 ⇒ 通常也要自定义拷贝构造 + 拷贝赋值 | 手工管理资源（如 `new`/`delete`）时 |
 | **Rule of Five** | Rule of Three 成立时，通常还应定义移动构造 + 移动赋值 | 否则会退化为拷贝，性能受损 |
 
-## 5. 智能指针与 RAII（Smart Pointers & RAII）
+### 5. 智能指针与 RAII（Smart Pointers & RAII）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -67,7 +67,7 @@ toc_sticky: true
 | RAII 思想 | 资源在**构造**时获取、**析构**时释放 | — | 保证异常安全：析构函数必然被调用 |
 | 其他 RAII 例子 | `std::lock_guard`、`std::ifstream/ofstream` | — | 锁、文件等在析构时自动释放 |
 
-## 6. 模板（Templates）
+### 6. 模板（Templates）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -78,7 +78,7 @@ toc_sticky: true
 | 模板特化 | `template <> struct Foo<int> {...};` | C++98 | 为特定类型提供专门实现 |
 | 模板实现位置 | `.h` 底部 `#include "Foo.cpp"`，定义用 `Foo<T>::` | — | 实例化需要完整定义可见 |
 
-## 7. Concepts 与编译期计算（C++20）
+### 7. Concepts 与编译期计算（C++20）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -89,7 +89,7 @@ toc_sticky: true
 | `consteval` | `consteval size_t f(size_t n);` | C++20 | "必须在编译期求值" |
 | 模板元编程（TMP） | `Factorial<N-1>::value` 递归结构 | C++98 | 传统 TMP；现代用 `constexpr` 更可读 |
 
-## 8. Lambda 与函数对象（Lambdas & Functors）
+### 8. Lambda 与函数对象（Lambdas & Functors）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -101,7 +101,7 @@ toc_sticky: true
 | `std::function` | `std::function<bool(int)> f = lambda;` | C++11 | 统一容器类型（可存任何可调用对象），略慢 |
 | `std::bind` / `std::ref` | — | C++11 | 部分应用与引用包装（较少用了，lambda 更清晰） |
 
-## 9. STL 容器（Containers）
+### 9. STL 容器（Containers）
 
 | 容器 | 头文件 | 特点 | 迭代器类别 |
 |---|---|---|---|
@@ -114,7 +114,7 @@ toc_sticky: true
 | `std::pair<T1,T2>` | `<utility>` | 两个字段的泛型 struct | — |
 | `std::tuple` | `<tuple>` | 任意多个字段（C++11） | — |
 
-## 10. 算法与 Ranges（Algorithms & Ranges）
+### 10. 算法与 Ranges（Algorithms & Ranges）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -124,7 +124,7 @@ toc_sticky: true
 | 物化视图 | `std::ranges::to<std::vector<T>>(view)` | C++23 | 把惰性视图收集成容器 |
 | 插入迭代器 | `std::back_inserter(v)` | C++98 | 让算法向容器"推入"输出 |
 
-## 11. 运算符重载（Operator Overloading）
+### 11. 运算符重载（Operator Overloading）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -134,7 +134,7 @@ toc_sticky: true
 | 流插入/提取 | `std::ostream& operator<<(std::ostream&, const T&);` | C++98 | 让 `std::cout << obj` 可用；返回流以支持链式 |
 | 规则 | 语义应显然（Principle of Least Astonishment）；`==` 与 `!=` 成对（rule of contrariety：`!=` 用 `!(a==b)` 实现）；不可重载 `::` `?:` `.` `.*` `sizeof` `typeid` | — | 运算符的意义必须符合直觉，否则用命名函数 |
 
-## 12. 类型安全与 `std::optional`（C++17）
+### 12. 类型安全与 `std::optional`（C++17）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|
@@ -144,7 +144,7 @@ toc_sticky: true
 | `std::nullopt` vs `nullptr` | `nullopt` 用于 optional；`nullptr` 用于指针 | C++17 | 不要混淆 |
 | 类型安全理念 | "Well typed programs cannot go wrong." | — | 用类型系统把"可能失败"写进签名 |
 
-## 13. 并发与杂项（C++11 起）
+### 13. 并发与杂项（C++11 起）
 
 | 特性 | 语法 | 标准 | 说明 |
 |---|---|---|---|

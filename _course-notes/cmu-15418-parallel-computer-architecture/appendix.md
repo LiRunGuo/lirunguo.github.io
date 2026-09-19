@@ -9,14 +9,14 @@ toc_sticky: true
 > [目录](/course-notes/cmu-15418-parallel-computer-architecture/) · [← l26](/course-notes/cmu-15418-parallel-computer-architecture/l26)
 
 {% raw %}
-# 附录 A：Exam 1 复习笔记（Lecture 1–13）
+## 附录 A：Exam 1 复习笔记（Lecture 1–13）
 
 > 依据官方公开讲义 `lectures/revision_exam1.pdf`（24 页，首页标注 Fall 2023/Fall 2024 版本，属讲义沿用）整理，并对照 `lectures/01`–`13` 的公开讲义原文补全。
 > 考试形式：当堂闭卷，可用 **一张 A4 双面手写纸**，必须黑/蓝笔，无计算器/电子设备；题型以**简答**与**选择+解释**为主（解释的分值远高于选项）。
 
 ---
 
-## A.1 官方复习幻灯片覆盖清单（逐页）
+### A.1 官方复习幻灯片覆盖清单（逐页）
 
 | 复习页 | 内容 | 对应讲次 |
 |---|---|---|
@@ -29,7 +29,7 @@ toc_sticky: true
 
 ---
 
-## A.2 核心公式一张表
+### A.2 核心公式一张表
 
 | 公式 | 表达式 | 用途 |
 |---|---|---|
@@ -49,7 +49,7 @@ toc_sticky: true
 
 ---
 
-## A.3 高频考点一：ISPC / SPMD 与 SIMD
+### A.3 高频考点一：ISPC / SPMD 与 SIMD
 
 **官方复习题（slide 2–3 原文）**：给出 `sinx` 的 two versions，要求分析交错 vs 分块分配。
 
@@ -82,7 +82,7 @@ gang 有 programCount 个实例（如 AVX2 下为 8）
 
 ---
 
-## A.4 高频考点二：CUDA 线程层次与同步
+### A.4 高频考点二：CUDA 线程层次与同步
 
 **官方复习题（slide 4）**：`gridDim`、`blockIdx`、`blockDim`、`threadIdx` 各是什么？**为什么没有 `gridIdx` 和 `threadDim`？**
 
@@ -104,7 +104,7 @@ gang 有 programCount 个实例（如 AVX2 下为 8）
 
 ---
 
-## A.5 高频考点三：共享地址空间求解器（SPMD）
+### A.5 高频考点三：共享地址空间求解器（SPMD）
 
 **官方复习题（slide 7）**：给出二维网格求解器代码，问其中的错误/性能问题。逐项排查：
 
@@ -121,7 +121,7 @@ gang 有 programCount 个实例（如 AVX2 下为 8）
 
 ---
 
-## A.6 高频考点四：性能模型（每考必有）
+### A.6 高频考点四：性能模型（每考必有）
 
 **必须能在 30 秒内手算的量**：
 
@@ -137,7 +137,7 @@ gang 有 programCount 个实例（如 AVX2 下为 8）
 
 ---
 
-## A.7 高频考点五：硬件结构
+### A.7 高频考点五：硬件结构
 
 **流水线/ILP（L2）**：
 - 数据冒险（RAW/WAR/WAW）、控制冒险、结构冒险三类；旁路转发（forwarding）解决大部分 RAW；WAR/WAW 靠**寄存器重命名**消除。
@@ -179,7 +179,7 @@ gang 有 programCount 个实例（如 AVX2 下为 8）
 
 ---
 
-## A.8 高频考点六：并行编程基础与性能优化（L7–L9）
+### A.8 高频考点六：并行编程基础与性能优化（L7–L9）
 
 **四步法**：Decomposition（分解）→ Assignment（分配）→ Orchestration（编排）→ Mapping（映射）。
 
@@ -200,7 +200,7 @@ gang 有 programCount 个实例（如 AVX2 下为 8）
 
 ---
 
-## A.9 一页纸速记（可抄到 A4 上）
+### A.9 一页纸速记（可抄到 A4 上）
 
 ```text
 【三把尺子】
@@ -235,7 +235,7 @@ gang 有 programCount 个实例（如 AVX2 下为 8）
 
 ---
 
-## A.10 自测 12 题
+### A.10 自测 12 题
 
 1. **Q**：为什么 MESI 中的 E 态能提升性能？
    **A**：E 态表示"独占且干净"，处理器可以**不发任何总线事务**直接把 E 升级为 M（静默升级）。这消除了"先读后写一块私有数据"时的 BusRdX 事务；MSI 下同样的访问模式会产生读 miss（BusRd）+ 写 miss（BusRdX）两次事务。
@@ -275,9 +275,9 @@ gang 有 programCount 个实例（如 AVX2 下为 8）
 
 ---
 
-# 第三部分：速查表与附录
+## 第三部分：速查表与附录
 
-## 速查表 A：并行编程模型速查表
+### 速查表 A：并行编程模型速查表
 
 | 模型 | 代表 API | 地址空间 | 并行单位 | 通信方式 | 同步原语 | 最适合的问题 |
 |---|---|---|---|---|---|---|
@@ -336,9 +336,9 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 
 ---
 
-## 速查表 B：性能公式速查表
+### 速查表 B：性能公式速查表
 
-### B.1 可扩展性
+#### B.1 可扩展性
 
 | 名称 | 公式 | 说明 / 陷阱 |
 |---|---|---|
@@ -353,7 +353,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | 超线性加速 | `Speedup > P` | 由于 cache/内存层次效应；需测量绝对时间解释 |
 | 固定问题陷阱 | 6/8/12/18 MP3 编码例 | 小问题加速一般，大问题反而接近线性 |
 
-### B.2 内存与带宽
+#### B.2 内存与带宽
 
 | 名称 | 公式 | 说明 |
 |---|---|---|
@@ -370,7 +370,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | TLB reach | `reach = entries × page_size` | 4 KB × 64 项 = 256 KB；2 MB × 64 = 128 MB |
 | 页走代价 | `walks × levels × mem_latency` | x86-64 四级：4 次串行访存 |
 
-### B.3 能耗与功率
+#### B.3 能耗与功率
 
 | 名称 | 公式/数值 | 说明 |
 |---|---|---|
@@ -382,7 +382,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | DRAM 读写 | ~1200 pJ（64 bit LPDDR） | **数据搬运才是能耗大头** |
 | 专用化能效收益 | 10×（GPU 核）/ 20×（DSP/域专用）/ 100–1000×（ASIC） | 解释 L18 的动机 |
 
-### B.4 计算峰值
+#### B.4 计算峰值
 
 ```text
 峰值 FLOPS = 核数 × 时钟频率 × 每周期 FMA 数 × 2 × SIMD 宽度
@@ -393,9 +393,9 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 
 ---
 
-## 速查表 C：硬件架构参数速查表
+### 速查表 C：硬件架构参数速查表
 
-### C.1 存储层次典型延迟与容量
+#### C.1 存储层次典型延迟与容量
 
 | 层次 | 典型延迟（周期） | 典型延迟（ns @3GHz） | 典型容量 | 谁管理 |
 |---|---|---|---|---|
@@ -409,7 +409,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 
 > 记忆要点：**L1→L2→L3→DRAM 的数量级是 4 / 12 / 38 / 200+ 周期**（约 3× 递增）。这些数字在考试里常用来做定量估算。
 
-### C.2 CPU vs GPU 结构对比
+#### C.2 CPU vs GPU 结构对比
 
 | 维度 | 多核 CPU | GPU |
 |---|---|---|
@@ -422,7 +422,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | 吞吐/延迟比 | 中等 | 极高（面向吞吐，牺牲单线程延迟） |
 | 典型峰值 | ~1 TFLOP/s | ~10–1000 TFLOP/s |
 
-### C.3 SIMD 宽度
+#### C.3 SIMD 宽度
 
 | ISA | 向量宽度 | float 数量 | 引入 |
 |---|---|---|---|
@@ -433,7 +433,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | NEON (ARM) | 128 bit | 4 | — |
 | SVE (ARM) | 128–2048 bit（可变） | 4–64 | 2016+ |
 
-### C.4 一致性协议状态速查
+#### C.4 一致性协议状态速查
 
 | 协议 | 状态 | 与前一版的差异 | 主要收益 |
 |---|---|---|---|
@@ -443,7 +443,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | MOESI | MSI + O | O = 脏且共享 | 共享脏数据由 O 态 cache 供给，**免写回内存**（AMD） |
 | Dragon (update) | E, S, Sm, M | 更新而非失效 | 写少读多的共享数据可省失效流量 |
 
-### C.5 内存一致性模型
+#### C.5 内存一致性模型
 
 | 模型 | 允许的重排 | 代表 | 需要的 fence |
 |---|---|---|---|
@@ -455,9 +455,9 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 
 ---
 
-## 速查表 D：优化技巧速查表
+### 速查表 D：优化技巧速查表
 
-### D.1 决策表：先量什么，再改什么
+#### D.1 决策表：先量什么，再改什么
 
 | 症状 | 优先怀疑 | 诊断手段 | 修法 |
 |---|---|---|---|
@@ -468,7 +468,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | 随机性大、重复测量差异大 | 调度抖动 / NUMA 放置 / 首次触碰 | 多次运行取中位数、`numactl`、first-touch | 并行初始化、绑核、`numactl --interleave` |
 | 热点集中在某个函数但不知原因 | 未发现真正瓶颈（抽象陷阱） | 高水位实验、Roofline 定位 | 见 D.3 |
 
-### D.2 优化技巧清单（按影响量级排序）
+#### D.2 优化技巧清单（按影响量级排序）
 
 **内存/带宽类（通常收益最大）**
 1. **分块（blocking/tiling）**：把工作集切到能装进 cache 的瓦片，循环顺序按瓦片嵌套。
@@ -492,7 +492,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 15. **ILP 与展开**：多条独立累加链打破延迟界；`#pragma unroll`。
 16. **对齐**：`_mm_malloc(..., 32)` / `aligned_alloc(64, ...)`，避免跨 cache line 的向量访问。
 
-### D.3 高水位实验（High Watermark）—— 判断"我的实现到底有多好"
+#### D.3 高水位实验（High Watermark）—— 判断"我的实现到底有多好"
 
 > 方法：构造一个**只能更快**的"作弊版本"，测出物理上限，再看自己离它多远。
 
@@ -504,7 +504,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | 用 dummy 数据 | 让分支/数据依赖消失 | 分支预测与延迟界的成本 |
 | 指定理想调度 | 手动静态最优分配 | 调度器/负载均衡的损失 |
 
-### D.4 测量方法论 Checklist
+#### D.4 测量方法论 Checklist
 
 - [ ] 用**墙钟时间**（`omp_get_wtime`、`std::chrono::steady_clock`），不用 `clock()`（那是 CPU 时间，多线程会累加）。
 - [ ] **warmup**：先跑几次让 cache、TLB、线程池、频率进入稳态；CPU 频率缩放会把第一次运行变慢。
@@ -517,9 +517,9 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 
 ---
 
-## 速查表 E：同步原语与一致性协议速查表
+### 速查表 E：同步原语与一致性协议速查表
 
-### E.1 锁的对比
+#### E.1 锁的对比
 
 | 锁 | 获取操作 | 竞争者等待方式 | 每次释放的互连流量 | 公平性 | 备注 |
 |---|---|---|---|---|---|
@@ -530,7 +530,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | **MCS 队列锁** | 原子交换 + 写自己节点的 `next` | 各在**自己的节点**上自旋 | **`O(1)`** | FIFO | 需每锁一份节点；**可扩展性最好** |
 | 无锁 CAS 循环 | `compare_exchange` 重试 | 无等待（乐观） | 争用时 `O(P)` 重试 | 无 | 需处理 ABA、内存回收 |
 
-### E.2 屏障的对比
+#### E.2 屏障的对比
 
 | 屏障 | 单次代价 | 是否有感知翻转 | 说明 |
 |---|---|---|---|
@@ -541,7 +541,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | 传播式（dissemination） | `O(log P)` 轮 | 有 | 每轮与 `2^k` 距离的线程交换 |
 | 广播/集中式（GPU 上用 atomic） | `O(1)` 硬件 | — | GPU 的 barrier 是硬件实现的 block 级同步 |
 
-### E.3 一致性协议状态迁移（MESI 核心表）
+#### E.3 一致性协议状态迁移（MESI 核心表）
 
 见 A.7 的状态迁移表。补充要点：
 
@@ -550,7 +550,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 - **M 态被监听**：`BusRd` ⇒ flush 数据并降到 S（或 F/O）；`BusRdX` ⇒ flush 并降到 I。
 - **换出（eviction）**：M 态换出必须写回内存（write-back）；O 态换出也需写回。
 
-### E.4 原子操作与硬件支持
+#### E.4 原子操作与硬件支持
 
 | 原语 | 语义 | 硬件实现 | 用途 |
 |---|---|---|---|
@@ -563,7 +563,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 
 ---
 
-## 速查表 F：常见性能陷阱速查表
+### 速查表 F：常见性能陷阱速查表
 
 | # | 陷阱 | 症状 | 根因 | 对策 |
 |---|---|---|---|---|
@@ -590,9 +590,9 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 
 ---
 
-## 附录 B：课程资源清单
+### 附录 B：课程资源清单
 
-### B.1 官方链接
+#### B.1 官方链接
 
 | 资源 | 链接 |
 |---|---|
@@ -611,7 +611,7 @@ std::transform(std::execution::par_unseq, a, a+N, b, c,
 | Autolab（需登录） | <https://autolab.andrew.cmu.edu/courses/15418-f26> |
 | 教师主页 | <https://www.cs.cmu.edu/~bpr/>、<https://www.cs.cmu.edu/~dskarlat/> |
 
-### B.2 本地已下载材料（本工作目录）
+#### B.2 本地已下载材料（本工作目录）
 
 ```text
 cmu15418_data/
@@ -628,7 +628,7 @@ cmu15418_data/
 └── notes/                     26 份逐讲学习笔记（本笔记主体）
 ```
 
-### B.3 相关课程与扩展阅读
+#### B.3 相关课程与扩展阅读
 
 | 资源 | 说明 |
 |---|---|
@@ -645,7 +645,7 @@ cmu15418_data/
 
 ---
 
-## 结语：这门课的"最后一句话"
+### 结语：这门课的"最后一句话"
 
 > **并行编程的本质不是"用更多核"，而是"用有限的硬件资源，以最小的数据移动，完成尽可能多的工作"。**
 

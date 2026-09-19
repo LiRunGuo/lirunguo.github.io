@@ -9,14 +9,14 @@ toc_sticky: true
 > [目录](/course-notes/uiuc-ece408-applied-parallel-programming/) · [← l12](/course-notes/uiuc-ece408-applied-parallel-programming/l12)
 
 {% raw %}
-# 附录：CUDA 并行模式与优化速查表
+## 附录：CUDA 并行模式与优化速查表
 
 > 按类别汇总全书涉及的 CUDA API、性能公式、优化技巧与诊断方法。
 > 所有性能数字以 **NVIDIA A100 (sm_80)** 为基准：19.5 TFLOPS FP32、1555 GB/s、机器平衡点 12.5 FLOP/Byte。
 
 ---
 
-## 目录
+### 目录
 1. [内存优化](#1-内存优化)
 2. [线程组织](#2-线程组织)
 3. [同步与通信](#3-同步与通信)
@@ -32,9 +32,9 @@ toc_sticky: true
 
 ---
 
-## 1. 内存优化
+### 1. 内存优化
 
-### 1.1 内存空间对照表
+#### 1.1 内存空间对照表
 
 | 空间 | 声明 | 作用域 | 生命周期 | 延迟 | 位置 | 典型容量 |
 |---|---|---|---|---|---|---|
@@ -45,7 +45,7 @@ toc_sticky: true
 | 常量内存 | `__constant__` | 全 grid | 应用 | 命中缓存 ~数周期；未命中 ~400+ | DRAM + 常量缓存（8 KB/ SM） | **64 KB 总计** |
 | 纹理内存 | `texture<>` / `__ldg` | 全 grid | 应用 | 命中 ~数十周期 | 通过纹理/L1 缓存 | 受显存限制 |
 
-### 1.2 全局内存：合并访问（coalescing）
+#### 1.2 全局内存：合并访问（coalescing）
 
 **核心规则**：一个 warp 的 32 个线程若访问**连续的 4 字节地址**，硬件合并为 **1 次 128 字节事务**。
 
@@ -80,7 +80,7 @@ warp 线程:   t0    t1    t2   ...   t31
 1. **让 `threadIdx.x` 映射到内存中最快的维度**（行主序时即"列"，即最后一个下标）。
 2. **二维/三维数据展平后按一维连续寻址**，不要用嵌套索引跳着访问。
 
-### 1.3 共享内存：bank 与 bank conflict
+#### 1.3 共享内存：bank 与 bank conflict
 
 **硬件结构**：共享内存被划分为 **32 个 bank**，每个 bank 宽 **4 字节**。
 
@@ -129,7 +129,7 @@ kernel<<<grid, block, 96*1024>>>(...);          // 第三个参数 = 动态共�
 extern __shared__ float smem[];                 // kernel 内声明
 ```
 
-### 1.4 常量内存
+#### 1.4 常量内存
 
 ```cpp
 __constant__ float mask[9];                       // 声明（文件作用域）
@@ -141,7 +141,7 @@ cudaMemcpyToSymbol(mask, h_mask, 9*sizeof(float));// 主机端初始化
 若访问**不同地址**，则退化为串行（32 个不同地址 = 32 个周期）❌。
 → **只适合"所有线程读同一个标量"的场景**，典型就是卷积的 mask 系数。
 
-### 1.5 内存优化技巧清单
+#### 1.5 内存优化技巧清单
 
 | 技巧 | 原理 | 收益量级 |
 |---|---|---|
@@ -159,9 +159,9 @@ cudaMemcpyToSymbol(mask, h_mask, 9*sizeof(float));// 主机端初始化
 
 ---
 
-## 2. 线程组织
+### 2. 线程组织
 
-### 2.1 线程层次与索引
+#### 2.1 线程层次与索引
 
 ```text
 Grid（整个 kernel 的线程集合）
@@ -202,7 +202,7 @@ dim3 grid2((W + 15)/16, (H + 15)/16);              // 2D，block 16×16
 ```
 ⚠️ **整数除法陷阱**：`N / blockDim.x` 会漏掉尾部元素，必须向上取整并在 kernel 内做边界检查。
 
-### 2.2 Block 大小选择
+#### 2.2 Block 大小选择
 
 | Block 大小 | 评价 |
 |---|---|
@@ -222,7 +222,7 @@ int minGridSize, blockSize;
 cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, myKernel, 0, 0);
 ```
 
-### 2.3 线程粗化（thread coarsening）
+#### 2.3 线程粗化（thread coarsening）
 
 **定义**：让每个线程计算**多个**输出元素，而非一个。
 
@@ -241,7 +241,7 @@ thread t  → output[t]                thread t → output[4t], output[4t+1],
 
 **代价**：线程数减少 → 若总线程数不足以填满 GPU，则并行度不足；寄存器压力上升可能降低占用率。
 
-### 2.4 网格-步长循环（grid-stride loop）
+#### 2.4 网格-步长循环（grid-stride loop）
 
 ```cpp
 __global__ void addGridStride(const float* __restrict__ A,
@@ -262,9 +262,9 @@ __global__ void addGridStride(const float* __restrict__ A,
 
 ---
 
-## 3. 同步与通信
+### 3. 同步与通信
 
-### 3.1 同步原语速查
+#### 3.1 同步原语速查
 
 | API | 作用域 | 语义 | 典型用途 |
 |---|---|---|---|
@@ -277,7 +277,7 @@ __global__ void addGridStride(const float* __restrict__ A,
 | `cudaEventSynchronize(e)` | host↔event | 等到某事件 | 精细计时 |
 | `cudaStreamWaitEvent(s,e)` | stream↔stream | 流 s 等事件 e | 跨流依赖 |
 
-### 3.2 `__syncthreads()` 三条铁律
+#### 3.2 `__syncthreads()` 三条铁律
 
 1. **必须被 block 内所有线程执行**——不能放在 `if (tid < n)` 之类的分支里，否则死锁或未定义行为。
    ```cpp
@@ -290,7 +290,7 @@ __global__ void addGridStride(const float* __restrict__ A,
 2. **不要放在可能提前 return 的路径之后**（除非所有线程都走同一路径）。
 3. **它只同步不互斥**——不能用来保护临界区，只保证"所有线程都到齐 + 内存可见"。
 
-### 3.3 共享内存数据竞争的三种形态
+#### 3.3 共享内存数据竞争的三种形态
 
 在 tiled 循环中，每个 tile 迭代必须用**两次**屏障夹住：
 
@@ -311,7 +311,7 @@ for (int m = 0; m < numTiles; ++m) {
 
 > 记忆法：屏障数 = 2 ×（tile 迭代数），**少一个都会算错**。
 
-### 3.4 原子操作
+#### 3.4 原子操作
 
 | API | 语义 | 支持的精度 |
 |---|---|---|
@@ -345,9 +345,9 @@ __global__ void histogramPrivatized(const unsigned char* img, unsigned int* hist
 
 ---
 
-## 4. warp 级原语
+### 4. warp 级原语
 
-### 4.1 shuffle 指令（`sm_30+`，Volta 后必须带 mask）
+#### 4.1 shuffle 指令（`sm_30+`，Volta 后必须带 mask）
 
 ```cpp
 // 从 lane (laneID + delta) 取值；若越界则返回本线程自己的值
@@ -368,7 +368,7 @@ __shfl_xor_sync(mask, var, laneMask, width=32)
 | `__match_any_sync` / `__match_all_sync` | 找出值相等的 lane（`sm_70+`） |
 | `__reduce_add_sync` / `__reduce_min_sync` / `__reduce_max_sync` | **硬件归约**（`sm_80+`，int/uint only） |
 
-### 4.2 warp 内归约的标准写法
+#### 4.2 warp 内归约的标准写法
 
 ```cpp
 // 前 5 轮（32→1）用 shuffle，无需 __syncthreads()，无需共享内存
@@ -405,7 +405,7 @@ independent thread scheduling 使得"隐式 warp 同步"不再成立，必须用
 
 ---
 
-## 5. 七种并行模式速查
+### 5. 七种并行模式速查
 
 | 模式 | 核心思想 | 关键 CUDA 机制 | 算术强度 | 瓶颈类型 | 首要优化 |
 |---|---|---|---|---|---|
@@ -417,7 +417,7 @@ independent thread scheduling 使得"隐式 warp 同步"不再成立，必须用
 | **Convolution（tiled）** | 共享内存 halo 复用 | `__constant__` + halo 加载 | ~1（朴素）→ TILE/8 | 带宽/计算混合 | 常量内存、halo、粗化 |
 | **SpMV（CSR）** | 每行一个线程 | 压缩格式 + gather | ~0.167 | 带宽 + 不规则 | ELL/向量化、x 入共享内存 |
 
-### 5.1 各模式的"全局访存减少量"
+#### 5.1 各模式的"全局访存减少量"
 
 | 模式 | 朴素版每输出元素访存 | 优化版 | 减少倍数 |
 |---|---|---|---|
@@ -426,7 +426,7 @@ independent thread scheduling 使得"隐式 warp 同步"不再成立，必须用
 | Reduction | `N` 次读（1 次/元素） | 同（无法减少） | 1×（本就最优，靠延迟隐藏） |
 | SpMV | — | — | 靠格式规则化而非减少字节数 |
 
-### 5.2 tiled 矩阵乘法：访存减少的定量推导
+#### 5.2 tiled 矩阵乘法：访存减少的定量推导
 
 ```text
 朴素版：输出 C 的每个元素需要
@@ -451,7 +451,7 @@ independent thread scheduling 使得"隐式 warp 同步"不再成立，必须用
   T = 64 → 16.0 FLOP/Byte  （超过平衡点 → 计算受限，但共享内存不够）
 ```
 
-### 5.3 归约：warp 发散对比表
+#### 5.3 归约：warp 发散对比表
 
 设 block = 256 线程，用共享内存归约，`tid` = 线程在 block 内的编号。
 
@@ -470,7 +470,7 @@ independent thread scheduling 使得"隐式 warp 同步"不再成立，必须用
 **结论**：顺序寻址让"每轮被砍掉的是一整个 warp"，保留的 warp 内部完全整齐 → **无分歧、访存合并**。
 加上 warp shuffle 后，前 5 轮完全不访问内存。
 
-### 5.4 扫描：Hillis-Steele vs Blelloch
+#### 5.4 扫描：Hillis-Steele vs Blelloch
 
 | 维度 | Hillis-Steele (Kogge-Stone) | Blelloch (work-efficient) |
 |---|---|---|
@@ -492,9 +492,9 @@ Step 3: 每个 block 把 blockSums 的前缀和（exclusive）加到自己的结
 
 ---
 
-## 6. 性能分析公式
+### 6. 性能分析公式
 
-### 6.1 核心公式集
+#### 6.1 核心公式集
 
 ```text
 【算术强度】
@@ -534,7 +534,7 @@ Step 3: 每个 block 把 blockSums 的前缀和（exclusive）加到自己的结
       → 若每线程 1 个在途访存，需要 ≈ 500 线程 ≈ 16 warps 常驻
 ```
 
-### 6.2 Roofline 图（ASCII，基准机 A100）
+#### 6.2 Roofline 图（ASCII，基准机 A100）
 
 ```text
 Performance
@@ -566,7 +566,7 @@ Performance
 **读图要点**：本课程几乎所有的 kernel 都落在**带宽受限区**（左侧斜坡）。
 这就是为什么全书的优化主线是"减少字节数、让字节规律化"，而不是"减少浮点运算次数"。
 
-### 6.3 各模式的理论性能上限（A100）
+#### 6.3 各模式的理论性能上限（A100）
 
 | Kernel | AI (FLOP/Byte) | 理论上限 (GFLOP/s) | 占 FP32 峰值 |
 |---|---|---|---|
@@ -583,7 +583,7 @@ Performance
 > 注意：**低 AI 不代表"这个 kernel 没价值"**——它只说明性能天花板低，
 > 而优化目标应定为"尽可能逼近自己的天花板"（见 6.4 的达成率指标）。
 
-### 6.4 衡量优化好坏的三个指标
+#### 6.4 衡量优化好坏的三个指标
 
 ```text
 1. 带宽达成率 = 实测带宽 / 峰值带宽      ← 带宽受限 kernel 看这个
@@ -594,9 +594,9 @@ Performance
 
 ---
 
-## 7. 性能诊断流程
+### 7. 性能诊断流程
 
-### 7.1 六步诊断法
+#### 7.1 六步诊断法
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -635,7 +635,7 @@ Performance
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### 7.2 瓶颈类型 → 优化手段映射
+#### 7.2 瓶颈类型 → 优化手段映射
 
 | 瓶颈判定依据 | 瓶颈类型 | 首选优化手段 |
 |---|---|---|
@@ -647,7 +647,7 @@ Performance
 | 理论占用率低（< 25%） | **资源限制** | `__launch_bounds__` 限寄存器、减小 tile、`-maxrregcount` |
 | 占用率高但仍慢 | **ILP 不足 / 访存不规则** | 线程粗化增加寄存器复用、改数据布局（SoA）、格式规则化（CSR→ELL） |
 
-### 7.3 优化日志模板（最终项目报告的核心素材）
+#### 7.3 优化日志模板（最终项目报告的核心素材）
 
 | # | 优化内容 | 实测耗时 | GFLOP/s | 带宽达成率 | 相对上一版加速比 | 瓶颈判断 | 结论 |
 |---|---|---|---|---|---|---|---|
@@ -665,9 +665,9 @@ Performance
 
 ---
 
-## 8. CUDA API 速查
+### 8. CUDA API 速查
 
-### 8.1 内存管理
+#### 8.1 内存管理
 
 ```cpp
 // 设备内存
@@ -692,7 +692,7 @@ cudaMemcpyToSymbol(symbol, h_src, bytes);
 cudaMemcpyFromSymbol(h_dst, symbol, bytes);
 ```
 
-### 8.2 数据传输
+#### 8.2 数据传输
 
 ```cpp
 cudaMemcpy(d_dst, h_src, bytes, cudaMemcpyHostToDevice);
@@ -705,7 +705,7 @@ cudaMemcpy2D(...); cudaMemcpy3D(...);
 ⚠️ **方向写错的代价**：`cudaMemcpyHostToDevice` 写成 `DeviceToHost` 不会报错但结果全错
 （在统一寻址的 GPU 上尤其隐蔽）。**永远检查返回值**。
 
-### 8.3 Kernel 执行与查询
+#### 8.3 Kernel 执行与查询
 
 ```cpp
 kernel<<<grid, block, sharedBytes, stream>>>(args...);
@@ -740,7 +740,7 @@ int minGrid, blockSizeOpt;
 cudaOccupancyMaxPotentialBlockSize(&minGrid, &blockSizeOpt, myKernel, dynamicSmemFn, 0);
 ```
 
-### 8.4 流与事件
+#### 8.4 流与事件
 
 ```cpp
 cudaStream_t s; cudaStreamCreate(&s);
@@ -758,7 +758,7 @@ float ms; cudaEventElapsedTime(&ms, e0, e1);   // 毫秒
 cudaStreamWaitEvent(s2, e1, 0);                // 流间依赖
 ```
 
-### 8.5 标准错误检查宏
+#### 8.5 标准错误检查宏
 
 ```cpp
 #define CUDA_CHECK(call)                                                     \
@@ -779,9 +779,9 @@ CUDA_CHECK(cudaDeviceSynchronize());
 
 ---
 
-## 9. 编译器与构建选项
+### 9. 编译器与构建选项
 
-### 9.1 常用 nvcc 选项
+#### 9.1 常用 nvcc 选项
 
 | 选项 | 作用 |
 |---|---|
@@ -801,7 +801,7 @@ CUDA_CHECK(cudaDeviceSynchronize());
 | `-Xcompiler -fopenmp` | 传递选项给主机编译器 |
 | `-ccbin g++-12` | 指定主机编译器 |
 
-### 9.2 `__launch_bounds__`
+#### 9.2 `__launch_bounds__`
 
 ```cpp
 // 告诉编译器：block 最多 256 线程，且希望每 SM 至少驻留 4 个 block
@@ -811,7 +811,7 @@ __global__ void __launch_bounds__(256, 4) myKernel(...);
 // 代价：可能产生寄存器 spill（用 -Xptxas -v 检查）
 ```
 
-### 9.3 性能相关编译标志速查
+#### 9.3 性能相关编译标志速查
 
 ```bash
 nvcc -O3 -arch=sm_80 -lineinfo --ptxas-options=-v kernel.cu -o kernel
@@ -823,9 +823,9 @@ nsys profile --stats=true ./kernel                # 时间线分析（含 H2D/D2
 
 ---
 
-## 10. 硬件参数速查
+### 10. 硬件参数速查
 
-### 10.1 计算能力（compute capability）
+#### 10.1 计算能力（compute capability）
 
 | CC | 架构 | 代表 GPU | 每 SM warp 上限 | 每 SM 线程上限 | 每 block 线程上限 | 共享内存/SM | 关键特性 |
 |---|---|---|---|---|---|---|---|
@@ -835,7 +835,7 @@ nsys profile --stats=true ./kernel                # 时间线分析（含 H2D/D2
 | 8.9 | Ada | RTX 4090, L40 | 48 | 1536 | 1024 | 100 KB | FP8 |
 | 9.0 | Hopper | H100 | 64 | 2048 | 1024 | 228 KB | TMA, thread block cluster, DPX |
 
-### 10.2 内存层次数量级（A100）
+#### 10.2 内存层次数量级（A100）
 
 | 层次 | 容量 | 延迟 | 带宽 |
 |---|---|---|---|
@@ -844,7 +844,7 @@ nsys profile --stats=true ./kernel                # 时间线分析（含 H2D/D2
 | L2 | 40 MB | ~200 cycles | ~5–7 TB/s |
 | HBM2e (80GB) | 80 GB | 400–800 cycles | 1555 GB/s（实测 ~1.4 TB/s 可达） |
 
-### 10.3 事务与粒度
+#### 10.3 事务与粒度
 
 | 项目 | 数值 |
 |---|---|
@@ -856,7 +856,7 @@ nsys profile --stats=true ./kernel                # 时间线分析（含 H2D/D2
 
 ---
 
-## 11. CUDA → WebGPU/WGSL 对照
+### 11. CUDA → WebGPU/WGSL 对照
 
 ECE408 近年引入 **WebGPU**（Lab）与 **RAI**（最终项目）作为 CUDA 之外的编程路径。
 以下是逐项对照，便于有 CUDA 基础者迁移。
@@ -915,7 +915,7 @@ fn main(@builtin(global_invocation_id) gid : vec3<u32>) {   // 对应 blockIdx*b
 
 ---
 
-## 12. 常见陷阱速查
+### 12. 常见陷阱速查
 
 | # | 陷阱 | 症状 | 正确做法 |
 |---|---|---|---|
@@ -947,7 +947,7 @@ fn main(@builtin(global_invocation_id) gid : vec3<u32>) {   // 对应 blockIdx*b
 
 ---
 
-## 13. 一页纸终极速查（考前复习）
+### 13. 一页纸终极速查（考前复习）
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────┐

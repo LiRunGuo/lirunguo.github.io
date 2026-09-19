@@ -20,7 +20,7 @@ toc_sticky: true
 **目标：** 实现训练一个标准 Transformer 语言模型所需的全部组件，并真正训练出一个最小模型（TinyStories，然后 OpenWebText）。
 
 **主要实现任务（摘自 handout）：**
-1. **BPE 分词器**（第 2 节）：在语料上学习 merge（词表初始化、用 GPT-2 风格 regex 做预分词、merge 计算、special token 如 `<|endoftext|>`、并行预分词、优化合并步骤）；保证 encode/decode 往返正确。
+1. **BPE 分词器**（第 2 节）：在语料上学习 merge（词表初始化、用 GPT-2 风格 regex 做预分词、merge 计算、special token 如 `<\|endoftext\|>`、并行预分词、优化合并步骤）；保证 encode/decode 往返正确。
 2. **Transformer 语言模型**（第 3 节）：token embedding、**RMSNorm**、**RoPE**、**因果多头自注意力**（QKV 投影、因果掩码、softmax）、逐位置 **SwiGLU 前馈**、pre-norm 块、LM head → 下一 token 概率；handout 明确了各维度约定（B、S、D 等）。
 3. **交叉熵损失 + AdamW 优化器**（第 4 节）：标准 NLL 损失，以及作为 `torch.optim.Optimizer` 子类实现的 AdamW（一阶/二阶矩、权重衰减、学习率调度；handout 中给出了 SGD 的完整示例）。
 4. **训练循环**（第 5 节）：checkpoint 保存/加载（序列化模型 + 优化器状态）、训练配置（batch size、LR 等）、解码支持（贪心/采样）、困惑度评估。
@@ -143,7 +143,7 @@ toc_sticky: true
 - **MoE（混合专家）**——多个专家 FFN + 路由器；在每 token FLOPs 不变的前提下增加参数；用 top-k 路由 + 均衡损失训练。
 - **muP（最大更新参数化）**——宽度感知的初始化 + LR 缩放，使最优超参数可跨规模迁移；会被 RMSNorm 增益/强 weight decay 破坏。
 - **PagedAttention**——给 KV cache 做虚拟内存式分页（vLLM）：不连续 block、前缀共享、写时复制。
-- **Perplexity（困惑度）**——exp(平均 NLL)，即 (1/p(D))^(1/|D|)；越低越好；随机猜测时约等于词表大小。
+- **Perplexity（困惑度）**——exp(平均 NLL)，即 (1/p(D))^(1/\|D\|)；越低越好；随机猜测时约等于词表大小。
 - **Prefill 与 decode**——推理的两个阶段：并行处理 prompt（compute-bound）与一次生成一个 token（memory-bound）。
 - **PPO（近端策略优化）**——带裁剪重要性比、价值模型与 KL 控制的 RL 算法；经典 RLHF 优化器。
 - **QK-norm / z-loss**——稳定性技巧：在 softmax 前归一化 Q、K；惩罚 log-sum-exp 以防止 logit 漂移。

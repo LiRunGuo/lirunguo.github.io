@@ -9,9 +9,9 @@ toc_sticky: true
 > [目录](/course-notes/cs111-operating-systems/) · [← l21](/course-notes/cs111-operating-systems/l21)
 
 {% raw %}
-# 核心系统调用与 API 速查表（Quick Reference）
+## 核心系统调用与 API 速查表（Quick Reference）
 
-## 进程与线程
+### 进程与线程
 
 | API / 系统调用 | 头文件 | 说明 |
 | :--- | :--- | :--- |
@@ -25,7 +25,7 @@ toc_sticky: true
 | `clone(fn, stack, flags, …)` | `<sched.h>` | Linux 底层线程/进程创建（fork 的实现基础） |
 | `setuid/setgid` | `<unistd.h>` | 放弃/切换特权（最小权限原则） |
 
-## 同步
+### 同步
 
 | API | 头文件 | 说明 |
 | :--- | :--- | :--- |
@@ -36,7 +36,7 @@ toc_sticky: true
 | `pthread_mutex_lock/unlock` | `<pthread.h>` | POSIX 互斥锁 |
 | `pthread_cond_wait/signal` | `<pthread.h>` | POSIX 条件变量 |
 
-## 内存
+### 内存
 
 | API / 系统调用 | 头文件 | 说明 |
 | :--- | :--- | :--- |
@@ -48,7 +48,7 @@ toc_sticky: true
 | `brk/sbrk` | `<unistd.h>` | 扩展/收缩数据段（堆） |
 | `std::shared_ptr<T>` | `<memory>` | 引用计数智能指针（注意循环引用需 weak_ptr） |
 
-## 文件与目录
+### 文件与目录
 
 | API / 系统调用 | 头文件 | 说明 |
 | :--- | :--- | :--- |
@@ -69,7 +69,7 @@ toc_sticky: true
 | `pipe(fds)` | `<unistd.h>` | 创建管道（进程间通信，生产者-消费者的系统形态） |
 | `fstrim / TRIM` | 命令行 / `ioctl` | 通知 SSD 释放的块（闪存管理） |
 
-## 进程间通信与其它
+### 进程间通信与其它
 
 | API / 系统调用 | 头文件 | 说明 |
 | :--- | :--- | :--- |
