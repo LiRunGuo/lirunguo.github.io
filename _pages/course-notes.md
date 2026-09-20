@@ -2,7 +2,7 @@
 layout: archive
 title: "Course Notes"
 permalink: /course-notes/
-author_profile: true
+author_profile: false
 toc: false
 ---
 

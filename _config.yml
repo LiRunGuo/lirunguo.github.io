@@ -25,7 +25,7 @@ author:
   avatar           : "profile.jpg"
   name             : "Runguo Li"
   pronouns         : # example: "she/her"  
-  bio              : "M.S. student in Information Science @ UIUC, advised by Prof. Minjia Zhang. Working on ML systems for large-scale models: MoE inference and expert streaming, distributed training and rollout, GPU compiler correctness."
+  bio              : "M.S. student in Information Science @ UIUC. Working on ML systems for large-scale models: MoE inference and expert streaming, distributed training and rollout, GPU compiler correctness."
   location         : "America / Shanghai"
   employer         : "University of Illinois Urbana-Champaign"
   uri              :
@@ -250,7 +250,7 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false   # sidebar is opt-in (home page only)
       read_time: true
       comments: true
       share: true
@@ -261,14 +261,14 @@ defaults:
       type: pages
     values:
       layout: single
-      author_profile: true
+      author_profile: false   # sidebar is opt-in (home page only)
   # _teaching
   - scope:
       path: ""
       type: teaching
     values:
       layout: single
-      author_profile: true
+      author_profile: false   # sidebar is opt-in (home page only)
       share: true
       comments: true
   # _publications
@@ -277,7 +277,7 @@ defaults:
       type: publications
     values:
       layout: single
-      author_profile: true
+      author_profile: false   # sidebar is opt-in (home page only)
       share: true
       comments: true
   # _portfolio
@@ -286,7 +286,7 @@ defaults:
       type: portfolio
     values:
       layout: single
-      author_profile: true
+      author_profile: false   # sidebar is opt-in (home page only)
       share: true
       comment: true
   # _talks
@@ -295,7 +295,7 @@ defaults:
       type: talks
     values:
       layout: talk
-      author_profile: true
+      author_profile: false   # sidebar is opt-in (home page only)
       share: true
   # _course-notes
   - scope:
@@ -303,7 +303,7 @@ defaults:
       type: course-notes
     values:
       layout: single
-      author_profile: true
+      author_profile: false   # sidebar is opt-in (home page only)
       share: true
   # _daily
   - scope:
@@ -311,7 +311,7 @@ defaults:
       type: daily
     values:
       layout: daily
-      author_profile: true
+      author_profile: false   # sidebar is opt-in (home page only)
       share: false
       toc: false
 

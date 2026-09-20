@@ -12,7 +12,7 @@ I am an **M.S. student in Information Science** at the **University of Illinois 
 
 I work on **ML systems for large-scale models**: inference engines and expert streaming for MoE models, distributed training and rollout infrastructure, RL post-training systems, and GPU compiler and kernel-level correctness. I like to sit between the machine and the model — how weights are read from storage, how collectives and thread teams are sized, and whether a resource plan and the runtime agree about what will actually be built. I keep a research background in LLM reasoning, multimodal learning, and agent safety, and I bring an upstream-first habit to all of it: reproduce failures in real production stacks, then contribute fixes with regression tests and measured before/after numbers.
 
-My research experience includes the **UIUC** graduate research group of Prof. **Minjia Zhang** on efficient ML systems, the **Tencent Youtu AI Lab** on content-safety and multimodal research, the **SUFE FinAI Center** (advised by Prof. **Liwen Zhang, 张立文**) on financial reasoning and agent safety, **Shanghai Jiao Tong University** (advised by Prof. **Xiaodong Gu, 顾小东**) on **LLM for Code**, and the **Head Office of ICBC (Private Banking Department)** on scientist-discovery agents.
+My research experience includes research at **UIUC** on efficient ML systems, the **Tencent Youtu AI Lab** on content-safety and multimodal research, the **SUFE FinAI Center** (advised by Prof. **Liwen Zhang, 张立文**) on financial reasoning and agent safety, **Shanghai Jiao Tong University** (advised by Prof. **Xiaodong Gu, 顾小东**) on **LLM for Code**, and the **Head Office of ICBC (Private Banking Department)** on scientist-discovery agents.
 
 Research Interests
 ======
@@ -52,7 +52,7 @@ Technical Skills
 News
 ======
 - **2026.09** — Open-source work merged across **colibri**, **DeepSpeed**, **Triton**, **verl**, and **LMCache**; portfolio now tracks 15 open pull requests across the AI infrastructure stack.
-- **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign, advised by Prof. Minjia Zhang.
+- **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉
 - **2026.03** — Joined Shanghai Jiao Tong University as a research intern (LLM for Code, advised by Prof. Xiaodong Gu).

@@ -2,7 +2,7 @@
 layout: archive
 title: "LLM 开发常用库使用说明"
 permalink: /llm-libs/
-author_profile: true
+author_profile: false
 ---
 
 共 41 份 LLM 开发常用库的详细中文使用说明文档。每份文档涵盖：库简介、安装方式、核心 API 详解（含参数表）、代码示例、数学原理、架构原理、最佳实践。

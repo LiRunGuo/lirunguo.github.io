@@ -27,16 +27,17 @@
    content lists, which fit fine in the narrower default column.
    ========================================================================== */
 
+/* The author sidebar lives on the home page only, so the layout follows a
+   single flag: `body.has-sidebar`.  Pages without it use the full width. */
+
 @media screen and (min-width: 1024px) {
-  body.layout--single #main,
-  body.layout--daily #main {
+  body.has-sidebar #main {
     padding-left: 260px;
     padding-right: 1.5em;
     max-width: none;     /* override base 1280 cap so the body can grow */
   }
 
-  body.layout--single .page,
-  body.layout--daily .page {
+  body.has-sidebar .page {
     width: auto;
     float: none;
     margin-right: 0;
@@ -47,21 +48,40 @@
   /* When #main gains a 260px left padding (above), the fixed author
      sidebar would inherit the padded position (the base theme does not
      set an explicit `left`) and drift right along with it. Pin it to the
-     viewport's left edge instead — but only on pages where we actually
-     apply the padding. Archive pages are unaffected. */
-  body.layout--single .sidebar.sticky,
-  body.layout--daily .sidebar.sticky {
+     viewport's left edge instead. */
+  body.has-sidebar .sidebar.sticky {
     left: 1em;
     width: auto;
     max-width: 240px;
   }
 }
 
+/* No sidebar: let the content column use the whole width instead of the
+   default right-floated 83% column that leaves room for a sidebar. */
+@media screen and (min-width: 925px) {
+  body:not(.has-sidebar) .page,
+  body:not(.has-sidebar) .archive {
+    width: 100%;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Keep the right-hand TOC reservation intact: .content-with-toc must still
+     stop short of the fixed TOC at >=1200px, so only the sidebar padding goes. */
+  body:not(.has-sidebar) .page__inner-wrap {
+    max-width: none;
+  }
+}
+
 @media screen and (min-width: 80em) /* ≥1280px: cap the readable column */ {
-  body.layout--single #main,
-  body.layout--daily #main {
+  body.has-sidebar #main {
     max-width: 1500px;
   }
+  /* Pages without the sidebar fall back to the theme's default 1280px cap,
+     which keeps prose at a comfortable measure. */
 }
 
 /*
@@ -229,6 +249,7 @@
   .content-with-toc {
     max-width: calc(100% - 240px);
   }
+
 }
 
 /* Mobile / narrow: TOC as collapsible at top — collapsed by default */
