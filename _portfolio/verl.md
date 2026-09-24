@@ -17,6 +17,6 @@ Fixed the remaining value-head model imports in `verl/utils/model.py` after TRL 
 
 ### Bug reporting and investigation
 
-**[Issue #7624 — vLLM startup failure with chunked prefill disabled](https://github.com/verl-project/verl/issues/7624)**. Reported and reproduced a rollout startup regression when the token budget is smaller than the model context length. Provided a minimal reproducer, root-cause analysis, and a proposed fix with CPU tests and a multi-GPU GRPO smoke run in **[PR #7626](https://github.com/verl-project/verl/pull/7626)**. That pull request was closed without merging.
+**[Issue #7624 — vLLM startup failure with chunked prefill disabled](https://github.com/verl-project/verl/issues/7624)**. Reported and reproduced a rollout startup regression that appeared when the token budget was smaller than the model context length, with a minimal reproducer and root-cause analysis.
 
 [View my verl pull requests](https://github.com/verl-project/verl/pulls?q=is%3Apr+author%3ALiRunGuo)
