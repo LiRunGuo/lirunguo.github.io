@@ -27,12 +27,12 @@ Selected Highlights
 - 📝 **FinVault** — *Benchmarking Financial Agent Safety in Execution-Grounded Environments* — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
 - 📝 **RVCFT** — [*Reasoning-Visual Critical Token Fine-Tuning for Multimodal Reasoning*](/publication/2026-07-rvcft) — co-first author, under review at AAAI 2027.
 - 📝 **VeriBRT** — [*Plan-Guided, Evidence-Based Automated Bug Reproduction*](/publication/2026-07-veribrt) — co-first author, under review at ICSE 2027.
-- 🛠️ **Open-source ML systems** — merged fixes in **colibri**, **DeepSpeed**, **Triton**, **verl**, **LMCache**, and **vLLM-Omni**. [See the full portfolio](/portfolio/)
+- 🛠️ **Open-source ML systems** — merged fixes in **colibri**, **DeepSpeed**, **Triton**, **verl**, **LMCache**, **vLLM-Omni**, and **FlashAttention**. [See the full portfolio](/portfolio/)
 - 🛠️ **ARH (AI Research Helper)** — open-source CLI-first research assistant agent with tool use, plan/execute safety, three-layer memory, skill self-learning and multi-LLM fallback. [github.com/LiRunGuo/Arhelper](https://github.com/LiRunGuo/Arhelper)
 
 Open-Source Contributions (ML Systems)
 ======
-Merged fixes to a pure-C MoE inference engine, DeepSpeed, Triton, verl, LMCache, and vLLM-Omni.
+Merged fixes to a pure-C MoE inference engine, DeepSpeed, Triton, verl, LMCache, vLLM-Omni, and FlashAttention.
 
 - **colibri — pure-C MoE inference engine** — multi-drive expert streaming for the 510 GB DeepSeek-V4.1 container, physical-core OpenMP team sizing in four engines that were **18.7× slower** without it, and a plan/runtime mismatch that silently allocated **6.25 GiB** of unbudgeted KV cache.
 - **DeepSpeed — distributed training** — fixed a ZeRO-3 rollout deadlock caused by unsynchronized generation stopping, and blocked partial Hybrid Engine policy injection for unsupported architectures (validated on H200 and MI250 GPUs).
@@ -40,8 +40,9 @@ Merged fixes to a pure-C MoE inference engine, DeepSpeed, Triton, verl, LMCache,
 - **verl — RL post-training** — restored FSDP value-head critic loading after TRL relocated its value-head model classes.
 - **LMCache — KV cache management** — made the allocator reject invalid sizes instead of silently emptying the cache, and enforced lazy `%`-format logging (ruff G004) so new f-string logging can no longer land in already-migrated files.
 - **vLLM-Omni — omni-modal inference** — turned a malformed Qwen2.5-Omni prompt from an engine-killing crash into a rejected request.
+- **FlashAttention — CuTe kernels** — fitted the SM90 forward tile to the block-sparse block size, taking Hopper block sparsity from 8 of 40 head-dim/block-size combinations working to 32.
 
-[Browse the full portfolio](/portfolio/) — ten merged pull requests across six upstream projects, each with a reproducer or regression test attached.
+[Browse the full portfolio](/portfolio/) — eleven merged pull requests across seven upstream projects, each with a reproducer or regression test attached.
 
 Technical Skills
 ======
@@ -52,7 +53,7 @@ Technical Skills
 
 News
 ======
-- **2026.09** — Open-source work merged across **colibri**, **DeepSpeed**, **Triton**, **verl**, **LMCache**, and **vLLM-Omni**; portfolio now lists ten merged pull requests across six upstream projects.
+- **2026.09** — Open-source work merged across **colibri**, **DeepSpeed**, **Triton**, **verl**, **LMCache**, **vLLM-Omni**, and **FlashAttention**; portfolio now lists eleven merged pull requests across seven upstream projects.
 - **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉
