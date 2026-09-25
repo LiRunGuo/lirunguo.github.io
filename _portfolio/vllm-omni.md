@@ -3,7 +3,7 @@ title: "vLLM-Omni — Omni-Modal Inference"
 excerpt: "Contributor to vLLM-Omni: merged a bug fix that turns a malformed Qwen2.5-Omni prompt from an engine-killing crash into a rejected request."
 collection: portfolio
 category: contribution
-order: 6
+order: 10
 permalink: /portfolio/vllm-omni/
 ---
 

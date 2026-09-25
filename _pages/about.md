@@ -27,23 +27,25 @@ Selected Highlights
 - 📝 **FinVault** — *Benchmarking Financial Agent Safety in Execution-Grounded Environments* — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
 - 📝 **RVCFT** — [*Reasoning-Visual Critical Token Fine-Tuning for Multimodal Reasoning*](/publication/2026-07-rvcft) — co-first author, under review at AAAI 2027.
 - 📝 **VeriBRT** — [*Plan-Guided, Evidence-Based Automated Bug Reproduction*](/publication/2026-07-veribrt) — co-first author, under review at ICSE 2027.
-- 🛠️ **Open-source ML systems** — merged fixes in **colibri**, **DeepSpeed**, **Triton**, **verl**, **LMCache**, **vLLM-Omni**, **FlashAttention**, and **Apache TVM**. [See the full portfolio](/portfolio/)
+- 🛠️ **Open-source ML systems** — merged fixes in **PyTorch**, **DeepSpeed**, **colibri**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus bug reports fixed upstream in **MLflow**. [See the full portfolio](/portfolio/)
 - 🛠️ **ARH (AI Research Helper)** — open-source CLI-first research assistant agent with tool use, plan/execute safety, three-layer memory, skill self-learning and multi-LLM fallback. [github.com/LiRunGuo/Arhelper](https://github.com/LiRunGuo/Arhelper)
 
 Open-Source Contributions (ML Systems)
 ======
-Merged fixes to a pure-C MoE inference engine, DeepSpeed, Triton, verl, LMCache, vLLM-Omni, FlashAttention, and Apache TVM.
+Merged fixes to PyTorch, DeepSpeed, a pure-C MoE inference engine, FlashAttention, verl, Triton, Apache TVM, LMCache, and vLLM-Omni, plus an MLflow bug report whose fix landed upstream. The list is ordered by the upstream project's star count.
 
-- **colibri — pure-C MoE inference engine** — multi-drive expert streaming for the 510 GB DeepSeek-V4.1 container, physical-core OpenMP team sizing in four engines that were **18.7× slower** without it, and a plan/runtime mismatch that silently allocated **6.25 GiB** of unbudgeted KV cache.
+- **PyTorch — CUDA kernels** — fixed an int32 overflow in the `cdist` backward kernel, where indices wrapped negative past 2³¹ and slipped past the bounds check into an illegal memory access.
 - **DeepSpeed — distributed training** — fixed a ZeRO-3 rollout deadlock caused by unsynchronized generation stopping, and blocked partial Hybrid Engine policy injection for unsupported architectures (validated on H200 and MI250 GPUs).
-- **Triton — GPU compiler** — stopped nested-loop fusion from trusting an `llvm.assume` outside the loop, which removed a zero-trip guard and could cause incorrect memory writes (MLIR regression test and H200 reproducer).
+- **colibri — pure-C MoE inference engine** — multi-drive expert streaming for the 510 GB DeepSeek-V4.1 container, physical-core OpenMP team sizing in four engines that were **18.7× slower** without it, and a plan/runtime mismatch that silently allocated **6.25 GiB** of unbudgeted KV cache.
+- **MLflow — SQLAlchemy stores** — root-caused the numeric-attribute search failures under PostgreSQL with psycopg v3 to a string return in `SearchUtils`, and the fix landed upstream (#26180).
+- **FlashAttention — CuTe kernels** — fitted the SM90 forward tile to the block-sparse block size (block sparsity on Hopper went from 8 of 40 head-dim/block-size combinations working to 32), and stopped the causal forward from re-applying an all-true mask on unmasked KV blocks, cutting its instruction count from 580 to 477 per loop.
 - **verl — RL post-training** — restored FSDP value-head critic loading after TRL relocated its value-head model classes.
+- **Triton — GPU compiler** — stopped nested-loop fusion from trusting an `llvm.assume` outside the loop, which removed a zero-trip guard and could cause incorrect memory writes (MLIR regression test and H200 reproducer).
+- **Apache TVM — ONNX frontend** — let Hardmax lower when the reduced axis has a symbolic extent, instead of failing on `one_hot`'s static-only `depth` attribute.
 - **LMCache — KV cache management** — made the allocator reject invalid sizes instead of silently emptying the cache, and enforced lazy `%`-format logging (ruff G004) so new f-string logging can no longer land in already-migrated files.
 - **vLLM-Omni — omni-modal inference** — turned a malformed Qwen2.5-Omni prompt from an engine-killing crash into a rejected request.
-- **FlashAttention — CuTe kernels** — fitted the SM90 forward tile to the block-sparse block size (block sparsity on Hopper went from 8 of 40 head-dim/block-size combinations working to 32), and stopped the causal forward from re-applying an all-true mask on unmasked KV blocks, cutting its instruction count from 580 to 477 per loop.
-- **Apache TVM — ONNX frontend** — let Hardmax lower when the reduced axis has a symbolic extent, instead of failing on `one_hot`'s static-only `depth` attribute.
 
-[Browse the full portfolio](/portfolio/) — thirteen merged pull requests across eight upstream projects, each with a reproducer or regression test attached.
+[Browse the full portfolio](/portfolio/) — fourteen merged pull requests across nine upstream projects, each with a reproducer or regression test attached.
 
 Technical Skills
 ======
@@ -54,7 +56,7 @@ Technical Skills
 
 News
 ======
-- **2026.09** — Open-source work merged across **colibri**, **DeepSpeed**, **Triton**, **verl**, **LMCache**, **vLLM-Omni**, **FlashAttention**, and **Apache TVM**; portfolio now lists thirteen merged pull requests across eight upstream projects.
+- **2026.09** — Open-source work merged across **PyTorch**, **DeepSpeed**, **colibri**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus a bug report fixed upstream in **MLflow**; portfolio now lists fourteen merged pull requests and is ordered by upstream star count.
 - **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉

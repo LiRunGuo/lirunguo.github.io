@@ -3,7 +3,7 @@ title: "LMCache — KV Cache Management"
 excerpt: "Contributor to LMCache: merged two fixes — an allocator that now rejects invalid sizes instead of silently emptying the cache, and a lint gate that enforces lazy %-format logging."
 collection: portfolio
 category: contribution
-order: 5
+order: 9
 permalink: /portfolio/lmcache/
 ---
 

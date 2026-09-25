@@ -3,7 +3,7 @@ title: "FlashAttention — CuTe Kernels & Block Sparsity"
 excerpt: "Contributor to FlashAttention: merged an SM90 tile-selection fix that takes block-sparse attention on Hopper from 8 of 40 head-dim/block-size combinations working to 32, plus a causal-forward fix that stops re-applying an all-true mask on unmasked KV blocks."
 collection: portfolio
 category: contribution
-order: 7
+order: 5
 permalink: /portfolio/flash-attention/
 ---
 

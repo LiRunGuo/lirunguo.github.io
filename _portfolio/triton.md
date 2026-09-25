@@ -3,7 +3,7 @@ title: "Triton — GPU Compiler Correctness"
 excerpt: "Contributor to Triton: merged a loop-fusion correctness fix that prevents invalid assumptions from removing zero-trip guards and causing unintended memory writes."
 collection: portfolio
 category: contribution
-order: 3
+order: 7
 permalink: /portfolio/triton/
 ---
 
