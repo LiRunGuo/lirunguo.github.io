@@ -1,6 +1,6 @@
 ---
 title: "FlashAttention — CuTe Kernels & Block Sparsity"
-excerpt: "Contributor to FlashAttention: merged an SM90 tile-selection fix that takes block-sparse attention on Hopper from 8 of 40 head-dim/block-size combinations working to 32."
+excerpt: "Contributor to FlashAttention: merged an SM90 tile-selection fix that takes block-sparse attention on Hopper from 8 of 40 head-dim/block-size combinations working to 32, plus a causal-forward fix that stops re-applying an all-true mask on unmasked KV blocks."
 collection: portfolio
 category: contribution
 order: 7
@@ -9,7 +9,25 @@ permalink: /portfolio/flash-attention/
 
 I contribute to [FlashAttention](https://github.com/Dao-AILab/flash-attention), focusing on the CuTe kernels and on whether the tile heuristics agree with the block-sparsity configurations callers can actually pass in.
 
-### Merged contribution
+### Merged contributions
+
+**[PR #2904 — skip the causal/local mask on unmasked KV blocks in forward (CuTe, SM90)](https://github.com/Dao-AILab/flash-attention/pull/2904)** · Merged September 24, 2026 (+4 / −2 across 1 file).
+
+On H200, the FA4 SM90 causal forward trailed the C++ FA3 forward by 8–20% at every sequence length, while the non-causal forward was at parity. Fitting kernel time against `seqlen_k` showed the per-KV-block cost of the *non-causal* kernels was identical between the two (FA3 1.626 µs vs FA4 1.620 µs per block per SM), so the causal gap had to come from the causal kernel itself.
+
+The cause was in the SM90 mainloop: it splits KV iterations into blocks that need masking (the diagonal, or the window edges for local attention) and blocks that do not, but the second loop — the one that by construction needs no masking — still passed `mask_fn`, bound with `mask_causal=self.is_causal` / `mask_local=self.is_local`. Every unmasked block therefore re-applied the causal mask element-wise, even though the mask is all-true there. The SASS made it visible: the hdim-128 causal kernel's unmasked inner loop had 580 instructions with 66 `FSEL` and 8 `R2P`, against 457 instructions / 2 `FSEL` / 0 `R2P` in the non-causal kernel. `flash_fwd_sm100.py` already handled this loop correctly (it only passes `mask_fn` when `mask_mod` is set); the fix applies the same rule on SM90, dropping the unmasked inner loop to 477 instructions, 2 `FSEL`, 0 `R2P`, with the masked loop unchanged.
+
+Measured throughput on H200 (bf16, 32k total tokens, CUDA-event timing), in TFLOPS:
+
+| forward | FA3 | FA4 main | FA4 this PR |
+|:--|--:|--:|--:|
+| hdim128 causal 1k | 509 | 414 | 431 |
+| hdim128 causal 4k | 691 | 607 | 643 |
+| hdim128 causal 8k | 679 | 637 | 667 |
+| hdim128 causal 16k | 682 | 613 | **660** |
+| hdim64 causal 16k | 514 | 463 | **531** |
+
+Non-causal is untouched, as it runs the same kernel. Correctness is strong for a loop-level change: forward `out` and `lse` are bitwise identical to main across nine configurations (causal with `sq == sk`, `sq < sk`, `sq > sk`, GQA, head dims 64/128/192/256, local windows (256,0) and (300,100), and non-causal).
 
 **[PR #2903 — fit the forward tile to the block-sparse block size (CuTe, SM90)](https://github.com/Dao-AILab/flash-attention/pull/2903)** · Merged September 24, 2026 (+102 / −1 across 3 files).
 
@@ -34,6 +52,6 @@ Measured on H200 (bf16, B=2 H=4 S=1024, block-aligned causal BlockMask against t
 
 Forward max absolute error against the fp32 reference is ≤ 0.0039 for every newly accepted case. The remaining backward rejections come from the SM90 backward's own `tile_n` (128 for head_dim ≤ 128, 96 for 192, 64 for 256) — a separate heuristic, left to a follow-up.
 
-Validation included a new `test_sm90_block_sparse_fwd_tile_fits_block_size` (7 cases, failing 7/7 on main and passing 7/7 here), a full run of `tests/cute/test_mask_mod.py` on H200 going from 1256 passed / 120 failed to **1383 passed / 0 failed**, and `test_block_sparsity.py` at 4883 passed / 0 failed.
+Validation included a new `test_sm90_block_sparse_fwd_tile_fits_block_size` (7 cases, failing 7/7 on main and passing 7/7 here), a full run of `tests/cute/test_mask_mod.py` on H200 going from 1256 passed / 120 failed to **1383 passed / 0 failed**, and `test_block_sparsity.py` at 4883 passed / 0 failed. The two PRs are an interesting pair: #2903 fixes what the SM90 forward *accepts*, while #2904 fixes what it *computes* on the blocks it was already running.
 
 [View my FlashAttention pull requests](https://github.com/Dao-AILab/flash-attention/pulls?q=is%3Apr+author%3ALiRunGuo)

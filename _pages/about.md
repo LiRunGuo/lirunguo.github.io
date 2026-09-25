@@ -40,10 +40,10 @@ Merged fixes to a pure-C MoE inference engine, DeepSpeed, Triton, verl, LMCache,
 - **verl — RL post-training** — restored FSDP value-head critic loading after TRL relocated its value-head model classes.
 - **LMCache — KV cache management** — made the allocator reject invalid sizes instead of silently emptying the cache, and enforced lazy `%`-format logging (ruff G004) so new f-string logging can no longer land in already-migrated files.
 - **vLLM-Omni — omni-modal inference** — turned a malformed Qwen2.5-Omni prompt from an engine-killing crash into a rejected request.
-- **FlashAttention — CuTe kernels** — fitted the SM90 forward tile to the block-sparse block size, taking Hopper block sparsity from 8 of 40 head-dim/block-size combinations working to 32.
+- **FlashAttention — CuTe kernels** — fitted the SM90 forward tile to the block-sparse block size (block sparsity on Hopper went from 8 of 40 head-dim/block-size combinations working to 32), and stopped the causal forward from re-applying an all-true mask on unmasked KV blocks, cutting its instruction count from 580 to 477 per loop.
 - **Apache TVM — ONNX frontend** — let Hardmax lower when the reduced axis has a symbolic extent, instead of failing on `one_hot`'s static-only `depth` attribute.
 
-[Browse the full portfolio](/portfolio/) — twelve merged pull requests across eight upstream projects, each with a reproducer or regression test attached.
+[Browse the full portfolio](/portfolio/) — thirteen merged pull requests across eight upstream projects, each with a reproducer or regression test attached.
 
 Technical Skills
 ======
@@ -54,7 +54,7 @@ Technical Skills
 
 News
 ======
-- **2026.09** — Open-source work merged across **colibri**, **DeepSpeed**, **Triton**, **verl**, **LMCache**, **vLLM-Omni**, **FlashAttention**, and **Apache TVM**; portfolio now lists twelve merged pull requests across eight upstream projects.
+- **2026.09** — Open-source work merged across **colibri**, **DeepSpeed**, **Triton**, **verl**, **LMCache**, **vLLM-Omni**, **FlashAttention**, and **Apache TVM**; portfolio now lists thirteen merged pull requests across eight upstream projects.
 - **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉
