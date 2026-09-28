@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-I am an **M.S. student in Information Science** at the **University of Illinois Urbana-Champaign (UIUC)** and a graduate of **Shanghai University of Finance and Economics (SUFE)** with a B.S. in Business Analytics (GPA 3.71/4.0, rank 8/128).
+I am an **M.S. student in Information Science** at the **University of Illinois Urbana-Champaign (UIUC)**.
 
 I work on **ML systems for large-scale models**: inference engines and expert streaming for MoE models, distributed training and rollout infrastructure, RL post-training systems, and GPU compiler and kernel-level correctness. I like to sit between the machine and the model — how weights are read from storage, how collectives and thread teams are sized, and whether a resource plan and the runtime agree about what will actually be built. I keep a research background in LLM reasoning, multimodal learning, and agent safety, and I bring an upstream-first habit to all of it: reproduce failures in real production stacks, then contribute fixes with regression tests and measured before/after numbers.
 
