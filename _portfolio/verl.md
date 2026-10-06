@@ -3,7 +3,7 @@ title: "verl — Reinforcement Learning Infrastructure"
 excerpt: "Contributor to verl: merged a TRL compatibility fix for FSDP value-head critics, and reported and investigated a vLLM rollout startup regression."
 collection: portfolio
 category: contribution
-order: 6
+order: 9
 permalink: /portfolio/verl/
 ---
 

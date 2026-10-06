@@ -3,7 +3,7 @@ title: "DeepSpeed — Distributed Training & Hybrid Engine"
 excerpt: "Contributor to DeepSpeed: merged fixes for ZeRO-3 rollout synchronization and Hybrid Engine fallback for unsupported model architectures."
 collection: portfolio
 category: contribution
-order: 2
+order: 3
 permalink: /portfolio/deepspeed/
 ---
 

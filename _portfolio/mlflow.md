@@ -3,7 +3,7 @@ title: "MLflow — SQLAlchemy Stores & Search"
 excerpt: "Contributor to MLflow: filed and root-caused the numeric-attribute search failures under PostgreSQL with psycopg v3, tracing them to a string return in SearchUtils that psycopg2 tolerated but psycopg v3 does not."
 collection: portfolio
 category: contribution
-order: 4
+order: 7
 permalink: /portfolio/mlflow/
 ---
 

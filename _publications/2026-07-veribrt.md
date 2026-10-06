@@ -3,12 +3,12 @@ title: "VeriBRT: Plan-Guided, Evidence-Based Automated Bug Reproduction"
 collection: publications
 category: conferences
 permalink: /publication/2026-07-veribrt
-excerpt: 'An LLM-based framework for generating bug-reproducing tests using a persistent Two-Axis Plan and reliability-aware evidence. Manuscript available online.'
+excerpt: 'An LLM-based framework for generating bug-reproducing tests using a persistent Two-Axis Plan and reliability-aware evidence. Manuscript under review at ICSE 2027.'
 date: 2026-07-01
-venue: 'Manuscript'
+venue: 'Under review — ICSE 2027'
 ---
 
-**Status:** Manuscript · **PDF:** [Download](/files/veribrt-bug-reproduction.pdf)
+**Status:** Manuscript under review at ICSE 2027 · **PDF:** [Download](/files/veribrt-bug-reproduction.pdf)
 
 ### Abstract
 
