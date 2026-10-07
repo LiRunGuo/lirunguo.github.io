@@ -73,4 +73,6 @@ Get in Touch
 ======
 - ✉️  Email: [runguo.ai@gmail.com](mailto:runguo.ai@gmail.com)
 - 🐙 GitHub: [github.com/LiRunGuo](https://github.com/LiRunGuo)
+- 🎓 Google Scholar: [Runguo Li](https://scholar.google.com/citations?user=t82uTeYAAAAJ&hl=en)
+- 🆔 ORCID: [0009-0002-0832-6227](https://orcid.org/0009-0002-0832-6227)
 - 📄 [Curriculum Vitae](/files/RunguoLi-ML-Systems-Resume.pdf)

@@ -34,10 +34,10 @@ author:
   # Academic websites
   academia         : # URL
   arxiv            : # URL - Update with the correct link to your profile
-  googlescholar    : # URL
+  googlescholar    : "https://scholar.google.com/citations?user=t82uTeYAAAAJ&hl=en"
   inspire-hep      : # URL
   impactstory      : # URL
-  orcid            : # URL
+  orcid            : "https://orcid.org/0009-0002-0832-6227"
   semantic         : # URL
   ssrn             : # URL
   pubmed           : # URL
@@ -83,6 +83,8 @@ author:
 
 # Publication Category - The following the list of publication categories and their headings
 publication_category:
+  preprints:
+    title: 'Preprints and Manuscripts Under Review'
   books:
     title: 'Books'
   manuscripts:
@@ -96,7 +98,7 @@ breadcrumbs              : false # true, false (default)
 words_per_minute         : 160
 future                   : true
 read_more                : "disabled" # if enabled, adds "Read more" links to excerpts
-talkmap_link             : false      #change to true to add link to talkmap on talks page
+
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
   disqus:
@@ -165,21 +167,7 @@ include:
   - _pages
 exclude:
   - _llm-libs
-  # AcademicPages template leftovers, kept in the repo but not published
-  - files/paper1.pdf
-  - files/paper2.pdf
-  - files/paper3.pdf
-  - files/slides1.pdf
-  - files/slides2.pdf
-  - files/slides3.pdf
-  - images/500x300.png
-  - images/bio-photo.jpg
-  - images/bio-photo-2.jpg
-  - images/editing-talk.png
-  - talkmap
-  - talkmap.py
-  - talkmap.ipynb
-  - talkmap_out.ipynb
+  # AcademicPages template tooling, not part of the site
   - markdown_generator
   - _pages/llm-libs.md
   - "*.sublime-project"

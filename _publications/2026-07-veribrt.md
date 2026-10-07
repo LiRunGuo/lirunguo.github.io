@@ -1,14 +1,23 @@
 ---
 title: "VeriBRT: Plan-Guided, Evidence-Based Automated Bug Reproduction"
 collection: publications
-category: conferences
+category: preprints
 permalink: /publication/2026-07-veribrt
 excerpt: 'An LLM-based framework for generating bug-reproducing tests using a persistent Two-Axis Plan and reliability-aware evidence. Manuscript under review at ICSE 2027.'
 date: 2026-07-01
 venue: 'Under review — ICSE 2027'
+paperurl: '/files/veribrt-bug-reproduction.pdf'
+bibtexurl: '/files/bibtex/chen2026veribrt.bib'
+citation: 'Yeheng Chen*, Runguo Li*, Yuling Shi, Zimu Wang, Xiaodong Gu, and Yanfu Yan. (2026). &quot;VeriBRT: Plan-Guided, Evidence-Based Automated Bug Reproduction.&quot; Manuscript under review. (*equal contribution)'
 ---
 
 **Status:** Manuscript under review at ICSE 2027 · **PDF:** [Download](/files/veribrt-bug-reproduction.pdf)
+
+### Authors
+
+Yeheng Chen\*, **Runguo Li**\*, Yuling Shi, Zimu Wang, Xiaodong Gu, Yanfu Yan.
+
+\* Equal contribution.
 
 ### Abstract
 

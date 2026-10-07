@@ -1,12 +1,14 @@
 ---
 title: "Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning"
 collection: publications
-category: conferences
+category: preprints
 permalink: /publication/2026-10-breadthkv
 excerpt: 'BreadthKV splits a fixed decode-time KV byte budget between how many tokens to keep and at what precision, beating eviction alone in 17 of 18 settings across three reasoning models and four benchmarks. Single-author work.'
 date: 2026-10-05
 venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2610.05685'
+bibtexurl: '/files/bibtex/li2026breadthkv.bib'
+citation: 'Runguo Li. (2026). &quot;Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning.&quot; arXiv:2610.05685.'
 ---
 
 **Status:** arXiv preprint · **arXiv:** [2610.05685](https://arxiv.org/abs/2610.05685) · **PDF:** [Download](/files/breadthkv-kv-compression.pdf)

@@ -1,7 +1,7 @@
 ---
 title: "FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments"
 collection: publications
-category: conferences
+category: preprints
 permalink: /publication/2026-01-finvault
 redirect_from:
   - /publication/2026-08-finvault
@@ -9,13 +9,17 @@ excerpt: 'The first execution-grounded security benchmark for LLM-based financia
 date: 2026-01-09
 venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2601.07853'
+bibtexurl: '/files/bibtex/yang2026finvault.bib'
+citation: 'Zhi Yang*, Runguo Li*, et al. (2026). &quot;FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments.&quot; arXiv:2601.07853. (*equal contribution)'
 ---
 
 **Status:** arXiv preprint · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853) · **PDF:** [Download](https://arxiv.org/pdf/2601.07853)
 
 ### Authors
 
-Zhi Yang, **Runguo Li**, Qiqi Qiang, Jiashun Wang, Fangqi Lou, Mengping Li, Dongpo Cheng, Rui Xu, Heng Lian, Shuo Zhang, Xiaolong Liang, Xiaoming Huang, Zheng Wei, Zhaowei Liu, Xin Guo, Huacan Wang, Ronghao Chen, Liwen Zhang.
+Zhi Yang\*, **Runguo Li**\*, Qiqi Qiang, Jiashun Wang, Fangqi Lou, Mengping Li, Dongpo Cheng, Rui Xu, Heng Lian, Shuo Zhang, Xiaolong Liang, Xiaoming Huang, Zheng Wei, Zhaowei Liu, Xin Guo, Huacan Wang, Ronghao Chen, Liwen Zhang.
+
+\* Equal contribution.
 
 ### Abstract
 
