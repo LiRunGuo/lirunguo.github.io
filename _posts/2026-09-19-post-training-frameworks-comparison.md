@@ -11,7 +11,11 @@ tags:
   - TRL
 toc: true
 toc_sticky: true
+lang: zh
 ---
+
+> **English summary.** A source-level comparison of six open-source post-training frameworks (veRL, TRL, DeepSpeed, OpenRLHF, slime, and NeMo-RL), covering inference-engine choice, training parallelism, synchronous vs. asynchronous rollout, weight synchronization, multi-turn TITO, and MoE routing replay, with Miles v0.1 as a reference point. Conclusions come from reading the code, not the READMEs. *The full post is in Chinese.*
+
 {% raw %}
 > **本文范围**：对 6 个主流开源后训练框架做源码级横向对比，并以本工作区已有的 **Miles v0.1** 解析为参照系。
 >

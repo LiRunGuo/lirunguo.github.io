@@ -14,54 +14,44 @@ I work on **ML systems for large-scale models**: inference engines and expert st
 
 My research experience includes research at **UIUC** on efficient ML systems, the **Tencent Youtu AI Lab** on content-safety and multimodal research, the **SUFE FinAI Center** (advised by Prof. **Liwen Zhang**) on financial reasoning and agent safety, **Shanghai Jiao Tong University** (advised by Prof. **Xiaodong Gu**) on **LLM for Code**, and the **Head Office of ICBC (Private Banking Department)** on scientist-discovery agents.
 
+🎓 **I plan to apply to Ph.D. programs in ML systems for Fall 2028.** I am happy to hear from faculty and students working on efficient inference, training infrastructure, or GPU kernels.
+
 Research Interests
 ======
 - **ML Systems for Large Models** — inference engines and expert streaming for MoE models, KV-cache and memory budgeting, attention and quantization kernels, performance profiling
 - **Distributed Training & Rollout** — ZeRO-3, FSDP, Megatron-LM, Hybrid Engine, collective synchronization and deadlock debugging, RL rollout systems (verl, TRL)
 - **GPU Compiler & Kernel Correctness** — MLIR passes, Triton/CUDA kernel-level debugging, reproducible regression tests
-- **LLM Reasoning & Multimodal Learning** — chain-of-thought supervision, selective fine-tuning, retrieval and fusion
-- **Agents & Security** — agentic planning and tool use, RAG and long-term memory, execution-grounded evaluation, runtime safety gates
 
-Selected Highlights
+Earlier work covered LLM reasoning and multimodal learning ([RVCFT](/publication/2026-07-rvcft)), LLM for code ([VeriBRT](/publication/2026-07-veribrt)), and financial agent safety ([FinVault](/publication/2026-01-finvault)).
+
+Selected Publications
 ======
 - 📝 **BreadthKV** — [*Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning*](/publication/2026-10-breadthkv) — **arXiv preprint**, single author. [arXiv:2610.05685](https://arxiv.org/abs/2610.05685)
-- 📝 **FinVault** — *Benchmarking Financial Agent Safety in Execution-Grounded Environments* — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
+- 📝 **FinVault** — [*Benchmarking Financial Agent Safety in Execution-Grounded Environments*](/publication/2026-01-finvault) — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
 - 📝 **RVCFT** — [*Reasoning-Visual Critical Token Fine-Tuning for Multimodal Reasoning*](/publication/2026-07-rvcft) — co-first author, under review at AAAI 2027.
 - 📝 **VeriBRT** — [*Plan-Guided, Evidence-Based Automated Bug Reproduction*](/publication/2026-07-veribrt) — co-first author, under review at ICSE 2027.
-- 🛠️ **Open-source ML systems** — 17 merged pull requests across 12 upstream projects, including **PyTorch**, **vLLM**, **DeepSpeed**, **SGLang**, **JAX**, **FlashAttention**, and **Triton**, plus bug reports fixed upstream in **MLflow**. [See the full portfolio](/portfolio/)
-- 🛠️ **ARH (AI Research Helper)** — open-source CLI-first research assistant agent with tool use, plan/execute safety, three-layer memory, skill self-learning and multi-LLM fallback. [github.com/LiRunGuo/Arhelper](https://github.com/LiRunGuo/Arhelper)
+
+[All publications](/publications/)
 
 Open-Source Contributions (ML Systems)
 ======
-Merged fixes to PyTorch, vLLM, DeepSpeed, a pure-C MoE inference engine, SGLang, JAX, FlashAttention, verl, Triton, Apache TVM, LMCache, and vLLM-Omni, plus an MLflow bug report whose fix landed upstream. The list is ordered by the upstream project's star count.
+17 merged pull requests across 12 upstream projects, including PyTorch, vLLM, DeepSpeed, SGLang, JAX, FlashAttention, and Triton, plus an MLflow bug report whose fix landed upstream. A selection, ordered by the upstream project's star count:
 
 - **PyTorch — CUDA kernels** — fixed an int32 overflow in the `cdist` backward kernel, where indices wrapped negative past 2³¹ and slipped past the bounds check into an illegal memory access.
 - **vLLM — KV cache quantization** — let the int4 per-token-head KV cache run on head sizes that are not powers of two (e.g. Phi-3's 96), where a power-of-two-only Hadamard rotation aborted engine initialization instead of quantizing.
 - **DeepSpeed — distributed training** — fixed a ZeRO-3 rollout deadlock caused by unsynchronized generation stopping, and blocked partial Hybrid Engine policy injection for unsupported architectures (validated on H200 and MI250 GPUs).
 - **colibri — pure-C MoE inference engine** — multi-drive expert streaming for the 510 GB DeepSeek-V4.1 container, physical-core OpenMP team sizing in four engines that were **18.7× slower** without it, and a plan/runtime mismatch that silently allocated **6.25 GiB** of KV cache against a 0.02 GiB budget.
-- **SGLang — server startup** — stopped a failing DeepEP host check at import time from killing every server process, including dense models that never use DeepEP.
-- **JAX — batched linear algebra** — made `jax.scipy.linalg.lu` accept the batched `(..., M, N)` inputs its documentation promises, instead of failing on anything beyond 2-D.
-- **MLflow — SQLAlchemy stores** — root-caused the numeric-attribute search failures under PostgreSQL with psycopg v3 to a string return in `SearchUtils`, and the fix landed upstream (#26180).
 - **FlashAttention — CuTe kernels** — fitted the SM90 forward tile to the block-sparse block size (block sparsity on Hopper went from 8 of 40 head-dim/block-size combinations working to 32), and stopped the causal forward from re-applying an all-true mask on unmasked KV blocks, cutting its instruction count from 580 to 477 per loop.
-- **verl — RL post-training** — restored FSDP value-head critic loading after TRL relocated its value-head model classes.
 - **Triton — GPU compiler** — stopped nested-loop fusion from trusting an `llvm.assume` outside the loop, which removed a zero-trip guard and could cause incorrect memory writes (MLIR regression test and H200 reproducer).
-- **Apache TVM — ONNX frontend** — let Hardmax lower when the reduced axis has a symbolic extent, instead of failing on `one_hot`'s static-only `depth` attribute.
-- **LMCache — KV cache management** — made the allocator reject invalid sizes instead of silently emptying the cache, and enforced lazy `%`-format logging (ruff G004) so new f-string logging can no longer land in already-migrated files.
-- **vLLM-Omni — omni-modal inference** — turned a malformed Qwen2.5-Omni prompt from an engine-killing crash into a rejected request.
 
-[Browse the full portfolio](/portfolio/) — seventeen merged pull requests across twelve upstream projects, each with a reproducer or regression test attached.
+[Browse the full portfolio](/portfolio/) — every entry comes with a reproducer or regression test attached.
 
-Technical Skills
-======
-- **ML Systems and Inference** — MoE expert streaming and disk-resident inference, KV-cache and memory budgeting, attention and quantization kernels, serving engines (vLLM, SGLang, TensorRT-LLM), CUDA/Triton kernel-level debugging, GPU compiler passes (MLIR), performance profiling
-- **Training and Post-Training Infrastructure** — distributed data/tensor/pipeline parallelism, ZeRO-3 and FSDP, Megatron-LM, DeepSpeed Hybrid Engine, collective synchronization and deadlock debugging, RL rollout systems (verl, TRL), SFT and preference optimization (DPO/GRPO/PPO), distillation, LoRA/PEFT
-- **Languages and Tooling** — Python, C, CUDA/Triton, SQL, Bash, LaTeX; PyTorch, Transformers, FlashAttention, FAISS; Git-based upstream contribution, regression testing, reproducible benchmarking, Linux, Docker
-- **Systems for Agents** — agentic planning and tool use, RAG and long-term memory, execution-grounded evaluation, runtime safety gates, multi-channel gateways (FastAPI)
+I also maintain **ARH (AI Research Helper)**, an open-source CLI-first research assistant agent with tool use, plan/execute safety, three-layer memory, skill self-learning and multi-LLM fallback. [github.com/LiRunGuo/Arhelper](https://github.com/LiRunGuo/Arhelper)
 
 News
 ======
 - **2026.10** — *BreadthKV* (single-author) released as an arXiv preprint: [2610.05685](https://arxiv.org/abs/2610.05685). New merged fixes in **vLLM** (int4 KV cache) and **SGLang** (server startup).
-- **2026.09** — Open-source work merged across **PyTorch**, **DeepSpeed**, **colibri**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus a bug report fixed upstream in **MLflow**; portfolio now lists fourteen merged pull requests and is ordered by upstream star count.
+- **2026.09** — Open-source work merged across **PyTorch**, **DeepSpeed**, **colibri**, **JAX**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus a bug report fixed upstream in **MLflow**.
 - **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉

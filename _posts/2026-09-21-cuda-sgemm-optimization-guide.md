@@ -11,7 +11,11 @@ tags:
   - 导读
 toc: true
 toc_sticky: true
+lang: zh
 ---
+
+> **English summary.** A reading guide to Simon Boehm's CUDA matmul worklog: how a naive SGEMM kernel at 1.3% of cuBLAS reaches 93.7% with warptiling, which bottleneck each version runs into, and which of the methods carry over to other kernels. Written in my own words; the original has the full code and data. *The full post is in Chinese.*
+
 
 > **这是一篇导读，不是转载。** 原文是 Simon Boehm 于 2022 年 12 月发表在个人博客上的工作记录
 > [*How to Optimize a CUDA Matmul Kernel for cuBLAS-like Performance: a Worklog*](https://siboehm.com/articles/22/CUDA-MMM)，

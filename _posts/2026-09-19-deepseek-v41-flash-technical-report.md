@@ -11,7 +11,11 @@ tags:
   - 技术报告
 toc: true
 toc_sticky: true
+lang: zh
 ---
+
+> **English summary.** A module-by-module breakdown of the DeepSeek-V4.1-Flash technical report: the CED causal encoder–decoder, CSA2 compressed sparse attention, the MoE configuration, and the KV-cache and context budgets. Every claim is tagged with its evidence level and traced back to primary sources (the report, the official reference implementation, and the released configs). *The full post is in Chinese.*
+
 {% raw %}
 > **文档性质**：技术报告模块化拆解 + 一手来源追溯
 > **一手依据**：`DeepSeek_V41_Tech_Report.pdf`（51 页，已完整下载并抽取正文，161,461 字符）、Hugging Face 模型卡、官方仓库参考推理实现（`inference/*.py`）、`config.json`、官方 kernel 仓库（FlashMLA / DeepGEMM / DeepSelect）
