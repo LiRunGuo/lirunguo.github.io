@@ -1,4 +1,5 @@
 ---
+published: false   # outdated JSON CV; the PDF is the canonical CV
 layout: archive
 title: "CV"
 permalink: /cv-json/

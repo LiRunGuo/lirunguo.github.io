@@ -2,14 +2,16 @@
 title: "FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments"
 collection: publications
 category: conferences
-permalink: /publication/2026-08-finvault
+permalink: /publication/2026-01-finvault
+redirect_from:
+  - /publication/2026-08-finvault
 excerpt: 'The first execution-grounded security benchmark for LLM-based financial agents — 31 regulatory sandbox scenarios, 107 real-world vulnerabilities, 963 test cases. arXiv preprint.'
 date: 2026-01-09
 venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2601.07853'
 ---
 
-**Status:** arXiv preprint · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853)
+**Status:** arXiv preprint · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853) · **PDF:** [Download](https://arxiv.org/pdf/2601.07853)
 
 ### Authors
 

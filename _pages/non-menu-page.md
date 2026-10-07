@@ -1,4 +1,5 @@
 ---
+published: false   # template page, hidden from the live site
 permalink: /non-menu-page/
 title: "Page not in menu"
 author_profile: false

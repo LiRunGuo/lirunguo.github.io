@@ -26,7 +26,7 @@ author:
   name             : "Runguo Li"
   pronouns         : # example: "she/her"  
   bio              : "M.S. student in Information Science @ UIUC. Working on ML systems for large-scale models: MoE inference and expert streaming, distributed training and rollout, GPU compiler correctness."
-  location         : "America / Shanghai"
+  location         : "Urbana-Champaign, IL"
   employer         : "University of Illinois Urbana-Champaign"
   uri              :
   email            : "runguo.ai@gmail.com"
@@ -163,9 +163,24 @@ analytics:
 include:
   - .htaccess
   - _pages
-  - files
 exclude:
   - _llm-libs
+  # AcademicPages template leftovers, kept in the repo but not published
+  - files/paper1.pdf
+  - files/paper2.pdf
+  - files/paper3.pdf
+  - files/slides1.pdf
+  - files/slides2.pdf
+  - files/slides3.pdf
+  - images/500x300.png
+  - images/bio-photo.jpg
+  - images/bio-photo-2.jpg
+  - images/editing-talk.png
+  - talkmap
+  - talkmap.py
+  - talkmap.ipynb
+  - talkmap_out.ipynb
+  - markdown_generator
   - _pages/llm-libs.md
   - "*.sublime-project"
   - "*.sublime-workspace"
