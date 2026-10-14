@@ -1,15 +1,31 @@
 ---
 title: "vLLM-Omni — Omni-Modal Inference"
-excerpt: "Contributor to vLLM-Omni: merged a bug fix that turns a malformed Qwen2.5-Omni prompt from an engine-killing crash into a rejected request."
+excerpt: "Contributor to vLLM-Omni: block-sparse attention in the Qwen2.5-Omni Token2Wav DiT (a 4,000-frame sample went from 10.8 s to 2.87 s), plus a fix that turns a malformed prompt from an engine-killing crash into a rejected request."
 collection: portfolio
 category: contribution
-order: 13
+order: 14
 permalink: /portfolio/vllm-omni/
 ---
 
-I contribute to [vLLM-Omni](https://github.com/vllm-project/vllm-omni), the framework for efficient inference with omni-modality models, focusing on input-processing correctness for multi-modal models.
+I contribute to [vLLM-Omni](https://github.com/vllm-project/vllm-omni), the framework for efficient inference with omni-modality models, focusing on the latency and input-processing correctness of multi-modal models.
 
-### Merged contribution
+### Merged contributions
+
+**[PR #7975 — [Perf][Model] Use block-sparse attention in Qwen2.5-Omni Token2Wav DiT](https://github.com/vllm-project/vllm-omni/pull/7975)** · Merged October 8, 2026 (+133 / −26 across 2 files).
+
+After the thinker and talker, Qwen2.5-Omni's Token2Wav stage is the slowest part of a request: about 10–20 s on an H200 for 30–40 s of audio, almost all of it in a 22-layer fp32 DiT. The DiT only attends within 24-frame mel blocks (19 layers to their own block, 3 to one neighbour as well), but every layer built a dense `(batch, heads, n, n)` mask and ran dense SDPA over all `n` keys. On a 4,000-frame sample, about 35% of the CUDA time went to mask operations and about 30% to the dense attention kernel, where each query kept only 24–48 of the 4,000 keys.
+
+The new `block_sparse_attention()` reshapes queries, keys and values into blocks and attends to the own block plus the shifted neighbours, masking only the padded tail of a partial last block. The math is the same as the masked dense path, but the work is linear in sequence length instead of quadratic.
+
+| Measurement (H200, Qwen2.5-Omni-3B) | Before | After |
+| --- | --- | --- |
+| Standalone DiT, 4,000 mel frames | 10.8 s | **2.87 s** |
+| Peak extra memory, same sample | 2.74 GiB | **0.78 GiB** |
+| Token2Wav, 26.8 s of audio (cleanest request) | 8.61 s | **2.48 s** |
+| Token2Wav, 40.3 s of audio (cleanest request) | 20.71 s | **3.23 s** |
+
+Outputs are unchanged: identical thinker text and talker token counts, WAV correlation of at least 0.99982 against main, and identical Whisper-large-v3 transcriptions. Nine new CPU unit tests compare the block-sparse path with dense masked SDPA for sequences shorter than a block, an exact multiple of it, and a partial last block.
+
 
 **[PR #7959 — reject a stray `<|AUDIO|>` placeholder with `use_audio_in_video` in Qwen2.5-Omni](https://github.com/vllm-project/vllm-omni/pull/7959)** · Merged September 22, 2026 (+59 / −2 across 3 files).
 

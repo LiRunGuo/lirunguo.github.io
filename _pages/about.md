@@ -35,7 +35,7 @@ Selected Publications
 
 Open-Source Contributions (ML Systems)
 ======
-17 merged pull requests across 12 upstream projects, including PyTorch, vLLM, DeepSpeed, SGLang, JAX, FlashAttention, and Triton, plus an MLflow bug report whose fix landed upstream. A selection, ordered by the upstream project's star count:
+20 merged pull requests across 13 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, and Triton, plus an MLflow bug report whose fix landed upstream. A selection, ordered by the upstream project's star count:
 
 - **PyTorch — CUDA kernels** — fixed an int32 overflow in the `cdist` backward kernel, where indices wrapped negative past 2³¹ and slipped past the bounds check into an illegal memory access.
 - **vLLM — KV cache quantization** — let the int4 per-token-head KV cache run on head sizes that are not powers of two (e.g. Phi-3's 96), where a power-of-two-only Hadamard rotation aborted engine initialization instead of quantizing.
@@ -50,7 +50,7 @@ I also maintain **ARH (AI Research Helper)**, an open-source CLI-first research 
 
 News
 ======
-- **2026.10** — *BreadthKV* (single-author) released as an arXiv preprint: [2610.05685](https://arxiv.org/abs/2610.05685). New merged fixes in **vLLM** (int4 KV cache) and **SGLang** (server startup).
+- **2026.10** — *BreadthKV* (single-author) released as an arXiv preprint: [2610.05685](https://arxiv.org/abs/2610.05685). New merged fixes in **vLLM** (int4 KV cache), **SGLang** (server startup), **LLVM** (Attributor pointer tracking), **Triton** (fp64 atomics on AMD), and **vLLM-Omni** (block-sparse Token2Wav attention, up to 3.8× faster DiT).
 - **2026.09** — Open-source work merged across **PyTorch**, **DeepSpeed**, **colibri**, **JAX**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus a bug report fixed upstream in **MLflow**.
 - **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.

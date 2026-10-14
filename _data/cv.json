@@ -3,18 +3,26 @@
     "name": "Runguo Li",
     "email": "runguo.ai@gmail.com",
     "website": "https://runguoli.com",
-    "summary": "M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, distributed training and rollout infrastructure, RL post-training systems, and GPU compiler and kernel-level correctness. Merged open-source contributions to colibri, DeepSpeed, Triton, verl, and LMCache; research background in LLM reasoning, multimodal learning, and agent safety.",
+    "summary": "M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 20 merged pull requests across 13 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, and Triton. Applying to Ph.D. programs in ML systems for Fall 2028.",
     "profiles": [
       {
         "network": "GitHub",
         "username": "LiRunGuo",
         "url": "https://github.com/LiRunGuo"
+      },
+      {
+        "network": "Google Scholar",
+        "username": "Runguo Li",
+        "url": "https://scholar.google.com/citations?user=t82uTeYAAAAJ&hl=en"
+      },
+      {
+        "network": "ORCID",
+        "username": "0009-0002-0832-6227",
+        "url": "https://orcid.org/0009-0002-0832-6227"
       }
     ]
   },
-  "work": [
-
-  ],
+  "work": [],
   "education": [
     {
       "institution": "University of Illinois Urbana-Champaign",
@@ -30,19 +38,15 @@
       "gpa": "3.71/4.0"
     }
   ],
-  "skills": [
-
-  ],
-  "languages": [
-
-  ],
+  "skills": [],
+  "languages": [],
   "interests": [
     {
       "name": "ML Systems for Large Models",
       "keywords": [
         "MoE inference",
         "expert streaming",
-        "KV-cache budgeting",
+        "KV-cache compression",
         "performance profiling"
       ]
     },
@@ -65,36 +69,135 @@
       ]
     },
     {
-      "name": "LLM Reasoning and Multimodal Learning",
+      "name": "Earlier Research",
       "keywords": [
-        "chain-of-thought supervision",
-        "selective fine-tuning",
-        "retrieval and fusion"
-      ]
-    },
-    {
-      "name": "Agents and Security",
-      "keywords": [
-        "agentic planning",
-        "RAG",
-        "execution-grounded evaluation",
-        "runtime safety gates"
+        "LLM reasoning and multimodal learning",
+        "LLM for code",
+        "financial agent safety"
       ]
     }
   ],
-  "references": [
-
-  ],
+  "references": [],
   "publications": [
-
+    {
+      "name": "Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning",
+      "publisher": "arXiv preprint (single author)",
+      "releaseDate": "2026-10-05",
+      "website": "https://arxiv.org/abs/2610.05685",
+      "summary": "BreadthKV splits a fixed decode-time KV byte budget between token count and precision, beating eviction alone in 17 of 18 settings."
+    },
+    {
+      "name": "RVCFT: Reasoning-Visual Critical Token Fine-Tuning for Multimodal Reasoning",
+      "publisher": "Under review at AAAI 2027 (co-first author)",
+      "releaseDate": "2026-07-29",
+      "website": "https://runguoli.com/publication/2026-07-rvcft"
+    },
+    {
+      "name": "VeriBRT: Plan-Guided, Evidence-Based Automated Bug Reproduction",
+      "publisher": "Under review at ICSE 2027 (co-first author)",
+      "releaseDate": "2026-07-01",
+      "website": "https://runguoli.com/publication/2026-07-veribrt"
+    },
+    {
+      "name": "FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments",
+      "publisher": "arXiv preprint (co-first author)",
+      "releaseDate": "2026-01-09",
+      "website": "https://arxiv.org/abs/2601.07853"
+    }
   ],
-  "presentations": [
-
-  ],
-  "teaching": [
-
-  ],
+  "presentations": [],
+  "teaching": [],
   "portfolio": [
-
+    {
+      "name": "PyTorch",
+      "category": "open-source contribution",
+      "date": "2026-09",
+      "description": "Fixed an int32 overflow in the cdist CUDA backward kernel (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/pytorch/"
+    },
+    {
+      "name": "vLLM",
+      "category": "open-source contribution",
+      "date": "2026-10",
+      "description": "int4 per-token-head KV cache on head sizes that are not powers of two (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/vllm/"
+    },
+    {
+      "name": "DeepSpeed",
+      "category": "open-source contribution",
+      "date": "2026-08",
+      "description": "ZeRO-3 rollout deadlock and Hybrid Engine fallback for unsupported architectures (2 merged PRs).",
+      "url": "https://runguoli.com/portfolio/deepspeed/"
+    },
+    {
+      "name": "colibri",
+      "category": "open-source contribution",
+      "date": "2026-09",
+      "description": "Multi-drive expert streaming, OpenMP team sizing, and plan/engine agreement in a pure-C MoE inference engine (3 merged PRs).",
+      "url": "https://runguoli.com/portfolio/colibri/"
+    },
+    {
+      "name": "LLVM",
+      "category": "open-source contribution",
+      "date": "2026-10",
+      "description": "Attributor AAPointerInfo follows only pointer-preserving casts (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/llvm/"
+    },
+    {
+      "name": "SGLang",
+      "category": "open-source contribution",
+      "date": "2026-10",
+      "description": "A failing DeepEP import-time check no longer kills servers that never use DeepEP (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/sglang/"
+    },
+    {
+      "name": "JAX",
+      "category": "open-source contribution",
+      "date": "2026-09",
+      "description": "Batched inputs in jax.scipy.linalg.lu (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/jax/"
+    },
+    {
+      "name": "FlashAttention",
+      "category": "open-source contribution",
+      "date": "2026-09",
+      "description": "SM90 block-sparse tile fitting and causal-mask skipping in the CuTe forward kernel (2 merged PRs).",
+      "url": "https://runguoli.com/portfolio/flash-attention/"
+    },
+    {
+      "name": "verl",
+      "category": "open-source contribution",
+      "date": "2026-08",
+      "description": "FSDP value-head critic loading after TRL relocated its classes (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/verl/"
+    },
+    {
+      "name": "Triton",
+      "category": "open-source contribution",
+      "date": "2026-10",
+      "description": "Loop-fusion zero-trip guard and fp64 atomic exchange on AMD buffer atomics (2 merged PRs).",
+      "url": "https://runguoli.com/portfolio/triton/"
+    },
+    {
+      "name": "Apache TVM",
+      "category": "open-source contribution",
+      "date": "2026-09",
+      "description": "ONNX Hardmax over a symbolic axis extent (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/tvm/"
+    },
+    {
+      "name": "LMCache",
+      "category": "open-source contribution",
+      "date": "2026-09",
+      "description": "Allocator size validation and a lazy-logging lint gate (2 merged PRs).",
+      "url": "https://runguoli.com/portfolio/lmcache/"
+    },
+    {
+      "name": "vLLM-Omni",
+      "category": "open-source contribution",
+      "date": "2026-10",
+      "description": "Block-sparse Token2Wav DiT attention (3.8x faster on a 4,000-frame sample) and malformed-prompt rejection (2 merged PRs).",
+      "url": "https://runguoli.com/portfolio/vllm-omni/"
+    }
   ]
 }

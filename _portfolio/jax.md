@@ -3,7 +3,7 @@ title: "JAX — Batched Linear Algebra"
 excerpt: "Contributor to JAX: merged a fix so jax.scipy.linalg.lu accepts the batched inputs its documentation promises, and stops mixing real and complex operands for permute_l."
 collection: portfolio
 category: contribution
-order: 6
+order: 7
 permalink: /portfolio/jax/
 ---
 
