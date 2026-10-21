@@ -3,7 +3,7 @@
     "name": "Runguo Li",
     "email": "runguo.ai@gmail.com",
     "website": "https://runguoli.com",
-    "summary": "M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 21 merged pull requests across 13 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, and Triton. Applying to Ph.D. programs in ML systems for Fall 2028.",
+    "summary": "M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 22 merged pull requests across 14 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, and Megatron-LM. Applying to Ph.D. programs in ML systems for Fall 2028.",
     "profiles": [
       {
         "network": "GitHub",
@@ -79,6 +79,13 @@
   ],
   "references": [],
   "publications": [
+    {
+      "name": "Certified Sparse Attention via Perturbed Retrieval",
+      "publisher": "arXiv preprint (single author)",
+      "releaseDate": "2026-10-18",
+      "website": "https://arxiv.org/abs/2610.24991",
+      "summary": "Sparse attention with per-head error certificates via perturbed retrieval; no certificate violated on three LLMs at 16K–128K tokens, with 4.6–7.9× lower 90th-percentile error than the best of 15 baseline families at equal keys read."
+    },
     {
       "name": "Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning",
       "publisher": "arXiv preprint (single author)",
@@ -177,6 +184,13 @@
       "date": "2026-10",
       "description": "Loop-fusion zero-trip guard and fp64 atomic exchange on AMD buffer atomics (2 merged PRs).",
       "url": "https://runguoli.com/portfolio/triton/"
+    },
+    {
+      "name": "Megatron-LM",
+      "category": "open-source contribution",
+      "date": "2026-10",
+      "description": "MoE checkpoint shards with prepended layer/expert axes take the DCP checkpointable path: 165x faster state-dict conversion, 3.4x shorter async-save blocking on 8xH200 (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/megatron-lm/"
     },
     {
       "name": "Apache TVM",

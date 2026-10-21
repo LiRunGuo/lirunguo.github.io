@@ -3,7 +3,7 @@ title: "Apache TVM — ONNX Frontend & Symbolic Shapes"
 excerpt: "Contributor to Apache TVM: merged a Relax/ONNX frontend fix that lets Hardmax lower when the reduced axis has a symbolic extent, instead of failing on a static-only attribute."
 collection: portfolio
 category: contribution
-order: 12
+order: 13
 permalink: /portfolio/tvm/
 ---
 

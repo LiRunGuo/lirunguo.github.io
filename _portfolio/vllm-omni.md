@@ -3,7 +3,7 @@ title: "vLLM-Omni — Omni-Modal Inference"
 excerpt: "Contributor to vLLM-Omni: block-sparse attention in the Qwen2.5-Omni Token2Wav DiT (a 4,000-frame sample went from 10.8 s to 2.87 s), plus a fix that turns a malformed prompt from an engine-killing crash into a rejected request."
 collection: portfolio
 category: contribution
-order: 14
+order: 15
 permalink: /portfolio/vllm-omni/
 ---
 

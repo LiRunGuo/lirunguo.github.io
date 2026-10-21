@@ -13,7 +13,7 @@ bibtexurl: '/files/bibtex/yang2026finvault.bib'
 citation: 'Zhi Yang*, Runguo Li*, et al. (2026). &quot;FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments.&quot; arXiv:2601.07853. (*equal contribution)'
 ---
 
-**Status:** arXiv preprint · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853) · **PDF:** [Download](https://arxiv.org/pdf/2601.07853)
+**Status:** arXiv preprint · **arXiv:** [2601.07853](https://arxiv.org/abs/2601.07853) · **PDF:** [Download](https://arxiv.org/pdf/2601.07853) · **Code:** [aifinlab/FinVault](https://github.com/aifinlab/FinVault)
 
 ### Authors
 

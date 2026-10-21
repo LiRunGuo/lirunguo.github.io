@@ -26,6 +26,7 @@ Earlier work covered LLM reasoning and multimodal learning ([RVCFT](/publication
 
 Selected Publications
 ======
+- 📝 **Certified Sparse Attention** — [*Certified Sparse Attention via Perturbed Retrieval*](/publication/2026-10-certified-sparse-attention) — **arXiv preprint**, single author. [arXiv:2610.24991](https://arxiv.org/abs/2610.24991)
 - 📝 **BreadthKV** — [*Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning*](/publication/2026-10-breadthkv) — **arXiv preprint**, single author. [arXiv:2610.05685](https://arxiv.org/abs/2610.05685)
 - 📝 **FinVault** — [*Benchmarking Financial Agent Safety in Execution-Grounded Environments*](/publication/2026-01-finvault) — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
 - 📝 **RVCFT** — [*Reasoning-Visual Critical Token Fine-Tuning for Multimodal Reasoning*](/publication/2026-07-rvcft) — co-first author, under review at AAAI 2027.
@@ -35,7 +36,7 @@ Selected Publications
 
 Open-Source Contributions (ML Systems)
 ======
-21 merged pull requests across 13 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, and Triton, plus an MLflow bug report whose fix landed upstream. A selection, ordered by the upstream project's star count:
+22 merged pull requests across 14 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, and Megatron-LM, plus an MLflow bug report whose fix landed upstream. A selection, ordered by the upstream project's star count:
 
 - **PyTorch — CUDA kernels** — fixed an int32 overflow in the `cdist` backward kernel, where indices wrapped negative past 2³¹ and slipped past the bounds check into an illegal memory access.
 - **vLLM — KV cache quantization** — let the int4 per-token-head KV cache run on head sizes that are not powers of two (e.g. Phi-3's 96), where a power-of-two-only Hadamard rotation aborted engine initialization instead of quantizing.
@@ -50,6 +51,7 @@ I also maintain **ARH (AI Research Helper)**, an open-source CLI-first research 
 
 News
 ======
+- **2026.10** — *Certified Sparse Attention via Perturbed Retrieval* (single-author) released as an arXiv preprint: [2610.24991](https://arxiv.org/abs/2610.24991). Merged in **Megatron-LM**: MoE checkpoint shards now take the DCP checkpointable path (165× faster state-dict conversion, 3.4× shorter async-save blocking on 8×H200).
 - **2026.10** — *BreadthKV* (single-author) released as an arXiv preprint: [2610.05685](https://arxiv.org/abs/2610.05685). New merged fixes in **vLLM** (int4 KV cache), **SGLang** (server startup), **LLVM** (Attributor pointer tracking and ValueTracking range implications), **Triton** (fp64 atomics on AMD), and **vLLM-Omni** (block-sparse Token2Wav attention, up to 3.8× faster DiT).
 - **2026.09** — Open-source work merged across **PyTorch**, **DeepSpeed**, **colibri**, **JAX**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus a bug report fixed upstream in **MLflow**.
 - **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
