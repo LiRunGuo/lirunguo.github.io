@@ -3,7 +3,7 @@
     "name": "Runguo Li",
     "email": "runguo.ai@gmail.com",
     "website": "https://runguoli.com",
-    "summary": "M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 20 merged pull requests across 13 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, and Triton. Applying to Ph.D. programs in ML systems for Fall 2028.",
+    "summary": "M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 21 merged pull requests across 13 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, and Triton. Applying to Ph.D. programs in ML systems for Fall 2028.",
     "profiles": [
       {
         "network": "GitHub",
@@ -140,7 +140,7 @@
       "name": "LLVM",
       "category": "open-source contribution",
       "date": "2026-10",
-      "description": "Attributor AAPointerInfo follows only pointer-preserving casts (1 merged PR).",
+      "description": "ValueTracking proves x != y from ranges on x - y that exclude zero; Attributor AAPointerInfo follows only pointer-preserving casts (2 merged PRs).",
       "url": "https://runguoli.com/portfolio/llvm/"
     },
     {
