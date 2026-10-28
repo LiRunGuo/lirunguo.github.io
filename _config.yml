@@ -247,6 +247,11 @@ collections:
 
 # These settings control how pages and collections are included in the site
 defaults:
+  # Transcripts: reachable by direct link only, kept out of the sitemap
+  - scope:
+      path: "files/transcripts"
+    values:
+      sitemap: false
   # _posts
   - scope:
       path: ""
