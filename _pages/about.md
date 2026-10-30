@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-I am an **M.S. student in Information Science** at the **University of Illinois Urbana-Champaign (UIUC)**.
+I am an **M.S. student in Information Management** at the **University of Illinois Urbana-Champaign (UIUC)**.
 
 I work on **ML systems for large-scale models**: inference engines and expert streaming for MoE models, distributed training and rollout infrastructure, RL post-training systems, and GPU compiler and kernel-level correctness. I like to sit between the machine and the model — how weights are read from storage, how collectives and thread teams are sized, and whether a resource plan and the runtime agree about what will actually be built. I keep a research background in LLM reasoning, multimodal learning, and agent safety, and I bring an upstream-first habit to all of it: reproduce failures in real production stacks, then contribute fixes with regression tests and measured before/after numbers.
 
@@ -57,7 +57,7 @@ News
 - **2026.10** — *Certified Sparse Attention via Perturbed Retrieval* (single-author) released as an arXiv preprint: [2610.24991](https://arxiv.org/abs/2610.24991). Merged in **Megatron-LM**: MoE checkpoint shards now take the DCP checkpointable path (165× faster state-dict conversion, 3.4× shorter async-save blocking on 8×H200).
 - **2026.10** — *BreadthKV* (single-author) released as an arXiv preprint: [2610.05685](https://arxiv.org/abs/2610.05685). New merged fixes in **vLLM** (int4 KV cache), **SGLang** (server startup), **LLVM** (Attributor pointer tracking and ValueTracking range implications), **Triton** (fp64 atomics on AMD), and **vLLM-Omni** (block-sparse Token2Wav attention, up to 3.8× faster DiT).
 - **2026.09** — Open-source work merged across **PyTorch**, **DeepSpeed**, **colibri**, **JAX**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus a bug report fixed upstream in **MLflow**.
-- **2026.08** — Started the M.S. in Information Science program at the University of Illinois Urbana-Champaign.
+- **2026.08** — Started the M.S. in Information Management program at the University of Illinois Urbana-Champaign.
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉
 - **2026.03** — Joined Shanghai Jiao Tong University as a research intern (LLM for Code, advised by Prof. Xiaodong Gu).

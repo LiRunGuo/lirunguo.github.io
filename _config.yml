@@ -12,7 +12,7 @@ site_theme               : "default" # The available themes options are "default
 title                    : "Runguo Li"
 title_separator          : "-"
 name                     : &name "Runguo Li"
-description              : &description "Personal academic homepage of Runguo Li — M.S. student in Information Science at UIUC, working on ML systems for large-scale models: MoE inference and expert streaming, distributed training and rollout, and GPU compiler correctness."
+description              : &description "Personal academic homepage of Runguo Li — M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference and expert streaming, distributed training and rollout, and GPU compiler correctness."
 url                      : https://runguoli.com
 baseurl                  : ""
 repository               : "LiRunGuo/lirunguo.github.io"
@@ -25,7 +25,7 @@ author:
   avatar           : "profile.jpg"
   name             : "Runguo Li"
   pronouns         : # example: "she/her"  
-  bio              : "M.S. student in Information Science @ UIUC. Working on ML systems for large-scale models: MoE inference and expert streaming, distributed training and rollout, GPU compiler correctness."
+  bio              : "M.S. student in Information Management @ UIUC. Working on ML systems for large-scale models: MoE inference and expert streaming, distributed training and rollout, GPU compiler correctness."
   location         : "Urbana-Champaign, IL"
   employer         : "University of Illinois Urbana-Champaign"
   uri              :
