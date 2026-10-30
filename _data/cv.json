@@ -80,6 +80,20 @@
   "references": [],
   "publications": [
     {
+      "name": "AXR: Reusing Intermediate Results for LLM Agents in PostgreSQL",
+      "publisher": "Under review at SIGMOD 2027 (single author)",
+      "releaseDate": "2026-10-28",
+      "website": "https://runguoli.com/files/axr-agent-result-reuse.pdf",
+      "summary": "A PostgreSQL extension that materializes plan-subtree results as LLM agents query and reuses them in later plans; 6.5–51.0% less database time on TPC-H with no wrong result in 776,114 checked executions."
+    },
+    {
+      "name": "How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime",
+      "publisher": "Under review at ICML 2027 (single author)",
+      "releaseDate": "2026-10-27",
+      "website": "https://runguoli.com/files/gptq-random-rotation.pdf",
+      "summary": "Sharp worst-case rate gap between randomly rotated GPTQ and WaterSIC via the Lyapunov-exponent limit of Cholesky pivots; median gap 0.04 bit on 96 Qwen3 and Llama-3.1 Hessians."
+    },
+    {
       "name": "Certified Sparse Attention via Perturbed Retrieval",
       "publisher": "arXiv preprint (single author)",
       "releaseDate": "2026-10-18",

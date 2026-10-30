@@ -26,6 +26,8 @@ Earlier work covered LLM reasoning and multimodal learning ([RVCFT](/publication
 
 Selected Publications
 ======
+- 📝 **AXR** — [*AXR: Reusing Intermediate Results for LLM Agents in PostgreSQL*](/publication/2026-10-axr) — single author, under review at SIGMOD 2027. [PDF](/files/axr-agent-result-reuse.pdf)
+- 📝 **GPTQ under random rotation** — [*How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime*](/publication/2026-10-gptq-rotation) — single author, under review at ICML 2027. [PDF](/files/gptq-random-rotation.pdf)
 - 📝 **Certified Sparse Attention** — [*Certified Sparse Attention via Perturbed Retrieval*](/publication/2026-10-certified-sparse-attention) — **arXiv preprint**, single author. [arXiv:2610.24991](https://arxiv.org/abs/2610.24991)
 - 📝 **BreadthKV** — [*Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning*](/publication/2026-10-breadthkv) — **arXiv preprint**, single author. [arXiv:2610.05685](https://arxiv.org/abs/2610.05685)
 - 📝 **FinVault** — [*Benchmarking Financial Agent Safety in Execution-Grounded Environments*](/publication/2026-01-finvault) — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
@@ -51,6 +53,7 @@ I also maintain **ARH (AI Research Helper)**, an open-source CLI-first research 
 
 News
 ======
+- **2026.10** — Two new single-author manuscripts under review: *AXR* (intermediate-result reuse for LLM agents in PostgreSQL, SIGMOD 2027) and *How Much Does Random Rotation Help GPTQ?* (ICML 2027).
 - **2026.10** — *Certified Sparse Attention via Perturbed Retrieval* (single-author) released as an arXiv preprint: [2610.24991](https://arxiv.org/abs/2610.24991). Merged in **Megatron-LM**: MoE checkpoint shards now take the DCP checkpointable path (165× faster state-dict conversion, 3.4× shorter async-save blocking on 8×H200).
 - **2026.10** — *BreadthKV* (single-author) released as an arXiv preprint: [2610.05685](https://arxiv.org/abs/2610.05685). New merged fixes in **vLLM** (int4 KV cache), **SGLang** (server startup), **LLVM** (Attributor pointer tracking and ValueTracking range implications), **Triton** (fp64 atomics on AMD), and **vLLM-Omni** (block-sparse Token2Wav attention, up to 3.8× faster DiT).
 - **2026.09** — Open-source work merged across **PyTorch**, **DeepSpeed**, **colibri**, **JAX**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus a bug report fixed upstream in **MLflow**.
