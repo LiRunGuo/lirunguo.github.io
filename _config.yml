@@ -237,9 +237,6 @@ collections:
   talks:
     output: true
     permalink: /:collection/:path/
-  course-notes:
-    output: true
-    permalink: /course-notes/:path/
   daily:
     output: false   # offline for now; set back to true to republish /daily/
     permalink: /daily/:path/
@@ -303,14 +300,6 @@ defaults:
       type: talks
     values:
       layout: talk
-      author_profile: false   # sidebar is opt-in (home page only)
-      share: true
-  # _course-notes
-  - scope:
-      path: ""
-      type: course-notes
-    values:
-      layout: single
       author_profile: false   # sidebar is opt-in (home page only)
       share: true
   # _daily

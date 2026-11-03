@@ -22,8 +22,6 @@ Research Interests
 - **Distributed Training & Rollout** — ZeRO-3, FSDP, Megatron-LM, Hybrid Engine, collective synchronization and deadlock debugging, RL rollout systems (verl, TRL)
 - **GPU Compiler & Kernel Correctness** — MLIR passes, Triton/CUDA kernel-level debugging, reproducible regression tests
 
-Earlier work covered LLM reasoning and multimodal learning ([RVCFT](/publication/2026-07-rvcft)), LLM for code ([VeriBRT](/publication/2026-07-veribrt)), and financial agent safety ([FinVault](/publication/2026-01-finvault)).
-
 Selected Publications
 ======
 - 📝 **Interrupt Budgets** — [*Interrupt Budgets for Pre-Execution AI Control Monitors*](/publication/2026-11-interrupt-budgets) — single author, under review. [PDF](/files/interrupt-budgets-ai-control.pdf)
