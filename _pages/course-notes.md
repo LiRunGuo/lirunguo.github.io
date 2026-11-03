@@ -6,7 +6,7 @@ author_profile: false
 toc: false
 ---
 
-这里整理我在计算机科学与人工智能课程学习过程中的系统笔记，共 37 份 PDF。每门课程保留名称与简短介绍，点击课程标题即可直接打开对应 PDF。
+These are my structured notes from computer science and AI courses, with 37 PDFs in total. Each course includes a short description; click a course title to open its PDF.
 
 {% for section in site.data.course_notes %}
 <h2 class="archive__subtitle">{{ section.name }}</h2>
