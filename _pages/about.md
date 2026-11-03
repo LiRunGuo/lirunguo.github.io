@@ -46,11 +46,9 @@ Open-Source Contributions (ML Systems)
 
 [Browse the full portfolio](/portfolio/) — every entry comes with a reproducer or regression test attached.
 
-I also maintain **ARH (AI Research Helper)**, an open-source CLI-first research assistant agent with tool use, plan/execute safety, three-layer memory, skill self-learning and multi-LLM fallback. [github.com/LiRunGuo/Arhelper](https://github.com/LiRunGuo/Arhelper)
-
 Get in Touch
 ======
-- ✉️  Email: [runguo.ai@gmail.com](mailto:runguo.ai@gmail.com)
+- ✉️  Email: [runguol2@illinois.edu](mailto:runguol2@illinois.edu)
 - 💬 WeChat: **RunguoLi2004**
 - 🐙 GitHub: [github.com/LiRunGuo](https://github.com/LiRunGuo)
 - 🎓 Google Scholar: [Runguo Li](https://scholar.google.com/citations?user=t82uTeYAAAAJ&hl=en)

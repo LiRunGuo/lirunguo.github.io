@@ -5,21 +5,18 @@ permalink: /portfolio/
 author_profile: false
 ---
 
-{% include base_path %}
-
-<p>I contribute to open-source AI infrastructure, with a focus on distributed training, GPU compiler correctness, kernel-level inference engines, KV-cache quantization, and reinforcement learning systems.</p>
-
-<p>As of November 2, 2026 I have <strong>22 public merged pull requests</strong> across <strong>14 public upstream projects</strong> (private repositories and unmerged pull requests excluded), plus filed bug reports whose fixes landed upstream in <strong>MLflow</strong>. Each contribution ships with a minimal reproducer, a measurement, or a regression test, and the entries below link to the upstream discussions. They are ordered by the upstream project's star count, largest first.</p>
+<p>Public upstream contributions. Each project links to my GitHub contribution history.</p>
 
 <h2 class="archive__subtitle">Open-source contributions</h2>
-{% assign contributions = site.portfolio | where: "category", "contribution" | sort: "order" %}
-{% for post in contributions %}
-  {% include archive-single.html %}
+<ul>
+{% for project in site.data.portfolio.open_source %}
+  <li><a href="{{ project.url }}">{{ project.name }}</a></li>
 {% endfor %}
+</ul>
 
 <h2 class="archive__subtitle">Personal projects</h2>
-{% for post in site.portfolio %}
-  {% unless post.category == "contribution" %}
-  {% include archive-single.html %}
-  {% endunless %}
+<ul>
+{% for project in site.data.portfolio.personal %}
+  <li><a href="{{ project.url }}">{{ project.name }}</a></li>
 {% endfor %}
+</ul>

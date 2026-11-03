@@ -1,0 +1,35 @@
+open_source:
+  - name: vLLM
+    url: "https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: colibri
+    url: "https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: DeepSpeed
+    url: "https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: LLVM
+    url: "https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: SGLang
+    url: "https://github.com/sgl-project/sglang/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: JAX
+    url: "https://github.com/jax-ml/jax/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: MLflow
+    url: "https://github.com/mlflow/mlflow/issues?q=is%3Aissue+author%3ALiRunGuo"
+  - name: FlashAttention
+    url: "https://github.com/Dao-AILab/flash-attention/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: verl
+    url: "https://github.com/verl-project/verl/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: Triton
+    url: "https://github.com/triton-lang/triton/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: Megatron-LM
+    url: "https://github.com/NVIDIA/Megatron-LM/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: Apache TVM
+    url: "https://github.com/apache/tvm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: LMCache
+    url: "https://github.com/LMCache/LMCache/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: vLLM-Omni
+    url: "https://github.com/vllm-project/vllm-omni/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: FlashInfer
+    url: "https://github.com/flashinfer-ai/flashinfer/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+
+personal:
+  - name: ARH
+    url: "https://github.com/LiRunGuo/Arhelper"

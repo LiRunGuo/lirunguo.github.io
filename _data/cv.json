@@ -1,7 +1,7 @@
 {
   "basics": {
     "name": "Runguo Li",
-    "email": "runguo.ai@gmail.com",
+    "email": "runguol2@illinois.edu",
     "website": "https://runguoli.com",
     "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 22 public merged pull requests across 14 upstream projects after excluding private repositories, including vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, and FlashInfer. Applying to Ph.D. programs in ML systems for Fall 2028.",
     "profiles": [
@@ -211,98 +211,98 @@
       "category": "open-source contribution",
       "date": "2026-10",
       "description": "int4 per-token-head KV cache on head sizes that are not powers of two (1 merged PR).",
-      "url": "https://runguoli.com/portfolio/vllm/"
+      "url": "https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "DeepSpeed",
       "category": "open-source contribution",
       "date": "2026-08",
       "description": "ZeRO-3 rollout deadlock and Hybrid Engine fallback for unsupported architectures (2 merged PRs).",
-      "url": "https://runguoli.com/portfolio/deepspeed/"
+      "url": "https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "colibri",
       "category": "open-source contribution",
       "date": "2026-09",
       "description": "Multi-drive expert streaming, OpenMP team sizing, and plan/engine agreement in a pure-C MoE inference engine (3 merged PRs).",
-      "url": "https://runguoli.com/portfolio/colibri/"
+      "url": "https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "LLVM",
       "category": "open-source contribution",
       "date": "2026-10",
       "description": "ValueTracking proves x != y from ranges on x - y that exclude zero; Attributor AAPointerInfo follows only pointer-preserving casts (2 merged PRs).",
-      "url": "https://runguoli.com/portfolio/llvm/"
+      "url": "https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "SGLang",
       "category": "open-source contribution",
       "date": "2026-10",
       "description": "A failing DeepEP import-time check no longer kills servers that never use DeepEP (1 merged PR).",
-      "url": "https://runguoli.com/portfolio/sglang/"
+      "url": "https://github.com/sgl-project/sglang/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "JAX",
       "category": "open-source contribution",
       "date": "2026-09",
       "description": "Batched inputs in jax.scipy.linalg.lu (1 merged PR).",
-      "url": "https://runguoli.com/portfolio/jax/"
+      "url": "https://github.com/jax-ml/jax/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "FlashAttention",
       "category": "open-source contribution",
       "date": "2026-09",
       "description": "SM90 block-sparse tile fitting and causal-mask skipping in the CuTe forward kernel (2 merged PRs).",
-      "url": "https://runguoli.com/portfolio/flash-attention/"
+      "url": "https://github.com/Dao-AILab/flash-attention/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "verl",
       "category": "open-source contribution",
       "date": "2026-08",
       "description": "FSDP value-head critic loading after TRL relocated its classes (1 merged PR).",
-      "url": "https://runguoli.com/portfolio/verl/"
+      "url": "https://github.com/verl-project/verl/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "Triton",
       "category": "open-source contribution",
       "date": "2026-10",
       "description": "Loop-fusion zero-trip guard and fp64 atomic exchange on AMD buffer atomics (2 merged PRs).",
-      "url": "https://runguoli.com/portfolio/triton/"
+      "url": "https://github.com/triton-lang/triton/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "Megatron-LM",
       "category": "open-source contribution",
       "date": "2026-10",
       "description": "MoE checkpoint shards with prepended layer/expert axes take the DCP checkpointable path: 165x faster state-dict conversion, 3.4x shorter async-save blocking on 8xH200 (1 merged PR).",
-      "url": "https://runguoli.com/portfolio/megatron-lm/"
+      "url": "https://github.com/NVIDIA/Megatron-LM/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "Apache TVM",
       "category": "open-source contribution",
       "date": "2026-09",
       "description": "ONNX Hardmax over a symbolic axis extent (1 merged PR).",
-      "url": "https://runguoli.com/portfolio/tvm/"
+      "url": "https://github.com/apache/tvm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "LMCache",
       "category": "open-source contribution",
       "date": "2026-09",
       "description": "Allocator size validation and a lazy-logging lint gate (2 merged PRs).",
-      "url": "https://runguoli.com/portfolio/lmcache/"
+      "url": "https://github.com/LMCache/LMCache/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "vLLM-Omni",
       "category": "open-source contribution",
       "date": "2026-10",
       "description": "Block-sparse Token2Wav DiT attention (3.8x faster on a 4,000-frame sample) and malformed-prompt rejection (2 merged PRs).",
-      "url": "https://runguoli.com/portfolio/vllm-omni/"
+      "url": "https://github.com/vllm-project/vllm-omni/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
       "name": "FlashInfer",
       "category": "open-source contribution",
       "date": "2026-10",
       "description": "Non-contiguous attention-plan metadata is normalized before planning and kernel use, preventing illegal memory accesses and wrong outputs across ragged, paged, and sparse backends (1 merged PR).",
-      "url": "https://runguoli.com/portfolio/flashinfer/"
+      "url": "https://github.com/flashinfer-ai/flashinfer/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     }
   ]
 }
