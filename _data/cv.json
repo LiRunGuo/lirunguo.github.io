@@ -3,7 +3,7 @@
     "name": "Runguo Li",
     "email": "runguol2@illinois.edu",
     "website": "https://runguoli.com",
-    "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 22 public merged pull requests across 14 upstream projects after excluding private repositories, including vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, and FlashInfer. Applying to Ph.D. programs in ML systems for Fall 2028.",
+    "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 26 public merged pull requests across 16 upstream projects after excluding private repositories, including Kubernetes, UCCL, vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, and FlashInfer. Applying to Ph.D. programs in ML systems for Fall 2028.",
     "profiles": [
       {
         "network": "GitHub",
@@ -207,6 +207,13 @@
   "teaching": [],
   "portfolio": [
     {
+      "name": "Kubernetes",
+      "category": "open-source contribution",
+      "date": "2026-11",
+      "description": "Attach/detach reconciler tests now stop their goroutines and wait for the global force-detach metric before asserting (1 merged PR).",
+      "url": "https://github.com/kubernetes/kubernetes/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+    },
+    {
       "name": "vLLM",
       "category": "open-source contribution",
       "date": "2026-10",
@@ -303,6 +310,13 @@
       "date": "2026-10",
       "description": "Non-contiguous attention-plan metadata is normalized before planning and kernel use, preventing illegal memory accesses and wrong outputs across ragged, paged, and sparse backends (1 merged PR).",
       "url": "https://github.com/flashinfer-ai/flashinfer/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+    },
+    {
+      "name": "UCCL",
+      "category": "open-source contribution",
+      "date": "2026-11",
+      "description": "RDMA flush request lifecycle and EQDS credit/retransmission state fixes, with host and GPU regression tests (3 merged PRs).",
+      "url": "https://github.com/uccl-project/uccl/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     }
   ]
 }

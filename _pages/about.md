@@ -34,7 +34,7 @@ Selected Publications
 
 Open-Source Contributions (ML Systems)
 ======
-22 public merged pull requests across 14 public upstream projects. Top five projects by GitHub stars: [vLLM](https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [colibri](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [DeepSpeed](https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [LLVM](https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [SGLang](https://github.com/sgl-project/sglang/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged). [View all contribution links](/portfolio/).
+26 public merged pull requests across 16 public upstream projects. Top five projects by GitHub stars: [Kubernetes](https://github.com/kubernetes/kubernetes/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [vLLM](https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [colibri](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [DeepSpeed](https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [LLVM](https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged). [View all contribution links](/portfolio/).
 
 Get in Touch
 ======

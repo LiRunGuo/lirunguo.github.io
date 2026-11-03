@@ -1,4 +1,6 @@
 open_source:
+  - name: Kubernetes
+    url: "https://github.com/kubernetes/kubernetes/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
   - name: vLLM
     url: "https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
   - name: colibri
@@ -11,8 +13,6 @@ open_source:
     url: "https://github.com/sgl-project/sglang/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
   - name: JAX
     url: "https://github.com/jax-ml/jax/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
-  - name: MLflow
-    url: "https://github.com/mlflow/mlflow/issues?q=is%3Aissue+author%3ALiRunGuo"
   - name: FlashAttention
     url: "https://github.com/Dao-AILab/flash-attention/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
   - name: verl
@@ -29,6 +29,8 @@ open_source:
     url: "https://github.com/vllm-project/vllm-omni/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
   - name: FlashInfer
     url: "https://github.com/flashinfer-ai/flashinfer/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: UCCL
+    url: "https://github.com/uccl-project/uccl/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
 
 personal:
   - name: ARH
