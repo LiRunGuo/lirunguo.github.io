@@ -26,8 +26,17 @@ Earlier work covered LLM reasoning and multimodal learning ([RVCFT](/publication
 
 Selected Publications
 ======
+- 📝 **Interrupt Budgets** — [*Interrupt Budgets for Pre-Execution AI Control Monitors*](/publication/2026-11-interrupt-budgets) — single author, under review. [PDF](/files/interrupt-budgets-ai-control.pdf)
+- 📝 **Trust but Verify** — [*Trust but Verify: Diagnosing Causal Prior-Data Fitted Networks and Testing When to Defer*](/publication/2026-11-causal-pfn-defer) — single author, under review. [PDF](/files/causal-pfn-diagnosis-defer.pdf)
 - 📝 **AXR** — [*AXR: Reusing Intermediate Results for LLM Agents in PostgreSQL*](/publication/2026-10-axr) — single author, under review. [PDF](/files/axr-agent-result-reuse.pdf)
-- 📝 **GPTQ under random rotation** — [*How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime*](/publication/2026-10-gptq-rotation) — single author, under review. [PDF](/files/gptq-random-rotation.pdf)
+- 📝 **Group-Conditional Coverage** — [*What Do Group-Conditional Coverage Metrics Measure?*](/publication/2026-11-group-coverage) — single author, under review. [PDF](/files/group-conditional-coverage.pdf)
+- 📝 **Supernode Specificity** — [*Is That Supernode Special?*](/publication/2026-11-supernode-specificity) — single author, under review. [PDF](/files/supernode-specificity.pdf)
+- 📝 **Search-Agent Answer State** — [*Do Search Agents Know When They Know?*](/publication/2026-11-search-agent-answer-state) — single author, under review. [PDF](/files/search-agent-answer-state.pdf)
+- 📝 **FP4 Long Reasoning** — [*What FP4 Costs Long Reasoning on Blackwell, Measured Above the Noise*](/publication/2026-11-fp4-long-reasoning) — single author, under review. [PDF](/files/fp4-long-reasoning.pdf)
+- 📝 **Tessera** — [*Predict, Don't Just Pair: Lossless Storage for Families of Fine-Tuned Models*](/publication/2026-11-tessera-lossless-storage) — single author, under review. [PDF](/files/tessera-lossless-storage.pdf)
+- 📝 **What Survives Distillation?** — [*What Survives Distillation? A Pre-registered Study of Training-Free Acceleration*](/publication/2026-11-gmsa-distillation) — single author, under review. [PDF](/files/gmsa-distillation-acceleration.pdf)
+- 📝 **Horizon-Aware Losses** — [*What Horizon-Aware Losses Do in Multi-Step Forecasting*](/publication/2026-11-horizon-aware-losses) — single author, under review. [PDF](/files/horizon-aware-losses.pdf)
+- 📝 **GPTQ under random rotation** — [*How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime*](/publication/2026-10-gptq-rotation) — single author, under review. [arXiv:2611.01669](https://arxiv.org/abs/2611.01669) · [PDF](/files/gptq-random-rotation.pdf)
 - 📝 **Certified Sparse Attention** — [*Certified Sparse Attention via Perturbed Retrieval*](/publication/2026-10-certified-sparse-attention) — **arXiv preprint**, single author. [arXiv:2610.24991](https://arxiv.org/abs/2610.24991)
 - 📝 **BreadthKV** — [*Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning*](/publication/2026-10-breadthkv) — **arXiv preprint**, single author. [arXiv:2610.05685](https://arxiv.org/abs/2610.05685)
 - 📝 **FinVault** — [*Benchmarking Financial Agent Safety in Execution-Grounded Environments*](/publication/2026-01-finvault) — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
@@ -53,6 +62,7 @@ I also maintain **ARH (AI Research Helper)**, an open-source CLI-first research 
 
 News
 ======
+- **2026.11** — Added ten top-ranked working papers to the publications page, each marked as under review. The GPTQ random-rotation paper is now also available as [arXiv:2611.01669](https://arxiv.org/abs/2611.01669).
 - **2026.10** — Two new single-author manuscripts under review: *AXR* (intermediate-result reuse for LLM agents in PostgreSQL) and *How Much Does Random Rotation Help GPTQ?*.
 - **2026.10** — *Certified Sparse Attention via Perturbed Retrieval* (single-author) released as an arXiv preprint: [2610.24991](https://arxiv.org/abs/2610.24991). Merged in **Megatron-LM**: MoE checkpoint shards now take the DCP checkpointable path (165× faster state-dict conversion, 3.4× shorter async-save blocking on 8×H200).
 - **2026.10** — *BreadthKV* (single-author) released as an arXiv preprint: [2610.05685](https://arxiv.org/abs/2610.05685). New merged fixes in **vLLM** (int4 KV cache), **SGLang** (server startup), **LLVM** (Attributor pointer tracking and ValueTracking range implications), **Triton** (fp64 atomics on AMD), and **vLLM-Omni** (block-sparse Token2Wav attention, up to 3.8× faster DiT).

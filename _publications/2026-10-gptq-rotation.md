@@ -3,15 +3,15 @@ title: "How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in t
 collection: publications
 category: preprints
 permalink: /publication/2026-10-gptq-rotation
-excerpt: 'Viewing GPTQ as Babai''s nearest-plane algorithm, this paper gives the sharp worst-case rate gap between randomly rotated GPTQ and WaterSIC, answering an open question of Ordentlich and Polyanskiy. Single-author work under review.'
+excerpt: 'Viewing GPTQ as Babai''s nearest-plane algorithm, this paper gives the sharp worst-case rate gap between randomly rotated GPTQ and WaterSIC, answering an open question of Ordentlich and Polyanskiy. Single-author work under review; available as arXiv:2611.01669.'
 date: 2026-10-27
 venue: 'Under review'
 paperurl: '/files/gptq-random-rotation.pdf'
 bibtexurl: '/files/bibtex/li2026gptqrotation.bib'
-citation: 'Runguo Li. (2026). &quot;How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime.&quot; Manuscript under review.'
+citation: 'Runguo Li. (2026). &quot;How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime.&quot; arXiv:2611.01669. Manuscript under review.'
 ---
 
-**Status:** Manuscript under review · **PDF:** [Download](/files/gptq-random-rotation.pdf)
+**Status:** Manuscript under review · **arXiv:** [2611.01669](https://arxiv.org/abs/2611.01669) · **PDF:** [Download](/files/gptq-random-rotation.pdf)
 
 ### Author
 

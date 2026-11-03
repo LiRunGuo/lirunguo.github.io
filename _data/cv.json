@@ -80,6 +80,20 @@
   "references": [],
   "publications": [
     {
+      "name": "Interrupt Budgets for Pre-Execution AI Control Monitors",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/interrupt-budgets-ai-control.pdf",
+      "summary": "Trajectory-level false interruption budgets expose the cost and limits of per-step-calibrated AI control monitors; a 1% per-step threshold interrupts 14–37% of benign LinuxArena runs."
+    },
+    {
+      "name": "Trust but Verify: Diagnosing Causal Prior-Data Fitted Networks and Testing When to Defer",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/causal-pfn-diagnosis-defer.pdf",
+      "summary": "Diagnoses three released causal PFNs against a generic TabPFN-DR baseline and introduces a retraining-free, region-wise deferral wrapper with a paired doubly robust test."
+    },
+    {
       "name": "AXR: Reusing Intermediate Results for LLM Agents in PostgreSQL",
       "publisher": "Under review (single author)",
       "releaseDate": "2026-10-28",
@@ -87,10 +101,59 @@
       "summary": "A PostgreSQL extension that materializes plan-subtree results as LLM agents query and reuses them in later plans; 6.5–51.0% less database time on TPC-H with no wrong result in 776,114 checked executions."
     },
     {
+      "name": "What Do Group-Conditional Coverage Metrics Measure? Identification, Inference and Auditing for Conformal Evaluation",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/group-conditional-coverage.pdf",
+      "summary": "Separates expected coverage, calibration-draw realized coverage, and test noise; gives sharp identified sets, noise floors, debiased inference, and finite-sample auditing tools for conformal evaluation."
+    },
+    {
+      "name": "Is That Supernode Special? Selection Rules and Null Models Change What Attribution-Graph Interventions Validate",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/supernode-specificity.pdf",
+      "summary": "Matched random replacements and two null models test 2,958 automatic and 14 hand-curated supernode claims, showing that selection rules and null choice change which attribution-graph interventions establish feature specificity."
+    },
+    {
+      "name": "Do Search Agents Know When They Know? Answer-State and Evidence Dynamics in RL-Trained Search Agents",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/search-agent-answer-state.pdf",
+      "summary": "An exact replay protocol over seven QA benchmarks shows RL-trained search agents often hold the right answer and then lose it; releases SufficiencyBench with 97,841 decision states."
+    },
+    {
+      "name": "What FP4 Costs Long Reasoning on Blackwell, Measured Above the Noise",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/fp4-long-reasoning.pdf",
+      "summary": "Repeated calibration draws, paired tests, and accuracy-budget curves show that FP4 mainly changes reasoning length and memory rather than producing stable accuracy gains."
+    },
+    {
+      "name": "Predict, Don't Just Pair: Lossless Storage for Families of Fine-Tuned Models",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/tessera-lossless-storage.pdf",
+      "summary": "Tessera predicts and entropy-codes delta residuals rather than only selecting bases, storing 25.3% of deduplicated bytes across 130 fine-tunes and four model families."
+    },
+    {
+      "name": "What Survives Distillation? A Pre-registered Study of Training-Free Acceleration for Few-Step and Autoregressive Video Diffusion",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/gmsa-distillation-acceleration.pdf",
+      "summary": "A pre-registered study of six distilled video-diffusion students showing that teacher-calibrated acceleration signals mislead and that student-local probes yield 2.5–3.5× end-to-end speedups."
+    },
+    {
+      "name": "What Horizon-Aware Losses Do in Multi-Step Forecasting: The L1 Norm, Not Decorrelation",
+      "publisher": "Under review (single author)",
+      "releaseDate": "2026-11-02",
+      "website": "https://runguoli.com/files/horizon-aware-losses.pdf",
+      "summary": "A controlled decomposition shows that recent horizon-aware forecasting losses gain from the L1 norm rather than from decorrelating forecast horizons."
+    },
+    {
       "name": "How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime",
       "publisher": "Under review (single author)",
       "releaseDate": "2026-10-27",
-      "website": "https://runguoli.com/files/gptq-random-rotation.pdf",
+      "website": "https://arxiv.org/abs/2611.01669",
       "summary": "Sharp worst-case rate gap between randomly rotated GPTQ and WaterSIC via the Lyapunov-exponent limit of Cholesky pivots; median gap 0.04 bit on 96 Qwen3 and Llama-3.1 Hessians."
     },
     {
