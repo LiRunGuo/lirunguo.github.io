@@ -4,5 +4,3 @@ sitemap: false
 ---
 User-agent: *
 Disallow: /files/transcripts/
-
-Sitemap: {{ "/sitemap.xml" | absolute_url }}
