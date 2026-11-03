@@ -5,7 +5,6 @@ author_profile: true
 toc: false
 redirect_from: 
   - /about/
-  - /about.html
 ---
 
 I am an **M.S. student in Information Management** at the **University of Illinois Urbana-Champaign (UIUC)**.
