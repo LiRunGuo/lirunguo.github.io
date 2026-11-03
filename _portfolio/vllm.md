@@ -3,7 +3,7 @@ title: "vLLM — Attention Kernels & KV Cache Quantization"
 excerpt: "Contributor to vLLM: merged a fix that lets the int4 per-token-head KV cache run on head sizes that are not powers of two, where a power-of-two-only Hadamard rotation aborted engine initialization instead of quantizing."
 collection: portfolio
 category: contribution
-order: 2
+order: 1
 permalink: /portfolio/vllm/
 ---
 

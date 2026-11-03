@@ -3,7 +3,7 @@ title: "Megatron-LM — Distributed Checkpointing for MoE"
 excerpt: "Contributor to Megatron-LM: merged a distributed-checkpointing change that describes MoE shards with prepended layer and expert axes through the DCP checkpointable path — 165× faster state-dict conversion and a 3.4× shorter blocking phase of async save on 8×H200, with identical checkpoint metadata."
 collection: portfolio
 category: contribution
-order: 12
+order: 11
 permalink: /portfolio/megatron-lm/
 ---
 

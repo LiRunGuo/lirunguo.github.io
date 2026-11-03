@@ -47,14 +47,14 @@ Selected Publications
 
 Open-Source Contributions (ML Systems)
 ======
-22 merged pull requests across 14 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, and Megatron-LM, plus an MLflow bug report whose fix landed upstream. A selection, ordered by the upstream project's star count:
+22 public merged pull requests across 14 public upstream projects (private repositories excluded), including vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, and FlashInfer. The count includes merged pull requests only; separately filed MLflow bug reports whose fixes landed upstream are not counted. A selection, ordered by the upstream project's star count:
 
-- **PyTorch — CUDA kernels** — fixed an int32 overflow in the `cdist` backward kernel, where indices wrapped negative past 2³¹ and slipped past the bounds check into an illegal memory access.
 - **vLLM — KV cache quantization** — let the int4 per-token-head KV cache run on head sizes that are not powers of two (e.g. Phi-3's 96), where a power-of-two-only Hadamard rotation aborted engine initialization instead of quantizing.
-- **DeepSpeed — distributed training** — fixed a ZeRO-3 rollout deadlock caused by unsynchronized generation stopping, and blocked partial Hybrid Engine policy injection for unsupported architectures (validated on H200 and MI250 GPUs).
 - **colibri — pure-C MoE inference engine** — multi-drive expert streaming for the 510 GB DeepSeek-V4.1 container, physical-core OpenMP team sizing in four engines that were **18.7× slower** without it, and a plan/runtime mismatch that silently allocated **6.25 GiB** of KV cache against a 0.02 GiB budget.
+- **DeepSpeed — distributed training** — fixed a ZeRO-3 rollout deadlock caused by unsynchronized generation stopping, and blocked partial Hybrid Engine policy injection for unsupported architectures (validated on H200 and MI250 GPUs).
 - **FlashAttention — CuTe kernels** — fitted the SM90 forward tile to the block-sparse block size (block sparsity on Hopper went from 8 of 40 head-dim/block-size combinations working to 32), and stopped the causal forward from re-applying an all-true mask on unmasked KV blocks, cutting its instruction count from 580 to 477 per loop.
 - **Triton — GPU compiler** — stopped nested-loop fusion from trusting an `llvm.assume` outside the loop, which removed a zero-trip guard and could cause incorrect memory writes (MLIR regression test and H200 reproducer).
+- **FlashInfer — attention planning** — made strided `indptr`, `indices`, and `last_page_len` metadata contiguous before planning and kernel use, preventing illegal memory accesses and wrong outputs across ragged, paged, and block-sparse attention backends.
 
 [Browse the full portfolio](/portfolio/) — every entry comes with a reproducer or regression test attached.
 
@@ -62,12 +62,13 @@ I also maintain **ARH (AI Research Helper)**, an open-source CLI-first research 
 
 News
 ======
+- **2026.11** — Public contribution audit refreshed: **22 merged PRs across 14 public upstream projects**, now including [FlashInfer #5385](https://github.com/flashinfer-ai/flashinfer/pull/5385). Unmerged pull requests and private repositories are excluded.
 - **2026.11** — Two co-authored arXiv preprints are now available: *Recency Is the Wrong Axis* ([2610.34436](https://arxiv.org/abs/2610.34436)) and *ScaleRLT* ([2610.34427](https://arxiv.org/abs/2610.34427)).
 - **2026.11** — Added ten top-ranked working papers to the publications page, each marked as under review. The GPTQ random-rotation paper is now also available as [arXiv:2611.01669](https://arxiv.org/abs/2611.01669).
 - **2026.10** — Two new single-author manuscripts under review: *AXR* (intermediate-result reuse for LLM agents in PostgreSQL) and *How Much Does Random Rotation Help GPTQ?*.
 - **2026.10** — *Certified Sparse Attention via Perturbed Retrieval* (single-author) released as an arXiv preprint: [2610.24991](https://arxiv.org/abs/2610.24991). Merged in **Megatron-LM**: MoE checkpoint shards now take the DCP checkpointable path (165× faster state-dict conversion, 3.4× shorter async-save blocking on 8×H200).
 - **2026.10** — *BreadthKV* (single-author) released as an arXiv preprint: [2610.05685](https://arxiv.org/abs/2610.05685). New merged fixes in **vLLM** (int4 KV cache), **SGLang** (server startup), **LLVM** (Attributor pointer tracking and ValueTracking range implications), **Triton** (fp64 atomics on AMD), and **vLLM-Omni** (block-sparse Token2Wav attention, up to 3.8× faster DiT).
-- **2026.09** — Open-source work merged across **PyTorch**, **DeepSpeed**, **colibri**, **JAX**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus a bug report fixed upstream in **MLflow**.
+- **2026.09** — Open-source work merged across **DeepSpeed**, **colibri**, **JAX**, **FlashAttention**, **verl**, **Triton**, **Apache TVM**, **LMCache**, and **vLLM-Omni**, plus bug reports fixed upstream in **MLflow**.
 - **2026.08** — Started the M.S. in Information Management program at the University of Illinois Urbana-Champaign.
 - **2026.07** — Completed research internships at the SUFE FinAI Center and Shanghai Jiao Tong University.
 - **2026.05** — Launched this personal homepage at [runguoli.com](https://runguoli.com). 🎉

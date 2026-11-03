@@ -3,7 +3,7 @@
     "name": "Runguo Li",
     "email": "runguo.ai@gmail.com",
     "website": "https://runguoli.com",
-    "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 22 merged pull requests across 14 upstream projects, including PyTorch, vLLM, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, and Megatron-LM. Applying to Ph.D. programs in ML systems for Fall 2028.",
+    "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 22 public merged pull requests across 14 upstream projects after excluding private repositories, including vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, and FlashInfer. Applying to Ph.D. programs in ML systems for Fall 2028.",
     "profiles": [
       {
         "network": "GitHub",
@@ -207,13 +207,6 @@
   "teaching": [],
   "portfolio": [
     {
-      "name": "PyTorch",
-      "category": "open-source contribution",
-      "date": "2026-09",
-      "description": "Fixed an int32 overflow in the cdist CUDA backward kernel (1 merged PR).",
-      "url": "https://runguoli.com/portfolio/pytorch/"
-    },
-    {
       "name": "vLLM",
       "category": "open-source contribution",
       "date": "2026-10",
@@ -303,6 +296,13 @@
       "date": "2026-10",
       "description": "Block-sparse Token2Wav DiT attention (3.8x faster on a 4,000-frame sample) and malformed-prompt rejection (2 merged PRs).",
       "url": "https://runguoli.com/portfolio/vllm-omni/"
+    },
+    {
+      "name": "FlashInfer",
+      "category": "open-source contribution",
+      "date": "2026-10",
+      "description": "Non-contiguous attention-plan metadata is normalized before planning and kernel use, preventing illegal memory accesses and wrong outputs across ragged, paged, and sparse backends (1 merged PR).",
+      "url": "https://runguoli.com/portfolio/flashinfer/"
     }
   ]
 }

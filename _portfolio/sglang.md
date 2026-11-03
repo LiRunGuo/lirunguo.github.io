@@ -3,7 +3,7 @@ title: "SGLang — Import-Time Robustness"
 excerpt: "Contributor to SGLang: merged a fix so a failing host check inside the DeepEP import no longer kills every server process at startup, including dense models that never request DeepEP."
 collection: portfolio
 category: contribution
-order: 6
+order: 5
 permalink: /portfolio/sglang/
 ---
 

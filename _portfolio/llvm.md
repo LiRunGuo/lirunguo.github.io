@@ -3,7 +3,7 @@ title: "LLVM — Value Tracking & Interprocedural Analysis"
 excerpt: "Contributor to LLVM: two merged changes — ValueTracking now proves x != y from any condition on x - y that excludes zero, and the Attributor's AAPointerInfo follows only the casts that preserve a pointer instead of asserting on integers it mistook for pointers."
 collection: portfolio
 category: contribution
-order: 5
+order: 4
 permalink: /portfolio/llvm/
 ---
 

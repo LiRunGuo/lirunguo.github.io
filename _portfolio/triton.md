@@ -3,7 +3,7 @@ title: "Triton — GPU Compiler Correctness"
 excerpt: "Contributor to Triton: two merged compiler fixes — loop fusion no longer trusts an assumption that does not dominate the loop, and fp64 atomic_xchg on AMD buffer atomics compiles instead of aborting the process."
 collection: portfolio
 category: contribution
-order: 11
+order: 10
 permalink: /portfolio/triton/
 ---
 

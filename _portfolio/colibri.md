@@ -3,7 +3,7 @@ title: "colibri — MoE Inference Engine"
 excerpt: "Contributor to colibri: three merged pull requests covering multi-drive expert streaming for the 510 GB DeepSeek-V4.1 container, OpenMP team sizing in the four engines that never had it, and a plan/engine mismatch that silently allocated 6.25 GiB of KV cache against a 0.02 GiB budget."
 collection: portfolio
 category: contribution
-order: 4
+order: 2
 permalink: /portfolio/colibri/
 ---
 
