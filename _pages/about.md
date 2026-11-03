@@ -35,16 +35,13 @@ Selected Publications
 
 Open-Source Contributions (ML Systems)
 ======
-22 public merged pull requests across 14 public upstream projects (private repositories excluded), including vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, and FlashInfer. The count includes merged pull requests only; separately filed MLflow bug reports whose fixes landed upstream are not counted. A selection, ordered by the upstream project's star count:
+22 public merged pull requests across 14 public upstream projects.
 
-- **vLLM — KV cache quantization** — let the int4 per-token-head KV cache run on head sizes that are not powers of two (e.g. Phi-3's 96), where a power-of-two-only Hadamard rotation aborted engine initialization instead of quantizing.
-- **colibri — pure-C MoE inference engine** — multi-drive expert streaming for the 510 GB DeepSeek-V4.1 container, physical-core OpenMP team sizing in four engines that were **18.7× slower** without it, and a plan/runtime mismatch that silently allocated **6.25 GiB** of KV cache against a 0.02 GiB budget.
-- **DeepSpeed — distributed training** — fixed a ZeRO-3 rollout deadlock caused by unsynchronized generation stopping, and blocked partial Hybrid Engine policy injection for unsupported architectures (validated on H200 and MI250 GPUs).
-- **FlashAttention — CuTe kernels** — fitted the SM90 forward tile to the block-sparse block size (block sparsity on Hopper went from 8 of 40 head-dim/block-size combinations working to 32), and stopped the causal forward from re-applying an all-true mask on unmasked KV blocks, cutting its instruction count from 580 to 477 per loop.
-- **Triton — GPU compiler** — stopped nested-loop fusion from trusting an `llvm.assume` outside the loop, which removed a zero-trip guard and could cause incorrect memory writes (MLIR regression test and H200 reproducer).
-- **FlashInfer — attention planning** — made strided `indptr`, `indices`, and `last_page_len` metadata contiguous before planning and kernel use, preventing illegal memory accesses and wrong outputs across ragged, paged, and block-sparse attention backends.
+- **Inference and serving:** [vLLM](https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [SGLang](https://github.com/sgl-project/sglang/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [FlashAttention](https://github.com/Dao-AILab/flash-attention/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [FlashInfer](https://github.com/flashinfer-ai/flashinfer/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [colibri](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [vLLM-Omni](https://github.com/vllm-project/vllm-omni/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [LMCache](https://github.com/LMCache/LMCache/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged)
+- **Compilers and frameworks:** [LLVM](https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [JAX](https://github.com/jax-ml/jax/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [Triton](https://github.com/triton-lang/triton/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [Apache TVM](https://github.com/apache/tvm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged)
+- **Training and RL:** [DeepSpeed](https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [Megatron-LM](https://github.com/NVIDIA/Megatron-LM/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [verl](https://github.com/verl-project/verl/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged)
 
-[Browse the full portfolio](/portfolio/) — every entry comes with a reproducer or regression test attached.
+Bug reports: [MLflow](https://github.com/mlflow/mlflow/issues?q=is%3Aissue+author%3ALiRunGuo). [View all contribution links](/portfolio/).
 
 Get in Touch
 ======
