@@ -35,13 +35,7 @@ Selected Publications
 
 Open-Source Contributions (ML Systems)
 ======
-22 public merged pull requests across 14 public upstream projects.
-
-- **Inference and serving:** [vLLM](https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [SGLang](https://github.com/sgl-project/sglang/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [FlashAttention](https://github.com/Dao-AILab/flash-attention/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [FlashInfer](https://github.com/flashinfer-ai/flashinfer/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [colibri](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [vLLM-Omni](https://github.com/vllm-project/vllm-omni/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [LMCache](https://github.com/LMCache/LMCache/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged)
-- **Compilers and frameworks:** [LLVM](https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [JAX](https://github.com/jax-ml/jax/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [Triton](https://github.com/triton-lang/triton/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [Apache TVM](https://github.com/apache/tvm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged)
-- **Training and RL:** [DeepSpeed](https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [Megatron-LM](https://github.com/NVIDIA/Megatron-LM/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [verl](https://github.com/verl-project/verl/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged)
-
-Bug reports: [MLflow](https://github.com/mlflow/mlflow/issues?q=is%3Aissue+author%3ALiRunGuo). [View all contribution links](/portfolio/).
+22 public merged pull requests across 14 public upstream projects. Top five projects by GitHub stars: [vLLM](https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [colibri](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [DeepSpeed](https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [LLVM](https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [SGLang](https://github.com/sgl-project/sglang/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged). [View all contribution links](/portfolio/).
 
 Get in Touch
 ======
