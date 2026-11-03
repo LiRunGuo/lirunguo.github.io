@@ -19,7 +19,6 @@ toc: false
       <a href="{{ course.pdf | relative_url }}" target="_blank" rel="noopener" itemprop="url">{{ course.title }}</a>
     </h2>
     <p class="archive__item-excerpt" itemprop="description">{{ course.description }}</p>
-    <p><a href="{{ course.pdf | relative_url }}" target="_blank" rel="noopener">Open PDF</a></p>
   </article>
 </div>
 {% endfor %}

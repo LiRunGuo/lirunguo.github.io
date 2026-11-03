@@ -18,8 +18,5 @@ main:
 #  - title: "Daily"
 #    url: /daily/
 
-  - title: "Blog"
-    url: /year-archive/
-
   - title: "CV"
     url: /files/RunguoLi-ML-Systems-Resume.pdf
