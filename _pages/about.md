@@ -37,6 +37,8 @@ Selected Publications
 - 📝 **What Survives Distillation?** — [*What Survives Distillation? A Pre-registered Study of Training-Free Acceleration*](/publication/2026-11-gmsa-distillation) — single author, under review. [PDF](/files/gmsa-distillation-acceleration.pdf)
 - 📝 **Horizon-Aware Losses** — [*What Horizon-Aware Losses Do in Multi-Step Forecasting*](/publication/2026-11-horizon-aware-losses) — single author, under review. [PDF](/files/horizon-aware-losses.pdf)
 - 📝 **GPTQ under random rotation** — [*How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime*](/publication/2026-10-gptq-rotation) — single author, under review. [arXiv:2611.01669](https://arxiv.org/abs/2611.01669) · [PDF](/files/gptq-random-rotation.pdf)
+- 📝 **Recency Is the Wrong Axis** — [*Recency Is the Wrong Axis: A Negative Result on Windowed Deepest-Plane KV Caching in Looped Language Models*](/publication/2026-10-recency-wrong-axis) — **arXiv preprint**, co-author. [arXiv:2610.34436](https://arxiv.org/abs/2610.34436)
+- 📝 **ScaleRLT** — [*ScaleRLT: Exact Log-Probabilities and Fast Deferred Rollouts for Reinforcement Learning on Looped Transformers*](/publication/2026-10-scalerlt) — **arXiv preprint**, co-author. [arXiv:2610.34427](https://arxiv.org/abs/2610.34427)
 - 📝 **Certified Sparse Attention** — [*Certified Sparse Attention via Perturbed Retrieval*](/publication/2026-10-certified-sparse-attention) — **arXiv preprint**, single author. [arXiv:2610.24991](https://arxiv.org/abs/2610.24991)
 - 📝 **BreadthKV** — [*Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning*](/publication/2026-10-breadthkv) — **arXiv preprint**, single author. [arXiv:2610.05685](https://arxiv.org/abs/2610.05685)
 - 📝 **FinVault** — [*Benchmarking Financial Agent Safety in Execution-Grounded Environments*](/publication/2026-01-finvault) — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
@@ -62,6 +64,7 @@ I also maintain **ARH (AI Research Helper)**, an open-source CLI-first research 
 
 News
 ======
+- **2026.11** — Two co-authored arXiv preprints are now available: *Recency Is the Wrong Axis* ([2610.34436](https://arxiv.org/abs/2610.34436)) and *ScaleRLT* ([2610.34427](https://arxiv.org/abs/2610.34427)).
 - **2026.11** — Added ten top-ranked working papers to the publications page, each marked as under review. The GPTQ random-rotation paper is now also available as [arXiv:2611.01669](https://arxiv.org/abs/2611.01669).
 - **2026.10** — Two new single-author manuscripts under review: *AXR* (intermediate-result reuse for LLM agents in PostgreSQL) and *How Much Does Random Rotation Help GPTQ?*.
 - **2026.10** — *Certified Sparse Attention via Perturbed Retrieval* (single-author) released as an arXiv preprint: [2610.24991](https://arxiv.org/abs/2610.24991). Merged in **Megatron-LM**: MoE checkpoint shards now take the DCP checkpointable path (165× faster state-dict conversion, 3.4× shorter async-save blocking on 8×H200).

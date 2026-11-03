@@ -157,6 +157,20 @@
       "summary": "Sharp worst-case rate gap between randomly rotated GPTQ and WaterSIC via the Lyapunov-exponent limit of Cholesky pivots; median gap 0.04 bit on 96 Qwen3 and Llama-3.1 Hessians."
     },
     {
+      "name": "Recency Is the Wrong Axis: A Negative Result on Windowed Deepest-Plane KV Caching in Looped Language Models",
+      "publisher": "arXiv preprint (co-author)",
+      "releaseDate": "2026-10-25",
+      "website": "https://arxiv.org/abs/2610.34436",
+      "summary": "A negative result on windowed deepest-plane KV caching: sharing costs are governed by late-loop ripeness and which positions share, not by recency; Ouro-1.4B answers 23 of 24 GSM8K questions with full caching versus at most 2 with RIPE."
+    },
+    {
+      "name": "ScaleRLT: Exact Log-Probabilities and Fast Deferred Rollouts for Reinforcement Learning on Looped Transformers",
+      "publisher": "arXiv preprint (co-author)",
+      "releaseDate": "2026-10-25",
+      "website": "https://arxiv.org/abs/2610.34427",
+      "summary": "A hybrid learner log-probability replays deferred rollouts bit-for-bit while retaining the dense gradient, raising rollout throughput by 1.47–1.56× and shortening a two-node GRPO update by 2.71×."
+    },
+    {
       "name": "Certified Sparse Attention via Perturbed Retrieval",
       "publisher": "arXiv preprint (single author)",
       "releaseDate": "2026-10-18",
