@@ -1,6 +1,7 @@
 ---
 title: "What Do Group-Conditional Coverage Metrics Measure? Identification, Inference and Auditing for Conformal Evaluation"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-group-coverage
 excerpt: 'Separating expected coverage, calibration-draw realized coverage, and test noise shows which group-conditional conformal metrics are identifiable and how to audit them. Single-author work under review.'

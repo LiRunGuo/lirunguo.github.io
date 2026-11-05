@@ -1,6 +1,7 @@
 ---
 title: "Is That Supernode Special? Selection Rules and Null Models Change What Attribution-Graph Interventions Validate"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-supernode-specificity
 excerpt: 'Matched random replacements and two null models show that many attribution-graph supernode interventions do not establish feature-specific effects. Single-author work under review.'

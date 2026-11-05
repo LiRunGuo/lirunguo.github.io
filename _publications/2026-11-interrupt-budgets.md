@@ -1,6 +1,7 @@
 ---
 title: "Interrupt Budgets for Pre-Execution AI Control Monitors"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-interrupt-budgets
 excerpt: 'Replacing a per-step false-positive target with a trajectory-level false-interruption budget exposes both the cost and the limits of pre-execution AI control monitors. Single-author work under review.'

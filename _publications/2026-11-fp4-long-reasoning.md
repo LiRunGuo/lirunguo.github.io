@@ -1,6 +1,7 @@
 ---
 title: "What FP4 Costs Long Reasoning on Blackwell, Measured Above the Noise"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-fp4-long-reasoning
 excerpt: 'Repeated calibration draws, paired tests, and accuracy-budget curves show that FP4 mainly changes reasoning length and memory rather than delivering stable accuracy gains. Single-author work under review.'

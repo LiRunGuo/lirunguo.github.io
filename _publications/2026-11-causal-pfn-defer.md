@@ -1,6 +1,7 @@
 ---
 title: "Trust but Verify: Diagnosing Causal Prior-Data Fitted Networks and Testing When to Defer"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-causal-pfn-defer
 excerpt: 'A diagnostic study of three released causal PFNs and a retraining-free wrapper that defers to classical estimators only where the PFN shows certified excess risk. Single-author work under review.'

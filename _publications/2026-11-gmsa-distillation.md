@@ -1,6 +1,7 @@
 ---
 title: "What Survives Distillation? A Pre-registered Study of Training-Free Acceleration for Few-Step and Autoregressive Video Diffusion"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-gmsa-distillation
 excerpt: 'A pre-registered study of why training-free video-diffusion accelerators calibrated on 50-step teachers mislead on distilled few-step and autoregressive students. Single-author work under review.'

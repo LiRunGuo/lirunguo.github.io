@@ -1,6 +1,7 @@
 ---
 title: "What Horizon-Aware Losses Do in Multi-Step Forecasting: The L1 Norm, Not Decorrelation"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-horizon-aware-losses
 excerpt: 'A controlled decomposition shows that recent horizon-aware forecasting losses gain from the L1 norm, not from decorrelating forecast horizons. Single-author work under review.'

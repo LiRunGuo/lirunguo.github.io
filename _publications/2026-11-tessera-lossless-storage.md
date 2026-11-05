@@ -1,6 +1,7 @@
 ---
 title: "Predict, Don't Just Pair: Lossless Storage for Families of Fine-Tuned Models"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-tessera-lossless-storage
 excerpt: 'Tessera treats lossless checkpoint storage as prediction and coding of residuals, not only base selection, storing 25.3% of deduplicated bytes across 130 fine-tunes. Single-author work under review.'

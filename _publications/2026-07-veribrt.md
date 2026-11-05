@@ -1,6 +1,7 @@
 ---
 title: "VeriBRT: Plan-Guided, Evidence-Based Automated Bug Reproduction"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-07-veribrt
 excerpt: 'An LLM-based framework for generating bug-reproducing tests using a persistent Two-Axis Plan and reliability-aware evidence. Manuscript under review.'

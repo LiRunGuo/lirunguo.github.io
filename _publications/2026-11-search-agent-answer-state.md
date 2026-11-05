@@ -1,6 +1,7 @@
 ---
 title: "Do Search Agents Know When They Know? Answer-State and Evidence Dynamics in RL-Trained Search Agents"
 collection: publications
+published: false
 category: preprints
 permalink: /publication/2026-11-search-agent-answer-state
 excerpt: 'An exact replay protocol tests whether RL-trained search agents know when their evidence is sufficient, across 6,125 questions and 97,841 decision states. Single-author work under review.'
