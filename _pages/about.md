@@ -25,7 +25,15 @@ Selected Publications
 ======
 [Google Scholar profile](https://scholar.google.com/citations?user=t82uTeYAAAAJ&hl=en)
 
-{% for paper in site.data.scholar_publications %}
+{% assign selected_papers = site.data.scholar_publications | where: "group", "selected" %}
+{% for paper in selected_papers %}
+- [**{{ paper.title }}**]({{ paper.scholar }}) — {{ paper.authors }} <em>arXiv:{{ paper.arxiv }}, {{ paper.year }}</em>. [arXiv](https://arxiv.org/abs/{{ paper.arxiv }})
+{% endfor %}
+
+Additional Publications
+======
+{% assign additional_papers = site.data.scholar_publications | where: "group", "additional" %}
+{% for paper in additional_papers %}
 - [**{{ paper.title }}**]({{ paper.scholar }}) — {{ paper.authors }} <em>arXiv:{{ paper.arxiv }}, {{ paper.year }}</em>. [arXiv](https://arxiv.org/abs/{{ paper.arxiv }})
 {% endfor %}
 

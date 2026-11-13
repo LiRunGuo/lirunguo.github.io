@@ -5,8 +5,19 @@ permalink: /publications/
 author_profile: false
 ---
 
+{% assign selected_papers = site.data.scholar_publications | where: "group", "selected" %}
+{% assign additional_papers = site.data.scholar_publications | where: "group", "additional" %}
+
+<h2>Selected Publications</h2>
 <ul>
-{% for paper in site.data.scholar_publications %}
+{% for paper in selected_papers %}
+  <li><a href="https://arxiv.org/abs/{{ paper.arxiv }}">{{ paper.title }}</a></li>
+{% endfor %}
+</ul>
+
+<h2>Additional Publications</h2>
+<ul>
+{% for paper in additional_papers %}
   <li><a href="https://arxiv.org/abs/{{ paper.arxiv }}">{{ paper.title }}</a></li>
 {% endfor %}
 </ul>

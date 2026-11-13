@@ -92,34 +92,10 @@
       "website": "https://arxiv.org/abs/2611.07461"
     },
     {
-      "name": "What Sets the Serving Speed of Looped Language Models? Measurements and Optimizations Graded by Exactness",
-      "publisher": "arXiv preprint arXiv:2611.05150",
-      "releaseDate": "2026-11-03",
-      "website": "https://arxiv.org/abs/2611.05150"
-    },
-    {
       "name": "How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime",
       "publisher": "arXiv preprint arXiv:2611.01669",
       "releaseDate": "2026-11-01",
       "website": "https://arxiv.org/abs/2611.01669"
-    },
-    {
-      "name": "Where KV-Cache Error Lives in Looped Language Models: A Diagnostic Study of Ouro and Huginn",
-      "publisher": "arXiv preprint arXiv:2610.41825",
-      "releaseDate": "2026-10-30",
-      "website": "https://arxiv.org/abs/2610.41825"
-    },
-    {
-      "name": "Prefix Keys and Values Matter Late: RIPE Caching for Self-Speculative Decoding in Looped Language Models",
-      "publisher": "arXiv preprint arXiv:2610.34436",
-      "releaseDate": "2026-10-25",
-      "website": "https://arxiv.org/abs/2610.34436"
-    },
-    {
-      "name": "ScaleRLT: Exact Log-Probabilities and Fast Deferred Rollouts for Reinforcement Learning on Looped Transformers",
-      "publisher": "arXiv preprint arXiv:2610.34427",
-      "releaseDate": "2026-10-25",
-      "website": "https://arxiv.org/abs/2610.34427"
     },
     {
       "name": "Weight Placement Is Not Enough: Synchronization in Multi-Node CPU Decoding of Ternary LLMs",
@@ -138,6 +114,30 @@
       "publisher": "arXiv preprint arXiv:2610.05685",
       "releaseDate": "2026-10-05",
       "website": "https://arxiv.org/abs/2610.05685"
+    },
+    {
+      "name": "What Sets the Serving Speed of Looped Language Models? Measurements and Optimizations Graded by Exactness",
+      "publisher": "arXiv preprint arXiv:2611.05150",
+      "releaseDate": "2026-11-03",
+      "website": "https://arxiv.org/abs/2611.05150"
+    },
+    {
+      "name": "Where KV-Cache Error Lives in Looped Language Models: A Diagnostic Study of Ouro and Huginn",
+      "publisher": "arXiv preprint arXiv:2610.41825",
+      "releaseDate": "2026-10-30",
+      "website": "https://arxiv.org/abs/2610.41825"
+    },
+    {
+      "name": "Prefix Keys and Values Matter Late: RIPE Caching for Self-Speculative Decoding in Looped Language Models",
+      "publisher": "arXiv preprint arXiv:2610.34436",
+      "releaseDate": "2026-10-25",
+      "website": "https://arxiv.org/abs/2610.34436"
+    },
+    {
+      "name": "ScaleRLT: Exact Log-Probabilities and Fast Deferred Rollouts for Reinforcement Learning on Looped Transformers",
+      "publisher": "arXiv preprint arXiv:2610.34427",
+      "releaseDate": "2026-10-25",
+      "website": "https://arxiv.org/abs/2610.34427"
     }
   ],
   "presentations": [],
