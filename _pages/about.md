@@ -23,12 +23,11 @@ Research Interests
 
 Selected Publications
 ======
-- 📝 **GPTQ under random rotation** — [*How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime*](/publication/2026-10-gptq-rotation) — single author, under review. [arXiv:2611.01669](https://arxiv.org/abs/2611.01669) · [PDF](/files/gptq-random-rotation.pdf)
-- 📝 **Recency Is the Wrong Axis** — [*Recency Is the Wrong Axis: A Negative Result on Windowed Deepest-Plane KV Caching in Looped Language Models*](/publication/2026-10-recency-wrong-axis) — **arXiv preprint**, co-author. [arXiv:2610.34436](https://arxiv.org/abs/2610.34436)
-- 📝 **ScaleRLT** — [*ScaleRLT: Exact Log-Probabilities and Fast Deferred Rollouts for Reinforcement Learning on Looped Transformers*](/publication/2026-10-scalerlt) — **arXiv preprint**, co-author. [arXiv:2610.34427](https://arxiv.org/abs/2610.34427)
-- 📝 **Certified Sparse Attention** — [*Certified Sparse Attention via Perturbed Retrieval*](/publication/2026-10-certified-sparse-attention) — **arXiv preprint**, single author. [arXiv:2610.24991](https://arxiv.org/abs/2610.24991)
-- 📝 **BreadthKV** — [*Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning*](/publication/2026-10-breadthkv) — **arXiv preprint**, single author. [arXiv:2610.05685](https://arxiv.org/abs/2610.05685)
-- 📝 **FinVault** — [*Benchmarking Financial Agent Safety in Execution-Grounded Environments*](/publication/2026-01-finvault) — **arXiv preprint**, co-first author. [arXiv:2601.07853](https://arxiv.org/abs/2601.07853)
+[Google Scholar profile](https://scholar.google.com/citations?user=t82uTeYAAAAJ&hl=en)
+
+{% for paper in site.data.scholar_publications %}
+- [**{{ paper.title }}**]({{ paper.scholar }}) — {{ paper.authors }}. *arXiv:{{ paper.arxiv }}, {{ paper.year }}*. [arXiv](https://arxiv.org/abs/{{ paper.arxiv }})
+{% endfor %}
 
 [All publications](/publications/)
 

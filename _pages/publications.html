@@ -6,7 +6,7 @@ author_profile: false
 ---
 
 <ul>
-{% for post in site.publications reversed %}
-  <li><a href="{{ post.paperurl }}">{{ post.title }}</a></li>
+{% for paper in site.data.scholar_publications %}
+  <li><a href="https://arxiv.org/abs/{{ paper.arxiv }}">{{ paper.title }}</a></li>
 {% endfor %}
 </ul>

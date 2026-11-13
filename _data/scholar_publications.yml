@@ -1,0 +1,50 @@
+- title: "FinVault: Benchmarking financial agent safety in execution-grounded environments"
+  authors: "Zhi Yang<sup>*</sup>, <strong>Runguo Li</strong><sup>*</sup>, Qiqi Qiang, et al."
+  arxiv: "2601.07853"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:u5HHmVD_uO8C"
+- title: "The Last Mile to the Real World: Agent-Native Primitives as Reusable Building Blocks for Solving Real-World Tasks"
+  authors: "Haibo Jin, Peng Kuang, Xiaopeng Yuan, ..., <strong>Runguo Li</strong>, ..., Haohan Wang"
+  arxiv: "2611.07461"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:WF5omc3nYNoC"
+- title: "What Sets the Serving Speed of Looped Language Models? Measurements and Optimizations Graded by Exactness"
+  authors: "Dezhen Lu, <strong>Runguo Li</strong>, Zixiang Ni, et al."
+  arxiv: "2611.05150"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:YsMSGLbcyi4C"
+- title: "How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime"
+  authors: "<strong>Runguo Li</strong>"
+  arxiv: "2611.01669"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:W7OEmFMy1HYC"
+- title: "Where KV-Cache Error Lives in Looped Language Models: A Diagnostic Study of Ouro and Huginn"
+  authors: "Dezhen Lu, <strong>Runguo Li</strong>, Zixiang Ni, et al."
+  arxiv: "2610.41825"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:eQOLeE2rZwMC"
+- title: "Prefix Keys and Values Matter Late: RIPE Caching for Self-Speculative Decoding in Looped Language Models"
+  authors: "Dezhen Lu, <strong>Runguo Li</strong>, Zixiang Ni"
+  arxiv: "2610.34436"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:Y0pCki6q_DkC"
+- title: "ScaleRLT: Exact Log-Probabilities and Fast Deferred Rollouts for Reinforcement Learning on Looped Transformers"
+  authors: "Dezhen Lu, Zixiang Ni, <strong>Runguo Li</strong>"
+  arxiv: "2610.34427"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:Tyk-4Ss8FVUC"
+- title: "Weight Placement Is Not Enough: Synchronization in Multi-Node CPU Decoding of Ternary LLMs"
+  authors: "<strong>Runguo Li</strong>, Dezhen Lu"
+  arxiv: "2610.28620"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:UeHWp8X0CEIC"
+- title: "Certified Sparse Attention via Perturbed Retrieval"
+  authors: "<strong>Runguo Li</strong>"
+  arxiv: "2610.24991"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:IjCSPb-OGe4C"
+- title: "Spend Bytes on Breadth: Precision-Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning"
+  authors: "<strong>Runguo Li</strong>"
+  arxiv: "2610.05685"
+  year: 2026
+  scholar: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=t82uTeYAAAAJ&pagesize=100&citation_for_view=t82uTeYAAAAJ:zYLM7Y9cAGgC"

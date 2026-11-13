@@ -80,127 +80,64 @@
   "references": [],
   "publications": [
     {
-      "name": "Interrupt Budgets for Pre-Execution AI Control Monitors",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/interrupt-budgets-ai-control.pdf",
-      "summary": "Trajectory-level false interruption budgets expose the cost and limits of per-step-calibrated AI control monitors; a 1% per-step threshold interrupts 14–37% of benign LinuxArena runs."
+      "name": "FinVault: Benchmarking financial agent safety in execution-grounded environments",
+      "publisher": "arXiv preprint arXiv:2601.07853",
+      "releaseDate": "2026-01-09",
+      "website": "https://arxiv.org/abs/2601.07853"
     },
     {
-      "name": "Trust but Verify: Diagnosing Causal Prior-Data Fitted Networks and Testing When to Defer",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/causal-pfn-diagnosis-defer.pdf",
-      "summary": "Diagnoses three released causal PFNs against a generic TabPFN-DR baseline and introduces a retraining-free, region-wise deferral wrapper with a paired doubly robust test."
+      "name": "The Last Mile to the Real World: Agent-Native Primitives as Reusable Building Blocks for Solving Real-World Tasks",
+      "publisher": "arXiv preprint arXiv:2611.07461",
+      "releaseDate": "2026-11-05",
+      "website": "https://arxiv.org/abs/2611.07461"
     },
     {
-      "name": "AXR: Reusing Intermediate Results for LLM Agents in PostgreSQL",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-10-28",
-      "website": "https://runguoli.com/files/axr-agent-result-reuse.pdf",
-      "summary": "A PostgreSQL extension that materializes plan-subtree results as LLM agents query and reuses them in later plans; 6.5–51.0% less database time on TPC-H with no wrong result in 776,114 checked executions."
-    },
-    {
-      "name": "What Do Group-Conditional Coverage Metrics Measure? Identification, Inference and Auditing for Conformal Evaluation",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/group-conditional-coverage.pdf",
-      "summary": "Separates expected coverage, calibration-draw realized coverage, and test noise; gives sharp identified sets, noise floors, debiased inference, and finite-sample auditing tools for conformal evaluation."
-    },
-    {
-      "name": "Is That Supernode Special? Selection Rules and Null Models Change What Attribution-Graph Interventions Validate",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/supernode-specificity.pdf",
-      "summary": "Matched random replacements and two null models test 2,958 automatic and 14 hand-curated supernode claims, showing that selection rules and null choice change which attribution-graph interventions establish feature specificity."
-    },
-    {
-      "name": "Do Search Agents Know When They Know? Answer-State and Evidence Dynamics in RL-Trained Search Agents",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/search-agent-answer-state.pdf",
-      "summary": "An exact replay protocol over seven QA benchmarks shows RL-trained search agents often hold the right answer and then lose it; releases SufficiencyBench with 97,841 decision states."
-    },
-    {
-      "name": "What FP4 Costs Long Reasoning on Blackwell, Measured Above the Noise",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/fp4-long-reasoning.pdf",
-      "summary": "Repeated calibration draws, paired tests, and accuracy-budget curves show that FP4 mainly changes reasoning length and memory rather than producing stable accuracy gains."
-    },
-    {
-      "name": "Predict, Don't Just Pair: Lossless Storage for Families of Fine-Tuned Models",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/tessera-lossless-storage.pdf",
-      "summary": "Tessera predicts and entropy-codes delta residuals rather than only selecting bases, storing 25.3% of deduplicated bytes across 130 fine-tunes and four model families."
-    },
-    {
-      "name": "What Survives Distillation? A Pre-registered Study of Training-Free Acceleration for Few-Step and Autoregressive Video Diffusion",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/gmsa-distillation-acceleration.pdf",
-      "summary": "A pre-registered study of six distilled video-diffusion students showing that teacher-calibrated acceleration signals mislead and that student-local probes yield 2.5–3.5× end-to-end speedups."
-    },
-    {
-      "name": "What Horizon-Aware Losses Do in Multi-Step Forecasting: The L1 Norm, Not Decorrelation",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-11-02",
-      "website": "https://runguoli.com/files/horizon-aware-losses.pdf",
-      "summary": "A controlled decomposition shows that recent horizon-aware forecasting losses gain from the L1 norm rather than from decorrelating forecast horizons."
+      "name": "What Sets the Serving Speed of Looped Language Models? Measurements and Optimizations Graded by Exactness",
+      "publisher": "arXiv preprint arXiv:2611.05150",
+      "releaseDate": "2026-11-03",
+      "website": "https://arxiv.org/abs/2611.05150"
     },
     {
       "name": "How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime",
-      "publisher": "Under review (single author)",
-      "releaseDate": "2026-10-27",
-      "website": "https://arxiv.org/abs/2611.01669",
-      "summary": "Sharp worst-case rate gap between randomly rotated GPTQ and WaterSIC via the Lyapunov-exponent limit of Cholesky pivots; median gap 0.04 bit on 96 Qwen3 and Llama-3.1 Hessians."
+      "publisher": "arXiv preprint arXiv:2611.01669",
+      "releaseDate": "2026-11-01",
+      "website": "https://arxiv.org/abs/2611.01669"
     },
     {
-      "name": "Recency Is the Wrong Axis: A Negative Result on Windowed Deepest-Plane KV Caching in Looped Language Models",
-      "publisher": "arXiv preprint (co-author)",
+      "name": "Where KV-Cache Error Lives in Looped Language Models: A Diagnostic Study of Ouro and Huginn",
+      "publisher": "arXiv preprint arXiv:2610.41825",
+      "releaseDate": "2026-10-30",
+      "website": "https://arxiv.org/abs/2610.41825"
+    },
+    {
+      "name": "Prefix Keys and Values Matter Late: RIPE Caching for Self-Speculative Decoding in Looped Language Models",
+      "publisher": "arXiv preprint arXiv:2610.34436",
       "releaseDate": "2026-10-25",
-      "website": "https://arxiv.org/abs/2610.34436",
-      "summary": "A negative result on windowed deepest-plane KV caching: sharing costs are governed by late-loop ripeness and which positions share, not by recency; Ouro-1.4B answers 23 of 24 GSM8K questions with full caching versus at most 2 with RIPE."
+      "website": "https://arxiv.org/abs/2610.34436"
     },
     {
       "name": "ScaleRLT: Exact Log-Probabilities and Fast Deferred Rollouts for Reinforcement Learning on Looped Transformers",
-      "publisher": "arXiv preprint (co-author)",
+      "publisher": "arXiv preprint arXiv:2610.34427",
       "releaseDate": "2026-10-25",
-      "website": "https://arxiv.org/abs/2610.34427",
-      "summary": "A hybrid learner log-probability replays deferred rollouts bit-for-bit while retaining the dense gradient, raising rollout throughput by 1.47–1.56× and shortening a two-node GRPO update by 2.71×."
+      "website": "https://arxiv.org/abs/2610.34427"
+    },
+    {
+      "name": "Weight Placement Is Not Enough: Synchronization in Multi-Node CPU Decoding of Ternary LLMs",
+      "publisher": "arXiv preprint arXiv:2610.28620",
+      "releaseDate": "2026-10-20",
+      "website": "https://arxiv.org/abs/2610.28620"
     },
     {
       "name": "Certified Sparse Attention via Perturbed Retrieval",
-      "publisher": "arXiv preprint (single author)",
+      "publisher": "arXiv preprint arXiv:2610.24991",
       "releaseDate": "2026-10-18",
-      "website": "https://arxiv.org/abs/2610.24991",
-      "summary": "Sparse attention with per-head error certificates via perturbed retrieval; no certificate violated on three LLMs at 16K–128K tokens, with 4.6–7.9× lower 90th-percentile error than the best of 15 baseline families at equal keys read."
+      "website": "https://arxiv.org/abs/2610.24991"
     },
     {
-      "name": "Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning",
-      "publisher": "arXiv preprint (single author)",
+      "name": "Spend Bytes on Breadth: Precision-Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning",
+      "publisher": "arXiv preprint arXiv:2610.05685",
       "releaseDate": "2026-10-05",
-      "website": "https://arxiv.org/abs/2610.05685",
-      "summary": "BreadthKV splits a fixed decode-time KV byte budget between token count and precision, beating eviction alone in 17 of 18 settings."
-    },
-    {
-      "name": "RVCFT: Reasoning-Visual Critical Token Fine-Tuning for Multimodal Reasoning",
-      "publisher": "Under review (co-first author)",
-      "releaseDate": "2026-07-29",
-      "website": "https://runguoli.com/publication/2026-07-rvcft"
-    },
-    {
-      "name": "VeriBRT: Plan-Guided, Evidence-Based Automated Bug Reproduction",
-      "publisher": "Under review (co-first author)",
-      "releaseDate": "2026-07-01",
-      "website": "https://runguoli.com/publication/2026-07-veribrt"
-    },
-    {
-      "name": "FinVault: Benchmarking Financial Agent Safety in Execution-Grounded Environments",
-      "publisher": "arXiv preprint (co-first author)",
-      "releaseDate": "2026-01-09",
-      "website": "https://arxiv.org/abs/2601.07853"
+      "website": "https://arxiv.org/abs/2610.05685"
     }
   ],
   "presentations": [],
