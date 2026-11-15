@@ -31,6 +31,8 @@ open_source:
     url: "https://github.com/flashinfer-ai/flashinfer/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
   - name: UCCL
     url: "https://github.com/uccl-project/uccl/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+  - name: Liger-Kernel
+    url: "https://github.com/linkedin/Liger-Kernel/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
 
 personal:
   - name: ARH

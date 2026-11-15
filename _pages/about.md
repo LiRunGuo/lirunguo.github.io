@@ -41,13 +41,14 @@ Additional Publications
 
 Open-Source Contributions (ML Systems)
 ======
-26 public merged pull requests across 16 public upstream projects. Top five projects by GitHub stars: [Kubernetes](https://github.com/kubernetes/kubernetes/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [vLLM](https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [colibri](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [DeepSpeed](https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [LLVM](https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged). [View all contribution links](/portfolio/).
+30 public merged pull requests across 17 public upstream projects. Top five projects by GitHub stars: [Kubernetes](https://github.com/kubernetes/kubernetes/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [vLLM](https://github.com/vllm-project/vllm/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [colibri](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), [DeepSpeed](https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged), and [LLVM](https://github.com/llvm/llvm-project/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged). [View all contribution links](/portfolio/).
 
 Get in Touch
 ======
 - ✉️  Email: [runguol2@illinois.edu](mailto:runguol2@illinois.edu)
 - 💬 WeChat: **RunguoLi2004**
 - 🐙 GitHub: [github.com/LiRunGuo](https://github.com/LiRunGuo)
+- 🐦 X: [@Runguo_Li](https://x.com/Runguo_Li)
 - 🎓 Google Scholar: [Runguo Li](https://scholar.google.com/citations?user=t82uTeYAAAAJ&hl=en)
 - 🆔 ORCID: [0009-0002-0832-6227](https://orcid.org/0009-0002-0832-6227)
 - 📄 [Curriculum Vitae](/files/RunguoLi-ML-Systems-Resume.pdf)

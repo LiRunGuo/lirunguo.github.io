@@ -3,7 +3,7 @@
     "name": "Runguo Li",
     "email": "runguol2@illinois.edu",
     "website": "https://runguoli.com",
-    "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 26 public merged pull requests across 16 upstream projects after excluding private repositories, including Kubernetes, UCCL, vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, and FlashInfer. Applying to Ph.D. programs in ML systems for Fall 2028.",
+    "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 30 public merged pull requests across 17 upstream projects after excluding private repositories, including Kubernetes, UCCL, vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, FlashInfer, and Liger-Kernel. Applying to Ph.D. programs in ML systems for Fall 2028.",
     "profiles": [
       {
         "network": "GitHub",
@@ -19,6 +19,11 @@
         "network": "ORCID",
         "username": "0009-0002-0832-6227",
         "url": "https://orcid.org/0009-0002-0832-6227"
+      },
+      {
+        "network": "X",
+        "username": "Runguo_Li",
+        "url": "https://x.com/Runguo_Li"
       }
     ]
   },
@@ -161,7 +166,7 @@
       "name": "DeepSpeed",
       "category": "open-source contribution",
       "date": "2026-08",
-      "description": "ZeRO-3 rollout deadlock and Hybrid Engine fallback for unsupported architectures (2 merged PRs).",
+      "description": "ZeRO-3 rollout synchronization and early-stop deadlocks, Hybrid Engine fallback for unsupported policies, and GPT-NeoX QKV layout changes kept through ZeRO-3 repartitioning (4 merged PRs).",
       "url": "https://github.com/deepspeedai/DeepSpeed/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     },
     {
@@ -252,8 +257,15 @@
       "name": "UCCL",
       "category": "open-source contribution",
       "date": "2026-11",
-      "description": "RDMA flush request lifecycle and EQDS credit/retransmission state fixes, with host and GPU regression tests (3 merged PRs).",
+      "description": "RDMA flush request lifecycle and EQDS credit, retransmission, and pacing state fixes, with regression tests (4 merged PRs).",
       "url": "https://github.com/uccl-project/uccl/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+    },
+    {
+      "name": "Liger-Kernel",
+      "category": "open-source contribution",
+      "date": "2026-11",
+      "description": "Cross-entropy no longer overwrites caller-owned logits for ignored targets when no gradient is needed (1 merged PR).",
+      "url": "https://github.com/linkedin/Liger-Kernel/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
     }
   ]
 }
