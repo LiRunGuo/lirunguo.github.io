@@ -217,5 +217,3 @@ Tethers on all directions trade motion for colour drift at every strength; ToneT
 - Publication entry: [ToneTether](/publication/2026-11-tonetether)
 - BibTeX: [li2026tonetether.bib](/files/bibtex/li2026tonetether.bib)
 - Paper and code: coming soon
-
-Runguo Li. (2026). "ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video Generation." Manuscript under review.
