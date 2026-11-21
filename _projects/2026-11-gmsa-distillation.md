@@ -106,6 +106,7 @@ with and without a skipped call.
 - **PDF:** [Download](/files/gmsa-distillation-acceleration.pdf) (paper and supplementary material)
 - **BibTeX:** [li2026gmsa.bib](/files/bibtex/li2026gmsa.bib)
 
+{% raw %}
 ```bibtex
 @unpublished{li2026gmsa,
   title  = {{StudentProbe}: What Survives Distillation in Training-Free Video Diffusion Acceleration},
@@ -114,3 +115,4 @@ with and without a skipped call.
   note   = {Preprint, under review}
 }
 ```
+{% endraw %}
