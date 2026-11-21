@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PredImagine Demo</title>
+<style>
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb;
+  --surface-2: #f3f2ef;
+  --line: #e2e1dc;
+  --grid: #ecebe7;
+  --text: #0b0b0b;
+  --text-2: #52514e;
+  --text-3: #7a7974;
+  --accent: #2a78d6;
+  --s-regr: #2a78d6;   /* PredImagine regression, slot 1 */
+  --s-flow: #eb6834;   /* PredImagine flow, slot 2 */
+  --s-codes: #1baf7a;  /* hypothesis codes, slot 3 */
+  --s-base: #8a8984;   /* baselines: identity by row label */
+  --ghost: #b9b8b2;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface: #1a1a19; --surface-2: #242423; --line: #383835; --grid: #2c2c2a;
+    --text: #f0efec; --text-2: #c3c2b7; --text-3: #95948d; --accent: #3987e5;
+    --s-regr: #3987e5; --s-flow: #d95926; --s-codes: #199e70; --s-base: #8f8e88; --ghost: #5b5a55;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --surface-2: #242423; --line: #383835; --grid: #2c2c2a;
+  --text: #f0efec; --text-2: #c3c2b7; --text-3: #95948d; --accent: #3987e5;
+  --s-regr: #3987e5; --s-flow: #d95926; --s-codes: #199e70; --s-base: #8f8e88; --ghost: #5b5a55;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; overflow-x: hidden; }
+body {
+  background: var(--surface); color: var(--text);
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding: 14px 16px 18px;
+}
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 14px; overflow-x: auto; }
+.tab {
+  appearance: none; border: 0; background: none; color: var(--text-2); font: inherit; font-weight: 600;
+  padding: 8px 10px; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap;
+}
+.tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+.tab:focus-visible, .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.panel[hidden] { display: none; }
+.lead { margin: 0 0 12px; color: var(--text-2); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 12px; }
+.ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; max-width: 100%; }
+.ctl > span { font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: .04em; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; max-width: 100%; }
+.seg button {
+  appearance: none; border: 0; background: var(--surface); color: var(--text-2); font: inherit; font-size: 13px;
+  padding: 5px 10px; cursor: pointer; border-right: 1px solid var(--line);
+}
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--surface-2); color: var(--text); font-weight: 600; }
+.seg button:disabled { color: var(--text-3); cursor: not-allowed; text-decoration: line-through; }
+.note { margin: 10px 0 0; padding: 10px 12px; background: var(--surface-2); border-radius: 8px; color: var(--text); }
+.small { font-size: 12px; color: var(--text-3); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--text-2); margin: 6px 0 2px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+.legend .dash { width: 14px; height: 0; border-top: 2px dashed var(--text-3); border-radius: 0; vertical-align: 3px; }
+
+/* bar chart (tab 1) */
+.bars { position: relative; margin-top: 4px; }
+.row { display: grid; grid-template-columns: 150px 1fr; align-items: center; height: 34px; }
+.row .lab { font-size: 13px; color: var(--text); padding-right: 10px; text-align: right; line-height: 1.2; }
+.row .lab b { font-weight: 600; }
+.track { position: relative; height: 100%; }
+.bar {
+  position: absolute; left: 0; top: 9px; height: 16px; border-radius: 0 4px 4px 0;
+  transition: width .6s cubic-bezier(.2,.7,.2,1);
+}
+.ghost { position: absolute; top: 5px; width: 2px; height: 24px; background: var(--ghost); transition: left .6s; }
+.val { position: absolute; top: 7px; font-size: 12px; color: var(--text-2); white-space: nowrap; transition: left .6s cubic-bezier(.2,.7,.2,1); font-variant-numeric: tabular-nums; }
+.na { position: absolute; left: 4px; top: 7px; font-size: 12px; color: var(--text-3); font-style: italic; }
+.axis { position: relative; margin-left: 150px; height: 22px; border-top: 1px solid var(--line); }
+.axis span { position: absolute; top: 3px; transform: translateX(-50%); font-size: 11px; color: var(--text-3); }
+.vline { position: absolute; top: 0; bottom: 22px; width: 0; border-left: 1px solid var(--grid); pointer-events: none; }
+.vline.chance { border-left: 1.5px dashed var(--text-3); }
+.vline.chance::after { content: "chance"; position: absolute; top: -2px; left: 4px; font-size: 11px; color: var(--text-3); }
+.tip {
+  position: fixed; z-index: 10; pointer-events: none; background: var(--text); color: var(--surface);
+  font-size: 12px; padding: 6px 8px; border-radius: 6px; max-width: 260px; opacity: 0; transition: opacity .1s;
+}
+
+/* tab 2 */
+.variant { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.vcard { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.vcard h3 { margin: 0 0 4px; font-size: 16px; }
+.vcard .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }
+.vcard p { margin: 4px 0; }
+.chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 10px; background: var(--surface-2); color: var(--text-2); margin-right: 6px; }
+.pair { display: grid; grid-template-columns: 110px 1fr; align-items: center; height: 28px; }
+.pair .lab { font-size: 13px; text-align: right; padding-right: 10px; }
+.pair .track .bar { top: 4px; height: 8px; }
+.pair .track .bar.b2 { top: 15px; background: var(--s-base); }
+.pair .val { top: -1px; font-size: 11px; }
+.pair .val.v2 { top: 10px; }
+
+/* tab 3 */
+.imgs { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+.imgs figure { margin: 0; text-align: center; }
+.imgs img { display: block; width: 132px; height: auto; border-radius: 6px; border: 1px solid var(--line); }
+.imgs img.q { width: 150px; }
+.imgs figcaption { font-size: 11.5px; color: var(--text-3); margin-top: 3px; max-width: 150px; }
+.imgs .group { display: flex; gap: 8px; padding: 6px; border: 1.5px solid var(--line); border-radius: 8px; flex-wrap: wrap; }
+.imgs .group img { width: 96px; }
+.split3 { display: grid; grid-template-columns: 1fr 300px; gap: 16px; align-items: start; margin-top: 12px; }
+svg text { fill: var(--text-2); font-size: 11px; }
+svg .axis-line { stroke: var(--line); }
+svg .gridline { stroke: var(--grid); }
+svg .chance { stroke: var(--text-3); stroke-dasharray: 4 3; }
+svg .hl { fill: var(--surface-2); }
+details { margin-top: 8px; font-size: 12px; color: var(--text-2); }
+details table { border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+details th, details td { border-bottom: 1px solid var(--line); padding: 3px 8px; text-align: right; }
+details th:first-child, details td:first-child { text-align: left; }
+@media (max-width: 640px) {
+  .row { grid-template-columns: 112px 1fr; }
+  .axis { margin-left: 112px; }
+  .row .lab { font-size: 12px; }
+  .split3 { grid-template-columns: 1fr; }
+  .imgs img { width: 104px; } .imgs img.q { width: 132px; } .imgs .group img { width: 78px; }
+}
+</style>
+</head>
+<body>
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" aria-controls="p1" id="t1">1 · Re-draw the noise</button>
+  <button class="tab" role="tab" aria-selected="false" aria-controls="p2" id="t2">2 · Build a PredImagine variant</button>
+  <button class="tab" role="tab" aria-selected="false" aria-controls="p3" id="t3">3 · Several valid answers</button>
+</div>
+
+<!-- Tab 1 -->
+<section class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
+  <p class="lead">Every producer is read by the same consumer, trained on oracle latents. Switch from the noise draw a regressor was trained with to a fresh one and watch which producers still answer.</p>
+  <div class="controls">
+    <div class="ctl"><span>Task</span><div class="seg" id="task1"></div></div>
+    <div class="ctl"><span>Split</span><div class="seg" id="split1"></div></div>
+    <div class="ctl"><span>Noise draw</span><div class="seg" id="draw1"></div></div>
+  </div>
+  <div class="bars" id="bars1"></div>
+  <div class="legend">
+    <span><i style="background:var(--s-regr)"></i>PredImagine, regression variant</span>
+    <span><i style="background:var(--s-flow)"></i>PredImagine, flow variant</span>
+    <span><i style="background:var(--s-base)"></i>baselines</span>
+    <span><i style="background:var(--ghost);width:2px"></i>value at the other draw</span>
+  </div>
+  <p class="note" id="note1"></p>
+  <details><summary>Show the numbers</summary><div id="table1"></div></details>
+  <p class="small">Shared consumer, trainer seed 42, accuracy on 4-way questions (chance 0.25). Training draw: K1 s0 (one Euler step, noise seed 0); fresh draw: K8 s1. From the paper's Fig. 1b and Tab. S5.</p>
+</section>
+
+<!-- Tab 2 -->
+<section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+  <p class="lead">PredImagine predicts the clean intermediate state and puts a share &rho; of training at <i>t</i> = 0, where only the question decides the target. Two choices give its three variants; neighbouring variants differ in one choice.</p>
+  <div class="controls">
+    <div class="ctl"><span>Training noise</span><div class="seg" id="noise2"></div></div>
+    <div class="ctl"><span>Share at t = 0</span><div class="seg" id="rho2"></div></div>
+    <div class="ctl"><span>Split</span><div class="seg" id="split2"></div></div>
+  </div>
+  <div class="variant">
+    <div class="vcard" id="card2"></div>
+  </div>
+  <div class="legend" id="legend2"></div>
+  <div class="bars" id="bars2"></div>
+  <details><summary>Show the numbers</summary><div id="table2"></div></details>
+  <p class="small">Shared consumer, training draw (K1 s0), mean over trainer seeds 42, 43, 44 (the <i>t</i> = 0 flow: seeds 42 and 43 on IB-cw and IB-both, 42 elsewhere). From the paper's Tab. 4.</p>
+</section>
+
+<!-- Tab 3 -->
+<section class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+  <p class="lead">ImagineBench-rotation sets how many intermediate states are valid. Any valid one answers the question, while the squared-error optimum is the mean of their encodings, which need not encode any of them.</p>
+  <div class="controls">
+    <div class="ctl"><span>Task</span><div class="seg" id="task3"></div></div>
+  </div>
+  <div class="imgs" id="imgs3"></div>
+  <div class="split3">
+    <p class="note" id="note3" style="margin:0"></p>
+    <div>
+      <div class="controls" style="margin-bottom:4px"><div class="ctl"><span>Split</span><div class="seg" id="split3"></div></div></div>
+      <svg id="kcurve" viewBox="0 0 300 200" width="100%" style="max-width:420px;display:block" role="img" aria-label="Accuracy against the number of valid placements k"></svg>
+      <div class="legend">
+        <span><i style="background:var(--s-regr)"></i>PI regr.</span>
+        <span><i style="background:var(--s-flow)"></i>PI flow</span>
+        <span><i style="background:var(--s-base)"></i>velocity regr.</span>
+        <span><i style="background:var(--s-codes)"></i>codes, M = k</span>
+      </div>
+      <details><summary>Show the numbers</summary><div id="table3"></div></details>
+    </div>
+  </div>
+  <p class="small">Example question drawn with the ImagineBench-rotation generator (90&deg; clockwise; answer (c)). Pixel averages are an illustration only: the paper's mean is taken over latent encodings. Curve: IB-pos4 shared consumer, K1 s0, one trainer seed per point (codes at k = 4: three); oracle latents read 0.853 / 0.907. From Fig. 1c and Tab. S7.</p>
+</section>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+// ---------- theme: follow the host page's toggle when embedded on the same site ----------
+(function () {
+  function sync() {
+    try {
+      var host = window.parent && window.parent !== window ? window.parent.document.documentElement : null;
+      if (host) document.documentElement.setAttribute("data-theme", host.getAttribute("data-theme") === "dark" ? "dark" : "light");
+    } catch (e) { /* not same-origin: keep the OS preference */ }
+  }
+  sync();
+  try {
+    if (window.parent !== window) new MutationObserver(sync).observe(window.parent.document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  } catch (e) {}
+})();
+
+// ---------- data (the paper's tables) ----------
+const KIND = { release: "base", vel: "base", dflow: "base", regr: "regr", flow: "flow" };
+const NAMES = { release: "WM-VLM release", dflow: "Default flow", vel: "Velocity regression", regr: "PredImagine regression", flow: "PredImagine flow" };
+// [training draw K1 s0 ID, OOD], [fresh draw K8 s1 ID, OOD]; null = not read
+const DRAWS = {
+  "Tetris-2D, 3B": { dflow: [[.270,.298],[.265,.232]], vel: [[.540,.464],[.260,.234]], regr: [[.540,.546],[.302,.232]], flow: [[.520,.514],[.555,.564]] },
+  "IB-pos1, 3B":   { vel: [[.427,.535], null], regr: [[.650,.703],[.253,.212]], flow: [[.635,.715],[.630,.705]] },
+  "IB-cw, 3B":     { vel: [[.690,.740],[.225,.265]], regr: [[.748,.787],[.273,.242]], flow: [[.723,.792],[.728,.780]] },
+  "IB-both, 3B":   { vel: [[.667,.715],[.237,.273]], regr: [[.625,.637],[.230,.282]], flow: [[.480,.515],[.472,.565]] },
+  "Tetris-2D, 7B": { release: [[.785,.686],[.215,.250]], dflow: [[.250,.256],[.300,.274]], vel: [[.428,.426],[.195,.242]], regr: [[.820,.662],[.255,.264]], flow: [[.798,.716],[.810,.646]] },
+};
+const TASK_LABEL = { "Tetris-2D, 3B": "Tetris-2D", "IB-pos1, 3B": "IB-pos1", "IB-cw, 3B": "IB-cw", "IB-both, 3B": "IB-both", "Tetris-2D, 7B": "Tetris-2D 7B" };
+// Tab. 4: mean K1 s0 [ID, OOD]
+const PARAM = {
+  tasks: ["Tetris-2D", "IB-pos1", "IB-cw", "IB-both"],
+  regr: [[.578,.524],[.653,.725],[.768,.791],[.598,.642]],
+  t0:   [[.542,.458],[.590,.675],[.628,.655],[.468,.518]],
+  flow: [[.537,.528],[.593,.656],[.698,.765],[.483,.550]],
+  vel:  [[.562,.482],[.354,.415],[.721,.775],[.649,.672]],
+};
+// Tab. S7: IB-pos-k curve, K1 s0 [ID, OOD] at k = 1, 2, 4
+const KC = {
+  regr:  [[.650,.703],[.403,.485],[.347,.395]],
+  flow:  [[.635,.715],[.258,.235],[.242,.240]],
+  vel:   [[.427,.535],[.280,.287],[.263,.230]],
+  codes: [null,[.428,.520],[.375,.439]],
+};
+const fmt = v => v == null ? "–" : v.toFixed(3).replace(/^0/, "");
+const tickFmt = t => t === 0 ? "0" : t === 1 ? "1" : t.toFixed(2).replace(/^0/, "");
+
+// ---------- helpers ----------
+function seg(el, options, value, onChange) {
+  el.innerHTML = "";
+  options.forEach(o => {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = o.label; b.dataset.v = o.value;
+    if (o.disabled) b.disabled = true;
+    b.setAttribute("aria-pressed", String(o.value === value));
+    b.addEventListener("click", () => {
+      el.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+      onChange(o.value);
+    });
+    el.appendChild(b);
+  });
+}
+const tip = document.getElementById("tip");
+function showTip(e, html) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const x = Math.min(e.clientX + 12, window.innerWidth - 270), y = e.clientY + 14;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { tip.style.opacity = 0; }
+const color = k => `var(--s-${KIND[k] || k})`;
+function axis(container, ticks) {
+  const ax = document.createElement("div"); ax.className = "axis";
+  ticks.forEach(t => { const s = document.createElement("span"); s.style.left = (t * 100) + "%"; s.textContent = tickFmt(t); ax.appendChild(s); });
+  container.appendChild(ax);
+}
+function vlines(container, left, ticks, chance) {
+  ticks.forEach(t => {
+    const v = document.createElement("div"); v.className = "vline" + (t === chance ? " chance" : "");
+    v.style.left = `calc(${left}px + (100% - ${left}px) * ${t})`; container.appendChild(v);
+  });
+}
+function labelWidth() { return window.innerWidth <= 640 ? 112 : 150; }
+
+// ---------- tab 1 ----------
+const s1 = { task: "IB-cw, 3B", split: 0, draw: 0 };
+let built1 = "";
+function render1() {
+  const host = document.getElementById("bars1");
+  const data = DRAWS[s1.task];
+  const keys = ["release", "dflow", "vel", "regr", "flow"].filter(k => data[k]);
+  const sig = s1.task + "|" + labelWidth();
+  if (built1 !== sig) {   // new task: rebuild rows; same task: update them in place so the bars animate
+    built1 = sig; host.innerHTML = "";
+    vlines(host, labelWidth(), [.25, .5, .75], .25);
+    keys.forEach(k => {
+      const row = document.createElement("div"); row.className = "row";
+      row.innerHTML = `<div class="lab">${KIND[k] === "base" ? NAMES[k] : `<b>${NAMES[k]}</b>`}</div>
+        <div class="track"><div class="bar" style="background:${color(k)}"></div><div class="val"></div><div class="ghost"></div>
+        <span class="na">not read at a fresh draw</span></div>`;
+      row.addEventListener("mousemove", e => {
+        const d = DRAWS[s1.task][k], f = d[1];
+        showTip(e, `<b>${NAMES[k]}</b> · ${TASK_LABEL[s1.task]} ${["ID", "OOD"][s1.split]}<br>training draw ${fmt(d[0][s1.split])} → fresh draw ${f ? fmt(f[s1.split]) : "not read"}`);
+      });
+      row.addEventListener("mouseleave", hideTip);
+      host.appendChild(row);
+    });
+    axis(host, [0, .25, .5, .75, 1]);
+    host.querySelector(".axis").style.marginLeft = labelWidth() + "px";
+  }
+  host.querySelectorAll(".track").forEach((tr, i) => {
+    const k = keys[i], cur = data[k][s1.draw], other = data[k][1 - s1.draw];
+    const bar = tr.querySelector(".bar"), val = tr.querySelector(".val"), gh = tr.querySelector(".ghost"), na = tr.querySelector(".na");
+    na.style.display = cur ? "none" : "";
+    val.style.display = cur ? "" : "none";
+    bar.style.width = cur ? cur[s1.split] * 100 + "%" : "0";
+    if (cur) { val.textContent = fmt(cur[s1.split]); val.style.left = `calc(${cur[s1.split] * 100}% + 6px)`; }
+    gh.style.display = other ? "" : "none";
+    if (other) gh.style.left = other[s1.split] * 100 + "%";
+  });
+  document.getElementById("note1").innerHTML = s1.draw === 0
+    ? "<b>Training draw.</b> Each regressor is read with the noise tensor it was trained on, as the release reports. " + (s1.split === 0
+      ? "In distribution the regression variant of PredImagine is as accurate as its flow variant or more, on every task."
+      : "Out of distribution the two PredImagine variants trade places: the flow leads on IB-pos1, IB-cw and 7B Tetris-2D, the regression variant on Tetris-2D and IB-both.")
+    : (s1.task === "Tetris-2D, 7B"
+      ? "<b>Fresh draw.</b> Changing only the noise seed and the step count sends the release (0.785 → 0.215 ID) and both regressors to chance, and the default flow stays there. The flow variant of PredImagine keeps its accuracy (0.798 → 0.810)."
+      : "<b>Fresh draw.</b> Changing only the noise seed and the step count sends every fixed-noise regressor to chance" + (data.dflow ? ", and the default flow stays there" : "") + ". Only the flow variant of PredImagine keeps its accuracy: robustness to the draw is what generation adds.");
+  const rows = keys.map(k => `<tr><td>${NAMES[k]}</td><td>${fmt(data[k][0][0])} / ${fmt(data[k][0][1])}</td><td>${data[k][1] ? fmt(data[k][1][0]) + " / " + fmt(data[k][1][1]) : "not read"}</td></tr>`).join("");
+  document.getElementById("table1").innerHTML = `<table><tr><th>${TASK_LABEL[s1.task]}, ID / OOD</th><th>Training draw (K1 s0)</th><th>Fresh draw (K8 s1)</th></tr>${rows}</table>`;
+}
+seg(document.getElementById("task1"), Object.keys(DRAWS).map(t => ({ label: TASK_LABEL[t], value: t })), s1.task, v => { s1.task = v; render1(); });
+seg(document.getElementById("split1"), [{ label: "ID", value: 0 }, { label: "OOD", value: 1 }], 0, v => { s1.split = v; render1(); });
+seg(document.getElementById("draw1"), [{ label: "Training (K1 s0)", value: 0 }, { label: "Fresh (K8 s1)", value: 1 }], 0, v => { s1.draw = v; render1(); });
+
+// ---------- tab 2 ----------
+const s2 = { noise: "fixed", rho: "1", split: 0 };
+const VARIANTS = {
+  "fixed-1": { key: "regr", kind: "regr", name: "x-prediction regression", desc: "One fixed noise draw, every block at t = 0: a deterministic map from the question to the clean intermediate state.",
+    fresh: "Falls to chance at a fresh draw on every task (seed 42 ID: Tetris-2D 0.540 → 0.302, IB-cw 0.748 → 0.273, 7B Tetris-2D 0.820 → 0.255).",
+    take: "The most accurate variant at its training draw: ahead of the repaired flow in distribution on every task, by 4.2 to 11.4 points." },
+  "fresh-1": { key: "t0", kind: "flow", name: "t = 0 flow", desc: "Fresh noise at every step, every block at t = 0. It differs from x-prediction regression only in the noise.",
+    fresh: "Keeps its accuracy at a fresh draw: within 4.1 points of its K1 s0 read on Tetris-2D, IB-cw and IB-both (7B Tetris-2D: 0.853 / 0.698 at K8 s1).",
+    take: "Fresh noise alone brings the robustness, and costs accuracy: on ImagineBench it trails x-prediction regression by 6 to 15 points ID." },
+  "fresh-0.5": { key: "flow", kind: "flow", name: "Repaired flow", desc: "Fresh noise, half of the blocks at t = 0 and the rest shifted toward noise (s = 3). It differs from the t = 0 flow only in the share at t = 0.",
+    fresh: "Keeps its accuracy at a fresh draw on every task (seed 42 ID: Tetris-2D 0.520 → 0.555, IB-cw 0.723 → 0.728, 7B Tetris-2D 0.798 → 0.810).",
+    take: "Training over t wins part of the t = 0 flow's cost back only on IB-cw (it also trains twice as long). At 7B it lifts the pipeline to the release's level." },
+};
+function render2() {
+  const id = `${s2.noise}-${s2.rho}`, v = VARIANTS[id];
+  const card = document.getElementById("card2");
+  if (!v) {
+    card.innerHTML = `<h3>Not a variant</h3><p>With one fixed noise draw, WM-VLM's recipe also fixes the timestep at <i>t</i> = 0, so the share &rho; is 1. A share below 1 needs fresh noise.</p>`;
+    document.getElementById("bars2").innerHTML = ""; document.getElementById("legend2").innerHTML = ""; document.getElementById("table2").innerHTML = "";
+    return;
+  }
+  card.innerHTML = `<h3><span class="sw" style="background:var(--s-${v.kind})"></span>${v.name}</h3>
+    <p><span class="chip">${s2.noise === "fixed" ? "fixed noise" : "fresh noise"}</span><span class="chip">&rho; = ${s2.rho === "1" ? "1" : "½"}</span><span class="chip">clean-target prediction</span></p>
+    <p>${v.desc}</p><p><b>At a fresh draw.</b> ${v.fresh}</p><p><b>At the training draw.</b> ${v.take}</p>`;
+  document.getElementById("legend2").innerHTML = `<span><i style="background:var(--s-${v.kind})"></i>${v.name}</span><span><i style="background:var(--s-base)"></i>velocity regression (WM-VLM's default recipe)</span>`;
+  const host = document.getElementById("bars2"); host.innerHTML = "";
+  const lw = window.innerWidth <= 640 ? 80 : 110;
+  vlines(host, lw, [.25, .5, .75], .25);
+  PARAM.tasks.forEach((t, i) => {
+    const a = PARAM[v.key][i][s2.split], b = PARAM.vel[i][s2.split];
+    const row = document.createElement("div"); row.className = "pair"; row.style.gridTemplateColumns = `${lw}px 1fr`;
+    row.innerHTML = `<div class="lab">${t}</div><div class="track">
+      <div class="bar" style="width:0;background:var(--s-${v.kind})"></div><div class="bar b2" style="width:0"></div>
+      <div class="val" style="left:0">${fmt(a)}</div><div class="val v2" style="left:0">${fmt(b)}</div></div>`;
+    const bars = row.querySelectorAll(".bar"), vals = row.querySelectorAll(".val");
+    bars[0].style.width = a * 100 + "%"; bars[1].style.width = b * 100 + "%";
+    vals[0].style.left = `calc(${a * 100}% + 6px)`; vals[1].style.left = `calc(${b * 100}% + 6px)`;
+    row.addEventListener("mousemove", e => showTip(e, `<b>${t}</b>, ${["ID", "OOD"][s2.split]}<br>${v.name} ${fmt(a)} · velocity regression ${fmt(b)}`));
+    row.addEventListener("mouseleave", hideTip);
+    host.appendChild(row);
+  });
+  const ax = document.createElement("div"); ax.className = "axis"; ax.style.marginLeft = lw + "px";
+  [0, .25, .5, .75, 1].forEach(t => { const s = document.createElement("span"); s.style.left = t * 100 + "%"; s.textContent = tickFmt(t); ax.appendChild(s); });
+  host.appendChild(ax);
+  const rows = PARAM.tasks.map((t, i) => `<tr><td>${t}</td>${["regr", "t0", "flow", "vel"].map(k => `<td>${fmt(PARAM[k][i][0])} / ${fmt(PARAM[k][i][1])}</td>`).join("")}</tr>`).join("");
+  document.getElementById("table2").innerHTML = `<table><tr><th>ID / OOD</th><th>x-pred. regr.</th><th>t = 0 flow</th><th>Repaired flow</th><th>Velocity regr.</th></tr>${rows}</table>`;
+}
+function rhoOptions() {
+  return [{ label: "all (ρ = 1)", value: "1" }, { label: "half (ρ = ½)", value: "0.5", disabled: s2.noise === "fixed" }];
+}
+seg(document.getElementById("noise2"), [{ label: "one fixed draw", value: "fixed" }, { label: "fresh every step", value: "fresh" }], s2.noise, v => {
+  s2.noise = v; if (v === "fixed") s2.rho = "1";
+  seg(document.getElementById("rho2"), rhoOptions(), s2.rho, r => { s2.rho = r; render2(); });
+  render2();
+});
+seg(document.getElementById("rho2"), rhoOptions(), s2.rho, r => { s2.rho = r; render2(); });
+seg(document.getElementById("split2"), [{ label: "ID", value: 0 }, { label: "OOD", value: 1 }], 0, v => { s2.split = v; render2(); });
+
+// ---------- tab 3 ----------
+const s3 = { task: "pos2", split: 0 };
+const T3 = {
+  cw:   { label: "IB-cw (k = 1)", k: null, valid: [["strip-cw", "clockwise strip"]], mean: null,
+          note: "<b>One valid intermediate.</b> The clockwise strip from C to the answer. With a single valid state, the squared-error optimum is that state, so a regressor has nothing to average." },
+  both: { label: "IB-both (k = 2)", k: null, valid: [["strip-cw", "clockwise strip"], ["strip-ccw", "counter-clockwise strip"]], mean: ["mean-both", "pixel average of the two"],
+          note: "<b>Two valid strips that turn opposite ways.</b> The flow's 16 noise draws per question stay close together (cosine 0.93 at K8) and reach neither strip (cosine 0.82, where a sampled strip scores 1). The consumer reads the exact mean of the two strips as well as either strip, so the deficit lies in the producer, not in averaging." },
+  pos1: { label: "IB-pos-1", k: 1, valid: [["pos-0", "centre"]], mean: null,
+          note: "<b>k = 1.</b> The answer shape is always drawn at the centre. All three PredImagine variants lead velocity regression by over 20 points here." },
+  pos2: { label: "IB-pos-2", k: 2, valid: [["pos-0", "centre"], ["pos-1", "top-left"]], mean: ["mean-pos2", "pixel average"],
+          note: "<b>k = 2.</b> Every producer drops and the flow drops furthest, to chance. Its noise does not pick a placement: two noise seeds at K8 land on the same placement for 95% / 94% of samples. Two hypothesis codes (M = k) each hold one placement." },
+  pos4: { label: "IB-pos-4", k: 4, valid: [["pos-0", "centre"], ["pos-1", "top-left"], ["pos-2", "top-right"], ["pos-3", "bottom-left"]], mean: ["mean-pos4", "pixel average"],
+          note: "<b>k = 4.</b> The flow's latents sit near the placement mean at K1 and K8; at K128 they leave the mean without approaching a placement, and the rotation they carry stays at chance. In none of these reads does the flow's noise select a valid state." },
+};
+function render3() {
+  const t = T3[s3.task];
+  const valid = t.valid.map(([f, c]) => `<figure><img src="img/${f}.png" alt="${c}"><figcaption>${c}</figcaption></figure>`).join("");
+  document.getElementById("imgs3").innerHTML =
+    `<figure><img class="q" src="img/question.png" alt="question: apply the rotation from A to B to C"><figcaption>question</figcaption></figure>
+     <figure><div class="group">${valid}</div><figcaption style="max-width:none">${t.valid.length === 1 ? "the valid intermediate" : `any of these ${t.valid.length} is valid`}</figcaption></figure>` +
+    (t.mean ? `<figure><img src="img/${t.mean[0]}.png" alt="${t.mean[1]}"><figcaption>${t.mean[1]} (illustration; encodes no valid state)</figcaption></figure>` : "");
+  document.getElementById("note3").innerHTML = t.note;
+  drawK();
+}
+function drawK() {
+  const svg = document.getElementById("kcurve"), sp = s3.split, hk = T3[s3.task].k;
+  const W = 300, H = 200, L = 34, R = 12, T = 10, B = 26;
+  const xs = [1, 2, 4], X = i => L + (W - L - R) * (i / 2), Y = v => T + (H - T - B) * (1 - (v - .2) / (.75 - .2));
+  let g = "";
+  if (hk) { const i = xs.indexOf(hk); g += `<rect class="hl" x="${X(i) - 18}" y="${T}" width="36" height="${H - T - B}" rx="4"/>`; }
+  [.25, .4, .55, .7].forEach(v => {
+    g += `<line class="${v === .25 ? "chance" : "gridline"}" x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}"/>`;
+    g += `<text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+  });
+  g += `<line class="axis-line" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/>`;
+  xs.forEach((k, i) => { g += `<text x="${X(i)}" y="${H - B + 16}" text-anchor="middle">k = ${k}</text>`; });
+  g += `<text x="${L + 4}" y="${Y(.25) + 13}">chance</text>`;
+  const series = [["vel", "base"], ["codes", "codes"], ["regr", "regr"], ["flow", "flow"]];
+  series.forEach(([key, kind]) => {
+    const pts = KC[key].map((p, i) => p ? [X(i), Y(p[sp])] : null).filter(Boolean);
+    g += `<polyline fill="none" stroke="var(--s-${kind})" stroke-width="2" points="${pts.map(p => p.join(",")).join(" ")}"/>`;
+    pts.forEach(p => { g += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--s-${kind})" stroke="var(--surface)" stroke-width="2"/>`; });
+  });
+  xs.forEach((k, i) => { g += `<rect class="hit" data-i="${i}" x="${X(i) - 22}" y="${T}" width="44" height="${H - T - B}" fill="transparent"/>`; });
+  svg.innerHTML = g;
+  svg.querySelectorAll(".hit").forEach(r => {
+    r.addEventListener("mousemove", e => {
+      const i = +r.dataset.i, f = p => p ? fmt(p[sp]) : "–";
+      showTip(e, `<b>k = ${xs[i]}</b>, ${["ID", "OOD"][sp]}<br>PredImagine regr. ${f(KC.regr[i])}<br>PredImagine flow ${f(KC.flow[i])}<br>velocity regr. ${f(KC.vel[i])}<br>codes, M = k ${f(KC.codes[i])}`);
+    });
+    r.addEventListener("mouseleave", hideTip);
+  });
+  const rows = [["PredImagine regr. (100k)", "regr"], ["PredImagine flow (repaired, 200k)", "flow"], ["Velocity regr.", "vel"], ["Codes, M = k (100k)", "codes"]]
+    .map(([n, k]) => `<tr><td>${n}</td>${KC[k].map(p => `<td>${p ? fmt(p[0]) + " / " + fmt(p[1]) : "–"}</td>`).join("")}</tr>`).join("");
+  document.getElementById("table3").innerHTML = `<table><tr><th>ID / OOD</th><th>k = 1</th><th>k = 2</th><th>k = 4</th></tr>${rows}</table>`;
+}
+seg(document.getElementById("task3"), Object.entries(T3).map(([v, t]) => ({ label: t.label, value: v })), s3.task, v => { s3.task = v; render3(); });
+seg(document.getElementById("split3"), [{ label: "ID", value: 0 }, { label: "OOD", value: 1 }], 0, v => { s3.split = v; drawK(); });
+
+// ---------- tabs ----------
+document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", String(t === tab)));
+  document.querySelectorAll(".panel").forEach(p => p.hidden = p.id !== tab.getAttribute("aria-controls"));
+  ({ p1: render1, p2: render2, p3: render3 })[tab.getAttribute("aria-controls")]();
+}));
+window.addEventListener("resize", () => { if (!document.getElementById("p1").hidden) render1(); if (!document.getElementById("p2").hidden) render2(); });
+render1(); render2(); render3();
+// a link to #p2 or #p3 opens that tab
+if (/^#p[23]$/.test(location.hash)) document.querySelector(`.tab[aria-controls="${location.hash.slice(1)}"]`).click();
+</script>
+</body>
+</html>
