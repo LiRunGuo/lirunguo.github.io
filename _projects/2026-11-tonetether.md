@@ -53,19 +53,32 @@ html[data-theme="dark"] .tt-tag{color:#2a1608}
 .tt-table{margin:0 0 1.6em;padding:.8em;border:1px solid var(--tt-line);border-radius:14px;background:var(--tt-card);overflow-x:auto}
 .tt-table table{font-size:.8em;margin:.6em 0;min-width:620px}
 .tt-table p{font-size:.86em;margin:.2em}
-.tt-demo{border:1px solid var(--tt-line);border-radius:16px;overflow:hidden;margin:0 0 1em;background:var(--tt-card)}
-.tt-demo .bar{display:flex;align-items:center;gap:.45em;padding:.55em .9em;border-bottom:1px solid var(--tt-line);font-size:.8em}
-.tt-demo .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
-.tt-demo .bar a{margin-left:auto;font-weight:600}
-.tt-demo iframe{display:block;width:100%;border:0;min-height:420px}
+.tt-tabs{display:flex;flex-wrap:wrap;gap:.4em;margin:0 0 .8em}
+.tt-tabs button{font:inherit;font-size:.8em;font-weight:600;padding:.35em .9em;border-radius:999px;border:1px solid var(--tt-line);background:transparent;color:var(--global-text-color);cursor:pointer}
+.tt-tabs button[aria-pressed="true"]{background:var(--tt-acc);border-color:var(--tt-acc);color:#fff}
+html[data-theme="dark"] .tt-tabs button[aria-pressed="true"]{color:#2a1608}
+.tt-vgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6em}
+.tt-cell video{display:block;width:100%;aspect-ratio:416/240;border-radius:8px;background:#000}
+.tt-vlab{display:flex;justify-content:space-between;gap:.5em;flex-wrap:wrap;font-size:.8em;margin:.3em .1em 0}
+.tt-vlab b{font-weight:700}.tt-vlab span{color:var(--tt-gray);font-variant-numeric:tabular-nums}
+.tt-cell.ours video{box-shadow:0 0 0 3px var(--tt-acc)}.tt-cell.ours .tt-vlab b{color:var(--tt-acc)}
+.tt-prompt{font-size:.8em;color:var(--tt-gray);font-style:italic;margin:.7em .2em 0}
+.tt-slider{position:relative;width:100%;aspect-ratio:416/240;border-radius:8px;overflow:hidden;user-select:none;touch-action:pan-y;cursor:ew-resize;background:#000}
+.tt-slider video{position:absolute;inset:0;width:100%;height:100%;margin:0}
+.tt-slider .after{clip-path:inset(0 0 0 var(--pos,50%))}
+.tt-slider .line{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.5)}
+.tt-slider .knob{position:absolute;top:50%;left:var(--pos,50%);width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;background:#fff;color:#222;display:grid;place-items:center;font-weight:800;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.tt-slider:focus-visible .knob{box-shadow:0 0 0 3px var(--tt-acc)}
+.tt-slider .lbl{position:absolute;top:8px;padding:.2em .6em;border-radius:6px;font-size:.72em;font-weight:700;color:#fff;background:rgba(0,0,0,.55)}
+.tt-slider .lbl.l{left:8px}.tt-slider .lbl.r{right:8px;background:var(--tt-acc)}
 @media (max-width:900px){.tt-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:640px){.tt-cmp{grid-template-columns:1fr}.tt-cmp .arr,.tt-cmp .h,.tt-cmp span:empty{display:none}.tt-cmp .k{margin-top:.6em}.tt-tldr{font-size:1.04em}}
+@media (max-width:640px){.tt-vgrid{grid-template-columns:1fr}.tt-cmp{grid-template-columns:1fr}.tt-cmp .arr,.tt-cmp .h,.tt-cmp span:empty{display:none}.tt-cmp .k{margin-top:.6em}.tt-tldr{font-size:1.04em}}
 </style>
 
 <div class="tt">
 <div class="tt-kicker"><span>Video generation</span><span>Autoregressive diffusion</span><span>KV cache</span><span>Training-free</span></div>
 <p class="tt-tldr">Long-video corrections are judged by drift scores, and a drift score rewards a video that stops changing. <b>ToneTether</b> corrects only the predicted global tone of the drift in the KV cache, and removes 23–34% of TetherCache's colour drift without a measurable loss of motion or new content.</p>
-<div class="tt-btns"><a class="tt-btn" href="#interactive-demo">▶&nbsp; Interactive demo</a><a class="tt-btn ghost" href="#key-results">Key results</a><a class="tt-btn ghost" href="#what-tonetether-changes">The idea</a><a class="tt-btn ghost" href="/files/bibtex/li2026tonetether.bib">BibTeX</a><span class="tt-btn muted">Paper &amp; code: coming soon</span></div>
+<div class="tt-btns"><a class="tt-btn" href="#videos">▶&nbsp; Videos</a><a class="tt-btn ghost" href="#key-results">Key results</a><a class="tt-btn ghost" href="#what-tonetether-changes">The idea</a><a class="tt-btn ghost" href="/files/bibtex/li2026tonetether.bib">BibTeX</a><span class="tt-btn muted">Paper &amp; code: coming soon</span></div>
 <figure class="tt-fig"><img src="/images/projects/2026-11-tonetether/fig1-teaser.webp" alt="Figure 1: correcting drift without freezing" loading="lazy"><figcaption><span class="tt-tag">Figure 1</span><b class="tt-title">Correcting drift without freezing.</b>Left: the lowest-drift baseline repeats nearly the same frame, while TetherCache's sky darkens after about two minutes. Right: tethers on all directions and low-frequency injection lower drift only together with motion or new content; ToneTether lowers it with neither loss.</figcaption></figure>
 </div>
 
@@ -118,18 +131,85 @@ The method with the lowest drift loses 31–40% of TetherCache's new content and
 <figure class="tt-fig"><img src="/images/projects/2026-11-tonetether/figs3-shadow-target.webp" alt="Figure S3: prompted tone changes with a shadow reference" loading="lazy"><figcaption><span class="tt-tag">Figure S3</span><b class="tt-title">A shadow reference lets prompted change through.</b>A reference built from the opening pulls a prompted change of tone back like drift. Tethered to the shadow clips' tone, the model renders the storm and the sunset, and long videos show 87% of the prompted change instead of 25–30%.</figcaption></figure>
 </div>
 
-## Interactive demo
+## Videos
 
-Play four caches on the same prompt in sync (240 s at 4–16× speed, prompts chosen by a fixed rule), drag the divider to compare TetherCache with ToneTether, and explore the design ablations of Table 2: colour drift against motion, flow or image quality.
+<div class="tt">
+<figure class="tt-fig" id="tt-videos">
+<div class="tt-tabs" id="tt-tabs"><button aria-pressed="true" data-i="0">Mammoths</button><button aria-pressed="false" data-i="1">Big Sur</button><button aria-pressed="false" data-i="2">Paper airplanes</button><button aria-pressed="false" data-i="3">Tokyo street</button></div>
+<div class="tt-vgrid">
+<div class="tt-cell"><video muted loop playsinline preload="metadata" data-k="grab"></video><div class="tt-vlab"><b>GRAB</b><span data-m="grab"></span></div></div>
+<div class="tt-cell"><video muted loop playsinline preload="metadata" data-k="tc06"></video><div class="tt-vlab"><b>TetherCache</b><span data-m="tc06"></span></div></div>
+<div class="tt-cell"><video muted loop playsinline preload="metadata" data-k="tc_kalcal"></video><div class="tt-vlab"><b>Kalman tether, all directions</b><span data-m="tc_kalcal"></span></div></div>
+<div class="tt-cell ours"><video muted loop playsinline preload="metadata" data-k="tc_kalcal_col_t1"></video><div class="tt-vlab"><b>TetherCache + ToneTether</b><span data-m="tc_kalcal_col_t1"></span></div></div>
+</div>
+<p class="tt-prompt" id="tt-prompt"></p>
+<figcaption><span class="tt-tag">Videos</span><b class="tt-title">Same prompt, four caches.</b>240 s Self-Forcing rollouts played at 8× speed, with each video's colour drift ΔE between the first and last fifth and its dynamic degree. The four prompts are those with the largest TetherCache colour drift among the first 32 evaluation prompts (RTX 4090 runs). On Big Sur the tether on all directions removes the drift by stopping the waves; ToneTether keeps them moving.</figcaption>
+</figure>
+<figure class="tt-fig">
+<div class="tt-slider" id="tt-slider" style="--pos:50%" tabindex="0" role="slider" aria-label="Drag to compare TetherCache with TetherCache + ToneTether" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+<video muted loop playsinline preload="metadata" data-k="tc06"></video><video class="after" muted loop playsinline preload="metadata" data-k="tc_kalcal_col_t1"></video>
+<span class="line"></span><span class="knob">⇔</span><span class="lbl l">TetherCache</span><span class="lbl r">+ ToneTether</span></div>
+<figcaption><span class="tt-tag">Compare</span><b class="tt-title">TetherCache against TetherCache + ToneTether.</b>Drag the divider; the prompt follows the selection above.</figcaption>
+</figure>
+</div>
 
-<div class="tt"><div class="tt-demo">
-<div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span>&nbsp; ToneTether demo<a href="/files/projects/2026-11-tonetether/demo/">Open full page ↗</a></div>
-<iframe id="tonetether-demo" src="/files/projects/2026-11-tonetether/demo/?embed=1" height="1900" loading="lazy" title="ToneTether interactive demo"></iframe>
+<div class="tt"><div class="tt-table" markdown="1">
+
+<span class="tt-tag">Table 2</span> **Which directions, not how strongly.** Design ablations on 128 development prompts (Self-Forcing, 240 s), all added to TetherCache.
+
+| Correction | ΔE ↓ | Dyn ↑ | Flow ↑ |
+|---|---|---|---|
+| TetherCache | 4.23 | 76.6 | 60.2 |
+| Kalman tether, all directions, τ = 0.5 | 3.27 | 71.4 | 56.2 |
+| Kalman tether, all directions, τ = 1 | 3.14 | 70.5 | 55.0 |
+| Same correction, random 5-dim. subspace | 4.21 | 72.8 | 58.8 |
+| Same correction, top-5 drift directions | 4.04 | 76.3 | 62.2 |
+| ToneTether, τ = 1 | 3.08 | 76.2 | 59.6 |
+
+Tethers on all directions trade motion for colour drift at every strength; ToneTether removes as much colour drift with TetherCache's motion and flow, which neither a random nor the top-drift subspace achieves.
+
 </div></div>
+
 <script>
-  window.addEventListener("message", function (e) {
-    if (e.data && e.data.tonetetherDemoHeight) document.getElementById("tonetether-demo").style.height = (e.data.tonetetherDemoHeight + 4) + "px";
+(function () {
+  var D = "/files/projects/2026-11-tonetether/";
+  var P = [
+    {id: "0001", p: "Several giant wooly mammoths approach treading through a snowy meadow ...", m: {grab: [13.89, 100], tc06: [15.97, 96], tc_kalcal: [5.48, 87], tc_kalcal_col_t1: [5.21, 94]}},
+    {id: "0003", p: "Drone view of waves crashing against the rugged cliffs along Big Sur's garay point beach ...", m: {grab: [5.00, 60], tc06: [11.35, 36], tc_kalcal: [1.71, 2], tc_kalcal_col_t1: [5.70, 49]}},
+    {id: "0021", p: "A flock of paper airplanes flutters through a dense jungle, weaving around trees as if they were migrating birds.", m: {grab: [24.35, 100], tc06: [9.66, 100], tc_kalcal: [3.41, 100], tc_kalcal_col_t1: [2.72, 100]}},
+    {id: "0000", p: "A stylish woman walks down a Tokyo street filled with warm glowing neon and animated city signage ...", m: {grab: [10.34, 100], tc06: [8.22, 100], tc_kalcal: [8.13, 100], tc_kalcal_col_t1: [5.98, 100]}}
+  ];
+  var vids = [].slice.call(document.querySelectorAll("#tt-videos video, #tt-slider video"));
+  var visible = false;
+  function playAll() { if (visible) vids.forEach(function (v) { var r = v.play(); if (r) r.catch(function () {}); }); }
+  function load(i) {
+    var c = P[i];
+    vids.forEach(function (v) { var k = v.getAttribute("data-k"); v.poster = D + "posters/" + c.id + "_" + k + ".jpg"; v.src = D + "videos/" + c.id + "_" + k + ".mp4"; });
+    [].forEach.call(document.querySelectorAll("#tt-videos [data-m]"), function (el) { var x = c.m[el.getAttribute("data-m")]; el.textContent = "\u0394E " + x[0].toFixed(2) + " \u00b7 dynamic " + x[1] + "%"; });
+    document.getElementById("tt-prompt").textContent = "\u201c" + c.p + "\u201d";
+    [].forEach.call(document.querySelectorAll("#tt-tabs button"), function (b) { b.setAttribute("aria-pressed", String(+b.getAttribute("data-i") === i)); });
+    playAll();
+  }
+  [].forEach.call(document.querySelectorAll("#tt-tabs button"), function (b) { b.addEventListener("click", function () { load(+b.getAttribute("data-i")); }); });
+  // keep the videos in step, and play them only while they are on screen
+  setInterval(function () { var t = vids[0].currentTime; vids.forEach(function (v) { if (!v.paused && Math.abs(v.currentTime - t) > 0.2) v.currentTime = t; }); }, 1000);
+  var shown = {};
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { shown[e.target.id] = e.isIntersecting; });
+    visible = shown["tt-videos"] || shown["tt-slider"];
+    if (visible) playAll(); else vids.forEach(function (v) { v.pause(); });
   });
+  io.observe(document.getElementById("tt-videos")); io.observe(document.getElementById("tt-slider"));
+  load(0);
+  // drag-to-compare slider (pointer and keyboard)
+  var s = document.getElementById("tt-slider"), drag = false;
+  function set(p) { p = Math.max(0, Math.min(100, p)); s.style.setProperty("--pos", p + "%"); s.setAttribute("aria-valuenow", Math.round(p)); }
+  function move(x) { var r = s.getBoundingClientRect(); set((x - r.left) / r.width * 100); }
+  s.addEventListener("pointerdown", function (e) { drag = true; s.setPointerCapture(e.pointerId); move(e.clientX); });
+  s.addEventListener("pointermove", function (e) { if (drag) move(e.clientX); });
+  s.addEventListener("pointerup", function () { drag = false; });
+  s.addEventListener("keydown", function (e) { var p = parseFloat(s.getAttribute("aria-valuenow")); if (e.key === "ArrowLeft") { set(p - 5); e.preventDefault(); } else if (e.key === "ArrowRight") { set(p + 5); e.preventDefault(); } });
+})();
 </script>
 
 ## Links and citation
