@@ -91,14 +91,38 @@ html[data-theme="dark"] .la-btn:not(.is-primary):not(.is-off) { background: #e8e
 .la-table tr.sep td { border-top: 2px solid var(--la-line); }
 .la-table .best { color: var(--la-accent); }
 .la-table-wrap { overflow-x: auto; }
-.la-demo { padding: 0; overflow: hidden; }
-.la-demo iframe { display: block; width: 100%; border: 0; min-height: 600px; }
+.la { --la-aigu: #CC79A7; --la-weight: #56B4E9; --la-early: #4d4d4d; }
+html[data-theme="dark"] .la { --la-aigu: #e09cc4; --la-weight: #7cc6ef; --la-early: #c4c7cc; }
+.la-card-title { font-weight: 700; margin: 0 0 .25em; }
+.la-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .6em 1em; margin: .8em 0; }
+.la-controls label { font-size: .85em; color: var(--la-muted); }
+.la-controls input[type=range] { width: min(320px, 100%); accent-color: var(--la-accent); }
+.la-canvas { display: block; width: 100%; height: auto; border-radius: 10px; background: var(--la-soft); border: 1px solid var(--la-line); }
+.la-mini { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: .6em; margin-top: .8em; }
+.la-mini > div { background: var(--la-soft); border: 1px solid var(--la-line); border-radius: 10px; padding: .55em .8em; }
+.la-mini .v { font-size: 1.35em; font-weight: 800; font-variant-numeric: tabular-nums; }
+.la-mini .v.up { color: var(--la-accent); }
+.la-mini .k { font-size: .75em; color: var(--la-muted); line-height: 1.35; }
+.la-chart { width: 100%; height: auto; display: block; margin-top: .6em; }
+.la-legend { display: flex; flex-wrap: wrap; gap: .3em 1em; font-size: .78em; color: var(--la-muted); margin-top: .3em; }
+.la-legend span::before { content: ""; display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 5px;
+  vertical-align: middle; background: var(--c); }
+.la-chips { display: flex; flex-wrap: wrap; gap: .4em; margin: .2em 0 .6em; }
+.la-chips button { border: 1px solid var(--la-line); background: var(--la-soft); color: inherit; font: inherit; font-size: .8em;
+  font-weight: 600; padding: .3em .85em; border-radius: 999px; cursor: pointer; }
+.la-chips button[aria-pressed="true"] { border-color: var(--la-accent); background: var(--la-accent-soft); color: var(--la-accent); }
+.la-gallery { display: grid; grid-template-columns: 9.5em 1fr; gap: .5em .9em; align-items: center; }
+.la-gallery .lab { font-size: .82em; font-weight: 700; border-left: 4px solid; padding-left: .6em; line-height: 1.3; }
+.la-gallery img { width: 100%; height: auto; border-radius: 8px; display: block; margin: 0; }
+.la p.la-prompt { font-style: italic; color: var(--la-muted); margin: 0 0 .8em; font-size: .92em; }
 .la p.la-cite { font-size: .9em; color: var(--la-muted); }
 @media (max-width: 720px) {
   .la-stats { grid-template-columns: repeat(2, 1fr); }
   .la-steps { grid-template-columns: 1fr; }
   .la-slider { aspect-ratio: 321 / 157; }
   .la-slider img { object-position: left center; }
+  .la-gallery { grid-template-columns: 1fr; }
+  .la-gallery .lab { margin-top: .4em; }
 }
 </style>
 
@@ -116,7 +140,7 @@ sampling steps and the variety comes back: <b>almost the same reward, more diver
 compute.</b></p>
 
 <div class="la-buttons">
-  <a class="la-btn is-primary" href="#demo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Interactive demo</a>
+  <a class="la-btn is-primary" href="#samples"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zm2 2v8l4-4 3 3 2-2 3 3V7z"/></svg>Explore samples</a>
   <a class="la-btn" href="#results"><svg viewBox="0 0 24 24"><path d="M5 9h3v10H5zm5.5-4h3v14h-3zM16 13h3v6h-3z"/></svg>Key results</a>
   <span class="la-btn is-off"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5z"/></svg>Paper · coming soon</span>
   <span class="la-btn is-off"><svg viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg>Code · coming soon</span>
@@ -189,6 +213,22 @@ sampling time, and holds across three rewards and four RL methods.</p>
 </div>
 </div>
 
+<div class="la-card">
+  <p class="la-card-title">Try the switch on a 1-d toy</p>
+  <p class="la-caption" style="margin-top:0">Exact probability-flow paths of a four-mode base distribution. The reward-tilted
+  flow, in the role of the RL-tuned adapter, prefers the upper side of every mode and slightly the top one. Paths follow
+  the base flow above τ and the tilted flow below it.</p>
+  <div class="la-controls">
+    <label for="la-toy-tau">switch at τ = <b id="la-toy-val">0.65</b></label>
+    <input id="la-toy-tau" type="range" min="0" max="1" step="0.01" value="0.65" aria-label="toy tau">
+    <span class="la-seg" id="la-toy-preset" role="group" aria-label="presets">
+      <button aria-pressed="false" data-v="0">Base</button><button aria-pressed="true" data-v="0.65">Late activation</button><button aria-pressed="false" data-v="1">Tilted path</button>
+    </span>
+  </div>
+  <canvas class="la-canvas" id="la-toy" width="760" height="300" aria-label="toy sampling paths"></canvas>
+  <div class="la-mini" id="la-toy-stats"></div>
+</div>
+
 <h2 id="results"><span class="la-num">03</span>Key results</h2>
 
 <figure class="la-fig la-card">
@@ -197,6 +237,22 @@ sampling time, and holds across three rewards and four RL methods.</p>
   trade-off. Early stopping and velocity or LoRA-weight scaling weaken the adapter everywhere and give up reward where it
   costs little diversity; AIG comes closest but needs two network evaluations per step.</figcaption>
 </figure>
+
+<div class="la-card">
+  <p class="la-card-title">Move τ along the trade-off</p>
+  <p class="la-caption" style="margin-top:0">Held-out results on the same adapter, relative to NFT on the whole path
+  (256 prompts × 4 seeds, two training seeds). Lower τ hands more of the first steps to the base model.</p>
+  <div class="la-controls">
+    <label for="la-tau">τ = <b id="la-tau-val">0.96</b></label>
+    <input id="la-tau" type="range" min="0" max="6" step="1" value="2" aria-label="tau">
+    <span class="la-seg" id="la-metric" role="group" aria-label="diversity measure">
+      <button aria-pressed="true" data-v="clip">CLIP diversity</button><button aria-pressed="false" data-v="lat">Latent diversity</button>
+    </span>
+  </div>
+  <div class="la-mini" id="la-tau-stats"></div>
+  <svg class="la-chart" id="la-chart" viewBox="0 0 640 300" role="img" aria-label="reward kept against diversity gain"></svg>
+  <div class="la-legend" id="la-legend"></div>
+</div>
 
 <div class="la-card">
 <div class="la-table-wrap">
@@ -237,13 +293,14 @@ Vendi over NFT.</p>
   cost.</figcaption>
 </figure>
 
-<h2 id="demo"><span class="la-num">04</span>Interactive demo</h2>
+<h2 id="samples"><span class="la-num">04</span>More samples</h2>
 
-<p>Drag τ on a 1-d toy with exact flows, browse samples from the same noise under each schedule, and follow reward and
-diversity along the trade-off.</p>
-
-<div class="la-card la-demo">
-  <iframe id="la-demo-frame" src="/files/projects/2026-11-late-activation/demo/index.html?embed=1" height="1500" loading="lazy" title="Late activation interactive demo"></iframe>
+<div class="la-card">
+  <div class="la-chips" id="la-prompts" role="group" aria-label="prompt"></div>
+  <p class="la-prompt" id="la-prompt-text"></p>
+  <div class="la-gallery" id="la-gallery"></div>
+  <p class="la-caption">Held-out prompts, four seeds each, from the same noise in every row; prompts showing real people
+  or named characters are left out.</p>
 </div>
 
 <h2 id="citation"><span class="la-num">05</span>Paper and citation</h2>
@@ -289,15 +346,174 @@ linked here once they are public.</p></div>
     if (e.key === "ArrowLeft") { set(p - 5); e.preventDefault(); }
     if (e.key === "ArrowRight") { set(p + 5); e.preventDefault(); }
   });
-  // the demo reports its height and follows the site's light or dark theme
-  var frame = document.getElementById("la-demo-frame");
-  window.addEventListener("message", function (e) {
-    if (e.source === frame.contentWindow && e.data && e.data.laDemoHeight) frame.style.height = e.data.laDemoHeight + "px";
-  });
-  function sendTheme() {
-    if (frame.contentWindow) frame.contentWindow.postMessage({laTheme: document.documentElement.getAttribute("data-theme") || "light"}, "*");
+  var root = document.querySelector(".la");
+  function cssVar(n) { return getComputedStyle(root).getPropertyValue(n).trim(); }
+  function segment(id, fn) {
+    var g = document.getElementById(id);
+    g.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      [].forEach.call(g.children, function (c) { c.setAttribute("aria-pressed", String(c === b)); });
+      fn(b.dataset.v);
+    });
+    return g;
   }
-  frame.addEventListener("load", sendTheme);
-  new MutationObserver(sendTheme).observe(document.documentElement, {attributes: true, attributeFilter: ["data-theme"]});
+
+  /* toy: exact rectified-flow paths, v(x, t) = (x - E[x0 | x_t = x]) / t, base prior above tau, tilted prior below */
+  var MU = [-7.5, -2.5, 2.5, 7.5], SD = 0.7, ETA = 2.5, NG = 1201, NS = 24, STEPS = 240, X0 = [], LB = [], LT = [];
+  for (var i = 0; i < NG; i++) X0.push(-11 + 22 * i / (NG - 1));
+  function nearest(x) { return MU.reduce(function (b, m) { return Math.abs(x - m) < Math.abs(x - b) ? m : b; }, MU[0]); }
+  function reward(x) { return 0.15 * x + 0.5 * Math.max(-1.5, Math.min(1.5, (x - nearest(x)) / SD)); }
+  X0.forEach(function (x) {
+    var a = MU.map(function (m) { return -0.5 * Math.pow((x - m) / SD, 2); }), mx = Math.max.apply(null, a);
+    var lb = mx + Math.log(a.reduce(function (s, v) { return s + Math.exp(v - mx); }, 0));
+    LB.push(lb); LT.push(lb + ETA * reward(x));
+  });
+  function invNorm(p) {  // Acklam's approximation of the standard normal quantile
+    var a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239],
+        b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572],
+        c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783],
+        d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416], q = Math.min(p, 1 - p), x, r;
+    if (q < 0.02425) { r = Math.sqrt(-2 * Math.log(q));
+      x = (((((c[0]*r+c[1])*r+c[2])*r+c[3])*r+c[4])*r+c[5]) / ((((d[0]*r+d[1])*r+d[2])*r+d[3])*r+1); return p < 0.5 ? x : -x; }
+    r = q - 0.5; var s2 = r * r;
+    x = (((((a[0]*s2+a[1])*s2+a[2])*s2+a[3])*s2+a[4])*s2+a[5])*r / (((((b[0]*s2+b[1])*s2+b[2])*s2+b[3])*s2+b[4])*s2+1);
+    return p < 0.5 ? x : -x;
+  }
+  var START = [], TS = [];
+  for (i = 0; i < NS; i++) START.push(invNorm((i + 0.5) / NS));
+  for (i = 0; i < STEPS; i++) TS.push(1 - 0.998 * i / (STEPS - 1));
+  function paths(tau) {
+    var out = START.map(function (x) { return [x]; }), xs = START.slice(), w = new Float64Array(NG);
+    for (var k = 0; k < STEPS - 1; k++) {
+      var t0 = TS[k], t1 = TS[k + 1], lp = t0 <= tau ? LT : LB, inv = 1 / (2 * t0 * t0);
+      for (var s = 0; s < NS; s++) {
+        var x = xs[s], mx = -Infinity, z = 0, e = 0, j, dd;
+        for (j = 0; j < NG; j++) { dd = x - (1 - t0) * X0[j]; w[j] = lp[j] - dd * dd * inv; if (w[j] > mx) mx = w[j]; }
+        for (j = 0; j < NG; j++) { var v = Math.exp(w[j] - mx); z += v; e += v * X0[j]; }
+        xs[s] = x - (t0 - t1) * (x - e / z) / t0; out[s].push(xs[s]);
+      }
+    }
+    return out;
+  }
+  function summary(ps) {
+    var f = ps.map(function (p) { return p[p.length - 1]; }), r = f.reduce(function (s, x) { return s + reward(x); }, 0) / f.length;
+    var modes = {}; f.forEach(function (x) { modes[nearest(x)] = 1; });
+    return {modes: Object.keys(modes).length, reward: Math.abs(r) < 0.005 ? 0 : r};
+  }
+  var REF = {base: summary(paths(0)), tilt: summary(paths(1))}, toyIn = document.getElementById("la-toy-tau"), toyFrame = 0;
+  function drawToy() {
+    var tau = +toyIn.value, cv = document.getElementById("la-toy"), g = cv.getContext("2d"), dpr = window.devicePixelRatio || 1;
+    cv.width = 760 * dpr; cv.height = 300 * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var W = 760, H = 300, L = 18, R = W - 130, T = 12, B = H - 26;
+    function X(t) { return L + (1 - t) * (R - L); }
+    function Y(x) { return T + (10.5 - x) / 21 * (B - T); }
+    var base = cssVar("--la-base"), ours = cssVar("--la-accent"), nft = cssVar("--la-nft"), muted = cssVar("--la-muted"),
+        ink = getComputedStyle(root).color, ps = paths(tau);
+    g.lineWidth = 1.1;
+    ps.forEach(function (p) {
+      for (var k = 0; k < STEPS - 1; k++) {
+        g.strokeStyle = tau >= 1 ? nft : TS[k] > tau ? base : ours;
+        g.beginPath(); g.moveTo(X(TS[k]), Y(p[k])); g.lineTo(X(TS[k + 1]), Y(p[k + 1])); g.stroke();
+      }
+    });
+    if (tau > 0 && tau < 1) { g.setLineDash([3, 3]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(tau), T); g.lineTo(X(tau), B); g.stroke(); g.setLineDash([]); }
+    var mx = Math.max.apply(null, LB);
+    g.fillStyle = base; g.globalAlpha = 0.3; g.beginPath(); g.moveTo(R + 10, Y(-10.5));
+    X0.forEach(function (x, i) { g.lineTo(R + 10 + 50 * Math.exp(LB[i] - mx), Y(x)); }); g.lineTo(R + 10, Y(10.5)); g.fill();
+    g.globalAlpha = 1; g.strokeStyle = ink; g.lineWidth = 1; g.beginPath();
+    X0.forEach(function (x, i) { var px = R + 82 + 20 * reward(x) / 2.2; if (i) g.lineTo(px, Y(x)); else g.moveTo(px, Y(x)); }); g.stroke();
+    g.fillStyle = muted; g.font = "12px sans-serif";
+    g.fillText("t = 1 (noise)", L, H - 8); g.fillText("t = 0 (image)", R - 78, H - 8); g.fillText("base density", R + 8, H - 8);
+    g.fillText("reward", R + 76, T + 10);
+    if (tau > 0 && tau < 1) g.fillText("τ", X(tau) + 4, B - 4);
+    var s = summary(ps);
+    document.getElementById("la-toy-stats").innerHTML =
+      '<div><div class="v up">' + s.modes + ' of 4</div><div class="k">modes reached (base ' + REF.base.modes + ', tilted path ' + REF.tilt.modes + ')</div></div>' +
+      '<div><div class="v up">' + s.reward.toFixed(2) + '</div><div class="k">mean reward (base ' + REF.base.reward.toFixed(2) + ', tilted path ' + REF.tilt.reward.toFixed(2) + ')</div></div>';
+  }
+  var toyPreset = segment("la-toy-preset", function (v) { setToy(v, true); });
+  function setToy(v, fromPreset) {
+    toyIn.value = v; document.getElementById("la-toy-val").textContent = (+v).toFixed(2);
+    if (!fromPreset) [].forEach.call(toyPreset.children, function (c) { c.setAttribute("aria-pressed", String(+c.dataset.v === +v)); });
+    cancelAnimationFrame(toyFrame); toyFrame = requestAnimationFrame(drawToy);
+  }
+  toyIn.addEventListener("input", function () { setToy(toyIn.value); });
+
+  /* trade-off explorer: two-seed means relative to NFT on the whole path */
+  var TAU = [
+    {tau: 1.0, off: 0, kept: 100.0, clip: 0.0, lat: 0.0, drift: 0.0}, {tau: 0.98, off: 3, kept: 98.5, clip: 14.1, lat: 12.8, drift: -13.8},
+    {tau: 0.96, off: 5, kept: 96.5, clip: 23.9, lat: 20.3, drift: -22.7}, {tau: 0.93, off: 8, kept: 91.7, clip: 41.7, lat: 28.5, drift: -34.0},
+    {tau: 0.90, off: 10, kept: 87.7, clip: 53.5, lat: 32.2, drift: -40.6}, {tau: 0.85, off: 14, kept: 78.3, clip: 79.4, lat: 37.6, drift: -52.5},
+    {tau: 0.70, off: 23, kept: 50.6, clip: 130.4, lat: 43.3, drift: -74.8}];
+  var FULL = {kept: 100, clip: 0, lat: 0};
+  var BASELINES = [
+    ["AIG-u (2 passes)", "--la-aigu", false, [{kept: 89.2, clip: 47.3, lat: 19.8}, {kept: 96.0, clip: 23.6, lat: 11.7}, FULL]],
+    ["Velocity weight (2 passes)", "--la-weight", false, [{kept: 84.6, clip: 49.6, lat: 8.4}, {kept: 96.1, clip: 16.3, lat: 2.4}, FULL]],
+    ["LoRA scale (1 pass)", "--la-weight", true, [{kept: 83.4, clip: 40.4, lat: 15.4}, {kept: 93.9, clip: 15.1, lat: 6.2}, {kept: 98.1, clip: 4.2, lat: 2.1}, FULL]],
+    ["Early stopping", "--la-early", false, [{kept: 85.0, clip: 13.6, lat: 8.1}, {kept: 90.7, clip: 5.1, lat: 4.0}, {kept: 94.0, clip: 2.9, lat: 2.8},
+      {kept: 95.6, clip: 2.2, lat: 2.2}, {kept: 97.7, clip: 1.0, lat: 1.0}, {kept: 99.2, clip: 1.0, lat: 0.3}, FULL]]];
+  var tauIn = document.getElementById("la-tau"), metric = "clip";
+  function fmt(v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + "%"; }
+  function drawChart() {
+    var p = TAU[+tauIn.value], m = metric, svg = document.getElementById("la-chart");
+    document.getElementById("la-tau-val").textContent = p.tau.toFixed(2);
+    document.getElementById("la-tau-stats").innerHTML = [
+      ["reward gain kept", p.kept.toFixed(1) + "%", false], ["CLIP diversity vs NFT", fmt(p.clip), p.off > 0],
+      ["latent diversity vs NFT", fmt(p.lat), p.off > 0], ["drift from base vs NFT", fmt(p.drift), p.off > 0],
+      ["steps on the base model", p.off + " of 40", false]].map(function (c) {
+        return '<div><div class="v' + (c[2] ? " up" : "") + '">' + c[1] + '</div><div class="k">' + c[0] + '</div></div>'; }).join("");
+    var ymax = m === "clip" ? 140 : 50, y0 = m === "clip" ? 5 : 2, L = 64, R = 624, T = 12, B = 256;
+    function X(k) { return L + (k - 48) / (101 - 48) * (R - L); }
+    function Y(v) { return B - (v + y0) / (ymax + y0) * (B - T); }
+    var s = "", k, v;
+    for (k = 50; k <= 100; k += 10) s += '<line x1="' + X(k) + '" x2="' + X(k) + '" y1="' + T + '" y2="' + B + '" stroke="var(--la-line)"/>' +
+      '<text x="' + X(k) + '" y="' + (B + 16) + '" font-size="12" fill="var(--la-muted)" text-anchor="middle">' + k + '%</text>';
+    for (v = 0; v <= ymax; v += m === "clip" ? 20 : 10) s += '<line x1="' + L + '" x2="' + R + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="var(--la-line)"/>' +
+      '<text x="' + (L - 6) + '" y="' + (Y(v) + 4) + '" font-size="12" fill="var(--la-muted)" text-anchor="end">+' + v + '%</text>';
+    s += '<text x="' + ((L + R) / 2) + '" y="' + (B + 36) + '" font-size="12.5" fill="var(--la-muted)" text-anchor="middle">PickScore gain kept (%)</text>';
+    s += '<text transform="translate(14 ' + ((T + B) / 2) + ') rotate(-90)" font-size="12.5" fill="var(--la-muted)" text-anchor="middle">' +
+      (m === "clip" ? "CLIP" : "latent") + ' diversity over NFT</text>';
+    function line(pts, color, dashed, w) {
+      return '<polyline fill="none" stroke="var(' + color + ')" stroke-width="' + w + '"' + (dashed ? ' stroke-dasharray="5 3"' : "") +
+        ' points="' + pts.map(function (q) { return X(q.kept) + "," + Y(q[m]); }).join(" ") + '"/>' +
+        pts.map(function (q) { return '<circle cx="' + X(q.kept) + '" cy="' + Y(q[m]) + '" r="' + (w > 2 ? 3.5 : 2.6) + '" fill="' +
+          (dashed ? "var(--la-card)" : "var(" + color + ")") + '" stroke="var(' + color + ')"/>'; }).join("");
+    }
+    BASELINES.forEach(function (b) { s += line(b[3], b[1], b[2], 1.5); });
+    s += line(TAU, "--la-accent", false, 3);
+    s += '<circle cx="' + X(p.kept) + '" cy="' + Y(p[m]) + '" r="8" fill="none" stroke="var(--la-accent)" stroke-width="2"/>' +
+      '<text x="' + (X(p.kept) - 14) + '" y="' + (Y(p[m]) - 20) + '" font-size="12.5" font-weight="700" fill="var(--la-accent)" text-anchor="end">τ = ' + p.tau.toFixed(2) + '</text>' +
+      '<text x="' + X(100) + '" y="' + (Y(0) + 16) + '" font-size="12" font-weight="700" fill="var(--la-nft)" text-anchor="middle">NFT</text>';
+    svg.innerHTML = s;
+    document.getElementById("la-legend").innerHTML = [["Late activation (1 pass)", "--la-accent"]].concat(BASELINES.map(function (b) { return [b[0], b[1]]; }))
+      .map(function (c) { return '<span style="--c:var(' + c[1] + ')">' + c[0] + '</span>'; }).join("");
+  }
+  tauIn.addEventListener("input", drawChart);
+  segment("la-metric", function (v) { metric = v; drawChart(); });
+
+  /* gallery */
+  var PROMPTS = [[1119, "Two adorable cats. One black and white cat and one orange tabby"],
+    [1425, "The universe is a spheroid region 705 meters in diameter by Clara Peeters"],
+    [913, "a painting of a big tree on the style of vincent Van gogh"], [2022, "a black Rover75 car being driven through a river"],
+    [562, "old crypt, vintage, hyperrealistic, glowing, abandoned"],
+    [2013, "cans stacked on top of each other in a pyramic shape at the grocery store"], [327, "vector logo of a viper snake"]];
+  var ROWS = [["base", "Base model", "--la-base"], ["nft", "NFT, whole path", "--la-nft"],
+    ["tau096", "Late activation, τ = 0.96", "--la-accent"], ["tau085", "Late activation, τ = 0.85", "--la-accent"]];
+  var chips = document.getElementById("la-prompts");
+  PROMPTS.forEach(function (pr, i) {
+    var b = document.createElement("button"); b.textContent = pr[1].split(/[ ,.]+/).slice(0, 3).join(" "); b.title = pr[1];
+    b.setAttribute("aria-pressed", "false"); b.onclick = function () { showPrompt(i); }; chips.appendChild(b);
+  });
+  function showPrompt(i) {
+    var pr = PROMPTS[i];
+    [].forEach.call(chips.children, function (c, j) { c.setAttribute("aria-pressed", String(j === i)); });
+    document.getElementById("la-prompt-text").textContent = "“" + pr[1] + "”";
+    document.getElementById("la-gallery").innerHTML = ROWS.map(function (r) {
+      return '<div class="lab" style="border-color:var(' + r[2] + ')">' + r[1] + '</div><img src="/images/projects/2026-11-late-activation/samples/' +
+        pr[0] + '-' + r[0] + '.webp" alt="' + r[1] + ': four seeds" loading="lazy">'; }).join("");
+  }
+
+  showPrompt(0); drawChart(); setToy(0.65);
+  new MutationObserver(function () { drawChart(); drawToy(); }).observe(document.documentElement, {attributes: true, attributeFilter: ["data-theme"]});
 })();
 </script>
