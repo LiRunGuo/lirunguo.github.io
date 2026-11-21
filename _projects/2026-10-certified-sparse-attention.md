@@ -56,11 +56,40 @@ citation: 'Runguo Li. (2026). &quot;Certified Sparse Attention via Perturbed Ret
   .csa-callout { background:var(--csa-soft); border:1px solid var(--csa-line); border-radius:12px; padding:.9em 1.1em .5em; margin:.4em 0 1.6em; font-size:.85em; }
   .csa-callout ul { margin:.3em 0 .4em 1.1em; }
   .csa-callout li { margin:.25em 0; }
-  .csa-demo { border:1px solid var(--csa-line); border-radius:14px; overflow:hidden; box-shadow:var(--csa-shadow); background:var(--csa-card); margin:.6em 0 .6em; }
-  .csa-demo__bar { display:flex; justify-content:space-between; align-items:center; gap:1em; padding:.55em .9em; font-size:.75em; color:var(--csa-muted);
-          background:var(--csa-surface); border-bottom:1px solid var(--csa-line); }
-  .csa-demo__bar .csa-dot { display:inline-block; width:.55em; height:.55em; border-radius:50%; background:#1baf7a; margin-right:.45em; vertical-align:.05em; }
-  .csa-demo iframe { display:block; width:100%; border:0; }
+  /* interactive figures: same card as the static figures, charts on a white plate */
+  .page__content figure.csa-live { display:block; }
+  .csa-controls { display:flex; flex-wrap:wrap; gap:.5em 1.3em; align-items:center; margin:0 0 .6em; font-size:.74em; }
+  .csa-ctl { display:flex; flex-wrap:wrap; align-items:center; gap:.45em; }
+  .csa-ctl__lab { color:var(--csa-muted); font-weight:600; }
+  .csa-seg { display:inline-flex; border:1px solid var(--csa-line); border-radius:8px; overflow:hidden; }
+  .page__content .csa-seg button { font:inherit; margin:0; border:0; border-right:1px solid var(--csa-line); border-radius:0; background:var(--csa-card);
+          color:inherit; padding:.3em .8em; cursor:pointer; }
+  .page__content .csa-seg button:last-child { border-right:0; }
+  .page__content .csa-seg button[aria-pressed="true"] { background:var(--csa-soft); color:var(--csa-accent-ink); font-weight:700; }
+  .page__content button.csa-act { font:inherit; margin:0; border:1px solid var(--csa-line); border-radius:8px; background:var(--csa-card); color:inherit;
+          padding:.3em .85em; cursor:pointer; }
+  .page__content button.csa-act--primary { background:var(--csa-accent); border-color:var(--csa-accent); color:#fff; font-weight:600; }
+  html[data-theme="dark"] .page__content button.csa-act--primary { color:#16202c; }
+  .csa-slider { display:flex; flex-wrap:wrap; align-items:center; gap:.3em 1em; font-size:.74em; margin:0 0 .7em; font-variant-numeric:tabular-nums; }
+  .csa-slider label { min-width:12em; }
+  .csa-slider input { flex:1 1 200px; min-width:0; accent-color:var(--csa-accent); }
+  .csa-plate { background:#fff; color:#1f2933; border-radius:8px; padding:.7em .7em .5em; }
+  .csa-plots { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:1em; }
+  .csa-plot__t { font-size:.7em; font-weight:700; margin:0 0 .3em; }
+  .csa-plate canvas { display:block; width:100%; height:250px; }
+  .csa-plate svg.csa-chart { display:block; width:100%; overflow:visible; }
+  .csa-plate svg.csa-chart text { font-size:11px; fill:#5b6674; font-family:inherit; }
+  .csa-legend { display:flex; flex-wrap:wrap; gap:.15em 1em; font-size:.66em; color:#5b6674; margin:.35em 0 0; }
+  .csa-legend span { display:inline-flex; align-items:center; gap:.35em; }
+  .csa-legend svg { display:inline; }
+  .page__content p.csa-readout { font-size:.76em; line-height:1.55; margin:.7em .2em 0; font-variant-numeric:tabular-nums; }
+  .csa-ok { color:var(--csa-accent); }
+  .csa-progress { color:var(--csa-muted); font-variant-numeric:tabular-nums; }
+  .csa-live .csa-table table { margin-top:.7em; }
+  .csa-live tr.csa-row-ours td { font-weight:700; }
+  .csa-tip { position:fixed; z-index:50; display:none; pointer-events:none; max-width:270px; padding:.45em .65em; border-radius:7px;
+          background:#1f2933; color:#fff; font-size:12px; line-height:1.45; box-shadow:0 6px 20px rgba(0,0,0,.18); font-variant-numeric:tabular-nums; }
+  @media (max-width: 700px) { .csa-plots { grid-template-columns:minmax(0,1fr); } }
   .csa-bib { position:relative; margin:.6em 0 0; }
   .csa-bib pre { margin:0; border-radius:12px; font-size:.72em; max-width:100%; overflow-x:auto; padding:1em 1.1em;
           background:var(--csa-surface); border:1px solid var(--csa-line); }
@@ -185,15 +214,81 @@ bytes the strongest baselines score as well, so the end-to-end benefit is the pe
 
 ## Interactive demo
 
-Step one attention head through the threshold levels and watch its certificate tighten until it stops, then compare
-certified stopping with a fixed level and with oracle top-k on 200 heads. The demo runs the paper's value-scale certificate
-in your browser on synthetic heads with 32,768 keys.
+The two figures below run the paper's value-scale certificate in your browser, on synthetic attention heads with 32,768
+keys. Their numbers come from the synthetic heads, not from the paper's measurements.
 
-<div class="csa-demo">
-  <div class="csa-demo__bar"><span><span class="csa-dot"></span>Live demo &middot; runs locally in your browser, no server</span>
-    <a href="/files/projects/2026-10-certified-sparse-attention/demo/index.html" target="_blank" rel="noopener">Open full screen <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i></a></div>
-  <iframe src="/files/projects/2026-10-certified-sparse-attention/demo/index.html" width="100%" height="1180" loading="lazy" title="Certified sparse attention interactive demo"></iframe>
-</div>
+### One call, level by level
+
+<figure class="csa-fig csa-live" id="csa-demo-call">
+  <div class="csa-controls">
+    <div class="csa-ctl"><span class="csa-ctl__lab">Head</span><div class="csa-seg" data-role="head"></div></div>
+    <div class="csa-ctl"><span class="csa-ctl__lab">Target &epsilon;</span><div class="csa-seg" data-role="eps"></div></div>
+    <div class="csa-ctl">
+      <button type="button" class="csa-act csa-act--primary" data-role="play">&#9654;&#xFE0E; Play</button>
+      <button type="button" class="csa-act" data-role="redraw" title="Draw new perturbations for the same head">&#8635; New perturbations</button>
+    </div>
+  </div>
+  <div class="csa-slider">
+    <label for="csa-level">Level <b data-role="lvl">j = 0</b> &nbsp;<span data-role="tau" style="color:var(--csa-muted)"></span></label>
+    <input type="range" id="csa-level" data-role="level" min="0" max="40" value="0" step="1">
+  </div>
+  <div class="csa-plate">
+    <div class="csa-plots">
+      <div>
+        <div class="csa-plot__t">(a) Perturbed scores of the 32,640 pool keys</div>
+        <canvas data-role="scatter" role="img" aria-label="Perturbed score against weight for every pool key, with the threshold of the current level"></canvas>
+        <div class="csa-legend">
+          <span><svg width="10" height="10"><rect width="9" height="9" rx="2" fill="#1d4f91"/></svg>heavy (weight &ge; &tau;), always read</span>
+          <span><svg width="10" height="10"><rect width="9" height="9" rx="2" fill="#5b9bea"/></svg>light, sampled</span>
+          <span><svg width="10" height="10"><rect width="9" height="9" rx="2" fill="#b7bec7"/></svg>not read</span>
+        </div>
+      </div>
+      <div>
+        <div class="csa-plot__t">(b) The certificate at every level</div>
+        <svg class="csa-chart" data-role="trace" role="img" aria-label="Error bound, true error and target per level"></svg>
+        <div class="csa-legend">
+          <span><svg width="22" height="10"><line x1="1" y1="5" x2="21" y2="5" stroke="#2a78d6" stroke-width="2.5"/></svg>bound &beta;</span>
+          <span><svg width="22" height="10"><line x1="1" y1="5" x2="21" y2="5" stroke="#6b7280" stroke-width="2" stroke-dasharray="4 3"/></svg>true error</span>
+          <span><svg width="22" height="10"><line x1="1" y1="5" x2="21" y2="5" stroke="#1f2933" stroke-width="1.6" stroke-dasharray="1.5 2.5"/></svg>target &epsilon;M<sub>lo</sub></span>
+          <span>all divided by M</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="csa-readout" data-role="readout" aria-live="polite"></p>
+  <figcaption><strong>Demo 1.</strong> Each pool key carries a perturbation E<sub>i</sub> ~ Exp(1) and is read at level j when its perturbed
+  score lies above the threshold line, which happens with probability min(1, w<sub>i</sub>/&tau;<sub>j</sub>): heavy keys always, light keys in
+  proportion to their weight. Lowering &tau; only adds keys, and the bound &beta; holds at all levels at once with probability 1&nbsp;&minus;&nbsp;&delta;
+  (&delta; = 0.05), so the head stops at the first level with &beta; &le; &epsilon;M<sub>lo</sub>. Drag the slider, press Play, or click a level in (b);
+  the true error is computed against dense attention and is never seen by the algorithm. The 128 most recent tokens are always read exactly and
+  are not plotted.</figcaption>
+</figure>
+
+### Certified stopping versus fixed budgets on 200 heads
+
+<figure class="csa-fig csa-live" id="csa-demo-heads">
+  <div class="csa-controls">
+    <div class="csa-ctl"><span class="csa-ctl__lab">Target &epsilon;</span><div class="csa-seg" data-role="eps"></div></div>
+    <div class="csa-ctl"><button type="button" class="csa-act" data-role="new">&#8635; New heads</button><span class="csa-progress" data-role="progress"></span></div>
+  </div>
+  <div class="csa-plate">
+    <div class="csa-plot__t">Error against keys read, one call per head (hover over a point)</div>
+    <svg class="csa-chart" data-role="plot" role="img" aria-label="Error against keys read for 200 heads under three rules"></svg>
+    <div class="csa-legend">
+      <span><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="#2a78d6"/></svg>certified stopping (ours)</span>
+      <span><svg width="12" height="12"><path d="M2 2L10 10M10 2L2 10" stroke="#eb6834" stroke-width="2"/></svg>same estimator, one fixed level</span>
+      <span><svg width="12" height="12"><rect x="2" y="2" width="8" height="8" fill="none" stroke="#1baf7a" stroke-width="1.8"/></svg>oracle top-k, our keys per head</span>
+    </div>
+  </div>
+  <div class="csa-table" data-role="table"></div>
+  <figcaption><strong>Demo 2.</strong> Two hundred synthetic heads, from diffuse to sharply peaked, each with one call and fresh perturbations.
+  The certificate picks a level for each head. One fixed level, chosen so that its mean keys read match ours, gives every head a sample that
+  grows with its total weight: too few keys on peaked heads and too many on flat ones. Oracle top-k reads exactly our number of keys on each
+  head but drops the attention mass of the rest, so its error is a bias, not noise.</figcaption>
+</figure>
+
+<script src="/files/projects/2026-10-certified-sparse-attention/demo/core.js" defer></script>
+<script src="/files/projects/2026-10-certified-sparse-attention/demo/figures.js" defer></script>
 
 ## Links and citation
 
