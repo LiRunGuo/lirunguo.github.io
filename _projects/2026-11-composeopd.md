@@ -15,10 +15,12 @@ publication: "/publication/2026-11-composeopd"
 <style>
 .cpd { --c-blue: #2a78d6; --c-red: #e34948; --c-ink: #1f2328; --c-ink2: #57606a; --c-muted: #8b949e; --c-card: #ffffff;
   --c-line: rgba(31,35,40,0.12); --c-soft: #f6f8fa; --c-hero: linear-gradient(135deg, rgba(42,120,214,0.10), rgba(227,73,72,0.09));
-  --c-shadow: 0 1px 2px rgba(31,35,40,0.06), 0 6px 18px rgba(31,35,40,0.06); }
+  --c-shadow: 0 1px 2px rgba(31,35,40,0.06), 0 6px 18px rgba(31,35,40,0.06);
+  --c-s2: #eb6834; --c-s3: #1baf7a; --c-s4: #eda100; --c-crit: #d03b3b; --c-good: #1a7f37; --c-grid: #e8e8e3; --c-axis: #c3c2b7; }
 html[data-theme="dark"] .cpd { --c-blue: #4c94ea; --c-red: #ef6b6a; --c-ink: #e6edf3; --c-ink2: #b1bac4; --c-muted: #8b949e;
   --c-card: #22272e; --c-line: rgba(230,237,243,0.14); --c-soft: #2d333b;
-  --c-hero: linear-gradient(135deg, rgba(76,148,234,0.16), rgba(239,107,106,0.12)); --c-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+  --c-hero: linear-gradient(135deg, rgba(76,148,234,0.16), rgba(239,107,106,0.12)); --c-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  --c-s2: #e0703f; --c-s3: #2bb583; --c-s4: #d49a1a; --c-crit: #f06a6a; --c-good: #3fb950; --c-grid: #353b43; --c-axis: #4a525c; }
 .cpd { color: var(--c-ink); }
 .cpd .hero { background: var(--c-hero); border: 1px solid var(--c-line); border-radius: 18px; padding: 26px 26px 20px; margin: 4px 0 26px; }
 .cpd .tagline { font-size: 1.32em; line-height: 1.35; font-weight: 650; margin: 0 0 10px; letter-spacing: -0.01em; }
@@ -47,6 +49,7 @@ html[data-theme="dark"] .cpd .pill:not(.ghost) { background: #e6edf3; color: #1f
 .cpd .tldr p { margin: 0; line-height: 1.6; }
 .cpd .tldr .k { font-size: 0.72em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-blue); display: block; margin-bottom: 4px; }
 .cpd h2.sec { text-align: center; font-size: 1.45em; margin: 38px 0 6px; border: 0; }
+.cpd h3.sec3 { text-align: center; font-size: 1.15em; margin: 30px 0 4px; border: 0; }
 .cpd .sub { text-align: center; color: var(--c-ink2); margin: 0 auto 20px; max-width: 46em; font-size: 0.95em; }
 .cpd .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 14px 0 26px; }
 .cpd .step { background: var(--c-card); border: 1px solid var(--c-line); border-radius: 14px; padding: 14px 16px; box-shadow: var(--c-shadow); }
@@ -81,19 +84,44 @@ html[data-theme="dark"] .cpd .pill:not(.ghost) { background: #e6edf3; color: #1f
 .cpd .juxt .tag { position: absolute; top: 10px; padding: 3px 9px; border-radius: 999px; font-size: 0.72em; font-weight: 700; color: #fff; background: rgba(0,0,0,0.55); }
 .cpd .juxt .tag.l { left: 10px; } .cpd .juxt .tag.r { right: 10px; background: rgba(227,73,72,0.9); }
 .cpd .prompt { text-align: center; font-size: 0.84em; color: var(--c-ink2); margin: 10px auto 0; max-width: 40em; font-style: italic; }
-.cpd .democard { border: 1px solid var(--c-line); border-radius: 16px; overflow: hidden; box-shadow: var(--c-shadow); background: var(--c-card); }
-.cpd .democard .bar2 { display: flex; align-items: center; gap: 7px; padding: 9px 14px; border-bottom: 1px solid var(--c-line); background: var(--c-soft);
-  font-size: 0.8em; color: var(--c-ink2); }
-.cpd .democard .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; } .cpd .democard .dot:nth-child(2) { background: #febc2e; }
-.cpd .democard .dot:nth-child(3) { background: #28c840; margin-right: 8px; }
-.cpd .democard iframe { display: block; width: 100%; height: 760px; border: 0; }
+.cpd .widget { background: var(--c-card); border: 1px solid var(--c-line); border-radius: 14px; padding: 16px; box-shadow: var(--c-shadow); margin: 0 0 8px; }
+.cpd .widget .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+.cpd .widget .lab { font-size: 0.74em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-muted); margin-right: 4px; min-width: 64px; }
+.cpd .widget .two { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; margin-top: 6px; }
+.cpd .widget .wnote { margin: 12px 0 0; font-size: 0.86em; color: var(--c-ink2); line-height: 1.5; border-top: 1px solid var(--c-line); padding-top: 10px; }
+.cpd .donorhead { font-weight: 650; font-size: 0.9em; margin: 10px 0 2px; }
+.cpd .selpill { display: inline-block; margin-left: 6px; padding: 1px 9px; border-radius: 999px; background: var(--c-soft); border: 1px solid var(--c-line); font-size: 0.92em; }
+.cpd .xscroll { overflow-x: auto; }
+.cpd table.mini { width: 100%; border-collapse: collapse; font-size: 0.82em; font-variant-numeric: tabular-nums; margin: 4px 0; display: table; }
+.cpd table.mini th, .cpd table.mini td { border: 0; border-bottom: 1px solid var(--c-line); padding: 5px 7px; text-align: left; white-space: nowrap; }
+.cpd table.mini th { color: var(--c-muted); font-weight: 600; }
+.cpd table.mini, .cpd table.mini tr, .cpd table.mini thead, .cpd table.mini tbody { border: 0 !important; background: transparent; }
+.cpd table.mini .r { text-align: right; } .cpd table.mini .kind { color: var(--c-muted); font-size: 0.92em; }
+.cpd table.matrix td, .cpd table.matrix th { text-align: center; } .cpd table.matrix td.diag { color: var(--c-muted); }
+.cpd table.matrix td.cur { box-shadow: inset 0 0 0 2px var(--c-blue); border-radius: 4px; font-weight: 700; }
+.cpd .ci { display: inline-flex; align-items: center; gap: 7px; } .cpd .ci svg { flex: none; } .cpd .ci.low span { color: var(--c-crit); font-weight: 600; }
+.cpd .verdict { font-weight: 600; white-space: normal !important; min-width: 110px; }
+.cpd .verdict.ok { color: var(--c-good); } .cpd .verdict.bad { color: var(--c-crit); } .cpd .verdict.skip { color: var(--c-muted); }
+.cpd .pvstats { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.86em; color: var(--c-ink2); margin: 2px 0 6px; } .cpd .pvstats b { color: var(--c-ink); font-size: 1.15em; }
+.cpd .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 0.8em; color: var(--c-ink2); margin: 4px 0 0; }
+.cpd .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: 0; } .cpd .legend .m { color: var(--c-muted); }
+.cpd svg text { fill: var(--c-ink2); font-size: 12px; } .cpd svg text.tick { fill: var(--c-muted); font-size: 11px; }
+.cpd svg text.mlab { fill: var(--c-ink); font-size: 12.5px; } .cpd svg text.mlab.ours { font-weight: 700; }
+.cpd .widget .row > span { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.cpd .plotbox { max-width: 680px; margin: 0 auto; }
+.cpd select { font: inherit; font-size: 0.85em; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--c-line); background: var(--c-soft); color: var(--c-ink); }
+.cpd .fig5 img { display: block; width: 100%; height: auto; }
+.cpd-tip { position: fixed; z-index: 50; display: none; pointer-events: none; max-width: 280px; padding: 7px 10px; border-radius: 8px; font-size: 12.5px; line-height: 1.45;
+  background: #ffffff; color: #1f2328; border: 1px solid rgba(31,35,40,0.15); box-shadow: 0 6px 18px rgba(31,35,40,0.14); }
+.cpd-tip .m { color: #8b949e; }
+html[data-theme="dark"] .cpd-tip { background: #2d333b; color: #e6edf3; border-color: rgba(230,237,243,0.16); }
 .cpd .cite { position: relative; background: var(--c-soft); border: 1px solid var(--c-line); border-radius: 12px; padding: 14px 16px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.8em; line-height: 1.55; white-space: pre-wrap; }
 .cpd .cite button { position: absolute; top: 8px; right: 8px; font: inherit; font-size: 0.85em; padding: 3px 10px; border-radius: 8px; border: 1px solid var(--c-line);
   background: var(--c-card); color: var(--c-ink); cursor: pointer; }
 @media (max-width: 760px) {
   .cpd .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cpd .steps, .cpd .split { grid-template-columns: minmax(0, 1fr); }
-  .cpd .hero { padding: 18px 16px 14px; } .cpd .tagline { font-size: 1.12em; } .cpd .democard iframe { height: 820px; }
+  .cpd .hero { padding: 18px 16px 14px; } .cpd .tagline { font-size: 1.12em; } .cpd .widget .two { grid-template-columns: minmax(0, 1fr); }
 }
 </style>
 
@@ -103,7 +131,7 @@ html[data-theme="dark"] .cpd .pill:not(.ghost) { background: #e6edf3; color: #1f
   <p class="tagline">Distill every model on a diffusion backbone into one student, and <em>pick the mix before training</em>.</p>
   <div class="badges"><span class="badge">Under review · 2026</span><span class="badge">On-policy distillation</span><span class="badge">SD3.5-Medium</span></div>
   <div class="pills">
-    <a class="pill" href="#interactive-demo"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>Interactive demo</a>
+    <a class="pill" href="#try-the-screen"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>Try the screen</a>
     <a class="pill" href="#visual-comparison"><svg viewBox="0 0 16 16"><path d="M1 3h6v10H1zM9 3h6v10H9z"/></svg>Compare samples</a>
     <a class="pill" href="#results"><svg viewBox="0 0 16 16"><path d="M2 13h12v1H2zM3 8h2v4H3zM7 5h2v7H7zM11 2h2v10h-2z"/></svg>Results</a>
     <span class="pill ghost"><svg viewBox="0 0 16 16"><path d="M3 1h7l3 3v11H3zM9 2v3h3"/></svg>Paper · after review</span>
@@ -143,19 +171,43 @@ three in-domain scores.</p></div>
 <p class="cap"><b>Figure 2.</b> ComposeOPD: (a) the composed target, (b) the screen before training, (c) on-policy distillation onto the
 target, and (d) the preview of the trained students by the composed teachers.</p>
 
+<h3 class="sec3" id="try-the-screen">Try the screen</h3>
+<p class="sub">Algorithm 1 replayed on the paper's probe tables: each donor is added to the receiver's own model at γ = 0.25, 0.5 and 1 on 128 held-out
+training prompts; a γ is harmful if a check is significantly lower (90% interval), and kept only if every smaller γ also passed.</p>
+<div class="widget">
+  <div class="row"><span class="lab">Teachers</span><span id="cpd-scr-set"></span></div>
+  <div class="row"><span class="lab">Receiver</span><span id="cpd-scr-rec"></span></div>
+  <div class="two"><div id="cpd-scr-body"></div><div><div class="donorhead">Selected Γ</div><div id="cpd-scr-matrix"></div>
+    <p class="cap" style="margin:6px 0 0">Rows: receivers; columns: donors.</p></div></div>
+  <p class="wnote" id="cpd-scr-note"></p>
+</div>
+
 <h2 class="sec" id="results">Results</h2>
 <p class="sub">The composed teacher previews the student, composition lifts image quality across domains, and composing published students
 combines their strengths.</p>
 
-<div class="split">
-  <div class="figcard" style="margin:0"><img src="/images/projects/2026-11-composeopd/fig5-preview.png" alt="Figure 5: Changes measured on composed teachers against the same changes in trained students." loading="lazy"></div>
-  <div class="txt">
-    <p><b>Figure 5. The teacher previews the student.</b> A change of Γ measured on composed teachers, by sampling alone, tracks the same
-    change in the trained students: Spearman 0.94 over 213 image-quality cells and 0.85 over all 49 comparisons.</p>
-    <p>On eight compositions trained only after the rule was fixed, the correlation is 0.98. Accuracy changes mostly sit within the noise
-    of a 128-prompt probe.</p>
-  </div>
+<h3 class="sec3" id="composition-strength">Composition strength at inference</h3>
+<p class="sub">Composed teachers sampled before any training (setting 1, 512 test prompts per domain). A symmetric gate gives every donor the same
+weight γ: γ = 0 is routing and γ = 1 the plain additive target.</p>
+<div class="widget">
+  <div class="row"><span class="lab">Target</span><span id="cpd-inf-target"></span></div>
+  <div class="xscroll"><table class="mini" id="cpd-inf-table"></table></div>
+  <p class="wnote" id="cpd-inf-note"></p>
 </div>
+
+<h3 class="sec3" id="preview">The teacher previews the student</h3>
+
+<div class="widget">
+  <div class="row"><span class="lab">Metrics</span><span id="cpd-pv-group"></span></div>
+  <div class="row"><span class="lab">Family</span><span id="cpd-pv-fam"></span></div>
+  <div class="pvstats" id="cpd-pv-stats"></div>
+  <div class="fig5 plotbox" id="cpd-pv-plot"><img src="/images/projects/2026-11-composeopd/fig5-preview.png" alt="Figure 5: Changes measured on composed teachers against the same changes in trained students." loading="lazy"></div>
+  <div class="legend" id="cpd-pv-legend"></div>
+</div>
+<p class="cap"><b>Figure 5, interactive.</b> Each point is one metric of one change of Γ, measured on composed teachers (training prompts, inference
+only) against the same change in the trained students (test prompts); hover for details, click the chips to filter. Image quality is previewed
+closely (Spearman 0.94 over 213 cells, 0.85 over all 49 comparisons, 0.98 on eight compositions trained after the rule was fixed); accuracy
+changes mostly sit within the noise of a 128-prompt probe.</p>
 
 <div class="tabletitle">Table 2. Probe-selected composition minus routing (test prompts, 3 seeds)</div>
 <div class="tablecard" markdown="1">
@@ -185,6 +237,12 @@ losses above 1.5 points (bold: the interval excludes 0, or 0.5 for the judge).</
 </div>
 <p class="cap">Each published student leads somewhere and trails elsewhere; ours is among the top two in every column of the paper's table,
 and no published model is (bold: highest).</p>
+<div class="widget">
+  <div class="row"><span class="lab">x axis</span><select id="cpd-mx" aria-label="x axis"></select><span class="lab" style="margin-left:12px">y axis</span><select id="cpd-my" aria-label="y axis"></select></div>
+  <div class="plotbox" id="cpd-m-plot"></div>
+  <p class="wnote" id="cpd-m-note"></p>
+</div>
+<p class="cap">Pick any two metrics of Table 4: published students trade one domain against another. Hover a model for the VLM judge's preference.</p>
 
 <h2 class="sec" id="visual-comparison">Visual comparison</h2>
 <p class="sub">Unselected samples: the first prompt of each test set, with the same initial noise for every model. Drag the slider to compare
@@ -204,14 +262,6 @@ Self-OPD and ours. Figure 6 in the paper shows all five models side by side:</p>
 <div class="figcard"><img src="/images/projects/2026-11-composeopd/fig6-samples.webp" alt="Figure 6: Unselected samples, the first prompt of each test set with the same noise in each row." loading="lazy"></div>
 <p class="cap"><b>Figure 6.</b> Columns: the DiffusionOPD student, DreOPD, Flow-OPD, Self-OPD and ours (framed); rows: GenEval, OCR, PickScore
 and DrawBench prompts.</p>
-
-<h2 class="sec" id="interactive-demo">Interactive demo</h2>
-<p class="sub">Replay the inference-only screen on the paper's probe tables, sweep the composition strength, filter the 262
-teacher-versus-student cells behind Figure 5, and compare the five models on any two metrics.</p>
-<div class="democard">
-  <div class="bar2"><span class="dot"></span><span class="dot"></span><span class="dot"></span>ComposeOPD · interactive demo</div>
-  <iframe src="/files/projects/2026-11-composeopd/demo/index.html" loading="lazy" title="ComposeOPD interactive demo"></iframe>
-</div>
 
 <h2 class="sec" id="citation">Citation</h2>
 <p class="sub">The paper is under review; the PDF and code will be linked here after review.</p>
@@ -269,3 +319,4 @@ teacher-versus-student cells behind Figure 5, and compare the five models on any
   render();
 })();
 </script>
+<script src="/files/projects/2026-11-composeopd/composeopd.js" defer></script>
