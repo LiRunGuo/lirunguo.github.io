@@ -220,7 +220,8 @@ function pills(id, items, cur, pick) { const box = document.getElementById(id); 
   items.forEach(it => { const b = document.createElement("button"); b.textContent = it.label; b.setAttribute("aria-pressed", it.key === cur);
     b.onclick = () => pick(it.key); box.appendChild(b); }); }
 // lets the project page size the iframe to the content
-function resize() { if (parent !== window) parent.postMessage({ studentprobeDemoHeight: document.documentElement.scrollHeight }, "*"); }
+function resize() {   // content height, not the frame's own height, so the frame can also shrink
+  if (parent !== window) parent.postMessage({ studentprobeDemoHeight: Math.ceil(document.querySelector(".wrap").getBoundingClientRect().height) + 40 }, "*"); }
 
 // tabs
 document.querySelectorAll(".seg button").forEach(b => b.onclick = () => {

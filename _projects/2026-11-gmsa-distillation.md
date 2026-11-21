@@ -17,9 +17,9 @@ publication: "/publication/2026-11-gmsa-distillation"
 <p style="text-align:center;margin:0.4em 0 0.2em"><strong>Runguo Li</strong> · University of Illinois Urbana-Champaign</p>
 <p style="text-align:center;margin:0 0 0.8em"><span style="display:inline-block;padding:2px 12px;border-radius:999px;background:#eef3fb;color:#2a5fa8;font-weight:600;font-size:0.85em">Preprint · under review</span></p>
 <p style="text-align:center">
-  <a class="btn btn--inverse" style="border-radius:999px" href="/files/gmsa-distillation-acceleration.pdf"><i class="fas fa-file-pdf"></i> Paper</a>
-  <a class="btn btn--inverse" style="border-radius:999px" href="#interactive-demo"><i class="fas fa-chart-bar"></i> Interactive demo</a>
-  <a class="btn btn--inverse" style="border-radius:999px" href="#bibtex"><i class="fas fa-quote-right"></i> BibTeX</a>
+  <a class="btn" style="background:#1f2933;color:#fff;border:0;border-radius:999px;text-decoration:none;padding:0.5em 1.15em;margin:0.15em" href="/files/gmsa-distillation-acceleration.pdf"><i class="fas fa-file-pdf"></i> Paper</a>
+  <a class="btn" style="background:#1f2933;color:#fff;border:0;border-radius:999px;text-decoration:none;padding:0.5em 1.15em;margin:0.15em" href="#interactive-demo"><i class="fas fa-chart-bar"></i> Interactive demo</a>
+  <a class="btn" style="background:#1f2933;color:#fff;border:0;border-radius:999px;text-decoration:none;padding:0.5em 1.15em;margin:0.15em" href="#bibtex"><i class="fas fa-quote-right"></i> BibTeX</a>
 </p>
 
 ![StudentProbe at a glance.](/images/projects/2026-11-gmsa-distillation/fig1-at-a-glance.png){: .align-center}
@@ -92,8 +92,19 @@ trade-off, measured on untouched prompts.
 Pick a student to see where it can skip, push the DiT speedup against the measured latency split, and drag across frames
 with and without a skipped call.
 
-<iframe id="studentprobe-demo" src="/files/projects/2026-11-gmsa-distillation/demo/index.html" width="100%" height="900" loading="lazy" title="StudentProbe interactive demo" style="border:0;border-radius:14px;box-shadow:0 1px 2px rgba(16,24,40,.06),0 6px 18px rgba(16,24,40,.08)"></iframe>
+<iframe id="studentprobe-demo" src="/files/projects/2026-11-gmsa-distillation/demo/index.html" width="100%" height="640" loading="lazy" title="StudentProbe interactive demo" style="border:0;border-radius:14px;box-shadow:0 1px 2px rgba(16,24,40,.06),0 6px 18px rgba(16,24,40,.08)"></iframe>
 <script>
+  // keep the long title clear of the fixed table of contents on 1200-1500 px screens
+  (function () {
+    function fit() {
+      var t = document.querySelector(".page__title"), toc = document.getElementById("toc-sidebar");
+      if (!t || !toc) return;
+      var r = toc.getBoundingClientRect();
+      t.style.maxWidth = (r.width && getComputedStyle(toc).display !== "none")
+        ? Math.max(320, r.left - t.getBoundingClientRect().left - 24) + "px" : "";
+    }
+    window.addEventListener("load", fit); window.addEventListener("resize", fit); fit();
+  })();
   window.addEventListener("message", function (e) {
     var h = e.data && e.data.studentprobeDemoHeight, f = document.getElementById("studentprobe-demo");
     if (h && f) f.style.height = (h + 8) + "px";
