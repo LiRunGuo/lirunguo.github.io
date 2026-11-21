@@ -9,6 +9,8 @@ venue: 'Under review'
 paperurl: 'https://arxiv.org/abs/2611.01669'
 bibtexurl: '/files/bibtex/li2026gptqrotation.bib'
 citation: 'Runguo Li. (2026). &quot;How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime.&quot; arXiv:2611.01669. Manuscript under review.'
+citation_authors:
+  - "Li, Runguo"
 ---
 
 **Status:** Manuscript under review · **arXiv:** [2611.01669](https://arxiv.org/abs/2611.01669) · **PDF:** [Download](/files/gptq-random-rotation.pdf)

@@ -3,6 +3,7 @@ permalink: /
 title: "Hi, I'm Runguo Li 👋"
 author_profile: true
 toc: false
+seo_title: "Runguo Li — ML Systems, UIUC"
 redirect_from: 
   - /about/
 ---

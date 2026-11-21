@@ -9,6 +9,8 @@ venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2610.05685'
 bibtexurl: '/files/bibtex/li2026breadthkv.bib'
 citation: 'Runguo Li. (2026). &quot;Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning.&quot; arXiv:2610.05685.'
+citation_authors:
+  - "Li, Runguo"
 ---
 
 **Status:** arXiv preprint · **arXiv:** [2610.05685](https://arxiv.org/abs/2610.05685) · **PDF:** [Download](/files/breadthkv-kv-compression.pdf)

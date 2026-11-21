@@ -9,6 +9,14 @@ venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2610.34436'
 bibtexurl: '/files/bibtex/lu2026recency.bib'
 citation: 'Dezhen Lu, Runguo Li, Zixiang Ni, Yuchen Tang, Xingquan Kong, Jiaxing Yang, and Jiarui Guo. (2026). &quot;Recency Is the Wrong Axis: A Negative Result on Windowed Deepest-Plane KV Caching in Looped Language Models.&quot; arXiv:2610.34436.'
+citation_authors:
+  - "Lu, Dezhen"
+  - "Li, Runguo"
+  - "Ni, Zixiang"
+  - "Tang, Yuchen"
+  - "Kong, Xingquan"
+  - "Yang, Jiaxing"
+  - "Guo, Jiarui"
 ---
 
 **Status:** arXiv preprint · **arXiv:** [2610.34436](https://arxiv.org/abs/2610.34436) · **PDF:** [Download](/files/recency-wrong-axis-kv-caching.pdf)

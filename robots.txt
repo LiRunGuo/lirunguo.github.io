@@ -4,3 +4,5 @@ sitemap: false
 ---
 User-agent: *
 Disallow: /files/transcripts/
+
+Sitemap: https://runguoli.com/sitemap.xml

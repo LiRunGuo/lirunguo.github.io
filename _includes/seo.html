@@ -6,7 +6,9 @@
 {% endif %}
 {% assign seo_url = seo_url | default: site.github.url %}
 
-{% if page.title %}
+{% if page.seo_title %}
+  {% assign seo_title = page.seo_title %}
+{% elsif page.title %}
   {% assign seo_title = page.title | append: " " | append: site.title_separator | append: " " | append: site.title %}
 {% endif %}
 
@@ -25,6 +27,18 @@
   {% assign seo_description = seo_description | markdownify | strip_html | strip_newlines | escape_once %}
 {% endif %}
 <meta name="description" content="{{ seo_description }}">
+
+{% if page.collection == "publications" and page.citation_authors %}
+  <meta name="citation_title" content="{{ page.title | markdownify | strip_html | strip_newlines | escape_once }}">
+  {% for author in page.citation_authors %}
+  <meta name="citation_author" content="{{ author | escape_once }}">
+  {% endfor %}
+  <meta name="citation_publication_date" content="{{ page.date | date: "%Y/%m/%d" }}">
+  {% if page.paperurl contains "arxiv.org/abs/" %}
+  <meta name="citation_abstract_html_url" content="{{ page.paperurl }}">
+  <meta name="citation_pdf_url" content="{{ page.paperurl | replace: "/abs/", "/pdf/" }}">
+  {% endif %}
+{% endif %}
 
 {% assign seo_author = page.author | default: page.author[0] | default: site.author[0] %}
 {% if seo_author %}
@@ -92,6 +106,7 @@
       "@context" : "http://schema.org",
       "@type" : "{% if site.social.type %}{{ site.social.type }}{% else %}Person{% endif %}",
       "name" : "{{ site.social.name | default: site.name }}",
+      {% if site.social.alternate_name %}"alternateName" : {{ site.social.alternate_name | jsonify }},{% endif %}
       "url" : {{ seo_url | jsonify }},
       "sameAs" : {{ site.social.links | jsonify }}
     }

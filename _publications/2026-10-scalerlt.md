@@ -9,6 +9,10 @@ venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2610.34427'
 bibtexurl: '/files/bibtex/lu2026scalerlt.bib'
 citation: 'Dezhen Lu, Zixiang Ni, and Runguo Li. (2026). &quot;ScaleRLT: Exact Log-Probabilities and Fast Deferred Rollouts for Reinforcement Learning on Looped Transformers.&quot; arXiv:2610.34427.'
+citation_authors:
+  - "Lu, Dezhen"
+  - "Ni, Zixiang"
+  - "Li, Runguo"
 ---
 
 **Status:** arXiv preprint · **arXiv:** [2610.34427](https://arxiv.org/abs/2610.34427) · **PDF:** [Download](/files/scalerlt-looped-transformers.pdf)

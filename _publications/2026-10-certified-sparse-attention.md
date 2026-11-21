@@ -9,6 +9,8 @@ venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2610.24991'
 bibtexurl: '/files/bibtex/li2026certified.bib'
 citation: 'Runguo Li. (2026). &quot;Certified Sparse Attention via Perturbed Retrieval.&quot; arXiv:2610.24991.'
+citation_authors:
+  - "Li, Runguo"
 ---
 
 **Status:** arXiv preprint · **arXiv:** [2610.24991](https://arxiv.org/abs/2610.24991) · **PDF:** [Download](/files/certified-sparse-attention.pdf)
