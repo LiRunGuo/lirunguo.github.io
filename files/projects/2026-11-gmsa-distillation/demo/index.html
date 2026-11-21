@@ -388,7 +388,10 @@ drawSkip(); drawSpeed(); drawFrames();
 const start = document.querySelector(`.seg button[data-view="${location.hash.slice(1)}"]`); if (start) start.click();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { drawSkip(); drawSpeed(); drawFrames(); });
 addEventListener("load", resize);
-let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { drawSkip(); resize(); }, 150); });
+// redraw only when the width changes: the page sets the frame's height, and redrawing on that would loop
+let rz, lastW = innerWidth;
+addEventListener("resize", () => { if (innerWidth === lastW) return; lastW = innerWidth;
+  clearTimeout(rz); rz = setTimeout(() => { drawSkip(); resize(); }, 150); });
 </script>
 </body>
 </html>

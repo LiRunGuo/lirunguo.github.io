@@ -107,7 +107,7 @@ with and without a skipped call.
   })();
   window.addEventListener("message", function (e) {
     var h = e.data && e.data.studentprobeDemoHeight, f = document.getElementById("studentprobe-demo");
-    if (h && f) f.style.height = (h + 8) + "px";
+    if (h && f && Math.abs(f.offsetHeight - (h + 8)) > 2) f.style.height = (h + 8) + "px";   // only real changes
   });
 </script>
 
