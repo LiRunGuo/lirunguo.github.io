@@ -305,7 +305,7 @@ Three interactive views of the paper's results. Hover over a bar or a point for 
     x.putImageData(im, 0, 0);
   }
   var narrow = function () { return window.innerWidth <= 700; };
-  // ---- A: re-draw the noise
+  /* ---- A: re-draw the noise */
   var A = { task: "IB-cw", split: 0, draw: 0 }, builtA = "";
   function renderA() {
     var host = $("piA-bars"), d = DRAWS[A.task], keys = ["release", "dflow", "vel", "regr", "flow"].filter(function (k) { return d[k]; });
@@ -349,7 +349,7 @@ Three interactive views of the paper's results. Hover over a bar or a point for 
   chips($("piA-draw"), [["Training draw · K1 s0", 0], ["Fresh draw · K8 s1", 1]], 0, setDraw);
   chips($("piA-task"), Object.keys(DRAWS).map(function (t) { return [t, t]; }), A.task, function (v) { A.task = v; renderA(); });
   chips($("piA-split"), [["ID", 0], ["OOD", 1]], 0, function (v) { A.split = v; renderA(); });
-  // ---- B: build a variant
+  /* ---- B: build a variant */
   var B = { cell: "fresh-0.5", split: 0 };
   var V = {
     "fixed-1": { key: "regr", k: "r", name: "x-prediction regression", robust: false,
@@ -396,7 +396,7 @@ Three interactive views of the paper's results. Hover over a bar or a point for 
     $("piB-note").innerHTML = "<b>" + v.name + ".</b> " + v.note;
   }
   chips($("piB-split"), [["ID", 0], ["OOD", 1]], 0, function (v) { B.split = v; renderB(); });
-  // ---- C: several valid answers
+  /* ---- C: several valid answers */
   var C = { task: "pos2", split: 0 };
   var T = {
     cw: ["IB-cw", "k = 1", "strip-cw", null, [["strip-cw", "clockwise strip"]], null,
