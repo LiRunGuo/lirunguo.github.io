@@ -1,0 +1,26 @@
+---
+layout: archive
+title: "Projects"
+permalink: /projects/
+author_profile: false
+---
+
+<p>Research projects behind my papers. Each project page summarizes the work with key results, figure notes, and interactive demos where available.</p>
+
+{% assign items = site.projects | sort: "date" | reverse %}
+{% if items.size == 0 %}
+<p><em>Project pages are coming soon.</em></p>
+{% endif %}
+
+{% for p in items %}
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    <h2 class="archive__item-title" itemprop="headline">
+      <a href="{{ p.url | relative_url }}" rel="permalink">{{ p.title }}</a>
+    </h2>
+    {% if p.excerpt %}
+    <p class="archive__item-excerpt" itemprop="description">{{ p.excerpt }}</p>
+    {% endif %}
+  </article>
+</div>
+{% endfor %}
