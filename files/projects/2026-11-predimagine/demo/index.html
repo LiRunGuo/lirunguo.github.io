@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PredImagine Demo</title>
+<style>
+:root {
+  color-scheme: light;
+  --surface: #ffffff;
+  --surface-2: #f6f5f2;
+  --surface-3: #eeede8;
+  --line: #e4e3dd;
+  --grid: #efeee9;
+  --text: #121211;
+  --text-2: #4f4e4a;
+  --text-3: #7d7c76;
+  --s-regr: #2a78d6;   /* PredImagine regression (slot 1) */
+  --s-flow: #eb6834;   /* PredImagine flow (slot 2) */
+  --s-codes: #1baf7a;  /* hypothesis codes (slot 3) */
+  --s-base: #8a8984;   /* baselines: identity by row label */
+  --ghost: #b9b8b2;
+  --shadow: 0 1px 2px rgba(20,20,18,.06), 0 6px 18px rgba(20,20,18,.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface: #1a1a19; --surface-2: #222220; --surface-3: #2b2b29; --line: #383835; --grid: #2a2a28;
+    --text: #f0efec; --text-2: #c3c2b7; --text-3: #94938c;
+    --s-regr: #3987e5; --s-flow: #d95926; --s-codes: #199e70; --s-base: #8f8e88; --ghost: #5b5a55;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --surface-2: #222220; --surface-3: #2b2b29; --line: #383835; --grid: #2a2a28;
+  --text: #f0efec; --text-2: #c3c2b7; --text-3: #94938c;
+  --s-regr: #3987e5; --s-flow: #d95926; --s-codes: #199e70; --s-base: #8f8e88; --ghost: #5b5a55;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; overflow-x: hidden; }
+body {
+  background: var(--surface); color: var(--text);
+  font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.shell { padding: 0 18px 18px; }
+.topline { height: 3px; background: linear-gradient(90deg, var(--s-regr), var(--s-flow)); }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin: 14px 0 8px; }
+.grad { background: linear-gradient(90deg, var(--s-regr), var(--s-flow)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--s-regr); outline-offset: 2px; }
+
+/* step tabs */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+.step {
+  appearance: none; text-align: left; cursor: pointer; border: 1px solid var(--line); background: var(--surface);
+  border-radius: 12px; padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start; color: var(--text-2);
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.step:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.step .n {
+  flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700;
+  background: var(--surface-3); color: var(--text-2);
+}
+.step b { display: block; color: var(--text); font-size: 13.5px; line-height: 1.3; }
+.step small { display: block; font-size: 12px; color: var(--text-3); line-height: 1.35; margin-top: 2px; }
+.step[aria-selected="true"] { border-color: transparent; box-shadow: 0 0 0 2px var(--s-regr), var(--shadow); }
+.step[aria-selected="true"] .n { background: linear-gradient(135deg, var(--s-regr), var(--s-flow)); color: #fff; }
+.panel[hidden] { display: none; }
+.panel { animation: fade .35s ease both; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.lead { margin: 0 0 14px; color: var(--text-2); }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-bottom: 14px; }
+.ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; max-width: 100%; }
+.ctl > span { font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--text-2);
+  border-radius: 999px; padding: 4px 12px; font-size: 13px; cursor: pointer; transition: all .15s;
+}
+.chip:hover { border-color: var(--text-3); color: var(--text); }
+.chip[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: var(--surface); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 16px; }
+.callout { margin-top: 14px; padding: 12px 14px 12px 16px; border-radius: 10px; background: var(--surface-2); position: relative; color: var(--text); }
+.callout::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 3px; background: linear-gradient(var(--s-regr), var(--s-flow)); }
+.small { font-size: 12px; color: var(--text-3); margin: 10px 0 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--text-2); margin: 10px 0 0; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+
+/* tab 1: noise dial */
+.noisebox { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+.noise { position: relative; width: 92px; height: 92px; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); flex: none; }
+.noise canvas { width: 100%; height: 100%; image-rendering: pixelated; display: block; }
+.noise .tag { position: absolute; left: 6px; bottom: 6px; font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 6px; background: rgba(0,0,0,.55); color: #fff; }
+.noisetext { flex: 1 1 220px; min-width: 0; }
+.noisetext .state { font-size: 15px; font-weight: 700; }
+.noisetext .sub { color: var(--text-3); font-size: 12.5px; }
+.bigbtn {
+  appearance: none; border: 0; cursor: pointer; border-radius: 999px; padding: 9px 16px; font-weight: 700; font-size: 13.5px;
+  background: linear-gradient(90deg, var(--s-regr), var(--s-flow)); color: #fff; box-shadow: var(--shadow); transition: transform .15s, filter .15s;
+  display: inline-flex; gap: 8px; align-items: center; margin-top: 8px;
+}
+.bigbtn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+.bigbtn.back { background: var(--surface-3); color: var(--text); }
+
+/* bars */
+.bars { position: relative; }
+.row { display: grid; grid-template-columns: 148px 1fr; align-items: center; height: 40px; cursor: default; }
+.row .lab { font-size: 13px; color: var(--text); padding-right: 12px; text-align: right; line-height: 1.2; }
+.row .lab b { font-weight: 650; }
+.track { position: relative; height: 100%; }
+.bar { position: absolute; left: 0; top: 11px; height: 18px; border-radius: 0 6px 6px 0; transition: width .7s cubic-bezier(.2,.8,.2,1); }
+.ghost { position: absolute; top: 7px; width: 2px; height: 26px; background: var(--ghost); border-radius: 1px; transition: left .7s cubic-bezier(.2,.8,.2,1); }
+.val { position: absolute; top: 10px; font-size: 12.5px; color: var(--text-2); white-space: nowrap; transition: left .7s cubic-bezier(.2,.8,.2,1); font-variant-numeric: tabular-nums; }
+.delta { font-size: 11px; font-weight: 700; margin-left: 6px; padding: 1px 6px; border-radius: 6px; background: var(--surface-3); color: var(--text-2); }
+.na { position: absolute; left: 4px; top: 11px; font-size: 12px; color: var(--text-3); font-style: italic; }
+.axis { position: relative; height: 22px; border-top: 1px solid var(--line); }
+.axis span { position: absolute; top: 4px; transform: translateX(-50%); font-size: 11px; color: var(--text-3); }
+.zone { position: absolute; top: 0; bottom: 22px; background: repeating-linear-gradient(135deg, transparent 0 5px, var(--grid) 5px 6px); pointer-events: none; }
+.vline { position: absolute; top: 0; bottom: 22px; width: 0; border-left: 1px solid var(--grid); pointer-events: none; }
+.vline.chance { border-left: 1.5px dashed var(--text-3); }
+.pairs .vline.chance::after { content: none; }
+.vline.chance::after { content: "chance"; position: absolute; top: -3px; left: 5px; font-size: 11px; color: var(--text-3); }
+
+/* tab 2: switchboard */
+.board { display: grid; grid-template-columns: 112px repeat(2, minmax(0, 1fr)); gap: 8px; align-items: stretch; }
+.board .hd { font-size: 11.5px; font-weight: 700; color: var(--text-3); display: flex; align-items: end; padding-bottom: 2px; }
+.board .rh { font-size: 12.5px; font-weight: 650; color: var(--text-2); display: flex; align-items: center; line-height: 1.25; }
+.cell {
+  appearance: none; text-align: left; cursor: pointer; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 12px;
+  color: var(--text); transition: box-shadow .2s, transform .2s;
+}
+.cell:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow); }
+.cell b { display: flex; align-items: center; gap: 7px; font-size: 13.5px; }
+.cell b i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.cell small { display: block; color: var(--text-3); font-size: 11.5px; margin-top: 3px; line-height: 1.35; }
+.cell[aria-pressed="true"] { border-color: transparent; box-shadow: 0 0 0 2px var(--sel, var(--s-regr)), var(--shadow); }
+.cell:disabled { cursor: not-allowed; background: repeating-linear-gradient(135deg, var(--surface) 0 7px, var(--surface-2) 7px 8px); color: var(--text-3); }
+.viz2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 14px; }
+.mini h3 { font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 8px; }
+.strip { display: flex; gap: 6px; align-items: flex-end; flex-wrap: wrap; }
+.strip figure { margin: 0; text-align: center; }
+.strip canvas { width: 44px; height: 44px; border-radius: 7px; display: block; image-rendering: pixelated; }
+.strip figcaption { font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+svg text { fill: var(--text-2); font-size: 11px; }
+svg .axis-line { stroke: var(--line); }
+svg .gridline { stroke: var(--grid); }
+svg .chance { stroke: var(--text-3); stroke-dasharray: 4 3; }
+.verdict { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--surface-3); color: var(--text); }
+.pair { display: grid; grid-template-columns: 78px 1fr; align-items: center; height: 34px; }
+.pair .lab { font-size: 12.5px; text-align: right; padding-right: 10px; color: var(--text); }
+.pair .bar { top: 6px; height: 9px; border-radius: 0 5px 5px 0; }
+.pair .bar.b2 { top: 18px; background: var(--s-base); }
+.pair .val { top: 1px; font-size: 11px; }
+.pair .val.v2 { top: 13px; }
+
+/* tab 3 */
+.thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
+.thumb {
+  appearance: none; cursor: pointer; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 6px; text-align: center;
+  color: var(--text-2); transition: box-shadow .2s, transform .2s;
+}
+.thumb:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.thumb img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; display: block; }
+.thumb span { display: block; font-size: 12px; font-weight: 650; margin-top: 4px; color: var(--text); }
+.thumb em { display: block; font-size: 11px; font-style: normal; color: var(--text-3); }
+.thumb[aria-pressed="true"] { border-color: transparent; box-shadow: 0 0 0 2px var(--s-regr), var(--shadow); }
+.gallery { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+.gallery figure { margin: 0; text-align: center; }
+.gallery img { display: block; width: 104px; border-radius: 8px; }
+.gallery img.q { width: 132px; }
+.meanfig { display: flex; gap: 12px; align-items: flex-start; }
+.gallery figcaption { font-size: 11.5px; color: var(--text-3); margin-top: 4px; max-width: 150px; margin-left: auto; margin-right: auto; }
+.valid { display: flex; gap: 8px; flex-wrap: wrap; padding: 8px; border-radius: 12px; background: var(--surface-2); }
+.valid img { width: 80px; }
+.arrow { align-self: center; color: var(--text-3); font-size: 20px; }
+.split3 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; margin-top: 14px; }
+
+details { margin-top: 10px; font-size: 12px; color: var(--text-2); }
+summary { cursor: pointer; color: var(--text-2); }
+details table { border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+details th, details td { border-bottom: 1px solid var(--line); padding: 3px 8px; text-align: right; }
+details th:first-child, details td:first-child { text-align: left; }
+.tip { position: fixed; z-index: 10; pointer-events: none; background: var(--text); color: var(--surface); font-size: 12px; padding: 7px 9px; border-radius: 8px; max-width: 260px; opacity: 0; transition: opacity .1s; box-shadow: var(--shadow); }
+
+@media (max-width: 600px) {
+  .shell { padding: 0 12px 14px; }
+  .steps { grid-template-columns: 1fr; }
+  .step small { display: none; }
+  .row { grid-template-columns: 104px 1fr; }
+  .row .lab { font-size: 12px; }
+  .viz2, .split3 { grid-template-columns: 1fr; }
+  .board { grid-template-columns: 84px repeat(2, minmax(0, 1fr)); }
+  .thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gallery img { width: 96px; } .gallery img.q { width: 130px; } .valid img { width: 72px; }
+  .arrow { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="topline"></div>
+<div class="shell">
+<div class="eyebrow">Interactive demo · <span class="grad">PredImagine</span></div>
+<div class="steps" role="tablist">
+  <button class="step" role="tab" aria-selected="true" aria-controls="p1" id="t1"><span class="n">1</span><span><b>Re-draw the noise</b><small>Which producers survive a new noise seed?</small></span></button>
+  <button class="step" role="tab" aria-selected="false" aria-controls="p2" id="t2"><span class="n">2</span><span><b>Build a variant</b><small>Two training choices, three variants.</small></span></button>
+  <button class="step" role="tab" aria-selected="false" aria-controls="p3" id="t3"><span class="n">3</span><span><b>Several valid answers</b><small>Does the flow's noise pick one?</small></span></button>
+</div>
+
+<!-- Tab 1 -->
+<section class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
+  <div class="card">
+    <div class="noisebox">
+      <div class="noise"><canvas id="noise1" width="24" height="24" aria-label="the noise tensor the producer starts from"></canvas><span class="tag" id="noisetag">seed 0</span></div>
+      <div class="noisetext">
+        <div class="state" id="state1">Training draw</div>
+        <div class="sub" id="sub1">Noise seed 0, one Euler step: the noise tensor each regressor was trained on.</div>
+        <button class="bigbtn" id="redraw" type="button">&#x1F3B2; Draw fresh noise</button>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="ctl"><span>Task</span><div class="chips" id="task1"></div></div>
+      <div class="ctl"><span>Split</span><div class="chips" id="split1"></div></div>
+    </div>
+    <div class="bars" id="bars1"></div>
+    <div class="legend">
+      <span><i style="background:var(--s-regr)"></i>PredImagine, regression variant</span>
+      <span><i style="background:var(--s-flow)"></i>PredImagine, flow variant</span>
+      <span><i style="background:var(--s-base)"></i>baselines</span>
+      <span><i style="background:var(--ghost);width:2px"></i>value at the other draw</span>
+    </div>
+    <div class="callout" id="note1"></div>
+    <details><summary>Show the numbers</summary><div id="table1"></div></details>
+  </div>
+  <p class="small">Every producer is read by the same consumer, trained on oracle latents (trainer seed 42; 4-way questions, chance 0.25). Training draw: K1 s0; fresh draw: K8 s1. From the paper's Fig. 1b and Tab. S5.</p>
+</section>
+
+<!-- Tab 2 -->
+<section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+  <div class="card">
+    <p class="lead" style="margin-bottom:12px">PredImagine predicts the clean intermediate state and trains a share &rho; of its blocks at <i>t</i> = 0, where only the question decides the target. Pick a cell: neighbouring variants differ in one choice.</p>
+    <div class="board" id="board"></div>
+    <div class="viz2">
+      <div class="mini">
+        <h3>Noise it trains on</h3>
+        <div class="strip" id="strip2"></div>
+        <h3 style="margin-top:14px">Training timesteps</h3>
+        <svg id="tdist" viewBox="0 0 260 120" width="100%" style="max-width:320px;display:block" role="img" aria-label="Distribution of training timesteps"></svg>
+      </div>
+      <div class="mini">
+        <h3>Accuracy at the training draw</h3>
+        <div class="bars pairs" id="bars2"></div>
+        <div class="legend" id="legend2"></div>
+        <div class="controls" style="margin:10px 0 0"><div class="ctl"><span>Split</span><div class="chips" id="split2"></div></div></div>
+      </div>
+    </div>
+    <div class="callout" id="note2"></div>
+    <details><summary>Show the numbers</summary><div id="table2"></div></details>
+  </div>
+  <p class="small">Shared consumer, K1 s0, mean over trainer seeds 42, 43, 44 (the <i>t</i> = 0 flow: seeds 42 and 43 on IB-cw and IB-both, 42 elsewhere). Timestep density: the shift <i>s</i> = 3 applied to uniform <i>t</i>. From the paper's Tab. 1 and Tab. 4.</p>
+</section>
+
+<!-- Tab 3 -->
+<section class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+  <div class="card">
+    <p class="lead" style="margin-bottom:12px">ImagineBench-rotation sets how many intermediate states are valid. Any of them answers the question, while the squared-error optimum is the mean of their encodings, which need not encode any of them.</p>
+    <div class="thumbs" id="thumbs3"></div>
+    <div class="gallery" id="imgs3"></div>
+    <div class="split3">
+      <div class="callout" id="note3" style="margin-top:0"></div>
+      <div>
+        <svg id="kcurve" viewBox="0 0 300 190" width="100%" style="max-width:420px;display:block" role="img" aria-label="Accuracy against the number of valid placements k"></svg>
+        <div class="legend">
+          <span><i style="background:var(--s-regr)"></i>PI regr.</span>
+          <span><i style="background:var(--s-flow)"></i>PI flow</span>
+          <span><i style="background:var(--s-base)"></i>velocity regr.</span>
+          <span><i style="background:var(--s-codes)"></i>codes, M = k</span>
+        </div>
+        <div class="controls" style="margin:8px 0 0"><div class="ctl"><span>Split</span><div class="chips" id="split3"></div></div></div>
+      </div>
+    </div>
+    <details><summary>Show the numbers</summary><div id="table3"></div></details>
+  </div>
+  <p class="small">Example question drawn with the ImagineBench-rotation generator (90&deg; clockwise; answer (c)). Pixel averages are an illustration only: the paper's mean is taken over latent encodings. Curve: IB-pos4 shared consumer, K1 s0, one trainer seed per point (codes at k = 4: three); oracle latents read 0.853 / 0.907. From Fig. 1c and Tab. S7.</p>
+</section>
+</div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+// ---------- theme: follow the host page's toggle when embedded on the same site ----------
+(function () {
+  function sync() {
+    try {
+      const host = window.parent && window.parent !== window ? window.parent.document.documentElement : null;
+      if (host) document.documentElement.setAttribute("data-theme", host.getAttribute("data-theme") === "dark" ? "dark" : "light");
+    } catch (e) { /* not same-origin: keep the OS preference */ }
+  }
+  sync();
+  try { if (window.parent !== window) new MutationObserver(sync).observe(window.parent.document.documentElement, { attributes: true, attributeFilter: ["data-theme"] }); } catch (e) {}
+})();
+// ---------- fit the embedding iframe to the content ----------
+function fitFrame() {
+  try { const f = window.frameElement; if (f) f.style.height = Math.ceil(document.body.getBoundingClientRect().height + 2) + "px"; } catch (e) {}
+}
+try { new ResizeObserver(fitFrame).observe(document.body); } catch (e) {}
+
+// ---------- data (the paper's tables) ----------
+const KIND = { release: "base", vel: "base", dflow: "base", regr: "regr", flow: "flow" };
+const NAMES = { release: "WM-VLM release", dflow: "Default flow", vel: "Velocity regression", regr: "PredImagine regression", flow: "PredImagine flow" };
+// Tab. S5: [training draw K1 s0 [ID, OOD], fresh draw K8 s1 [ID, OOD]]; null = not read
+const DRAWS = {
+  "Tetris-2D, 3B": { dflow: [[.270,.298],[.265,.232]], vel: [[.540,.464],[.260,.234]], regr: [[.540,.546],[.302,.232]], flow: [[.520,.514],[.555,.564]] },
+  "IB-pos1, 3B":   { vel: [[.427,.535], null], regr: [[.650,.703],[.253,.212]], flow: [[.635,.715],[.630,.705]] },
+  "IB-cw, 3B":     { vel: [[.690,.740],[.225,.265]], regr: [[.748,.787],[.273,.242]], flow: [[.723,.792],[.728,.780]] },
+  "IB-both, 3B":   { vel: [[.667,.715],[.237,.273]], regr: [[.625,.637],[.230,.282]], flow: [[.480,.515],[.472,.565]] },
+  "Tetris-2D, 7B": { release: [[.785,.686],[.215,.250]], dflow: [[.250,.256],[.300,.274]], vel: [[.428,.426],[.195,.242]], regr: [[.820,.662],[.255,.264]], flow: [[.798,.716],[.810,.646]] },
+};
+const TASK_LABEL = { "Tetris-2D, 3B": "Tetris-2D", "IB-pos1, 3B": "IB-pos1", "IB-cw, 3B": "IB-cw", "IB-both, 3B": "IB-both", "Tetris-2D, 7B": "Tetris-2D · 7B" };
+// Tab. 4: mean K1 s0 [ID, OOD]
+const PARAM = {
+  tasks: ["Tetris-2D", "IB-pos1", "IB-cw", "IB-both"],
+  regr: [[.578,.524],[.653,.725],[.768,.791],[.598,.642]],
+  t0:   [[.542,.458],[.590,.675],[.628,.655],[.468,.518]],
+  flow: [[.537,.528],[.593,.656],[.698,.765],[.483,.550]],
+  vel:  [[.562,.482],[.354,.415],[.721,.775],[.649,.672]],
+};
+// Tab. S7: IB-pos-k curve, K1 s0 [ID, OOD] at k = 1, 2, 4
+const KC = {
+  regr:  [[.650,.703],[.403,.485],[.347,.395]],
+  flow:  [[.635,.715],[.258,.235],[.242,.240]],
+  vel:   [[.427,.535],[.280,.287],[.263,.230]],
+  codes: [null,[.428,.520],[.375,.439]],
+};
+const fmt = v => v == null ? "–" : v.toFixed(3).replace(/^0/, "");
+const tickFmt = t => t === 0 ? "0" : t === 1 ? "1" : t.toFixed(2).replace(/^0/, "");
+const pts = d => (d >= 0 ? "+" : "−") + Math.abs(d * 100).toFixed(1);
+
+// ---------- helpers ----------
+function chips(el, options, value, onChange) {
+  el.innerHTML = "";
+  options.forEach(o => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = o.label;
+    b.setAttribute("aria-pressed", String(o.value === value));
+    b.addEventListener("click", () => {
+      el.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+      onChange(o.value);
+    });
+    el.appendChild(b);
+  });
+}
+const tip = document.getElementById("tip");
+function showTip(e, html) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  tip.style.left = Math.min(e.clientX + 12, window.innerWidth - 270) + "px"; tip.style.top = (e.clientY + 14) + "px";
+}
+function hideTip() { tip.style.opacity = 0; }
+const color = k => `var(--s-${KIND[k] || k})`;
+function frame(host, left, ticks) {
+  const z = document.createElement("div"); z.className = "zone";
+  z.style.left = `calc(${left}px + (100% - ${left}px) * .2)`; z.style.width = `calc((100% - ${left}px) * .1)`; host.appendChild(z);
+  [.25, .5, .75].forEach(t => {
+    const v = document.createElement("div"); v.className = "vline" + (t === .25 ? " chance" : "");
+    v.style.left = `calc(${left}px + (100% - ${left}px) * ${t})`; host.appendChild(v);
+  });
+  const ax = document.createElement("div"); ax.className = "axis"; ax.style.marginLeft = left + "px";
+  ticks.forEach(t => { const s = document.createElement("span"); s.style.left = t * 100 + "%"; s.textContent = tickFmt(t); ax.appendChild(s); });
+  return ax;
+}
+// seeded Gaussian noise, drawn as gray pixels
+function mulberry(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function paintNoise(canvas, seed) {
+  const ctx = canvas.getContext("2d"), n = canvas.width, img = ctx.createImageData(n, n), r = mulberry(seed * 7919 + 17);
+  for (let i = 0; i < n * n; i++) {
+    const g = Math.sqrt(-2 * Math.log(r() + 1e-9)) * Math.cos(2 * Math.PI * r());
+    const v = Math.max(0, Math.min(255, 128 + 52 * g));
+    img.data.set([v * .92, v * .95, v, 255], i * 4);
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+// ---------- tab 1 ----------
+const s1 = { task: "IB-cw, 3B", split: 0, draw: 0 };
+const lw1 = () => window.innerWidth <= 600 ? 104 : 148;
+let built1 = "";
+function render1() {
+  const host = document.getElementById("bars1"), data = DRAWS[s1.task];
+  const keys = ["release", "dflow", "vel", "regr", "flow"].filter(k => data[k]);
+  const sig = s1.task + "|" + lw1();
+  if (built1 !== sig) {   // new task: rebuild; same task: update in place so the bars animate
+    built1 = sig; host.innerHTML = "";
+    const ax = frame(host, lw1(), [0, .25, .5, .75, 1]);
+    keys.forEach(k => {
+      const row = document.createElement("div"); row.className = "row";
+      row.innerHTML = `<div class="lab">${KIND[k] === "base" ? NAMES[k] : `<b>${NAMES[k]}</b>`}</div>
+        <div class="track"><div class="bar" style="background:${color(k)}"></div><div class="val"></div><div class="ghost"></div>
+        <span class="na">not read at a fresh draw</span></div>`;
+      row.addEventListener("mousemove", e => {
+        const d = DRAWS[s1.task][k], f = d[1];
+        showTip(e, `<b>${NAMES[k]}</b> · ${TASK_LABEL[s1.task]} ${["ID", "OOD"][s1.split]}<br>training draw ${fmt(d[0][s1.split])} → fresh draw ${f ? fmt(f[s1.split]) : "not read"}`);
+      });
+      row.addEventListener("mouseleave", hideTip);
+      host.appendChild(row);
+    });
+    host.appendChild(ax);
+  }
+  host.querySelectorAll(".track").forEach((tr, i) => {
+    const k = keys[i], cur = data[k][s1.draw], other = data[k][1 - s1.draw];
+    const bar = tr.querySelector(".bar"), val = tr.querySelector(".val"), gh = tr.querySelector(".ghost"), na = tr.querySelector(".na");
+    na.style.display = cur ? "none" : ""; val.style.display = cur ? "" : "none";
+    bar.style.width = cur ? cur[s1.split] * 100 + "%" : "0";
+    if (cur) {
+      const d = s1.draw === 1 ? `<span class="delta">${pts(cur[s1.split] - data[k][0][s1.split])}</span>` : "";
+      val.innerHTML = fmt(cur[s1.split]) + d; val.style.left = `calc(${cur[s1.split] * 100}% + 6px)`;
+    }
+    gh.style.display = other ? "" : "none";
+    if (other) gh.style.left = other[s1.split] * 100 + "%";
+  });
+  document.getElementById("note1").innerHTML = s1.draw === 0
+    ? "<b>Training draw.</b> Each regressor is read with the noise tensor it was trained on, as the release reports. " + (s1.split === 0
+      ? "In distribution the regression variant of PredImagine is as accurate as its flow variant or more, on every task."
+      : "Out of distribution the two PredImagine variants trade places: the flow leads on IB-pos1, IB-cw and 7B Tetris-2D, the regression variant on Tetris-2D and IB-both.")
+    : (s1.task === "Tetris-2D, 7B"
+      ? "<b>Fresh draw.</b> Changing only the noise seed and the step count sends the release (0.785 → 0.215 ID) and both regressors to chance, and the default flow stays there. The flow variant of PredImagine keeps its accuracy (0.798 → 0.810)."
+      : "<b>Fresh draw.</b> Changing only the noise seed and the step count sends every fixed-noise regressor to chance" + (data.dflow ? ", and the default flow stays there" : "") + ". Only the flow variant of PredImagine keeps its accuracy: robustness to the draw is what generation adds.");
+  const rows = keys.map(k => `<tr><td>${NAMES[k]}</td><td>${fmt(data[k][0][0])} / ${fmt(data[k][0][1])}</td><td>${data[k][1] ? fmt(data[k][1][0]) + " / " + fmt(data[k][1][1]) : "not read"}</td></tr>`).join("");
+  document.getElementById("table1").innerHTML = `<table><tr><th>${TASK_LABEL[s1.task]}, ID / OOD</th><th>Training draw (K1 s0)</th><th>Fresh draw (K8 s1)</th></tr>${rows}</table>`;
+}
+function setDraw(d, animate) {
+  s1.draw = d;
+  const cv = document.getElementById("noise1");
+  document.getElementById("noisetag").textContent = "seed " + d;
+  document.getElementById("state1").textContent = d ? "Fresh draw" : "Training draw";
+  document.getElementById("sub1").textContent = d
+    ? "Noise seed 1, eight Euler steps: a draw no regressor was trained on."
+    : "Noise seed 0, one Euler step: the noise tensor each regressor was trained on.";
+  const btn = document.getElementById("redraw");
+  btn.innerHTML = d ? "&#x21BA; Back to the training draw" : "&#x1F3B2; Draw fresh noise";
+  btn.classList.toggle("back", !!d);
+  if (animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let i = 0; const id = setInterval(() => { paintNoise(cv, 1000 + i); if (++i > 7) { clearInterval(id); paintNoise(cv, d); render1(); } }, 45);
+  } else { paintNoise(cv, d); render1(); }
+}
+document.getElementById("redraw").addEventListener("click", () => setDraw(1 - s1.draw, true));
+chips(document.getElementById("task1"), Object.keys(DRAWS).map(t => ({ label: TASK_LABEL[t], value: t })), s1.task, v => { s1.task = v; render1(); });
+chips(document.getElementById("split1"), [{ label: "ID", value: 0 }, { label: "OOD", value: 1 }], 0, v => { s1.split = v; render1(); });
+
+// ---------- tab 2 ----------
+const s2 = { cell: "fresh-0.5", split: 0 };
+const VARIANTS = {
+  "fixed-1": { key: "regr", kind: "regr", name: "x-prediction regression",
+    robust: false, fresh: "Falls to chance at a fresh draw on every task (seed 42 ID: Tetris-2D 0.540 → 0.302, IB-cw 0.748 → 0.273, 7B Tetris-2D 0.820 → 0.255).",
+    take: "The most accurate variant at its training draw: ahead of the repaired flow in distribution on every task, by 4.2 to 11.4 points." },
+  "fresh-1": { key: "t0", kind: "flow", name: "t = 0 flow",
+    robust: true, fresh: "Keeps its accuracy at a fresh draw: within 4.1 points of its K1 s0 read on Tetris-2D, IB-cw and IB-both (7B Tetris-2D: 0.853 / 0.698 at K8 s1).",
+    take: "Fresh noise alone brings the robustness, and costs accuracy: on ImagineBench it trails x-prediction regression by 6 to 15 points ID." },
+  "fresh-0.5": { key: "flow", kind: "flow", name: "Repaired flow",
+    robust: true, fresh: "Keeps its accuracy at a fresh draw on every task (seed 42 ID: Tetris-2D 0.520 → 0.555, IB-cw 0.723 → 0.728, 7B Tetris-2D 0.798 → 0.810).",
+    take: "Training over t wins part of the t = 0 flow's cost back only on IB-cw (it also trains twice as long). At 7B it lifts the pipeline to the release's level." },
+};
+function renderBoard() {
+  const b = document.getElementById("board");
+  const cell = (id, label, sub, kind, disabled) => `<button class="cell" type="button" data-id="${id}" ${disabled ? "disabled" : ""}
+     aria-pressed="${s2.cell === id}" style="--sel:var(--s-${kind || "base"})"><b>${kind ? `<i style="background:var(--s-${kind})"></i>` : ""}${label}</b><small>${sub}</small></button>`;
+  b.innerHTML = `<div></div><div class="hd">all blocks at <i>t</i>&nbsp;=&nbsp;0 (&rho;&nbsp;=&nbsp;1)</div><div class="hd">half at <i>t</i>&nbsp;=&nbsp;0 (&rho;&nbsp;=&nbsp;½)</div>
+    <div class="rh">one fixed noise draw</div>${cell("fixed-1", "x-pred. regression", "PredImagine · regression", "regr")}${cell("fixed-0.5", "not an arm", "a fixed draw also fixes t = 0", null, true)}
+    <div class="rh">fresh noise every step</div>${cell("fresh-1", "t = 0 flow", "PredImagine · flow", "flow")}${cell("fresh-0.5", "Repaired flow", "PredImagine · flow", "flow")}`;
+  b.querySelectorAll(".cell:not(:disabled)").forEach(c => c.addEventListener("click", () => { s2.cell = c.dataset.id; render2(); }));
+}
+function drawTdist(rho, kind) {
+  const svg = document.getElementById("tdist"), W = 260, H = 120, L = 10, R = 8, T = 8, B = 22;
+  const X = t => L + (W - L - R) * t, Y = v => T + (H - T - B) * (1 - v / 3.2);
+  let g = `<line class="axis-line" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/>`;
+  [0, .5, 1].forEach(t => { g += `<text x="${X(t)}" y="${H - B + 14}" text-anchor="${t === 0 ? "start" : t === 1 ? "end" : "middle"}">t = ${t}</text>`; });
+  if (rho < 1) {   // shift s = 3 on uniform t: density s / (1 + (s - 1) t)^2, scaled by the share 1 - rho
+    let d = `M ${X(0)} ${Y(0)}`;
+    for (let i = 0; i <= 60; i++) { const t = i / 60; d += ` L ${X(t)} ${Y((1 - rho) * 3 / Math.pow(1 + 2 * t, 2))}`; }
+    d += ` L ${X(1)} ${Y(0)} Z`;
+    g += `<path d="${d}" fill="var(--s-flow)" fill-opacity=".2" stroke="var(--s-flow)" stroke-width="1.5"/>`;
+    g += `<text x="${X(.3)}" y="${Y(.9)}">other ½: shifted toward noise</text>`;
+  }
+  const top = Y(rho === 1 ? 3 : 2.2);
+  g += `<rect x="${X(0)}" y="${top}" width="9" height="${Y(0) - top}" rx="2" fill="var(--s-${kind})"/>`;
+  g += `<text x="${X(0) + 15}" y="${top + 10}">${rho === 1 ? "every block at t = 0" : "½ of blocks at t = 0"}</text>`;
+  svg.innerHTML = g;
+}
+function drawStrip(fixed) {
+  const s = document.getElementById("strip2"); s.innerHTML = "";
+  for (let i = 0; i < 4; i++) {
+    const f = document.createElement("figure"), c = document.createElement("canvas"); c.width = c.height = 12;
+    paintNoise(c, fixed ? 0 : 40 + i);
+    const cap = document.createElement("figcaption"); cap.textContent = "update " + (i + 1);
+    f.append(c, cap); s.append(f);
+  }
+  const t = document.createElement("div"); t.style.cssText = "font-size:11.5px;color:var(--text-3);margin-left:4px;align-self:center";
+  t.textContent = fixed ? "the same tensor every update" : "a new tensor every update"; s.append(t);
+}
+function render2() {
+  renderBoard();
+  const v = VARIANTS[s2.cell], rho = s2.cell.endsWith("-1") ? 1 : .5;
+  drawStrip(s2.cell.startsWith("fixed")); drawTdist(rho, v.kind);
+  document.getElementById("legend2").innerHTML = `<span><i style="background:var(--s-${v.kind})"></i>${v.name}</span><span><i style="background:var(--s-base)"></i>velocity regression</span>`;
+  const host = document.getElementById("bars2"); host.innerHTML = "";
+  const lw = 78, ax = frame(host, lw, [0, .25, .5, .75, 1]);
+  PARAM.tasks.forEach((t, i) => {
+    const a = PARAM[v.key][i][s2.split], b = PARAM.vel[i][s2.split];
+    const row = document.createElement("div"); row.className = "pair";
+    row.innerHTML = `<div class="lab">${t}</div><div class="track">
+      <div class="bar" style="width:${a * 100}%;background:var(--s-${v.kind})"></div><div class="bar b2" style="width:${b * 100}%"></div>
+      <div class="val" style="left:calc(${a * 100}% + 6px)">${fmt(a)}</div><div class="val v2" style="left:calc(${b * 100}% + 6px)">${fmt(b)}</div></div>`;
+    row.addEventListener("mousemove", e => showTip(e, `<b>${t}</b>, ${["ID", "OOD"][s2.split]}<br>${v.name} ${fmt(a)} · velocity regression ${fmt(b)}`));
+    row.addEventListener("mouseleave", hideTip);
+    host.appendChild(row);
+  });
+  host.appendChild(ax);
+  document.getElementById("note2").innerHTML =
+    `<span class="verdict">${v.robust ? "&#x2714; keeps its accuracy at a fresh draw" : "&#x2716; falls to chance at a fresh draw"}</span>
+     <p style="margin:8px 0 4px">${v.fresh}</p><p style="margin:0"><b>At the training draw.</b> ${v.take}</p>`;
+  const rows = PARAM.tasks.map((t, i) => `<tr><td>${t}</td>${["regr", "t0", "flow", "vel"].map(k => `<td>${fmt(PARAM[k][i][0])} / ${fmt(PARAM[k][i][1])}</td>`).join("")}</tr>`).join("");
+  document.getElementById("table2").innerHTML = `<table><tr><th>ID / OOD</th><th>x-pred. regr.</th><th>t = 0 flow</th><th>Repaired flow</th><th>Velocity regr.</th></tr>${rows}</table>`;
+}
+chips(document.getElementById("split2"), [{ label: "ID", value: 0 }, { label: "OOD", value: 1 }], 0, v => { s2.split = v; render2(); });
+
+// ---------- tab 3 ----------
+const s3 = { task: "pos2", split: 0 };
+const T3 = {
+  cw:   { label: "IB-cw", sub: "k = 1", thumb: "strip-cw", k: null, valid: [["strip-cw", "clockwise strip"]], mean: null,
+          note: "<b>One valid intermediate.</b> The clockwise strip from C to the answer. With a single valid state, the squared-error optimum is that state, so a regressor has nothing to average." },
+  both: { label: "IB-both", sub: "k = 2", thumb: "strip-ccw", k: null, valid: [["strip-cw", "clockwise strip"], ["strip-ccw", "counter-clockwise strip"]], mean: ["mean-both", "pixel average of the two"],
+          note: "<b>Two valid strips that turn opposite ways.</b> The flow's 16 noise draws per question stay close together (cosine 0.93 at K8) and reach neither strip (cosine 0.82, where a sampled strip scores 1). The consumer reads the exact mean of the two strips as well as either strip, so the deficit lies in the producer, not in averaging." },
+  pos1: { label: "IB-pos-1", sub: "k = 1", thumb: "pos-0", k: 1, valid: [["pos-0", "centre"]], mean: null,
+          note: "<b>k = 1.</b> The answer shape is always drawn at the centre. All three PredImagine variants lead velocity regression by over 20 points here." },
+  pos2: { label: "IB-pos-2", sub: "k = 2", thumb: "mean-pos2", k: 2, valid: [["pos-0", "centre"], ["pos-1", "top-left"]], mean: ["mean-pos2", "pixel average"],
+          note: "<b>k = 2.</b> Every producer drops and the flow drops furthest, to chance. Its noise does not pick a placement: two noise seeds at K8 land on the same placement for 95% / 94% of samples. Two hypothesis codes (M = k) each hold one placement." },
+  pos4: { label: "IB-pos-4", sub: "k = 4", thumb: "mean-pos4", k: 4, valid: [["pos-0", "centre"], ["pos-1", "top-left"], ["pos-2", "top-right"], ["pos-3", "bottom-left"]], mean: ["mean-pos4", "pixel average"],
+          note: "<b>k = 4.</b> The flow's latents sit near the placement mean at K1 and K8; at K128 they leave the mean without approaching a placement, and the rotation they carry stays at chance. In none of these reads does the flow's noise select a valid state." },
+};
+function renderThumbs() {
+  const el = document.getElementById("thumbs3");
+  el.innerHTML = Object.entries(T3).map(([id, t]) => `<button class="thumb" type="button" data-id="${id}" aria-pressed="${s3.task === id}">
+    <img src="img/${t.thumb}.png" alt=""><span>${t.label}</span><em>${t.sub}</em></button>`).join("");
+  el.querySelectorAll(".thumb").forEach(b => b.addEventListener("click", () => { s3.task = b.dataset.id; render3(); }));
+}
+function render3() {
+  renderThumbs();
+  const t = T3[s3.task];
+  const valid = t.valid.map(([f, c]) => `<figure><img src="img/${f}.png" alt="${c}"><figcaption>${c}</figcaption></figure>`).join("");
+  document.getElementById("imgs3").innerHTML =
+    `<figure><img class="q" src="img/question.png" alt="question: apply the rotation from A to B to C"><figcaption>question</figcaption></figure>
+     <span class="arrow">&#x2192;</span>
+     <figure><div class="valid">${valid}</div><figcaption style="max-width:none">${t.valid.length === 1 ? "the valid intermediate" : `any of these ${t.valid.length} is valid`}</figcaption></figure>` +
+    (t.mean ? `<div class="meanfig"><span class="arrow" style="margin-top:34px;font-size:11px;line-height:1.2;text-align:center">average<br><span style="font-size:20px">&#x2192;</span></span><figure><img src="img/${t.mean[0]}.png" alt="${t.mean[1]}"><figcaption>${t.mean[1]} (illustration; encodes no valid state)</figcaption></figure></div>` : "");
+  document.getElementById("note3").innerHTML = t.note;
+  drawK();
+}
+function drawK() {
+  const svg = document.getElementById("kcurve"), sp = s3.split, hk = T3[s3.task].k;
+  const W = 300, H = 190, L = 34, R = 14, T = 10, B = 26, xs = [1, 2, 4];
+  const X = i => L + (W - L - R) * (i / 2), Y = v => T + (H - T - B) * (1 - (v - .2) / (.75 - .2));
+  let g = "";
+  if (hk) { const i = xs.indexOf(hk); g += `<rect x="${X(i) - 18}" y="${T}" width="36" height="${H - T - B}" rx="6" fill="var(--surface-3)"/>`; }
+  [.25, .4, .55, .7].forEach(v => {
+    g += `<line class="${v === .25 ? "chance" : "gridline"}" x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}"/>`;
+    g += `<text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+  });
+  g += `<line class="axis-line" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/>`;
+  xs.forEach((k, i) => { g += `<text x="${X(i)}" y="${H - B + 16}" text-anchor="middle">k = ${k}</text>`; });
+  g += `<text x="${L + 4}" y="${Y(.25) + 13}">chance</text>`;
+  [["vel", "base"], ["codes", "codes"], ["regr", "regr"], ["flow", "flow"]].forEach(([key, kind]) => {
+    const p = KC[key].map((q, i) => q ? [X(i), Y(q[sp])] : null).filter(Boolean);
+    g += `<polyline fill="none" stroke="var(--s-${kind})" stroke-width="2" stroke-linejoin="round" points="${p.map(q => q.join(",")).join(" ")}"/>`;
+    p.forEach(q => { g += `<circle cx="${q[0]}" cy="${q[1]}" r="4" fill="var(--s-${kind})" stroke="var(--surface)" stroke-width="2"/>`; });
+  });
+  xs.forEach((k, i) => { g += `<rect class="hit" data-i="${i}" x="${X(i) - 22}" y="${T}" width="44" height="${H - T - B}" fill="transparent"/>`; });
+  svg.innerHTML = g;
+  svg.querySelectorAll(".hit").forEach(r => {
+    r.addEventListener("mousemove", e => {
+      const i = +r.dataset.i, f = p => p ? fmt(p[sp]) : "–";
+      showTip(e, `<b>k = ${xs[i]}</b>, ${["ID", "OOD"][sp]}<br>PredImagine regr. ${f(KC.regr[i])}<br>PredImagine flow ${f(KC.flow[i])}<br>velocity regr. ${f(KC.vel[i])}<br>codes, M = k ${f(KC.codes[i])}`);
+    });
+    r.addEventListener("mouseleave", hideTip);
+  });
+  const rows = [["PredImagine regr. (100k)", "regr"], ["PredImagine flow (repaired, 200k)", "flow"], ["Velocity regr.", "vel"], ["Codes, M = k (100k)", "codes"]]
+    .map(([n, k]) => `<tr><td>${n}</td>${KC[k].map(p => `<td>${p ? fmt(p[0]) + " / " + fmt(p[1]) : "–"}</td>`).join("")}</tr>`).join("");
+  document.getElementById("table3").innerHTML = `<table><tr><th>ID / OOD</th><th>k = 1</th><th>k = 2</th><th>k = 4</th></tr>${rows}</table>`;
+}
+chips(document.getElementById("split3"), [{ label: "ID", value: 0 }, { label: "OOD", value: 1 }], 0, v => { s3.split = v; drawK(); });
+
+// ---------- tabs ----------
+const RENDER = { p1: render1, p2: render2, p3: render3 };
+document.querySelectorAll(".step").forEach(tab => tab.addEventListener("click", () => {
+  document.querySelectorAll(".step").forEach(t => t.setAttribute("aria-selected", String(t === tab)));
+  document.querySelectorAll(".panel").forEach(p => p.hidden = p.id !== tab.getAttribute("aria-controls"));
+  RENDER[tab.getAttribute("aria-controls")]();
+  fitFrame();
+}));
+window.addEventListener("resize", () => { built1 = ""; document.querySelectorAll(".panel").forEach(p => { if (!p.hidden) RENDER[p.id](); }); });
+setDraw(0, false); render2(); render3();
+if (/^#p[23]$/.test(location.hash)) document.querySelector(`.step[aria-controls="${location.hash.slice(1)}"]`).click();
+fitFrame();
+</script>
+</body>
+</html>
