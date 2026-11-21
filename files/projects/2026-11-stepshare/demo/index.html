@@ -11,6 +11,7 @@
   --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11, 11, 11, 0.10); --chip: #f0efec; --shade: rgba(11, 11, 11, 0.035);
   --und: #2a78d6; --gen: #eb6834; --wgt: #6250d6; --rte: #1baf7a; --spl: #008300; --ref: #8a8984; --opt: #2b2b29;
   --w1: #a69ded; --w2: #8174e2; --w3: #6250d6;
+  --panel: #ffffff; --wash-und: rgba(42, 120, 214, 0.07); --wash-gen: rgba(235, 104, 52, 0.07); --shadow: 0 1px 2px rgba(11, 11, 11, 0.04), 0 8px 24px rgba(11, 11, 11, 0.06);
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
@@ -18,16 +19,25 @@
   --grid: #2c2c2a; --axis: #383835; --ring: rgba(255, 255, 255, 0.10); --chip: #2c2c2a; --shade: rgba(255, 255, 255, 0.04);
   --und: #3987e5; --gen: #d95926; --wgt: #9085e9; --rte: #1aa5a0; --spl: #008300; --ref: #9a9993; --opt: #e6e5e0;
   --w1: #5a4cc0; --w2: #7d70e0; --w3: #a69ded;
+  --panel: #222221; --wash-und: rgba(57, 135, 229, 0.10); --wash-gen: rgba(217, 89, 38, 0.10); --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: transparent; }
 body { font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
-.viz-root { position: relative; background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 16px 18px 14px; }
+.viz-root { position: relative; background: var(--surface); border: 1px solid var(--ring); border-radius: 14px; padding: 20px 20px 16px; box-shadow: var(--shadow); overflow: hidden; }
+.viz-root::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: linear-gradient(90deg, var(--und) 0%, var(--und) 45%, var(--gen) 100%); }
+.viz-root::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 120px; pointer-events: none;
+  background: radial-gradient(60% 100% at 0% 0%, var(--wash-und), transparent 70%), radial-gradient(50% 100% at 100% 0%, var(--wash-gen), transparent 70%); }
+.viz-root > * { position: relative; z-index: 1; }
+.viz-root > .tip { position: absolute; z-index: 6; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand svg { flex: none; }
 .top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px 16px; margin-bottom: 14px; }
-.top h1 { font-size: 16px; margin: 0; font-weight: 600; }
+.top h1 { font-size: 17px; margin: 0; font-weight: 700; letter-spacing: -0.01em; }
 .top p { margin: 2px 0 0; color: var(--ink2); font-size: 12.5px; }
 [role="tablist"] { display: flex; gap: 2px; background: var(--chip); padding: 3px; border-radius: 8px; }
-[role="tab"] { border: 0; background: transparent; color: var(--ink2); font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 6px; cursor: pointer; }
+[role="tab"] { border: 0; background: transparent; color: var(--ink2); font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s, color 0.15s; }
+[role="tab"] svg { flex: none; }
 [role="tab"][aria-selected="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--ring); }
 [role="tab"]:focus-visible, button:focus-visible, select:focus-visible, .hit:focus-visible, input:focus-visible { outline: 2px solid var(--und); outline-offset: 2px; }
 .filters { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 10px; font-size: 13px; color: var(--ink2); }
@@ -38,15 +48,27 @@ select { font: inherit; font-size: 13px; padding: 5px 8px; border-radius: 6px; b
 .seg button + button { border-left: 1px solid var(--axis); }
 .seg button[aria-pressed="true"] { background: var(--chip); color: var(--ink); font-weight: 600; }
 .tbtn { margin-left: auto; border: 1px solid var(--axis); background: transparent; color: var(--ink2); font: inherit; font-size: 12.5px; padding: 4px 10px; border-radius: 6px; cursor: pointer; }
-.note { margin: 0 0 12px; color: var(--ink2); font-size: 13px; min-height: 2.9em; }
+.note { margin: 0 0 14px; color: var(--ink2); font-size: 13px; min-height: 3.6em; padding: 8px 12px; border-radius: 8px; background: var(--chip); border-left: 3px solid var(--armc, var(--ink2)); transition: border-color 0.2s; }
+.tour { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 10px; font-size: 12.5px; color: var(--ink2); }
+.tour .lead { font-weight: 600; color: var(--ink); margin-right: 2px; }
+.tour button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--axis); background: var(--surface); color: var(--ink2); font: inherit; font-size: 12.5px; padding: 3px 10px 3px 4px; border-radius: 999px; cursor: pointer; transition: border-color 0.15s, background 0.15s, color 0.15s; }
+.tour button .n { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--chip); color: var(--ink2); font-size: 11px; font-weight: 700; }
+.tour button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); background: var(--chip); font-weight: 600; }
+.tour button[aria-pressed="true"] .n { background: var(--ink); color: var(--surface); }
+.tour .sep { width: 14px; height: 1px; background: var(--axis); }
 .note strong { color: var(--ink); }
 .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
-.tile { border: 1px solid var(--ring); border-radius: 8px; padding: 8px 10px; }
+.tile { border: 1px solid var(--ring); border-radius: 10px; padding: 9px 11px 10px; background: var(--panel); }
+.tile .meter { height: 6px; border-radius: 3px; background: var(--chip); margin-top: 6px; overflow: hidden; }
+.tile .meter i { display: block; height: 100%; border-radius: 3px; background: var(--armc, var(--ink2)); transition: width 0.35s ease; }
 .tile .lbl { font-size: 12px; color: var(--ink2); }
 .tile .val { font-size: 22px; font-weight: 600; line-height: 1.25; }
 .tile .sub { font-size: 11.5px; color: var(--muted); }
-.charts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
-figure { margin: 0; min-width: 0; }
+.charts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+figure { margin: 0; min-width: 0; background: var(--panel); border: 1px solid var(--ring); border-radius: 12px; padding: 12px 14px 10px; }
+.chart svg { animation: ss-in 0.25s ease; }
+@keyframes ss-in { from { opacity: 0.35; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .chart svg { animation: none; } .tile .meter i { transition: none; } }
 figcaption { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
 figcaption span { font-weight: 400; color: var(--ink2); }
 .chart { width: 100%; }
@@ -88,26 +110,41 @@ svg text { font-family: inherit; }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .charts { grid-template-columns: minmax(0, 1fr); }
   .tbtn { margin-left: 0; }
+  .tour .sep { display: none; }
 }
 </style>
 </head>
 <body>
 <div class="viz-root" id="root">
   <div class="top">
-    <div>
-      <h1>StepShare explorer</h1>
-      <p>Every number comes from the paper's runs: Qwen3-0.6B, raw pixels, 9000 steps, 3 to 5 seeds per arm.</p>
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <rect x="0" y="0" width="34" height="34" rx="9" style="fill:var(--chip)"/>
+        <rect x="7" y="10" width="16" height="5" rx="2.5" style="fill:var(--und)"/><rect x="24.5" y="10" width="2.5" height="5" rx="1.25" style="fill:var(--gen)"/>
+        <rect x="7" y="19" width="11" height="5" rx="2.5" style="fill:var(--und)"/><rect x="19.5" y="19" width="7.5" height="5" rx="2.5" style="fill:var(--gen)"/>
+      </svg>
+      <div>
+        <h1>StepShare explorer</h1>
+        <p>Every number comes from the paper's runs: Qwen3-0.6B, raw pixels, 9000 steps, 3 to 5 seeds per arm.</p>
+      </div>
     </div>
     <div role="tablist" aria-label="Views">
-      <button role="tab" id="tab-a" aria-controls="panel-a" aria-selected="true">Rebalance</button>
-      <button role="tab" id="tab-b" aria-controls="panel-b" aria-selected="false" tabindex="-1">Step split</button>
-      <button role="tab" id="tab-c" aria-controls="panel-c" aria-selected="false" tabindex="-1">Samples</button>
+      <button role="tab" id="tab-a" aria-controls="panel-a" aria-selected="true"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="3" cy="10" r="1.8" fill="currentColor"/><circle cx="7" cy="6" r="1.8" fill="currentColor"/><circle cx="11" cy="3" r="1.8" fill="currentColor"/><path d="M1 13h12" stroke="currentColor" stroke-width="1.2"/></svg>Rebalance</button>
+      <button role="tab" id="tab-b" aria-controls="panel-b" aria-selected="false" tabindex="-1"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="2.5" width="8" height="3.2" rx="1.2" fill="currentColor"/><rect x="10" y="2.5" width="3" height="3.2" rx="1.2" fill="currentColor" opacity=".55"/><rect x="1" y="8.3" width="5" height="3.2" rx="1.2" fill="currentColor"/><rect x="7" y="8.3" width="6" height="3.2" rx="1.2" fill="currentColor" opacity=".55"/></svg>Step split</button>
+      <button role="tab" id="tab-c" aria-controls="panel-c" aria-selected="false" tabindex="-1"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="1" width="5.2" height="5.2" rx="1.2" fill="currentColor"/><rect x="7.8" y="1" width="5.2" height="5.2" rx="1.2" fill="currentColor" opacity=".55"/><rect x="1" y="7.8" width="5.2" height="5.2" rx="1.2" fill="currentColor" opacity=".55"/><rect x="7.8" y="7.8" width="5.2" height="5.2" rx="1.2" fill="currentColor"/></svg>Samples</button>
     </div>
   </div>
 
   <section role="tabpanel" id="panel-a" aria-labelledby="tab-a">
+    <div class="tour" role="group" aria-label="Guided tour through the paper's argument">
+      <span class="lead">Guided tour</span>
+      <button type="button" data-tour="w1"><span class="n">1</span>Equal weights</button><span class="sep"></span>
+      <button type="button" data-tour="w003"><span class="n">2</span>Restore the share</button><span class="sep"></span>
+      <button type="button" data-tour="adam"><span class="n">3</span>Per-task Adam</button><span class="sep"></span>
+      <button type="button" data-tour="ss"><span class="n">4</span>StepShare-Adam</button>
+    </div>
     <div class="filters">
-      <label>Arm <select id="arm"></select></label>
+      <label>All arms <select id="arm"></select></label>
       <span>Probe <span class="seg" role="group" aria-label="Probe set">
         <button type="button" data-probe="coco" aria-pressed="true">COCO</button><button type="button" data-probe="in" aria-pressed="false">ImageNet-100</button>
       </span></span>
@@ -374,12 +411,18 @@ function select(id) {
   document.getElementById("arm").value = id;
   renderA();
 }
-function tile(label, val, sub) {
+function tile(label, val, sub, meter) {
   const t = document.createElement("div"); t.className = "tile";
   const a = document.createElement("div"); a.className = "lbl"; a.textContent = label;
   const b = document.createElement("div"); b.className = "val"; b.textContent = val;
   const c = document.createElement("div"); c.className = "sub"; c.textContent = sub;
-  t.append(a, b, c);
+  t.append(a, b);
+  if (meter !== undefined) {
+    const m = document.createElement("div"); m.className = "meter"; m.setAttribute("aria-hidden", "true");
+    const i = document.createElement("i"); i.style.width = "0%"; m.appendChild(i); t.appendChild(m);
+    requestAnimationFrame(() => { i.style.width = Math.max(0, Math.min(100, meter)) + "%"; });
+  }
+  t.appendChild(c);
   return t;
 }
 function renderTiles() {
@@ -387,12 +430,14 @@ function renderTiles() {
   const ref = a.id === "w1";
   const worst = probe === "coco" ? r.worst : r.inw;
   box.replaceChildren(
-    tile("Gap closed · guidance 1", Math.round(r.r1) + "%", ref ? `reference arm, ${r.n} seeds` : `± ${r.c1} (95% CI, ${r.n} seeds)`),
-    tile("Gap closed · guidance 4", Math.round(r.r4) + "%", ref ? "reference arm" : `± ${r.c4} (95% CI)`),
+    tile("Gap closed · guidance 1", Math.round(r.r1) + "%", ref ? `reference arm, ${r.n} seeds` : `± ${r.c1} (95% CI, ${r.n} seeds)`, r.r1),
+    tile("Gap closed · guidance 4", Math.round(r.r4) + "%", ref ? "reference arm" : `± ${r.c4} (95% CI)`, r.r4),
     tile(`Worst probe layer · ${probe === "coco" ? "COCO" : "IN-100"}`, sgn(worst) + " pts", "layers 2–28 vs. und.-only"),
     tile("Caption NLL change", sgn(r.nll, 2), "vs. 2.55 for und.-only")
   );
   document.getElementById("note").innerHTML = a.note; // static, author-written notes
+  root.style.setProperty("--armc", v(a.color));
+  for (const b of document.querySelectorAll("[data-tour]")) b.setAttribute("aria-pressed", String(b.dataset.tour === sel));
 }
 function renderScatter() {
   const box = document.getElementById("scatter");
@@ -694,6 +739,7 @@ new ResizeObserver(() => {
   fit();
 }).observe(root);
 
+for (const b of document.querySelectorAll("[data-tour]")) b.addEventListener("click", () => select(b.dataset.tour));
 fillSelect(); buildTables(); initWipe(); renderA();
 const start = { split: 1, samples: 2 }[location.hash.slice(1)];
 if (start) show(tabs[start]);
