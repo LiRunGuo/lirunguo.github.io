@@ -14,7 +14,20 @@ bibtexurl: "/files/bibtex/li2026gmsa.bib"
 publication: "/publication/2026-11-gmsa-distillation"
 ---
 
-**Status:** Preprint, under review · **PDF:** [Download](/files/gmsa-distillation-acceleration.pdf) · **BibTeX:** [li2026gmsa.bib](/files/bibtex/li2026gmsa.bib)
+<p style="text-align:center;margin:0.4em 0 0.2em"><strong>Runguo Li</strong> · University of Illinois Urbana-Champaign</p>
+<p style="text-align:center;margin:0 0 0.8em"><span style="display:inline-block;padding:2px 12px;border-radius:999px;background:#eef3fb;color:#2a5fa8;font-weight:600;font-size:0.85em">Preprint · under review</span></p>
+<p style="text-align:center">
+  <a class="btn btn--inverse" style="border-radius:999px" href="/files/gmsa-distillation-acceleration.pdf"><i class="fas fa-file-pdf"></i> Paper</a>
+  <a class="btn btn--inverse" style="border-radius:999px" href="#interactive-demo"><i class="fas fa-chart-bar"></i> Interactive demo</a>
+  <a class="btn btn--inverse" style="border-radius:999px" href="#bibtex"><i class="fas fa-quote-right"></i> BibTeX</a>
+</p>
+
+![StudentProbe at a glance.](/images/projects/2026-11-gmsa-distillation/fig1-at-a-glance.png){: .align-center}
+
+**TL;DR.** Distilled video students keep their teachers' features; what changes is the few wide steps and the system. So
+skip positions must be measured on the student: a few GPU-minutes that beat teacher-calibrated caches and guide a
+**2.5–3.5×** end-to-end baseline.
+{: .notice--info}
 
 ## Summary
 
@@ -33,9 +46,7 @@ components guided by it reach **2.5–3.5×** end to end on four students.
 **Figure 2.** StudentProbe has three parts. A controlled teacher–student comparison on the same states, a minutes-long
 probe of a new student, and the baseline that the two guide.
 
-![Figure 1: StudentProbe at a glance.](/images/projects/2026-11-gmsa-distillation/fig1-at-a-glance.png){: .align-center}
-
-**Figure 1.** On the same states, a student's block residuals are closer to its teacher's than to its own next call (a).
+**Figure 1** (top of the page). On the same states, a student's block residuals are closer to its teacher's than to its own next call (a).
 A small error at an early call moves the output the most (b). Position-block sparse attention drifts further than simply
 running one call fewer at equal speed (c), and the decoder bounds any DiT accelerator (d).
 
@@ -76,14 +87,30 @@ The probe predicts each end-to-end speedup within 1% from separately timed parts
 trade-off, measured on untouched prompts.
 
 ## Interactive demo
+{: #interactive-demo}
 
-Pick a student to see where it can skip, compare the latency split with any DiT speedup, and view the frames behind Fig. 5.
+Pick a student to see where it can skip, push the DiT speedup against the measured latency split, and drag across frames
+with and without a skipped call.
 
-<iframe src="/files/projects/2026-11-gmsa-distillation/demo/index.html" width="100%" height="640" loading="lazy" title="StudentProbe interactive demo" style="border:1px solid #e1e4e8;border-radius:8px"></iframe>
+<iframe id="studentprobe-demo" src="/files/projects/2026-11-gmsa-distillation/demo/index.html" width="100%" height="900" loading="lazy" title="StudentProbe interactive demo" style="border:0;border-radius:14px;box-shadow:0 1px 2px rgba(16,24,40,.06),0 6px 18px rgba(16,24,40,.08)"></iframe>
+<script>
+  window.addEventListener("message", function (e) {
+    var h = e.data && e.data.studentprobeDemoHeight, f = document.getElementById("studentprobe-demo");
+    if (h && f) f.style.height = (h + 8) + "px";
+  });
+</script>
 
 ## Links and citation
+{: #bibtex}
 
-- **PDF:** [Download](/files/gmsa-distillation-acceleration.pdf)
+- **PDF:** [Download](/files/gmsa-distillation-acceleration.pdf) (paper and supplementary material)
 - **BibTeX:** [li2026gmsa.bib](/files/bibtex/li2026gmsa.bib)
 
-Runguo Li. (2026). "StudentProbe: What Survives Distillation in Training-Free Video Diffusion Acceleration." Preprint, under review.
+```bibtex
+@unpublished{li2026gmsa,
+  title  = {{StudentProbe}: What Survives Distillation in Training-Free Video Diffusion Acceleration},
+  author = {Li, Runguo},
+  year   = {2026},
+  note   = {Preprint, under review}
+}
+```
