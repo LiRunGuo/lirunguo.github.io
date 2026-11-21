@@ -21,7 +21,7 @@ tags: ["unified multimodal models", "multi-task optimisation", "flow matching", 
 .ss { --c-und: #2a78d6; --c-gen: #eb6834; --c-wgt: #6250d6; --c-rte: #1baf7a; --c-spl: #008300; --c-opt: #2b2b29;
   --ink: #1d1d1b; --ink2: #52514e; --muted: #898781; --line: rgba(11, 11, 11, 0.09); --card: #ffffff; --soft: #f6f6f3;
   --cost: #b9b8b1; --shadow: 0 1px 2px rgba(11, 11, 11, 0.04), 0 10px 30px rgba(11, 11, 11, 0.06); color: var(--ink); }
-html[data-theme="dark"] .ss { --c-und: #3987e5; --c-gen: #d95926; --c-wgt: #9085e9; --c-rte: #1aa5a0; --c-spl: #2a9d2a; --c-opt: #e6e5e0;
+html[data-theme="dark"] .ss { --c-und: #3987e5; --c-gen: #d95926; --c-wgt: #9085e9; --c-rte: #169aa0; --c-spl: #2a9d2a; --c-opt: #e6e5e0;
   --ink: #f3f3f1; --ink2: #d0cfc8; --muted: #a9a8a1; --line: rgba(255, 255, 255, 0.10); --card: #3b3b3b; --soft: #404040;
   --cost: #6f6e69; --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.2); }
 .ss p { margin: 0 0 0.9em; }
@@ -80,11 +80,52 @@ html[data-theme="dark"] .ss { --c-und: #3987e5; --c-gen: #d95926; --c-wgt: #9085
 .ss-table .bar i { display: block; height: 100%; border-radius: 4px; }
 .ss-table .ci { color: var(--muted); font-weight: 400; }
 .ss-tablewrap { overflow-x: auto; }
-.ss-demo { margin: 0.6em 0 1.2em; padding: 16px; border-radius: 18px; border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(42, 120, 214, 0.06), rgba(235, 104, 52, 0.05)), var(--soft); }
-.ss-demo .intro { margin: 2px 4px 12px; font-size: 0.88em; color: var(--ink2); }
-.ss-demo iframe { display: block; width: 100%; border: 0; background: transparent; }
-.ss-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.ss-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 2px 10px; font-size: 0.82em; color: var(--ink2); }
+.ss-ctl label { display: inline-flex; align-items: center; gap: 6px; margin: 0; }
+.ss .ss-ctl select { font: inherit; font-size: 1em; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); width: auto; height: auto; margin: 0; }
+.ss-seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.ss .ss-seg button { border: 0; background: transparent; color: var(--ink2); font: inherit; font-size: 1em; padding: 4px 10px; cursor: pointer; margin: 0; }
+.ss .ss-seg button + button { border-left: 1px solid var(--line); }
+.ss .ss-seg button[aria-pressed="true"] { background: var(--soft); color: var(--ink); font-weight: 600; }
+.ss-charts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.ss-ct { font-size: 0.82em; font-weight: 600; margin: 0 0 2px; }
+.ss-ct span { font-weight: 400; color: var(--ink2); }
+.ss-chart svg { display: block; overflow: visible; }
+.ss-chart text { font-family: inherit; }
+.ss-chart .tk { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.ss-chart .al { fill: var(--ink2); font-size: 11.5px; }
+.ss-chart .lb { fill: var(--ink); font-size: 11.5px; }
+.ss-chart .mu { fill: var(--muted); font-size: 11px; }
+.ss-chart .halo { paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
+.ss-chart .gl { stroke: var(--line); stroke-width: 1; }
+.ss-chart .ax { stroke: var(--muted); stroke-opacity: 0.6; stroke-width: 1; }
+.ss-chart .shade { fill: var(--soft); }
+.ss-chart .hit { cursor: pointer; outline: none; }
+.ss-chart .hit:focus-visible { stroke: var(--c-und); stroke-width: 2; }
+.ss-legend { display: flex; flex-wrap: wrap; gap: 3px 12px; font-size: 0.74em; color: var(--ink2); margin: 2px 0 0; }
+.ss-legend .k { display: inline-flex; align-items: center; gap: 5px; }
+.ss-legend svg { overflow: visible; }
+.ss-tip { position: fixed; z-index: 50; pointer-events: none; background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 8px; padding: 7px 9px; font-size: 0.76em; min-width: 130px; }
+.ss-tip .tt { color: var(--ink2); margin-bottom: 3px; }
+.ss-tip .tr { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.ss-tip .tr i { display: inline-block; width: 12px; height: 2px; border-radius: 1px; }
+.ss-tip .tr b { font-variant-numeric: tabular-nums; }
+.ss-tip .tr span { color: var(--ink2); }
+.ss details.ss-more { margin: 10px 4px 0; font-size: 0.8em; color: var(--ink2); }
+.ss details.ss-more summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+.ss .ss-all { width: 100%; border-collapse: collapse; margin: 8px 0 0; font-size: 1em; display: table; border: 0; }
+.ss .ss-all th, .ss .ss-all td { padding: 4px 8px; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ss .ss-all th:first-child, .ss .ss-all td:first-child { text-align: left; }
+.ss .ss-all thead, .ss .ss-all tr { background: transparent; }
+.ss-wipe { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1 / 1; margin: 0 auto; border-radius: 10px; overflow: hidden; user-select: none; touch-action: none; background: var(--soft); }
+.ss .ss-wipe img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; margin: 0; }
+.ss-wipe .bar { position: absolute; top: 0; bottom: 0; width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); transform: translateX(-1px); pointer-events: none; }
+.ss-wipe .knob { position: absolute; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: #fff; color: #52514e; box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); pointer-events: none; display: grid; place-items: center; font-size: 13px; }
+.ss-wipe .tag { position: absolute; top: 8px; padding: 3px 8px; border-radius: 6px; background: rgba(0, 0, 0, 0.62); color: #fff; font-size: 0.74em; pointer-events: none; }
+.ss-wipe .tag.l { left: 8px; }
+.ss-wipe .tag.r { right: 8px; }
+.ss .ss-wipe input[type="range"] { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+.ss-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .ss-link { padding: 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); font-size: 0.86em; }
 .ss-link .h { font-weight: 700; margin-bottom: 2px; }
 .ss-link .s { color: var(--muted); }
@@ -93,6 +134,7 @@ html[data-theme="dark"] .ss { --c-und: #3987e5; --c-gen: #d95926; --c-wgt: #9085
   .ss .ss-name { font-size: 2.1em; }
   .ss-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ss-method { grid-template-columns: minmax(0, 1fr); }
+  .ss-charts { grid-template-columns: minmax(0, 1fr); }
   .ss-split .row { grid-template-columns: 1fr 3.2em; }
   .ss-split .row b { grid-column: 1 / -1; }
   .ss-links { grid-template-columns: minmax(0, 1fr); }
@@ -107,8 +149,8 @@ html[data-theme="dark"] .ss { --c-und: #3987e5; --c-gen: #d95926; --c-wgt: #9085
   <p class="ss-tagline">In a native unified model, generation is <em>starved</em>, not conflicted.</p>
   <p class="ss-lede">Unified multimodal models read and generate images with one backbone, and the generation gap that joint training opens is usually blamed on parameter sharing. <strong>StepShare</strong> splits every AdamW step exactly into an understanding part and a generation part, by depth: at equal loss weights the two gradients are nearly orthogonal, but the understanding gradient is about 100 times larger, so generation receives under 1% of the update. Restoring the share closes most of the FID gap without added parameters, more than task-specific routing, yet quietly lowers intermediate-layer probe accuracy by up to 7 points. <strong>StepShare-Adam</strong>, which restores the share with per-task Adam and allocates it by depth, closes 91% of the gap with essentially no probe cost.</p>
   <div class="ss-btns">
-    <a class="ss-btn primary" href="#interactive-demo"><svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M3 1.5v10l8.5-5z" fill="currentColor"/></svg>Interactive demo</a>
-    <a class="ss-btn ghost" href="/files/projects/2026-11-stepshare/demo/index.html" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M5 2H2v9h9V8M7.5 1.5h4v4M11.5 1.5 6 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Demo full screen</a>
+    <a class="ss-btn primary" href="#explore-every-arm"><svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><circle cx="3" cy="9.5" r="1.7" fill="currentColor"/><circle cx="6.5" cy="5.5" r="1.7" fill="currentColor"/><circle cx="10.5" cy="3" r="1.7" fill="currentColor"/></svg>Explore the results</a>
+    <a class="ss-btn ghost" href="#compare-samples"><svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><rect x="1" y="1.5" width="11" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 1.5v10" stroke="currentColor" stroke-width="1.3"/></svg>Compare samples</a>
     <span class="ss-btn soon" aria-disabled="true"><svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M3 1h5l3 3v8H3z M8 1v3h3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Paper · coming soon</span>
     <span class="ss-btn soon" aria-disabled="true"><svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M4.5 3 1.5 6.5l3 3.5M8.5 3l3 3.5-3 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Code · coming soon</span>
   </div>
@@ -169,6 +211,22 @@ html[data-theme="dark"] .ss { --c-und: #3987e5; --c-gen: #d95926; --c-wgt: #9085
     <span class="take">Reweighting and per-task Adam close most of the gap but cost 3 to 5 points in intermediate layers; StepShare-Adam keeps the gain, removes the cost, and adds no parameters.</span></figcaption>
 </figure>
 
+<p class="ss-k">Interactive</p>
+<h3 class="ss-h" id="explore-every-arm">Explore every arm</h3>
+<figure class="ss-fig" id="ss-explore" style="--accent:var(--c-spl)">
+  <div class="ss-ctl">
+    <label>Arm <select id="ss-arm" aria-label="Arm"></select></label>
+    <span class="ss-seg" role="group" aria-label="Probe set"><button type="button" data-probe="coco" aria-pressed="true">COCO probe</button><button type="button" data-probe="in" aria-pressed="false">ImageNet-100 probe</button></span>
+  </div>
+  <div class="ss-charts">
+    <div><div class="ss-ct">FID gap closed vs. hidden cost <span>· click a point to select it</span></div><div class="ss-chart" id="ss-scatter"></div><div class="ss-legend" id="ss-scatter-legend"></div></div>
+    <div><div class="ss-ct">Probe change by layer <span id="ss-profile-sub">· COCO, vs. und.-only</span></div><div class="ss-chart" id="ss-profile"></div><div class="ss-legend" id="ss-profile-legend"></div></div>
+  </div>
+  <figcaption><span id="ss-readout"><strong>StepShare-Adam.</strong> 91% ± 14 of the FID gap closed at guidance 1; worst COCO layer −0.5 points.</span>
+    <span class="take" id="ss-note">Per-task Adam with generation's step scaled by β = 0.3 in the shallow half closes 91% of the gap with a worst COCO layer of −0.5 and no added parameters.</span></figcaption>
+  <details class="ss-more"><summary>All 14 arms of Table 2</summary><table class="ss-all" id="ss-all"></table></details>
+</figure>
+
 <p class="ss-k">Analysis</p>
 <h3 class="ss-h" id="share-follows-ratio">The share follows the gradient ratio</h3>
 <figure class="ss-fig" style="--accent:var(--c-wgt)">
@@ -185,19 +243,29 @@ html[data-theme="dark"] .ss { --c-und: #3987e5; --c-gen: #d95926; --c-wgt: #9085
     <span class="take">At equal weights the dense model produces saturated high-frequency texture; restoring generation's share with StepShare-Adam gives layouts close to generation-only training.</span></figcaption>
 </figure>
 
-<h2 id="interactive-demo">Interactive demo</h2>
-
-<div class="ss-demo">
-  <p class="intro">Follow the guided tour or pick any arm: see how much of the FID gap it closes and in which layers its probe cost sits. <em>Step split</em> shows StepShare's measurements; <em>Samples</em> compares grids from the same noise.</p>
-  <iframe src="/files/projects/2026-11-stepshare/demo/index.html" width="100%" height="900" loading="lazy" title="StepShare interactive explorer"></iframe>
-</div>
+<figure class="ss-fig" id="ss-compare" data-base="/images/projects/2026-11-stepshare/samples" style="--accent:var(--c-spl)">
+  <div class="ss-ctl" id="compare-samples">
+    <label>Left <select id="ss-wa" aria-label="Left grid"></select></label>
+    <label>Right <select id="ss-wb" aria-label="Right grid"></select></label>
+    <span>Drag across the grid to compare.</span>
+  </div>
+  <div class="ss-wipe">
+    <img id="ss-ia" src="/images/projects/2026-11-stepshare/samples/dense.webp" alt="36 samples, Dense, w = 1">
+    <img id="ss-ib" src="/images/projects/2026-11-stepshare/samples/ssadam.webp" alt="36 samples, StepShare-Adam" style="clip-path: inset(0 0 0 50%)">
+    <div class="bar" style="left:50%"></div><div class="knob" style="left:50%" aria-hidden="true">⇆</div>
+    <div class="tag l" id="ss-ta">Dense, w = 1 · FID 340</div><div class="tag r" id="ss-tb">StepShare-Adam · FID 142</div>
+    <input type="range" id="ss-wpos" min="0" max="100" value="50" step="0.5" aria-label="Comparison divider position">
+  </div>
+  <figcaption><strong>Compare any two arms.</strong> The first 36 FID samples of each arm without selection (seed 0, guidance scale 4); every cell uses the same caption and initial noise in all grids, so cells compare one to one. FID is that seed's.</figcaption>
+</figure>
 
 <h2 id="links-and-citation">Links and citation</h2>
 
 <div class="ss-links">
   <div class="ss-link"><div class="h">Paper</div><div class="s">Under review; the PDF and BibTeX will be linked here when they are public.</div></div>
   <div class="ss-link"><div class="h">Code</div><div class="s">Will be released with the paper.</div></div>
-  <div class="ss-link"><div class="h">Demo</div><div class="s"><a href="/files/projects/2026-11-stepshare/demo/index.html" target="_blank" rel="noopener">Open the explorer full screen</a>; all numbers are the paper's logged results.</div></div>
 </div>
 
 </div>
+
+<script src="/files/projects/2026-11-stepshare/explore.js" defer></script>
