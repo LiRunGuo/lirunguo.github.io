@@ -5,154 +5,197 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RefAudit interactive demo</title>
 <style>
-:root{--x50:#7a7a7a;--x50bg:#f0f0f0;--conv:#1f5fa8;--convbg:#e6eef8;--ink:#1d1d1f;--mute:#5f6368;--line:#dcdcdc;
---cache:#d62728;--oss:#2ca02c;--euler:#444;--uni:#a3a3a3;--unipcs:#e07b17}
+:root{--bg:#fff;--card:#fff;--soft:#f5f7fa;--ink:#1b1f24;--mute:#5d6570;--line:#e2e6eb;
+  --x50:#7b828a;--x50soft:#eef0f3;--conv:#1f5fa8;--convsoft:#e7f0fb;
+  --cache:#d62728;--oss:#26993a;--euler:#3a3f45;--uni:#a9b0b8;--unis:#e07b17;
+  --shadow:0 1px 2px rgba(16,24,40,.05),0 6px 18px rgba(16,24,40,.07);--r:12px}
+:root[data-theme=dark]{--bg:#2b2e32;--card:#33373c;--soft:#3a3f45;--ink:#f0f2f4;--mute:#b3bac2;--line:#4a5058;
+  --x50:#a3aab2;--x50soft:#41464d;--conv:#78b0f0;--convsoft:#2f4258;
+  --cache:#f26b67;--oss:#55c766;--euler:#dfe3e7;--uni:#868e97;--shadow:none}
 *{box-sizing:border-box}
-body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:#fff}
-.wrap{max-width:900px;margin:0 auto;padding:12px 14px 18px;overflow-x:hidden}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:12px}
-.tab{border:0;background:none;padding:8px 10px;font:inherit;font-weight:600;color:var(--mute);cursor:pointer;border-bottom:3px solid transparent}
-.tab[aria-selected=true]{color:var(--ink);border-bottom-color:var(--conv)}
-.panel{display:none}.panel.on{display:block}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px}
-.lab{font-size:12px;color:var(--mute);min-width:62px}
-.seg{display:inline-flex;flex-wrap:wrap;max-width:100%;border:1px solid var(--line);border-radius:7px;overflow:hidden}
-.seg button{border:0;background:#fff;padding:5px 10px;font:inherit;font-size:13px;cursor:pointer;border-right:1px solid var(--line)}
-.seg button:last-child{border-right:0}
-.seg button[aria-pressed=true]{background:#2b2b2b;color:#fff}
-.ref button[data-ref=x50][aria-pressed=true]{background:var(--x50);color:#fff}
-.ref button[data-ref=conv][aria-pressed=true]{background:var(--conv);color:#fff}
-.note{font-size:13px;color:var(--mute);margin:6px 0 10px}
-.msg{padding:8px 10px;border-radius:7px;margin:4px 0 10px;font-size:13.5px}
-.msg.x50{background:var(--x50bg)}.msg.conv{background:var(--convbg)}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font:14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:14px 14px 20px;overflow-x:hidden}
+/* tabs */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:4px;background:var(--soft);border-radius:999px;margin-bottom:14px;width:fit-content;max-width:100%}
+.tab{border:0;background:transparent;color:var(--mute);font:inherit;font-weight:600;font-size:13.5px;padding:7px 14px 7px 8px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .2s,color .2s}
+.tab .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;background:var(--line);color:var(--ink)}
+.tab[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.tab[aria-selected=true] .n{background:var(--conv);color:#fff}
+.panel{display:none}.panel.on{display:block}.panel.anim{animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:14px 16px}
+.controls{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center;margin-bottom:12px}
+.lab{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;max-width:100%}
+.seg button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:5px 11px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;transition:all .15s}
+.seg button:hover{border-color:var(--mute)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ref button[data-ref=x50][aria-pressed=true]{background:var(--x50);border-color:var(--x50);color:#fff}
+.ref button[data-ref=conv][aria-pressed=true]{background:var(--conv);border-color:var(--conv);color:#fff}
+/* callouts */
+.callout{border-left:4px solid var(--x50);background:var(--x50soft);border-radius:8px;padding:9px 12px;font-size:13.5px;margin:0 0 12px}
+.callout.conv{border-left-color:var(--conv);background:var(--convsoft)}
+.chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:1px 8px;border-radius:999px;margin-right:6px;color:#fff;background:var(--x50);vertical-align:1px}
+.callout.conv .chip{background:var(--conv)}
+/* rank change strip */
+.strip{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 12px}
+.rc{flex:1 1 220px;display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}
+.rc .who{font-weight:700;font-size:13.5px;flex:1}
+.rk{font-variant-numeric:tabular-nums;font-weight:800;font-size:18px;line-height:1}
+.rk small{display:block;font-size:10px;font-weight:600;letter-spacing:.05em;color:var(--mute);text-transform:uppercase;margin-top:3px}
+.arrow{color:var(--mute);font-size:18px}
+/* ranking chart */
 .chart{position:relative;transition:height .3s}
-.bar{position:absolute;left:0;right:0;height:30px;display:flex;align-items:center;gap:8px;transition:top .55s cubic-bezier(.2,.8,.2,1)}
-.rank{width:22px;height:22px;border-radius:50%;background:#eee;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
-.bar.top .rank{background:#111;color:#fff}
+.bar{position:absolute;left:0;right:0;height:32px;display:flex;align-items:center;gap:10px;transition:top .55s cubic-bezier(.2,.8,.2,1)}
+.rank{width:24px;height:24px;border-radius:50%;background:var(--soft);border:1px solid var(--line);font-size:12px;font-weight:700;display:grid;place-items:center;flex:none}
+.bar.top .rank{background:var(--topc,var(--ink));border-color:transparent;color:#fff}
 .name{width:190px;flex:none;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.track{position:relative;flex:1;height:16px;margin-right:64px}
-.fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;transition:width .55s cubic-bezier(.2,.8,.2,1)}
-.val{position:absolute;top:-1px;background:rgba(255,255,255,.85);z-index:2;font-size:12px;font-variant-numeric:tabular-nums;transition:left .55s cubic-bezier(.2,.8,.2,1);padding-left:6px;white-space:nowrap}
-.k-cache .fill{background:var(--cache)}.k-cache_unipc .fill{background:#fff;border:2px solid var(--cache)}
-.k-oss_unipc .fill{background:var(--oss)}.k-oss_euler .fill{background:#fff;border:2px solid var(--euler)}.k-uniform .fill{background:var(--uni)}
-.ref50line{position:absolute;top:0;bottom:0;border-left:2px dashed #888;pointer-events:none;transition:left .55s;z-index:1}
-.ref50tag{position:absolute;top:-16px;font-size:11px;color:#666;white-space:nowrap;transform:translateX(-50%)}
-.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--mute);margin:4px 64px 0 230px}
-.eq{font-variant-numeric:tabular-nums}
-.split{display:grid;grid-template-columns:150px 1fr;gap:10px 10px;align-items:center;margin-top:6px}
-.sbar{position:relative;height:24px;background:#fafafa;border-radius:3px}
-.seg2{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;overflow:hidden;white-space:nowrap}
-.s-conv{background:var(--conv)}.s-const{background:#b9b9b9;color:#222}
-.s-c{background:repeating-linear-gradient(45deg,rgba(214,39,40,.75) 0 6px,rgba(214,39,40,.45) 6px 12px);color:#fff}
-.s-std{position:absolute;top:-4px;bottom:-4px;border:2px solid #111;border-radius:3px;pointer-events:none}
-.mini{display:flex;align-items:center;gap:8px;height:17px}
-.mlab{width:62px;flex:none;font-size:11.5px;color:var(--mute);text-align:right}
-.mtrack{position:relative;flex:1;height:11px;margin-right:36px}
-.mfill{position:absolute;left:0;top:0;bottom:0;border-radius:2px}
-.mval{position:absolute;top:-3px;padding-left:5px;font-size:11.5px;font-variant-numeric:tabular-nums}
-.m-conv{background:var(--conv)}.m-c{background:repeating-linear-gradient(45deg,#d62728 0 5px,#ec9a9b 5px 10px)}.m-std{background:var(--x50)}
-.split .eq{font-size:11.5px;color:var(--mute)}
-.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--mute);margin:8px 0}
-.sw{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-2px;margin-right:4px}
-.cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
-.card{position:relative;border:2px solid transparent;border-radius:6px;padding:4px;background:#fafafa}
-.card img{width:100%;display:block;border-radius:3px;aspect-ratio:1/1;object-fit:cover}
-.card .t{font-size:12px;margin:4px 0 0;min-height:32px}
-.card .p{font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:600}
-.badge{position:absolute;top:8px;right:8px;font-size:11px;font-weight:700;color:#fff;padding:2px 6px;border-radius:9px}
-.card.best{border-color:currentColor}
-@media (max-width:640px){.name{width:112px;font-size:12px}.axis{margin-left:150px;margin-right:64px}.mlab{width:52px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.lab{min-width:0;width:100%}.seg button{padding:5px 8px;font-size:12.5px}.split{grid-template-columns:90px 1fr}}
+.track{position:relative;flex:1;height:14px;margin-right:66px;background:var(--soft);border-radius:999px}
+.fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;transition:width .55s cubic-bezier(.2,.8,.2,1)}
+.val{position:absolute;top:-2px;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;transition:left .55s cubic-bezier(.2,.8,.2,1);padding-left:7px;white-space:nowrap;z-index:2}
+.k-cache .fill{background:var(--cache)}.k-cache_unipc .fill{background:transparent;box-shadow:inset 0 0 0 2px var(--cache)}
+.k-oss_unipc .fill{background:var(--oss)}.k-oss_euler .fill{background:transparent;box-shadow:inset 0 0 0 2px var(--euler)}.k-uniform .fill{background:var(--uni)}
+.ref50line{position:absolute;top:-4px;bottom:-4px;border-left:2px dashed var(--mute);pointer-events:none;transition:left .55s;z-index:1;opacity:.8}
+.ref50tag{position:absolute;top:-18px;font-size:11px;color:var(--mute);white-space:nowrap;transform:translateX(-50%)}
+.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--mute);margin:8px 66px 0 224px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--mute);margin:12px 0 0}
+.sw{display:inline-block;width:14px;height:10px;border-radius:999px;vertical-align:0;margin-right:5px}
+.note{font-size:12.5px;color:var(--mute);margin:10px 2px 0}
+/* eq 1 */
+.eqbox{font-size:15px;text-align:center;margin:2px 0 12px;padding:10px;background:var(--soft);border-radius:10px;font-variant-numeric:tabular-nums}
+.t-std{color:var(--x50);font-weight:700}.t-conv{color:var(--conv);font-weight:700}.t-c{color:var(--cache);font-weight:700}
+.split{display:grid;grid-template-columns:170px 1fr;gap:14px 14px;align-items:center}
+.split .who b{font-size:14px}.split .eq{font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums}
+.mini{display:flex;align-items:center;gap:8px;height:18px}
+.mlab{width:64px;flex:none;font-size:11.5px;color:var(--mute);text-align:right}
+.mtrack{position:relative;flex:1;height:10px;margin-right:38px;background:var(--soft);border-radius:999px}
+.mfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px}
+.mval{position:absolute;top:-3px;padding-left:6px;font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.m-conv{background:var(--conv)}.m-c{background:repeating-linear-gradient(45deg,var(--cache) 0 5px,color-mix(in srgb,var(--cache) 45%,transparent) 5px 10px)}.m-std{background:var(--x50)}
+/* images */
+.cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.icard{position:relative;border-radius:10px;padding:6px;background:var(--soft);border:2px solid transparent;transition:border-color .25s,transform .25s}
+.icard img{width:100%;display:block;border-radius:6px;aspect-ratio:1/1;object-fit:cover;transition:transform .3s}
+.icard:hover img{transform:scale(1.03)}
+.icard .t{font-size:12px;margin:6px 2px 0;min-height:34px;line-height:1.35}
+.icard .p{font-size:14px;font-variant-numeric:tabular-nums;font-weight:800;margin:0 2px}
+.icard.best{border-color:var(--bc)}
+.badge{position:absolute;top:12px;right:12px;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#fff;padding:2px 8px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+@media (max-width:640px){.name{width:112px;font-size:12px}.axis{margin-left:146px}.track{margin-right:58px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}.controls{grid-template-columns:1fr}
+  .tab{padding:6px 10px 6px 6px;font-size:12.5px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" aria-selected="true" data-p="p1">1 · Ranking flips</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="p2">2 · Shared error (Eq. 1)</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="p3">3 · One prompt</button>
-  </div>
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-p="p1"><span class="n">1</span>Ranking flips</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="p2"><span class="n">2</span>Shared error</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="p3"><span class="n">3</span>One prompt</button>
+  </nav>
 
-  <section class="panel on" id="p1" role="tabpanel">
-    <div class="row"><span class="lab">Model</span><span class="seg" id="models"></span></div>
-    <div class="row"><span class="lab">Budget</span><span class="seg" id="budgets"></span></div>
-    <div class="row"><span class="lab">Reference</span><span class="seg ref" id="ref1">
-      <button data-ref="x50" aria-pressed="true">50-step output x<sub>50</sub></button>
-      <button data-ref="conv" aria-pressed="false">converged x<sup>*</sup> (RefAudit)</button></span></div>
-    <div class="msg x50" id="msg1"></div>
+  <section class="panel on card" id="p1" role="tabpanel">
+    <div class="controls">
+      <span class="lab">Model</span><span class="seg" id="models"></span>
+      <span class="lab">Budget</span><span class="seg" id="budgets"></span>
+      <span class="lab">Reference</span><span class="seg ref" id="ref1">
+        <button data-ref="x50" aria-pressed="true">50-step output x<sub>50</sub></button>
+        <button data-ref="conv" aria-pressed="false">converged x<sup>*</sup> · RefAudit</button></span>
+    </div>
+    <div class="strip" id="strip"></div>
+    <div class="callout" id="msg1"></div>
     <div class="chart" id="chart"></div>
     <div class="axis" id="axis"></div>
     <div class="legend">
       <span><i class="sw" style="background:var(--cache)"></i>cache as shipped</span>
-      <span><i class="sw" style="border:2px solid var(--cache)"></i>cache with UniPC as base sampler</span>
+      <span><i class="sw" style="box-shadow:inset 0 0 0 2px var(--cache)"></i>cache + UniPC</span>
       <span><i class="sw" style="background:var(--oss)"></i>OSS + UniPC</span>
-      <span><i class="sw" style="border:2px solid var(--euler)"></i>OSS + Euler</span>
+      <span><i class="sw" style="box-shadow:inset 0 0 0 2px var(--euler)"></i>OSS + Euler</span>
       <span><i class="sw" style="background:var(--uni)"></i>tuned uniform grid</span>
     </div>
-    <p class="note">Mean PSNR (dB) over DrawBench-100 (images) or 60 VBench prompts (Wan2.1), at equal computed steps. The converged
-      reference is UniPC with exact time conditioning, 200 steps, checked against Euler-1600 and dopri5. Values from the paper's Fig. 3 and its counterpart against the 50-step output in the supplement.</p>
+    <p class="note">Mean PSNR over DrawBench-100 (images) or 60 VBench prompts (Wan2.1), at equal computed steps. x<sup>*</sup>: UniPC with
+      exact time conditioning, 200 steps, checked against Euler-1600 and dopri5. Values from the paper's Fig. 3 and its 50-step counterpart.</p>
   </section>
 
-  <section class="panel" id="p2" role="tabpanel">
-    <div class="row"><span class="lab">Setting</span><span class="seg" id="settings"></span></div>
-    <p class="note eq">Eq. (1): MSE(x, x<sub>50</sub>) = MSE(x, x<sup>*</sup>) + MSE(x<sub>50</sub>, x<sup>*</sup>) − c(x), where
-      c is twice the inner product of the two errors: the error a run <b>shares</b> with the 50-step output. Pixel MSE ×10<sup>−3</sup>, mean over prompts.</p>
+  <section class="panel card" id="p2" role="tabpanel">
+    <div class="controls"><span class="lab">Setting</span><span class="seg" id="settings"></span></div>
+    <div class="eqbox"><span class="t-std">MSE(x, x<sub>50</sub>)</span> = <span class="t-conv">MSE(x, x<sup>*</sup>)</span> +
+      MSE(x<sub>50</sub>, x<sup>*</sup>) − <span class="t-c">c(x)</span></div>
     <div id="splitbox"></div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--conv)"></i>error to x<sup>*</sup> (accuracy)</span>
-      <span><i class="sw" style="background:repeating-linear-gradient(45deg,#d62728 0 4px,#ec9a9b 4px 8px)"></i>shared error c (subtracted)</span>
+      <span><i class="sw" style="background:var(--conv)"></i>error to x<sup>*</sup>: accuracy</span>
+      <span><i class="sw m-c"></i>shared error c, subtracted</span>
       <span><i class="sw" style="background:var(--x50)"></i>error to x<sub>50</sub>: the standard score</span>
     </div>
-    <div class="msg conv" id="msg2"></div>
+    <div class="callout conv" id="msg2" style="margin-top:12px"></div>
+    <p class="note">c(x) = 2⟨x − x<sup>*</sup>, x<sub>50</sub> − x<sup>*</sup>⟩ / d is the error a run shares with the 50-step output.
+      Pixel MSE ×10<sup>−3</sup>, mean over prompts (paper, Eq. 1 and Supp. C.3).</p>
   </section>
 
-  <section class="panel" id="p3" role="tabpanel">
-    <div class="row"><span class="lab">Reference</span><span class="seg ref" id="ref3">
-      <button data-ref="x50" aria-pressed="true">50-step output x<sub>50</sub></button>
-      <button data-ref="conv" aria-pressed="false">converged x<sup>*</sup></button></span>
-      <span class="seg" id="view3"><button data-v="img" aria-pressed="true">images</button><button data-v="err" aria-pressed="false">|error| to x<sup>*</sup></button></span></div>
-    <div class="msg x50" id="msg3"></div>
+  <section class="panel card" id="p3" role="tabpanel">
+    <div class="controls">
+      <span class="lab">Reference</span><span class="seg ref" id="ref3">
+        <button data-ref="x50" aria-pressed="true">50-step output x<sub>50</sub></button>
+        <button data-ref="conv" aria-pressed="false">converged x<sup>*</sup></button></span>
+      <span class="lab">Show</span><span class="seg" id="view3"><button data-v="img" aria-pressed="true">images</button><button data-v="err" aria-pressed="false">|error| to x<sup>*</sup></button></span>
+    </div>
+    <div class="callout" id="msg3"></div>
     <div class="cards" id="cards"></div>
-    <p class="note">FLUX.1-dev, DrawBench prompt #2 “<span id="prompt"></span>”, seed 0, 15 computed steps. PSNR (dB) of each run to the selected
-      reference; the badge marks the 15-step run closest to it. Error maps share one color scale. This prompt is the one shown in the paper's Fig. 1(d);
-      Supp. Sec. H.3 explains the selection and shows prompts chosen without selection.</p>
+    <p class="note">FLUX.1-dev, DrawBench prompt #2 “<span id="prompt"></span>”, seed 0, 15 computed steps; PSNR to the selected reference.
+      Error maps share one color scale. The prompt is the paper's Fig. 1(d); Supp. Sec. H.3 explains the selection.</p>
   </section>
 </div>
 <script>
 const D = {"groups":{"FLUX.1-dev":{"10 steps":[{"name":"TaylorSeer","kind":"cache","x50":15.26,"conv":14.13},{"name":"TaylorSeer + UniPC","kind":"cache_unipc","x50":14.52,"conv":14.1},{"name":"OSS + Euler","kind":"oss_euler","x50":20.76,"conv":16.75},{"name":"OSS + UniPC","kind":"oss_unipc","x50":18.06,"conv":17.47},{"name":"tuned uniform + UniPC","kind":"uniform","x50":15.81,"conv":14.0}],"15 steps":[{"name":"MagCache","kind":"cache","x50":22.34,"conv":16.98},{"name":"MagCache + UniPC","kind":"cache_unipc","x50":19.71,"conv":18.25},{"name":"OSS + Euler","kind":"oss_euler","x50":23.46,"conv":17.25},{"name":"OSS + UniPC","kind":"oss_unipc","x50":19.31,"conv":18.84},{"name":"tuned uniform + UniPC","kind":"uniform","x50":19.14,"conv":15.76}],"18\u201320 steps":[{"name":"MagCache (18)","kind":"cache","x50":23.2,"conv":17.07},{"name":"MagCache + UniPC (18)","kind":"cache_unipc","x50":19.98,"conv":18.53},{"name":"TeaCache (20)","kind":"cache","x50":17.77,"conv":15.34},{"name":"TeaCache + UniPC (19.9)","kind":"cache_unipc","x50":18.0,"conv":15.57},{"name":"OSS + Euler (20)","kind":"oss_euler","x50":24.82,"conv":17.4},{"name":"OSS + UniPC (20)","kind":"oss_unipc","x50":19.34,"conv":19.04},{"name":"tuned uniform + UniPC (20)","kind":"uniform","x50":20.35,"conv":17.31}]},"SD3.5-Large":{"10 steps":[{"name":"TeaCache","kind":"cache","x50":16.28,"conv":14.2},{"name":"TeaCache + UniPC","kind":"cache_unipc","x50":15.91,"conv":14.71},{"name":"OSS + Euler","kind":"oss_euler","x50":20.18,"conv":15.59},{"name":"OSS + UniPC","kind":"oss_unipc","x50":16.5,"conv":15.63},{"name":"tuned uniform + UniPC","kind":"uniform","x50":16.88,"conv":14.71}],"14 steps":[{"name":"MagCache","kind":"cache","x50":20.74,"conv":15.84},{"name":"MagCache + UniPC","kind":"cache_unipc","x50":17.67,"conv":16.9},{"name":"OSS + Euler","kind":"oss_euler","x50":23.2,"conv":16.12},{"name":"OSS + UniPC","kind":"oss_unipc","x50":17.51,"conv":17.3}],"18 steps":[{"name":"MagCache","kind":"cache","x50":22.43,"conv":16.13},{"name":"MagCache + UniPC","kind":"cache_unipc","x50":18.22,"conv":17.49},{"name":"OSS + Euler","kind":"oss_euler","x50":25.06,"conv":16.3},{"name":"OSS + UniPC","kind":"oss_unipc","x50":17.97,"conv":17.83}]},"Wan2.1-1.3B":{"10 steps":[{"name":"TaylorSeer","kind":"cache","x50":12.54,"conv":12.03},{"name":"OSS + Euler","kind":"oss_euler","x50":17.87,"conv":16.1},{"name":"OSS + UniPC","kind":"oss_unipc","x50":20.65,"conv":16.9},{"name":"tuned uniform + UniPC","kind":"uniform","x50":18.45,"conv":16.06}],"21 steps":[{"name":"MagCache","kind":"cache","x50":25.43,"conv":17.63},{"name":"OSS + Euler","kind":"oss_euler","x50":18.19,"conv":16.12},{"name":"OSS + UniPC","kind":"oss_unipc","x50":28.15,"conv":17.19},{"name":"tuned uniform + UniPC","kind":"uniform","x50":20.55,"conv":16.62}],"25 steps":[{"name":"MagCache","kind":"cache","x50":27.45,"conv":17.59},{"name":"TeaCache","kind":"cache","x50":23.02,"conv":17.54},{"name":"OSS + Euler","kind":"oss_euler","x50":18.31,"conv":16.18},{"name":"OSS + UniPC","kind":"oss_unipc","x50":30.69,"conv":17.34},{"name":"tuned uniform + UniPC","kind":"uniform","x50":23.46,"conv":17.17}]}},"ref50":{"FLUX.1-dev":17.55,"SD3.5-Large":16.46,"Wan2.1-1.3B":17.37},"split":{"FLUX.1-dev, 15 steps":{"rows":[{"name":"MagCache","std":8.62,"conv":26.9,"c":43.82,"rho":0.79,"n":100},{"name":"OSS + Euler","std":6.68,"conv":26.03,"c":44.89,"rho":0.83,"n":100},{"name":"OSS + UniPC","std":16.73,"conv":21.29,"c":30.1,"rho":0.56,"n":100}],"const":25.54},"SD3.5-Large, 14 steps":{"rows":[{"name":"MagCache","std":10.53,"conv":34.24,"c":57.11,"rho":0.78,"n":100},{"name":"OSS + Euler","std":5.97,"conv":33.26,"c":60.7,"rho":0.86,"n":100},{"name":"OSS + UniPC","std":23.59,"conv":28.95,"c":38.77,"rho":0.57,"n":100}],"const":33.41},"Wan2.1-1.3B, 21 steps":{"rows":[{"name":"MagCache","std":3.86,"conv":27.26,"c":51.85,"rho":0.9,"n":16},{"name":"OSS + Euler","std":17.52,"conv":32.56,"c":43.49,"rho":0.65,"n":16},{"name":"OSS + UniPC","std":2.06,"conv":29.01,"c":55.39,"rho":0.95,"n":16}],"const":28.45}},"images":[{"name":"Converged x*","img":"converged","err":null,"x50":24.8,"conv":null},{"name":"50-step output x50","img":"std50","err":"std50_err","x50":null,"conv":24.8},{"name":"MagCache, 15 steps","img":"magcache","err":"magcache_err","x50":29.4,"conv":23.5},{"name":"UniPC on MagCache's 15 steps","img":"unipc_s","err":"unipc_s_err","x50":24.7,"conv":31.3},{"name":"OSS + UniPC, 15 steps","img":"oss_unipc","err":"oss_unipc_err","x50":24.0,"conv":29.8}],"prompt":"A red colored dog."};
 const $ = s => document.querySelector(s);
-const COLOR = {cache:"var(--cache)", cache_unipc:"var(--cache)", oss_unipc:"var(--oss)", oss_euler:"var(--euler)", uniform:"var(--uni)"};
 let model = "FLUX.1-dev", budget = "15 steps", ref = "x50", setting = Object.keys(D.split)[0], ref3 = "x50", view3 = "img";
 
-document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
-  document.querySelectorAll(".tab").forEach(u => u.setAttribute("aria-selected", u === t));
-  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id === t.dataset.p));
-});
+/* theme: follow the embedding site (same origin) or the system setting */
+function applyTheme() {
+  let t = null;
+  try { t = window.parent !== window ? window.parent.document.documentElement.getAttribute("data-theme") : null; } catch (e) {}
+  if (t === null && window.parent === window) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : null;
+  document.documentElement.toggleAttribute("data-theme", t === "dark");
+  if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+}
+applyTheme();
+try { if (window.parent !== window) new MutationObserver(() => { applyTheme(); draw1(); })
+  .observe(window.parent.document.documentElement, {attributes: true, attributeFilter: ["data-theme"]}); } catch (e) {}
+
+function showTab(p, anim) {
+  document.querySelectorAll(".tab").forEach(u => u.setAttribute("aria-selected", u.dataset.p === p));
+  document.querySelectorAll(".panel").forEach(x => { x.classList.toggle("on", x.id === p); x.classList.toggle("anim", anim && x.id === p); });
+  if (p === "p1") draw1();
+}
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => showTab(t.dataset.p, true));
 function seg(el, items, cur, on) {
   el.innerHTML = "";
   items.forEach(k => { const b = document.createElement("button"); b.textContent = k; b.setAttribute("aria-pressed", k === cur);
     b.onclick = () => on(k); el.appendChild(b); });
 }
 function pressed(el, attr, val) { el.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset[attr] === val)); }
-const short = {"FLUX.1-dev": "FLUX.1-dev", "SD3.5-Large": "SD3.5-Large", "Wan2.1-1.3B": "Wan2.1-1.3B"};
+const rankOf = (runs, key, name) => [...runs].sort((a, b) => b[key] - a[key]).findIndex(r => r.name === name) + 1;
 
 /* ---------- tab 1 ---------- */
-const ROW = 36;
+const ROW = 38;
 function draw1() {
   seg($("#models"), Object.keys(D.groups), model, k => { model = k; budget = Object.keys(D.groups[k]).find(b => b.startsWith("15")) || Object.keys(D.groups[k])[1]; draw1(); });
   seg($("#budgets"), Object.keys(D.groups[model]), budget, k => { budget = k; draw1(); });
   pressed($("#ref1"), "ref", ref);
   const runs = D.groups[model][budget];
-  const all = runs.flatMap(r => [r.x50, r.conv]).concat(D.ref50[model]);
-  const lo = Math.floor(Math.min(...runs.map(r => r[ref])) - 1), hi = Math.ceil(Math.max(...runs.map(r => r[ref]).concat(ref === "conv" ? [D.ref50[model]] : [])) + 0.5);
+  const lo = Math.floor(Math.min(...runs.map(r => r[ref])) - 1);
+  const hi = Math.ceil(Math.max(...runs.map(r => r[ref]).concat(ref === "conv" ? [D.ref50[model]] : [])) + 0.5);
   const sorted = [...runs].sort((a, b) => b[ref] - a[ref]);
   const chart = $("#chart"); chart.style.height = (runs.length * ROW) + "px";
+  chart.style.setProperty("--topc", ref === "x50" ? "var(--x50)" : "var(--conv)");
   const keep = {}; chart.querySelectorAll(".bar").forEach(e => keep[e.dataset.n] = e);
   chart.querySelectorAll(".bar").forEach(e => { if (!runs.find(r => r.name === e.dataset.n)) e.remove(); });
   sorted.forEach((r, i) => {
     let e = keep[r.name];
-    if (!e) { e = document.createElement("div"); e.dataset.n = r.name; e.className = "bar";
+    if (!e) { e = document.createElement("div"); e.dataset.n = r.name;
       e.innerHTML = '<span class="rank"></span><span class="name"></span><span class="track"><span class="fill"></span><span class="val"></span></span>';
-      e.style.top = (i * ROW) + "px"; chart.appendChild(e); }
+      chart.appendChild(e); }
     e.className = "bar k-" + r.kind + (i === 0 ? " top" : "");
     e.querySelector(".rank").textContent = i + 1;
     e.querySelector(".name").textContent = r.name;
@@ -163,21 +206,29 @@ function draw1() {
   let line = chart.querySelector(".ref50line");
   if (ref === "conv") {
     if (!line) { line = document.createElement("div"); line.className = "ref50line"; line.innerHTML = '<span class="ref50tag">50-step output</span>'; chart.appendChild(line); }
-    const tr = chart.querySelector(".track"), off = tr ? tr.offsetLeft : 230, tw = tr ? tr.offsetWidth : 400;
-    line.style.left = (off + tw * (D.ref50[model] - lo) / (hi - lo)) + "px";
+    const tr = chart.querySelector(".track");
+    line.style.left = (tr.offsetLeft + tr.offsetWidth * (D.ref50[model] - lo) / (hi - lo)) + "px";
   } else if (line) line.remove();
   $("#axis").innerHTML = `<span>${lo} dB</span><span>PSNR to ${ref === "x50" ? "x<sub>50</sub>" : "x<sup>*</sup>"}</span><span>${hi} dB</span>`;
+  // rank change of OSS + UniPC and of the budget's first cache
+  const oss = runs.find(r => r.kind === "oss_unipc"), cache = runs.find(r => r.kind === "cache");
+  $("#strip").innerHTML = [oss, cache].filter(Boolean).map(r => {
+    const a = rankOf(runs, "x50", r.name), b = rankOf(runs, "conv", r.name);
+    const col = r.kind === "oss_unipc" ? "var(--oss)" : "var(--cache)";
+    return `<div class="rc"><span class="who" style="color:${col}">${r.name}</span>
+      <span class="rk" style="color:var(--x50)">#${a}<small>vs x₅₀</small></span><span class="arrow">→</span>
+      <span class="rk" style="color:var(--conv)">#${b}<small>vs x*</small></span></div>`;
+  }).join("");
   const other = ref === "x50" ? "conv" : "x50", top = sorted[0];
-  const rankOther = [...runs].sort((a, b) => b[other] - a[other]).findIndex(r => r.name === top.name) + 1;
   const topOther = [...runs].sort((a, b) => b[other] - a[other])[0];
-  const m = $("#msg1"); m.className = "msg " + ref;
+  const m = $("#msg1"); m.className = "callout" + (ref === "conv" ? " conv" : "");
   m.innerHTML = ref === "x50"
-    ? `<b>Standard protocol:</b> closest to the 50-step output is <b>${top.name}</b>. Against the converged reference it ranks #${rankOther}; switch the reference to see who is closest to the model's ODE solution.`
-    : `<b>RefAudit:</b> closest to the converged reference is <b>${top.name}</b>, which ranks #${rankOther} against the 50-step output (there: ${topOther.name}).` +
+    ? `<span class="chip">Standard protocol</span>closest to the 50-step output: <b>${top.name}</b> (#${rankOf(runs, "conv", top.name)} against x<sup>*</sup>). Switch the reference to RefAudit's converged x<sup>*</sup>.`
+    : `<span class="chip">RefAudit</span>closest to the converged reference: <b>${top.name}</b>, #${rankOf(runs, "x50", top.name)} against the 50-step output (there: ${topOther.name}).` +
       (model === "Wan2.1-1.3B" ? " Wan2.1's 50-step sampler is UniPC, so the 50-step score already favors the UniPC family; on the default grid the caches keep a small edge at 21–25 steps." : "");
 }
 $("#ref1").querySelectorAll("button").forEach(b => b.onclick = () => { ref = b.dataset.ref; draw1(); });
-window.addEventListener("resize", () => draw1());
+addEventListener("resize", () => draw1());
 
 /* ---------- tab 2 ---------- */
 function draw2() {
@@ -188,16 +239,16 @@ function draw2() {
   const line = (cls, v, txt) => `<div class="mini"><span class="mlab">${txt}</span><span class="mtrack"><span class="mfill ${cls}" style="width:${pct(v)}"></span><span class="mval" style="left:${pct(v)}">${v.toFixed(1)}</span></span></div>`;
   let h = '<div class="split">';
   S.rows.forEach(r => {
-    h += `<div><b>${r.name}</b><div class="eq">${r.std.toFixed(1)} = ${r.conv.toFixed(1)} + ${C.toFixed(1)} − ${r.c.toFixed(1)}</div></div><div>` +
+    h += `<div class="who"><b>${r.name}</b><div class="eq"><span class="t-std">${r.std.toFixed(1)}</span> = <span class="t-conv">${r.conv.toFixed(1)}</span> + ${C.toFixed(1)} − <span class="t-c">${r.c.toFixed(1)}</span></div></div><div>` +
       line("m-conv", r.conv, "to x<sup>*</sup>") + line("m-c", r.c, "shared c") + line("m-std", r.std, "to x<sub>50</sub>") + "</div>";
   });
   $("#splitbox").innerHTML = h + "</div>";
   const by = k => [...S.rows].sort((a, b) => a[k] - b[k])[0];
   const b50 = by("std"), bc = by("conv"), bigc = [...S.rows].sort((a, b) => b.c - a.c)[0];
-  $("#msg2").innerHTML = `Smallest error to x<sub>50</sub>: <b>${b50.name}</b> (${b50.std.toFixed(1)}). Smallest error to x<sup>*</sup>: <b>${bc.name}</b> (${bc.conv.toFixed(1)}). ` +
-    `The largest shared error belongs to <b>${bigc.name}</b> (c = ${bigc.c.toFixed(1)}; cosine ${bigc.rho.toFixed(2)} between its error and the 50-step output's). ` +
+  $("#msg2").innerHTML = `<span class="chip">Reading</span>closest to x<sub>50</sub>: <b>${b50.name}</b> (${b50.std.toFixed(1)}); closest to x<sup>*</sup>: <b>${bc.name}</b> (${bc.conv.toFixed(1)}). ` +
+    `Largest shared error: <b>${bigc.name}</b> (c = ${bigc.c.toFixed(1)}, cosine ${bigc.rho.toFixed(2)} with the 50-step output's error). ` +
     (b50.name !== bc.name ? `The standard score rewards sharing the reference's error, not accuracy.` : `Here the two verdicts agree.`) +
-    ` The constant MSE(x<sub>50</sub>, x<sup>*</sup>) = ${C.toFixed(1)} is the same for every run. (${S.rows[0].n} prompts)`;
+    ` The constant ${C.toFixed(1)} is the same for every run (${S.rows[0].n} prompts).`;
 }
 
 /* ---------- tab 3 ---------- */
@@ -210,27 +261,33 @@ function draw3() {
   $("#cards").innerHTML = D.images.map(x => {
     const isRef = (ref3 === "conv" && x.conv === null) || (ref3 === "x50" && x.x50 === null);
     const src = view3 === "err" && x.err ? x.err : x.img;
-    const p = isRef ? "reference" : (x[ref3] === null ? "—" : x[ref3].toFixed(1) + " dB");
+    const p = isRef ? `<span style="color:var(--mute);font-weight:600">reference</span>` : (x[ref3] === null ? "—" : x[ref3].toFixed(1) + " dB");
     const b = x === best ? `<span class="badge" style="background:${col}">closest</span>` : "";
-    return `<div class="card${x === best ? " best" : ""}" style="color:${col}"><img src="img/${src}.webp" alt="${x.name}${view3 === "err" && x.err ? " error map" : ""}" loading="lazy">${b}
-      <div class="t" style="color:var(--ink)">${x.name}</div><div class="p" style="color:${isRef ? "var(--mute)" : "var(--ink)"}">${p}</div></div>`;
+    return `<div class="icard${x === best ? " best" : ""}" style="--bc:${col}"><img src="img/${src}.webp" alt="${x.name}${view3 === "err" && x.err ? ", error map" : ""}" loading="lazy">${b}
+      <div class="t">${x.name}</div><div class="p">${p}</div></div>`;
   }).join("");
-  const m = $("#msg3"); m.className = "msg " + ref3;
+  const m = $("#msg3"); m.className = "callout" + (ref3 === "conv" ? " conv" : "");
   m.innerHTML = ref3 === "x50"
-    ? `Against the 50-step output, <b>${best.name}</b> is closest (${best.x50.toFixed(1)} dB): it shares the 50-step sampler's Euler error.`
-    : `Against the converged reference, <b>${best.name}</b> is closest (${best.conv.toFixed(1)} dB), and MagCache drops to ${D.images.find(x => x.img === "magcache").conv.toFixed(1)} dB: same computed steps, a more accurate solver.`;
+    ? `<span class="chip">Standard protocol</span><b>${best.name}</b> is closest to the 50-step output (${best.x50.toFixed(1)} dB): it shares the 50-step sampler's Euler error.`
+    : `<span class="chip">RefAudit</span><b>${best.name}</b> is closest to the converged reference (${best.conv.toFixed(1)} dB); MagCache drops to ${D.images.find(x => x.img === "magcache").conv.toFixed(1)} dB. Same computed steps, a more accurate solver.`;
 }
 $("#ref3").querySelectorAll("button").forEach(b => b.onclick = () => { ref3 = b.dataset.ref; draw3(); });
 $("#view3").querySelectorAll("button").forEach(b => b.onclick = () => { view3 = b.dataset.v; draw3(); });
 
-/* optional state from the URL, e.g. index.html#tab=3&ref=conv&model=SD3.5-Large&budget=14%20steps */
+/* optional state from the URL, e.g. index.html#tab=3&ref=conv&model=SD3.5-Large&budget=14%20steps&theme=dark */
 const H = new URLSearchParams(location.hash.slice(1));
+if (H.get("theme") === "dark") document.documentElement.setAttribute("data-theme", "dark");
+if (H.get("theme") === "light") document.documentElement.removeAttribute("data-theme");
 if (H.get("ref") === "conv") { ref = "conv"; ref3 = "conv"; }
 if (H.get("model") && D.groups[H.get("model")]) { model = H.get("model"); budget = Object.keys(D.groups[model])[1]; }
 if (H.get("budget") && D.groups[model][H.get("budget")]) budget = H.get("budget");
 if (H.get("view") === "err") view3 = "err";
 draw1(); draw2(); draw3();
-const tb = document.querySelector(`.tab[data-p=p${H.get("tab") || 1}]`); if (tb) tb.click();
+showTab("p" + (["1", "2", "3"].includes(H.get("tab")) ? H.get("tab") : "1"), false);
+/* let the embedding page size the iframe to the content (no inner scrollbar) */
+function reportHeight() { if (window.parent !== window) window.parent.postMessage({raDemoHeight: Math.ceil(document.documentElement.scrollHeight)}, "*"); }
+if ("ResizeObserver" in window) new ResizeObserver(reportHeight).observe(document.body);
+addEventListener("load", reportHeight);
 </script>
 </body>
 </html>
