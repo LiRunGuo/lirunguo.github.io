@@ -8,12 +8,14 @@
   :root {
     --bg: #ffffff; --panel: #f7f6f3; --ink: #1d1c1a; --ink2: #52514e; --muted: #898781; --rule: #dedcd5;
     --query: #eda100; --mem: #8a5cd1; --block: #d3c5f2; --future: #c9c7c0; --od: #eb6834; --p4d: #1baf7a;
-    --focus: #2a78d6;
+    --focus: #2a78d6; --accent: #6d43c9; --accent-soft: rgba(138, 92, 209, 0.13);
+    --shadow: 0 1px 10px rgba(0, 0, 0, 0.08);
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #17181a; --panel: #212226; --ink: #ecebe8; --ink2: #b9b7b1; --muted: #8d8b85; --rule: #3a3b40;
-      --block: #5b4b86; --future: #55565b;
+      --block: #5b4b86; --future: #55565b; --accent: #b69cf2; --accent-soft: rgba(182, 156, 242, 0.16);
+      --shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
     }
   }
   * { box-sizing: border-box; }
@@ -21,19 +23,20 @@
          font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   h2 { font-size: 17px; margin: 0 0 4px; }
   p.lead { margin: 0 0 12px; color: var(--ink2); font-size: 14px; }
-  .tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-  .tabs button { border: 1px solid var(--rule); background: var(--panel); color: var(--ink); border-radius: 6px;
-                 padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; }
-  .tabs button[aria-selected="true"] { border-color: var(--ink); font-weight: 600; }
-  .panel { background: var(--panel); border-radius: 8px; padding: 14px; }
+  .tabs { display: inline-flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; background: var(--panel); padding: 4px; border-radius: 999px; }
+  .tabs button { border: 0; background: transparent; color: var(--ink2); border-radius: 999px;
+                 padding: 7px 16px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--accent); color: #fff; }
+  .panel { background: var(--bg); border: 1px solid var(--rule); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); }
+  h2 { font-size: 19px; letter-spacing: -0.01em; }
   .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px 16px; margin-bottom: 12px; }
   label { display: block; font-size: 13px; color: var(--ink2); }
   label b { color: var(--ink); font-variant-numeric: tabular-nums; }
   input[type=range], select { width: 100%; margin-top: 4px; accent-color: var(--mem); }
   select { padding: 4px; border-radius: 4px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); font: inherit; }
-  .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-top: 4px; }
-  .seg button { border: 0; background: var(--bg); color: var(--ink); padding: 4px 10px; font: inherit; font-size: 13px; cursor: pointer; }
-  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .seg { display: inline-flex; border-radius: 999px; overflow: hidden; margin-top: 4px; background: var(--panel); padding: 3px; gap: 2px; }
+  .seg button { border: 0; background: transparent; color: var(--ink2); padding: 5px 12px; font: inherit; font-size: 13px; cursor: pointer; border-radius: 999px; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); font-weight: 600; }
   button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
   svg { width: 100%; height: auto; display: block; }
   svg text { fill: var(--ink2); font-size: 12px; }
@@ -41,11 +44,11 @@
   .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 2px;
                          margin-right: 6px; vertical-align: -1px; background: var(--c); }
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
-  .stat { background: var(--bg); border-radius: 6px; padding: 8px 10px; }
-  .stat .v { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .stat { background: var(--panel); border-radius: 10px; padding: 10px 12px; border-top: 3px solid var(--accent); }
+  .stat .v { font-size: 22px; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
   .stat .k { font-size: 12px; color: var(--ink2); }
   .frames { font-size: 12px; color: var(--ink2); margin-top: 8px; word-break: break-word; font-variant-numeric: tabular-nums; }
-  .note { font-size: 13px; color: var(--ink2); margin-top: 10px; }
+  .note { font-size: 13px; color: var(--ink2); margin-top: 12px; background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; }
   [hidden] { display: none !important; }
 </style>
 </head>
