@@ -191,7 +191,7 @@ Tethers on all directions trade motion for colour drift at every strength; ToneT
     playAll();
   }
   [].forEach.call(document.querySelectorAll("#tt-tabs button"), function (b) { b.addEventListener("click", function () { load(+b.getAttribute("data-i")); }); });
-  // keep the videos in step, and play them only while they are on screen
+  /* keep the videos in step, and play them only while they are on screen */
   setInterval(function () { var t = vids[0].currentTime; vids.forEach(function (v) { if (!v.paused && Math.abs(v.currentTime - t) > 0.2) v.currentTime = t; }); }, 1000);
   var shown = {};
   var io = new IntersectionObserver(function (es) {
@@ -201,7 +201,7 @@ Tethers on all directions trade motion for colour drift at every strength; ToneT
   });
   io.observe(document.getElementById("tt-videos")); io.observe(document.getElementById("tt-slider"));
   load(0);
-  // drag-to-compare slider (pointer and keyboard)
+  /* drag-to-compare slider (pointer and keyboard) */
   var s = document.getElementById("tt-slider"), drag = false;
   function set(p) { p = Math.max(0, Math.min(100, p)); s.style.setProperty("--pos", p + "%"); s.setAttribute("aria-valuenow", Math.round(p)); }
   function move(x) { var r = s.getBoundingClientRect(); set((x - r.left) / r.width * 100); }
