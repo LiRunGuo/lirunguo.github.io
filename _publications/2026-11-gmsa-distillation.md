@@ -1,18 +1,17 @@
 ---
-title: "What Survives Distillation? A Pre-registered Study of Training-Free Acceleration for Few-Step and Autoregressive Video Diffusion"
+title: "StudentProbe: What Survives Distillation in Training-Free Video Diffusion Acceleration"
 collection: publications
-published: false
 category: preprints
 permalink: /publication/2026-11-gmsa-distillation
-excerpt: 'A pre-registered study of why training-free video-diffusion accelerators calibrated on 50-step teachers mislead on distilled few-step and autoregressive students. Single-author work under review.'
+excerpt: 'StudentProbe measures distilled few-step and autoregressive video students against their own teachers: students keep their teachers&apos; features, while the few wide steps and the decoder decide which training-free accelerators still pay off. Single-author work under review.'
 date: 2026-11-02
-venue: 'Under review'
+venue: 'Preprint, under review'
 paperurl: '/files/gmsa-distillation-acceleration.pdf'
 bibtexurl: '/files/bibtex/li2026gmsa.bib'
-citation: 'Runguo Li. (2026). &quot;What Survives Distillation? A Pre-registered Study of Training-Free Acceleration for Few-Step and Autoregressive Video Diffusion.&quot; Manuscript under review.'
+citation: 'Runguo Li. (2026). &quot;StudentProbe: What Survives Distillation in Training-Free Video Diffusion Acceleration.&quot; Preprint, under review.'
 ---
 
-**Status:** Manuscript under review · **PDF:** [Download](/files/gmsa-distillation-acceleration.pdf)
+**Status:** Preprint, under review · **PDF:** [Download](/files/gmsa-distillation-acceleration.pdf) · **Project page:** [StudentProbe](/projects/2026-11-gmsa-distillation/)
 
 ### Author
 
@@ -20,14 +19,14 @@ Runguo Li (single author).
 
 ### Abstract
 
-Video diffusion models are deployed as distilled few-step and autoregressive students, yet the training-free accelerators paired with them were designed on 50-step teachers. This paper measures what survives distillation on six released students in three model families, each compared with its own teacher, and tests pre-registered predictions on a held-out family, scale, prompts, and GPU. The results show that distillation changes the sampling grid and the surrounding system, not the features: teacher-calibrated cache and sparsity signals can mis-rank where a student can skip. A latency probe and a small prompt sweep measured directly on the student provide a better baseline.
+Video generation is increasingly served by distilled students—few-step and autoregressive models that produce a clip in a handful of network calls—yet the training-free accelerators deployed on them, from feature caches to sparse attention, were designed and calibrated on 30–50-step teachers. Whether these accelerators survive distillation has so far been assumed rather than measured. We introduce StudentProbe, to our knowledge the first protocol that measures each student against its own teacher under controlled conditions: at matched noise level, on the states the student actually visits and on one GPU type, with predictions registered before held-out tests on a new family, scale, prompt set and GPU. Recent work concludes that distillation leaves little redundancy or sparsity to exploit; StudentProbe shows the opposite at the level of the network: students keep their teachers' attention concentration and features. What changes is the sampling grid, whose few wide steps remove step-to-step redundancy and amplify early errors, and the system, where the decoder and the attention kernel now cap the gain. This single picture explains why cache signals calibrated on teachers mis-rank the steps a student can skip, and why block-sparse attention over position blocks, even with oracle selection or compensation, drifts further than running one step fewer at equal latency. StudentProbe replaces teacher-side calibration with a few minutes of measurement on the student that predicts the speedup and the lowest-drift skip positions; guided by it, released components set a reference point of 2.5–3.5× end to end on four students, at a measured cost in motion (all four) and aesthetics (three) on untouched prompts. We will release StudentProbe and its full registration record.
 
 ### Key Findings
 
-- At matched noise level, a student's attention is as concentrated as its teacher's, and its features are closer to its teacher's than to its own features one step away.
-- Wider steps account for lost redundancy but amplify early errors; the VAE decoder and attention kernel cap end-to-end gains.
-- Teacher-calibrated cache signals mis-rank student skips, and block-sparse attention loses to dropping a step at equal speed.
-- Two calls on the grid, a small decoder, and compilation reach **2.5–3.5×** end-to-end speedup on four students, within 1% of the probe's prediction.
-- The probe, protocol, and registration record are released.
+- At matched noise level, a student's attention is as concentrated as its teacher's, and on the same states its features are closer to its teacher's than to its own features one call later.
+- The few wide steps amplify early errors, and the VAE decoder and the attention kernel cap end-to-end gains.
+- Teacher-calibrated cache signals mis-rank where a student can skip: tuned on the student, FBCache still drifts 13× as far on the held-out LTX-Video student and lowers aesthetics on AnyFlow and rCM.
+- Block-sparse attention over position blocks drifts further than one call fewer at equal latency, even with oracle selection or compensation.
+- Two calls, a lightweight decoder and compilation reach **2.5–3.5×** end to end on four students, within 1% of the probe's prediction.
 
-**Full text:** [Download the PDF](/files/gmsa-distillation-acceleration.pdf)
+**Full text:** [Download the PDF](/files/gmsa-distillation-acceleration.pdf) (paper and supplementary material)

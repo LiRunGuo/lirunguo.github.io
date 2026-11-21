@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StudentProbe demo</title>
+<style>
+  :root { --ink:#1f2933; --muted:#5b636e; --grid:#e9ecef; --bar:#b9c4d0; --blue:#2a78d6; --orange:#eb6834; --aqua:#1baf7a;
+          --bg:#ffffff; --panel:#f6f7f9; --line:#d5dae0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink:#e6e9ed; --muted:#a3abb5; --grid:#2c333b; --bar:#55606c; --blue:#5b9bea; --orange:#f08a5d; --aqua:#3cc493;
+            --bg:#14181d; --panel:#1d232a; --line:#39424c; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:14px 16px 18px; font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+         color:var(--ink); background:var(--bg); }
+  h1 { font-size:16px; margin:0 0 2px; }
+  .sub { color:var(--muted); font-size:12.5px; margin:0 0 10px; }
+  .tabs, .pills { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 10px; }
+  button { font:inherit; font-size:13px; color:var(--ink); background:var(--panel); border:1px solid var(--line);
+           border-radius:999px; padding:4px 12px; cursor:pointer; }
+  button[aria-pressed="true"] { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+  .tabs button { border-radius:6px; }
+  .view { display:none; } .view.on { display:block; }
+  .row { display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start; }
+  .chart { flex:1 1 380px; min-width:0; }
+  .side { flex:1 1 230px; min-width:0; }
+  svg { width:100%; height:auto; display:block; overflow:visible; }
+  .legend { display:flex; flex-wrap:wrap; gap:4px 14px; font-size:12px; color:var(--muted); margin:4px 0 2px; }
+  .sw { display:inline-block; width:11px; height:11px; border-radius:2px; vertical-align:-1px; margin-right:5px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-size:13px; }
+  .card h3 { font-size:13px; margin:0 0 6px; }
+  table { border-collapse:collapse; width:100%; font-size:12.5px; font-variant-numeric:tabular-nums; }
+  th, td { text-align:right; padding:3px 6px; border-bottom:1px solid var(--line); }
+  th:first-child, td:first-child { text-align:left; }
+  tr.sp td { font-weight:600; }
+  .note { color:var(--muted); font-size:12px; margin-top:6px; }
+  .bad { color:var(--orange); font-weight:600; }
+  #tip { position:fixed; pointer-events:none; background:var(--ink); color:var(--bg); font-size:12px; padding:5px 8px;
+         border-radius:5px; display:none; max-width:240px; z-index:5; }
+  input[type=range] { width:100%; }
+  label { font-size:13px; }
+  .big { font-size:26px; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums; }
+  .frames { display:grid; gap:6px; }
+  .frames figure { margin:0; }
+  .frames img { width:100%; display:block; border-radius:4px; }
+  .frames figcaption { font-size:12px; color:var(--muted); margin-top:2px; }
+  .tag { display:inline-block; font-size:11px; padding:0 6px; border-radius:999px; border:1px solid currentColor; margin-left:4px; }
+</style>
+</head>
+<body>
+<h1>StudentProbe: interactive demo</h1>
+<p class="sub">All numbers come from the paper's measurements. Hover over a bar or point for its values.</p>
+
+<div class="tabs" role="tablist">
+  <button data-view="skip" aria-pressed="true">Where can a student skip?</button>
+  <button data-view="speed" aria-pressed="false">What bounds the speedup?</button>
+  <button data-view="frames" aria-pressed="false">What does a skip look like?</button>
+</div>
+
+<section class="view on" id="skip">
+  <div class="pills" id="skipPills"></div>
+  <div class="row">
+    <div class="chart">
+      <div class="legend">
+        <span><span class="sw" style="background:var(--bar)"></span>fidelity cost of skipping call k (LPIPS)</span>
+        <span><span class="sw" style="background:var(--orange)"></span>lowers aesthetics (95% CI below 0)</span>
+        <span><span class="sw" style="background:var(--blue)"></span>FBCache decision signal</span>
+      </div>
+      <svg id="skipSvg" viewBox="0 0 520 300" role="img" aria-label="Fidelity cost per skipped call and FBCache signal"></svg>
+    </div>
+    <div class="side">
+      <div class="card" id="skipCard"></div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="speed">
+  <div class="pills" id="speedPills"></div>
+  <div class="row">
+    <div class="chart">
+      <div class="legend">
+        <span><span class="sw" style="background:var(--blue)"></span>DiT</span>
+        <span><span class="sw" style="background:var(--orange)"></span>VAE decoder</span>
+        <span><span class="sw" style="background:var(--bar)"></span>text encoder and other</span>
+      </div>
+      <svg id="speedSvg" viewBox="0 0 520 150" role="img" aria-label="Latency split as released and after acceleration"></svg>
+      <label for="ditS">DiT speedup from any accelerator: <b id="ditSv"></b></label>
+      <input id="ditS" type="range" min="1" max="10" step="0.05" value="2">
+      <label><input id="lightVae" type="checkbox"> replace the VAE with the released lightweight decoder</label>
+      <div style="margin-top:6px"><button id="preset">Load the StudentProbe-guided baseline</button></div>
+    </div>
+    <div class="side">
+      <div class="card">
+        <h3>End-to-end speedup</h3>
+        <div class="big" id="e2e"></div>
+        <div id="bound" class="note"></div>
+        <div id="measured" class="note"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="frames">
+  <div class="pills" id="framePills"></div>
+  <div class="frames" id="frameGrid"></div>
+  <p class="note" id="frameNote"></p>
+</section>
+
+<div id="tip"></div>
+<script>
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const tip = document.getElementById("tip");
+function showTip(e, html) { tip.innerHTML = html; tip.style.display = "block";
+  const x = Math.min(e.clientX + 12, window.innerWidth - 250); tip.style.left = x + "px"; tip.style.top = (e.clientY + 12) + "px"; }
+function hideTip() { tip.style.display = "none"; }
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent, text) { const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]); if (text !== undefined) n.textContent = text; parent.appendChild(n); return n; }
+function pills(id, items, cur, onPick) { const box = document.getElementById(id); box.innerHTML = "";
+  items.forEach(it => { const b = document.createElement("button"); b.textContent = it.label;
+    b.setAttribute("aria-pressed", it.key === cur); b.onclick = () => onPick(it.key); box.appendChild(b); }); }
+
+// tabs
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  document.querySelectorAll(".view").forEach(v => v.classList.toggle("on", v.id === b.dataset.view)); });
+
+// ---- 1. skip explorer: development prompts (fidelity cost, aesthetic change), FBCache signal, held-out comparison (Table 3)
+const SKIP = {
+  anyflow: { label: "AnyFlow", sub: "4 calls", cost: [.210, .078, .074], aes: ["-.04", "-.01", "-.10*"], fb: [.175, .1503, .1728], sp: 2,
+    why: "The lowest-drift call (3) lowers aesthetics, so the quality check moves StudentProbe to call 2.",
+    held: [["StudentProbe", 2, ".074", "-.015"], ["FBCache", "2 (57/66)", ".069", "-.058*"], ["TeaCache", 1, ".206", "-.060"]] },
+  rcm: { label: "rCM", sub: "4 calls, re-noising sampler", cost: [.359, .283, .575], aes: ["+.01", "+.08*", "-2.00*"], fb: [.7596, .6682, .5511], sp: 2,
+    why: "FBCache's signal is lowest at call 3, the costliest skip: its sampler re-noises, so reusing the last call carries old noise into the video.",
+    held: [["StudentProbe", 2, ".284", "-.054"], ["FBCache", 3, ".300", "-.555*"], ["TeaCache", 2, ".284", "-.054"]] },
+  klein: { label: "FLUX.2-klein", sub: "4 calls, image", cost: [.225, .106, .092], aes: ["-.04", "+.01", "+.05"], fb: [.7811, .6659, .5983], sp: 3,
+    why: "On the image pair the cache signal tracks the fidelity cost, and FBCache's choice agrees with the measured one.", held: null },
+  ltx: { label: "LTX-Video (held out)", sub: "7 calls, held-out family", cost: [.276, .143, .132, .079, .024, .009],
+    aes: ["+.02", "+.01", "+.01", "-.02", "+.09*", "+.08*"], fb: [.5084, .3876, .2998, 1.1942, 1.0129, .6367], sp: 6,
+    why: "FBCache's signal is largest where skipping costs least: its pick, call 3, drifts 13 times as far as StudentProbe's call 6.",
+    held: [["StudentProbe", 6, ".009", "+.055*"], ["FBCache", 3, ".117", "+.029"], ["TeaCache", "–", "–", "–"]] } };
+let skipCur = "ltx";
+function drawSkip() {
+  const d = SKIP[skipCur];
+  pills("skipPills", Object.keys(SKIP).map(k => ({ key: k, label: SKIP[k].label })), skipCur, k => { skipCur = k; drawSkip(); });
+  const svg = document.getElementById("skipSvg"); svg.innerHTML = "";
+  const L = 46, R = 510, T1 = 22, H1 = 165, T2 = 212, H2 = 52, n = d.cost.length, bw = (R - L) / n;
+  const fbPick = d.fb.indexOf(Math.min(...d.fb)) + 1;
+  const ymax = Math.max(...d.cost) * 1.2, y = v => T1 + H1 - v / ymax * H1;
+  const smax = Math.max(...d.fb) * 1.25, ys = v => T2 + H2 - v / smax * H2;
+  const step = [0.05, 0.1, 0.2, 0.25, 0.5, 1].find(st => ymax / st <= 5);
+  for (let v = 0; v <= ymax + 1e-9; v += step) {
+    el("line", { x1: L, x2: R, y1: y(v), y2: y(v), stroke: css("--grid") }, svg);
+    el("text", { x: L - 6, y: y(v) + 4, "text-anchor": "end", "font-size": 10, fill: css("--muted") }, svg, v.toFixed(step < 0.1 ? 2 : 1)); }
+  el("text", { x: 10, y: T1 + H1 / 2, transform: `rotate(-90 10 ${T1 + H1 / 2})`, "text-anchor": "middle", "font-size": 10.5, fill: css("--muted") }, svg, "LPIPS");
+  el("text", { x: 10, y: T2 + H2 / 2, transform: `rotate(-90 10 ${T2 + H2 / 2})`, "text-anchor": "middle", "font-size": 10.5, fill: css("--blue") }, svg, "FBCache");
+  d.cost.forEach((c, i) => {
+    const k = i + 1, x = L + i * bw, drop = d.aes[i].startsWith("-") && d.aes[i].endsWith("*");
+    const g = el("g", {}, svg);
+    el("rect", { x: x + bw * 0.2, y: y(c), width: bw * 0.6, height: T1 + H1 - y(c), rx: 3, fill: drop ? css("--orange") : css("--bar") }, g);
+    el("rect", { x, y: T1, width: bw, height: T2 + H2 - T1, fill: "transparent" }, g);
+    g.addEventListener("mousemove", e => showTip(e, `skip call ${k}<br>fidelity cost (LPIPS) ${c.toFixed(3)}<br>Δ aesthetics ${d.aes[i]}${d.aes[i].endsWith("*") ? " (95% CI excludes 0)" : ""}<br>FBCache signal ${d.fb[i].toFixed(3)}`));
+    g.addEventListener("mouseleave", hideTip);
+    el("text", { x: x + bw / 2, y: T2 + H2 + 16, "text-anchor": "middle", "font-size": 11, fill: css("--ink") }, svg, k);
+    if (k === d.sp) el("text", { x: x + bw / 2, y: y(c) - 6, "text-anchor": "middle", "font-size": 11, "font-weight": 700, fill: css("--ink") }, svg, "StudentProbe");
+    if (k === fbPick) el("text", { x: x + bw / 2, y: (k === d.sp ? y(c) - 20 : y(c) - 6), "text-anchor": "middle", "font-size": 11, "font-weight": 700, fill: css("--blue") }, svg, "FBCache");
+  });
+  el("text", { x: (L + R) / 2, y: T2 + H2 + 32, "text-anchor": "middle", "font-size": 11, fill: css("--muted") }, svg, "skipped call k");
+  el("line", { x1: L, x2: R, y1: T2 + H2, y2: T2 + H2, stroke: css("--line") }, svg);
+  const pts = d.fb.map((v, i) => [L + (i + 0.5) * bw, ys(v)]);
+  el("polyline", { points: pts.map(p => p.join(",")).join(" "), fill: "none", stroke: css("--blue"), "stroke-width": 2 }, svg);
+  pts.forEach((p, i) => el("circle", { cx: p[0], cy: p[1], r: i + 1 === fbPick ? 5.5 : 4, fill: i + 1 === fbPick ? css("--bg") : css("--blue"), stroke: css("--blue"), "stroke-width": 2 }, svg));
+  const card = document.getElementById("skipCard");
+  let h = `<h3>${d.label} <span class="note">(${d.sub})</span></h3><p style="margin:0 0 8px">${d.why}</p>`;
+  if (d.held) {
+    h += `<table><tr><th>Held-out (66 videos)</th><th>call</th><th>LPIPS</th><th>Δaes.</th></tr>` +
+      d.held.map(r => `<tr class="${r[0] === "StudentProbe" ? "sp" : ""}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td class="${String(r[3]).startsWith("-") && String(r[3]).endsWith("*") ? "bad" : ""}">${r[3]}</td></tr>`).join("") +
+      `</table><p class="note">FBCache and TeaCache are tuned on the student to skip one call per video. * 95% CI excludes 0. TeaCache was run with its Wan2.1 coefficients only.</p>`;
+  } else h += `<p class="note">Development prompts only; the held-out comparison covers the three video students.</p>`;
+  h += `<p class="note">Bars: 33 development prompts. The StudentProbe pick comes from an 8-prompt sweep plus a 30-prompt quality check.</p>`;
+  card.innerHTML = h;
+}
+
+// ---- 2. speedup calculator: measured latency split on one PRO6000 BW (seconds per video)
+const SPEED = {
+  wan22_4s: { label: "Wan2.2 A14B", base: { dit: 24.746, vae: 4.493, other: 0.413 }, rec: { dit: 10.485, vae: 0.137, other: 0.416 } },
+  anyflow: { label: "AnyFlow", base: { dit: 5.624, vae: 2.899, other: 0.372 }, rec: { dit: 2.047, vae: 0.136, other: 0.394 } },
+  rcm: { label: "rCM", base: { dit: 4.469, vae: 2.897, other: 0.289 }, rec: { dit: 1.862, vae: 0.137, other: 0.279 } },
+  rcm14: { label: "rCM-14B (held out)", base: { dit: 24.308, vae: 2.903, other: 0.292 }, rec: { dit: 10.497, vae: 0.137, other: 0.259 } } };
+let speedCur = "anyflow";
+const sl = document.getElementById("ditS"), lv = document.getElementById("lightVae");
+sl.oninput = drawSpeed; lv.onchange = drawSpeed;
+document.getElementById("preset").onclick = () => { const d = SPEED[speedCur]; sl.value = (d.base.dit / d.rec.dit).toFixed(2); lv.checked = true; drawSpeed(); };
+function drawSpeed() {
+  const d = SPEED[speedCur];
+  pills("speedPills", Object.keys(SPEED).map(k => ({ key: k, label: SPEED[k].label })), speedCur, k => { speedCur = k; drawSpeed(); });
+  const s = +sl.value, b = d.base, e0 = b.dit + b.vae + b.other;
+  const now = { dit: b.dit / s, vae: lv.checked ? d.rec.vae : b.vae, other: b.other };
+  const e1 = now.dit + now.vae + now.other;
+  document.getElementById("ditSv").textContent = s.toFixed(2) + "×";
+  document.getElementById("e2e").textContent = (e0 / e1).toFixed(2) + "×";
+  const cap = e0 / ((lv.checked ? d.rec.vae : b.vae) + b.other);
+  document.getElementById("bound").textContent = `Even an infinitely fast DiT gives at most ${cap.toFixed(2)}× here: the ${lv.checked ? "lightweight decoder" : "VAE decoder"} and the rest take ${((e0 / cap) / e0 * 100).toFixed(0)}% of the released latency.`;
+  const recE = d.rec.dit + d.rec.vae + d.rec.other;
+  document.getElementById("measured").textContent = `Measured: the StudentProbe-guided baseline (two calls + lightweight decoder + compilation) runs in ${recE.toFixed(2)} s against ${e0.toFixed(2)} s, ${(e0 / recE).toFixed(2)}×.`;
+  const svg = document.getElementById("speedSvg"); svg.innerHTML = "";
+  const L = 92, R = 462, sc = (R - L) / e0;
+  [["as released", b, 24], ["accelerated", now, 82]].forEach(([name, p, y0]) => {
+    el("text", { x: L - 8, y: y0 + 19, "text-anchor": "end", "font-size": 12, fill: css("--ink") }, svg, name);
+    let x = L;
+    [["DiT", "dit", "--blue"], ["VAE", "vae", "--orange"], ["other", "other", "--bar"]].forEach(([lab, k, c]) => {
+      const w = Math.max(p[k] * sc, 0.5);
+      const r = el("rect", { x, y: y0, width: w, height: 30, fill: css(c), stroke: css("--bg"), "stroke-width": 1.5 }, svg);
+      r.addEventListener("mousemove", e => showTip(e, `${name}: ${lab} ${p[k].toFixed(2)} s`)); r.addEventListener("mouseleave", hideTip);
+      x += w; });
+    el("text", { x: x + 6, y: y0 + 19, "font-size": 12, fill: css("--muted") }, svg, (p.dit + p.vae + p.other).toFixed(2) + " s");
+  });
+  el("text", { x: L, y: 135, "font-size": 10.5, fill: css("--muted") }, svg, "Latency per video on one PRO6000 BW, from the paper's measurements.");
+}
+
+// ---- 3. frames at 25% and 75% of the clip (the images of the paper's Fig. 5)
+const FR = { cols: ["LTX full", "LTX skip 1", "LTX skip 6", "AnyFlow full", "AnyFlow skip 3", "rCM full", "rCM skip 3"],
+  sets: {
+    ltx: { label: "LTX-Video (held out)", cols: [0, 1, 2], tags: ["", "different video, quality kept", "≈ full"],
+      note: "Skipping LTX's first call gives a slightly different video (high LPIPS) with no significant quality change; skipping call 6 is almost free. Drift and quality are different targets." },
+    anyflow: { label: "AnyFlow", cols: [3, 4], tags: ["", "aesthetics ↓"],
+      note: "Call 3 is AnyFlow's lowest-drift skip, yet it is the only one that lowers aesthetics; StudentProbe's quality check moves the skip to call 2." },
+    rcm: { label: "rCM", cols: [5, 6], tags: ["", "degraded"],
+      note: "Reusing rCM's last call carries the previous call's noise into the video through its re-noising sampler; stopping one call early does not." } } };
+let frCur = "ltx";
+function drawFrames() {
+  const s = FR.sets[frCur];
+  pills("framePills", Object.keys(FR.sets).map(k => ({ key: k, label: FR.sets[k].label })), frCur, k => { frCur = k; drawFrames(); });
+  const g = document.getElementById("frameGrid"); g.style.gridTemplateColumns = `repeat(${s.cols.length}, 1fr)`; g.innerHTML = "";
+  [0, 1].forEach(row => s.cols.forEach((c, j) => {
+    const f = document.createElement("figure");
+    const idx = String(row * 7 + c).padStart(3, "0");
+    f.innerHTML = `<img src="frames/f-${idx}.png" alt="${FR.cols[c]}, ${row ? 75 : 25}% of the clip" loading="lazy">` +
+      `<figcaption>${FR.cols[c]} · ${row ? "75" : "25"}%${row === 0 && s.tags[j] ? `<span class="tag" style="color:${s.tags[j].includes("↓") || s.tags[j] === "degraded" ? css("--orange") : css("--aqua")}">${s.tags[j]}</span>` : ""}</figcaption>`;
+    g.appendChild(f); }));
+  document.getElementById("frameNote").textContent = s.note + " The prompt is the one whose LTX skip-1 cost is closest to the median, not selected by appearance.";
+}
+
+drawSkip(); drawSpeed(); drawFrames();
+const start = document.querySelector(`.tabs button[data-view="${location.hash.slice(1)}"]`);
+if (start) start.click();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { drawSkip(); drawSpeed(); drawFrames(); });
+</script>
+</body>
+</html>
