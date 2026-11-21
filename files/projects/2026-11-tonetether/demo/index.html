@@ -136,6 +136,12 @@ pre.bib { position: relative; background: var(--card); border: 1px solid var(--l
 footer { text-align: center; color: var(--muted); font-size: .82rem; padding: 18px 20px 30px; }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--all); outline-offset: 2px; }
 .swipe:focus-within { outline: 2px solid var(--all); outline-offset: 2px; }
+:root[data-theme="light"] { --bg: #ffffff; --band: #f5f6f8; --card: #ffffff; --ink: #1c2024; --ink2: #4a5260; --muted: #737b88; --line: #e2e5ea;
+  --grid: #eef0f3; --accent: #d55e00; --accent-soft: #fdeee3; --all: #0072b2; --sub: #8a919c; --ref: #1c2024;
+  --btn: #2b2f36; --btn-ink: #ffffff; --shadow: 0 1px 2px rgba(16,24,40,.06), 0 6px 18px rgba(16,24,40,.08); }
+:root[data-theme="dark"] { --bg: #121418; --band: #191c21; --card: #1f2329; --ink: #e9ebee; --ink2: #b8bec8; --muted: #8d95a2; --line: #30353e;
+  --grid: #262a31; --accent: #ff8a3d; --accent-soft: #3a2618; --all: #56b4e9; --sub: #9aa1ab; --ref: #e9ebee;
+  --btn: #e9ebee; --btn-ink: #121418; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35); }
 body.embed .no-embed { display: none !important; }
 body.embed { background: transparent; }
 </style>
@@ -240,6 +246,14 @@ body.embed { background: transparent; }
 <script>
 const EMBED = new URLSearchParams(location.search).has("embed");
 if (EMBED) document.body.classList.add("embed");
+// when embedded in the site, follow its light / dark switch instead of the system setting
+try {
+  const host = parent !== window && parent.document.documentElement;
+  if (host) {
+    const sync = () => { document.documentElement.setAttribute("data-theme", host.getAttribute("data-theme") || "light"); setTimeout(() => { try { draw(); } catch (e) {} }, 0); };
+    new MutationObserver(sync).observe(host, {attributes: true, attributeFilter: ["data-theme"]}); sync();
+  }
+} catch (e) {}
 
 const LONG = [
  {id:"0001", short:"Mammoths", prompt:"Several giant wooly mammoths approach treading through a snowy meadow, their long wooly fur lightly blows in the wind as they walk, snow covered trees and dramatic snow capped mountains in the distance, mid afternoon light with wispy clouds and a sun high in the distance creates a warm glow, the low camera view is stunning capturing the large furry mammal with beautiful photography, depth of field.",
