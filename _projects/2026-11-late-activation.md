@@ -97,7 +97,10 @@ html[data-theme="dark"] .la-btn:not(.is-primary):not(.is-off) { background: #e8e
 .la table.la-table tr.ours td { background: var(--la-accent-soft) !important; }
 .la table.la-table tr.ours td:first-child { border-left: 3px solid var(--la-accent) !important; }
 .la table.la-table tr.sep td { border-top: 2px solid var(--la-line) !important; }
-.la table.la-table td:first-child, .la table.la-table th:first-child { min-width: 12.5em; }
+.la table.la-table td:first-child, .la table.la-table th:first-child { min-width: 9.5em; }
+.la table.la-table { font-size: .82em; }
+.la table.la-table th, .la table.la-table td { padding: .5em .45em; }
+.la table.la-table thead th { white-space: normal; vertical-align: bottom; line-height: 1.3; }
 .la { --la-aigu: #CC79A7; --la-weight: #56B4E9; --la-early: #4d4d4d; }
 html[data-theme="dark"] .la { --la-aigu: #e09cc4; --la-weight: #7cc6ef; --la-early: #c4c7cc; }
 .la-card-title { font-weight: 700; margin: 0 0 .25em; }
@@ -264,7 +267,7 @@ sampling time, and holds across three rewards and four RL methods.</p>
 <div class="la-card">
 <div class="la-table-wrap">
 <table class="la-table">
-  <thead><tr><th>Sampling, 16 seeds per prompt</th><th>Passes / step</th><th>ΔPickScore</th><th>Latent div.</th><th>CLIP div.</th><th>DINO Vendi</th></tr></thead>
+  <thead><tr><th>Sampling (16 seeds per prompt)</th><th>Passes / step</th><th>ΔPickScore</th><th>Latent div.</th><th>CLIP div.</th><th>DINO Vendi</th></tr></thead>
   <tbody>
     <tr><td>Base model</td><td>1</td><td>0.00</td><td>1.073</td><td>0.275</td><td>8.24</td></tr>
     <tr><td>NFT, whole path</td><td>1</td><td>3.38</td><td>0.729</td><td>0.097</td><td>2.48</td></tr>
