@@ -368,7 +368,7 @@ linked here once they are public.</p></div>
     var lb = mx + Math.log(a.reduce(function (s, v) { return s + Math.exp(v - mx); }, 0));
     LB.push(lb); LT.push(lb + ETA * reward(x));
   });
-  function invNorm(p) {  // Acklam's approximation of the standard normal quantile
+  function invNorm(p) {  /* Acklam's approximation of the standard normal quantile */
     var a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239],
         b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572],
         c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783],
