@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StepShare interactive explorer</title>
+<style>
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11, 11, 11, 0.10); --chip: #f0efec; --shade: rgba(11, 11, 11, 0.035);
+  --und: #2a78d6; --gen: #eb6834; --wgt: #6250d6; --rte: #1baf7a; --spl: #008300; --ref: #8a8984; --opt: #2b2b29;
+  --w1: #a69ded; --w2: #8174e2; --w3: #6250d6;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --ring: rgba(255, 255, 255, 0.10); --chip: #2c2c2a; --shade: rgba(255, 255, 255, 0.04);
+  --und: #3987e5; --gen: #d95926; --wgt: #9085e9; --rte: #1aa5a0; --spl: #008300; --ref: #9a9993; --opt: #e6e5e0;
+  --w1: #5a4cc0; --w2: #7d70e0; --w3: #a69ded;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: transparent; }
+body { font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
+.viz-root { position: relative; background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 16px 18px 14px; }
+.top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px 16px; margin-bottom: 14px; }
+.top h1 { font-size: 16px; margin: 0; font-weight: 600; }
+.top p { margin: 2px 0 0; color: var(--ink2); font-size: 12.5px; }
+[role="tablist"] { display: flex; gap: 2px; background: var(--chip); padding: 3px; border-radius: 8px; }
+[role="tab"] { border: 0; background: transparent; color: var(--ink2); font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 6px; cursor: pointer; }
+[role="tab"][aria-selected="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--ring); }
+[role="tab"]:focus-visible, button:focus-visible, select:focus-visible, .hit:focus-visible, input:focus-visible { outline: 2px solid var(--und); outline-offset: 2px; }
+.filters { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 10px; font-size: 13px; color: var(--ink2); }
+.filters label { display: inline-flex; align-items: center; gap: 6px; }
+select { font: inherit; font-size: 13px; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--axis); background: var(--surface); color: var(--ink); max-width: 100%; }
+.seg { display: inline-flex; border: 1px solid var(--axis); border-radius: 6px; overflow: hidden; }
+.seg button { border: 0; background: transparent; color: var(--ink2); font: inherit; font-size: 12.5px; padding: 4px 10px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--axis); }
+.seg button[aria-pressed="true"] { background: var(--chip); color: var(--ink); font-weight: 600; }
+.tbtn { margin-left: auto; border: 1px solid var(--axis); background: transparent; color: var(--ink2); font: inherit; font-size: 12.5px; padding: 4px 10px; border-radius: 6px; cursor: pointer; }
+.note { margin: 0 0 12px; color: var(--ink2); font-size: 13px; min-height: 2.9em; }
+.note strong { color: var(--ink); }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+.tile { border: 1px solid var(--ring); border-radius: 8px; padding: 8px 10px; }
+.tile .lbl { font-size: 12px; color: var(--ink2); }
+.tile .val { font-size: 22px; font-weight: 600; line-height: 1.25; }
+.tile .sub { font-size: 11.5px; color: var(--muted); }
+.charts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+figure { margin: 0; min-width: 0; }
+figcaption { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+figcaption span { font-weight: 400; color: var(--ink2); }
+.chart { width: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--ink2); margin: 4px 0 2px; }
+.legend .k { display: inline-flex; align-items: center; gap: 5px; }
+.legend svg { overflow: visible; }
+.foot { font-size: 11.5px; color: var(--muted); margin: 10px 0 0; }
+svg { display: block; overflow: visible; }
+svg text { font-family: inherit; }
+.tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.axlab { fill: var(--ink2); font-size: 11.5px; }
+.ink { fill: var(--ink); font-size: 11.5px; }
+.halo { paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
+.mut { fill: var(--muted); font-size: 11px; }
+.gridl { stroke: var(--grid); stroke-width: 1; }
+.axisl { stroke: var(--axis); stroke-width: 1; }
+.hit { cursor: pointer; outline: none; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--ring); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14); border-radius: 8px; padding: 7px 9px; font-size: 12px; z-index: 5; min-width: 130px; max-width: 260px; }
+.tip .tt-title { color: var(--ink2); margin-bottom: 3px; font-size: 11.5px; }
+.tip .tt-row { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.tip .tt-row strong { font-variant-numeric: tabular-nums; color: var(--ink); }
+.tip .tt-row span.l { color: var(--ink2); }
+.tip .tt-key { display: inline-block; width: 12px; height: 2px; border-radius: 1px; flex: none; }
+.tbl { overflow-x: auto; margin-top: 12px; }
+.tbl table { border-collapse: collapse; width: 100%; font-size: 12px; font-variant-numeric: tabular-nums; }
+.tbl caption { text-align: left; font-weight: 600; font-size: 12.5px; padding-bottom: 4px; }
+.tbl th, .tbl td { padding: 4px 8px; border-bottom: 1px solid var(--grid); text-align: right; white-space: nowrap; }
+.tbl th:first-child, .tbl td:first-child { text-align: left; }
+.tbl th { color: var(--ink2); font-weight: 600; }
+.wipe-ctl { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-bottom: 10px; font-size: 13px; color: var(--ink2); }
+.wipe { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1 / 1; margin: 0 auto; border-radius: 6px; overflow: hidden; user-select: none; touch-action: none; background: var(--chip); }
+.wipe img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.wipe .bar { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--surface); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); transform: translateX(-1px); pointer-events: none; }
+.wipe .knob { position: absolute; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); pointer-events: none; display: grid; place-items: center; color: var(--ink2); font-size: 13px; }
+.wipe .tag { position: absolute; top: 8px; padding: 3px 8px; border-radius: 6px; background: rgba(0, 0, 0, 0.62); color: #fff; font-size: 12px; pointer-events: none; }
+.wipe .tag.l { left: 8px; } .wipe .tag.r { right: 8px; text-align: right; }
+.wipe input[type="range"] { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+@media (max-width: 680px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .charts { grid-template-columns: minmax(0, 1fr); }
+  .tbtn { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+<div class="viz-root" id="root">
+  <div class="top">
+    <div>
+      <h1>StepShare explorer</h1>
+      <p>Every number comes from the paper's runs: Qwen3-0.6B, raw pixels, 9000 steps, 3 to 5 seeds per arm.</p>
+    </div>
+    <div role="tablist" aria-label="Views">
+      <button role="tab" id="tab-a" aria-controls="panel-a" aria-selected="true">Rebalance</button>
+      <button role="tab" id="tab-b" aria-controls="panel-b" aria-selected="false" tabindex="-1">Step split</button>
+      <button role="tab" id="tab-c" aria-controls="panel-c" aria-selected="false" tabindex="-1">Samples</button>
+    </div>
+  </div>
+
+  <section role="tabpanel" id="panel-a" aria-labelledby="tab-a">
+    <div class="filters">
+      <label>Arm <select id="arm"></select></label>
+      <span>Probe <span class="seg" role="group" aria-label="Probe set">
+        <button type="button" data-probe="coco" aria-pressed="true">COCO</button><button type="button" data-probe="in" aria-pressed="false">ImageNet-100</button>
+      </span></span>
+      <button type="button" class="tbtn" data-table="tbl-a" aria-expanded="false">Show data table</button>
+    </div>
+    <p class="note" id="note" aria-live="polite"></p>
+    <div class="tiles" id="tiles"></div>
+    <div class="charts">
+      <figure>
+        <figcaption>Gap closed vs. hidden cost <span>· click a point</span></figcaption>
+        <div class="chart" id="scatter"></div>
+        <div class="legend" id="scatter-legend"></div>
+      </figure>
+      <figure>
+        <figcaption>Probe change by layer <span id="profile-sub">· COCO, vs. und.-only</span></figcaption>
+        <div class="chart" id="profile"></div>
+        <div class="legend" id="profile-legend"></div>
+      </figure>
+    </div>
+    <div class="tbl" id="tbl-a" hidden></div>
+    <p class="foot">Gap closed: the share of the FID gap between dense 1:1 training and generation-only training that an arm closes, paired by seed (mean and 95% CI). Probe: linear-probe accuracy at a layer minus that of understanding-only training of the same seed; "worst" is the lowest of layers 2 to 28 of the seed-averaged profile.</p>
+  </section>
+
+  <section role="tabpanel" id="panel-b" aria-labelledby="tab-b" hidden>
+    <div class="filters">
+      <span>StepShare splits every AdamW step exactly into an understanding part and a generation part, by depth.</span>
+      <button type="button" class="tbtn" data-table="tbl-b" aria-expanded="false">Show data table</button>
+    </div>
+    <div class="charts">
+      <figure>
+        <figcaption>Generation's share of the AdamW step <span>· squared norm</span></figcaption>
+        <div class="legend" id="share-legend"></div>
+        <div class="chart" id="share"></div>
+      </figure>
+      <figure>
+        <figcaption>Gradient ratio ρ during training <span>· w‖g<sub>u</sub>‖ / ‖g<sub>g</sub>‖</span></figcaption>
+        <div class="chart" id="rho"></div>
+        <div class="legend" id="rho-legend"></div>
+      </figure>
+    </div>
+    <div class="tbl" id="tbl-b" hidden></div>
+    <p class="foot">Shares are means over steps sampled every 50 steps. Dense and per-task Adam: two seeds on one cluster; StepShare-Adam: five seeds on the other. ρ uses minibatch gradient norms averaged over 1000-step intervals (geometric mean over seeds); per-task normalisation fixes ρ = 1.</p>
+  </section>
+
+  <section role="tabpanel" id="panel-c" aria-labelledby="tab-c" hidden>
+    <div class="wipe-ctl">
+      <label>Left <select id="wipe-a"></select></label>
+      <label>Right <select id="wipe-b"></select></label>
+      <span>Drag across the image to compare.</span>
+    </div>
+    <div class="wipe" id="wipe">
+      <img id="img-a" alt="">
+      <img id="img-b" alt="">
+      <div class="bar" id="wipe-bar"></div>
+      <div class="knob" id="wipe-knob" aria-hidden="true">⇆</div>
+      <div class="tag l" id="tag-a"></div>
+      <div class="tag r" id="tag-b"></div>
+      <input type="range" id="wipe-pos" min="0" max="100" value="50" step="0.5" aria-label="Comparison divider position">
+    </div>
+    <p class="foot">The first 36 FID samples of each arm without selection (seed 0, guidance scale 4, 256×256). Each cell uses the same caption and initial noise in every grid, so cells can be compared one to one. FID is that seed's, at guidance scale 4.</p>
+  </section>
+  <div class="tip" id="tip" hidden></div>
+</div>
+<noscript>This demo needs JavaScript. The same numbers are in the paper's Table 2 and supplementary tables.</noscript>
+<script>
+(function () {
+"use strict";
+const D = {"T2":{"Dense, w=1":{"n":5,"r1":null,"c1":null,"r4":null,"c4":null,"nll":0.0,"l28":-0.2,"worst":-0.5,"inw":-0.3},"Dense, 0.1":{"n":3,"r1":68.0,"c1":18.0,"r4":60.0,"c4":31.0,"nll":0.0,"l28":0.1,"worst":-2.8,"inw":-2.6},"Dense, 0.03":{"n":5,"r1":82.0,"c1":12.0,"r4":78.0,"c4":10.0,"nll":0.0,"l28":0.3,"worst":-5.4,"inw":-5.1},"Dense, 0.01":{"n":3,"r1":95.0,"c1":9.0,"r4":90.0,"c4":26.0,"nll":0.0,"l28":-1.4,"worst":-7.1,"inw":-6.4},"Task, w=1":{"n":5,"r1":60.0,"c1":22.0,"r4":29.0,"c4":48.0,"nll":0.0,"l28":0.4,"worst":0.1,"inw":-0.1},"Task, 0.1":{"n":3,"r1":80.0,"c1":17.0,"r4":73.0,"c4":19.0,"nll":0.0,"l28":0.7,"worst":-1.7,"inw":-1.1},"Task, 0.03":{"n":5,"r1":93.0,"c1":5.0,"r4":96.0,"c4":5.0,"nll":-0.01,"l28":-0.2,"worst":-2.9,"inw":-2.8},"Per-loss clipping, w=1":{"n":3,"r1":60.0,"c1":23.0,"r4":51.0,"c4":17.0,"nll":-0.01,"l28":0.2,"worst":-1.9,"inw":-2.1},"Per-task norm. grads, w=1":{"n":3,"r1":90.0,"c1":10.0,"r4":86.0,"c4":12.0,"nll":0.01,"l28":-0.8,"worst":-3.8,"inw":-3.7},"Per-task Adam, w=1":{"n":3,"r1":92.0,"c1":9.0,"r4":97.0,"c4":5.0,"nll":0.0,"l28":0.2,"worst":-3.6,"inw":-3.2},"Depth alloc. 1 / 0.03":{"n":3,"r1":72.0,"c1":28.0,"r4":61.0,"c4":8.0,"nll":-0.02,"l28":-0.2,"worst":-0.3,"inw":0.3},"Depth alloc. 0.3 / 0.03":{"n":3,"r1":84.0,"c1":52.0,"r4":75.0,"c4":6.0,"nll":-0.01,"l28":0.5,"worst":-0.2,"inw":-0.3},"Depth alloc. 0.03 / 1":{"n":3,"r1":61.0,"c1":23.0,"r4":44.0,"c4":45.0,"nll":0.01,"l28":-0.6,"worst":-6.9,"inw":-6.0},"StepShare-Adam, w=1":{"n":5,"r1":91.0,"c1":14.0,"r4":89.0,"c4":8.0,"nll":0.01,"l28":-0.1,"worst":-0.5,"inw":-0.4}},"COCO":{"Dense, w=1":[-0.1,0.3,-0.1,-0.2,-0.2,-0.2,-0.4,-0.5,-0.4,-0.2,-0.4,-0.1,-0.1,-0.2],"Dense, w=0.1":[-1.8,-1.9,-2.1,-2.8,-2.3,-1.9,-1.7,-1.3,-1.0,-0.7,-0.2,0.0,0.1,0.1],"Dense, w=0.03":[-2.4,-3.8,-5.0,-5.4,-4.9,-4.5,-3.7,-2.2,-1.4,-0.7,-0.1,0.2,0.1,0.3],"Dense, w=0.01":[-2.9,-4.8,-6.0,-7.1,-6.9,-6.3,-5.4,-4.1,-3.5,-2.8,-1.8,-1.9,-1.6,-1.4],"Task, w=1":[0.4,0.5,0.3,0.2,0.4,0.3,0.2,0.2,0.1,0.3,0.2,0.4,0.2,0.4],"Task, w=0.1":[-0.8,-0.3,-0.8,-1.4,-1.7,-1.2,-1.1,-0.9,-0.6,-0.2,0.4,0.7,0.6,0.7],"Task, w=0.03":[-2.0,-2.3,-2.6,-2.9,-2.9,-2.6,-2.3,-1.9,-1.4,-0.7,-0.2,-0.2,-0.2,-0.2],"Per-loss clipping":[-0.9,-1.0,-1.4,-1.9,-1.6,-1.3,-1.3,-0.8,-0.5,-0.3,0.0,0.1,0.2,0.2],"Per-task norm.":[-2.3,-3.1,-3.3,-3.6,-3.8,-3.3,-3.0,-2.3,-2.1,-1.8,-1.0,-0.9,-0.8,-0.8],"Per-task Adam":[-1.1,-2.3,-2.9,-3.6,-3.3,-2.5,-2.2,-1.8,-1.3,-0.9,0.0,0.2,0.1,0.2],"Depth alloc. 1 / 0.03":[0.2,1.4,1.2,0.7,0.6,0.7,0.6,0.7,0.1,-0.3,-0.2,-0.2,-0.3,-0.2],"Depth alloc. 0.3 / 0.03":[-0.2,0.2,0.4,0.4,0.3,0.4,0.4,0.5,0.3,0.1,0.3,0.5,0.6,0.5],"Depth alloc. 0.03 / 1":[-2.2,-3.8,-5.7,-6.9,-6.9,-6.2,-5.8,-3.7,-3.0,-1.8,-0.6,-0.4,-0.4,-0.6]},"IN":{"Dense, w=1":[0.1,0.2,0.5,-0.1,0.0,-0.3,-0.2,-0.1,0.2,-0.2,0.3,-0.1,0.4,0.3],"Dense, w=0.1":[-1.8,-2.4,-2.1,-2.6,-1.9,-1.6,-1.1,-1.0,0.4,0.6,1.0,0.5,1.1,1.4],"Dense, w=0.03":[-2.7,-4.5,-5.1,-5.0,-4.4,-3.6,-2.5,-0.6,0.5,0.6,1.0,1.1,1.6,1.4],"Dense, w=0.01":[-2.8,-5.7,-6.2,-6.4,-5.7,-4.8,-3.2,-2.4,-1.2,-1.4,-0.1,-0.8,-0.2,-0.2],"Task, w=1":[0.4,-0.1,0.4,-0.1,0.1,0.3,0.1,0.4,0.5,0.4,0.7,0.2,0.7,0.5],"Task, w=0.1":[-0.2,-1.0,-0.6,-1.1,-0.9,-0.8,-0.6,-0.3,0.5,0.4,1.0,0.4,0.8,0.9],"Task, w=0.03":[-1.9,-2.3,-2.5,-2.8,-2.2,-2.0,-1.3,-0.7,0.5,0.8,1.2,1.0,1.1,1.1],"Per-loss clipping":[-0.4,-2.1,-1.4,-1.7,-1.2,-1.0,-0.3,-0.2,1.1,1.0,1.8,0.5,1.6,1.6],"Per-task norm.":[-2.0,-3.6,-3.1,-3.7,-2.9,-3.0,-1.8,-1.4,-0.5,-0.3,0.5,-0.1,0.4,0.3],"Per-task Adam":[-1.2,-2.3,-3.2,-2.7,-2.4,-1.6,-0.8,-0.7,0.6,1.0,1.4,0.3,0.8,1.3],"Depth alloc. 1 / 0.03":[1.3,0.7,0.6,0.7,0.7,0.7,0.4,0.3,0.7,0.6,1.2,0.7,0.5,0.6],"Depth alloc. 0.3 / 0.03":[-0.3,0.3,0.9,0.3,0.2,0.3,0.3,0.1,1.1,0.6,1.0,0.2,0.8,1.5],"Depth alloc. 0.03 / 1":[-2.3,-4.8,-5.3,-6.0,-4.7,-3.6,-3.0,-1.9,-0.2,0.6,1.6,1.1,0.9,1.4]},"RHO":{"Dense, w=1 (5 seeds)":[11.5,11.4,12.3,15.4,17.2,22.4,29.7,42.9,60.1,20.9],"Dense, w=0.1":[1.6,1.84,2.46,3.01,3.62,4.77,6.32,8.49,10.8,3.92],"Dense, w=0.03 (5 seeds)":[0.58,0.62,0.92,1.14,1.41,1.87,2.42,3.21,3.86,1.46],"Dense, w=0.01":[0.22,0.27,0.35,0.43,0.53,0.68,0.89,1.18,1.46,0.55],"Per-loss clipping, w=1":[1.3,3.31,4.3,5.03,5.66,6.88,8.27,10.8,13.9,5.48],"1.7B, dense, w=1":[10.8,11.3,13.4,16.6,18.8,25.9,35.6,48.8,68.3,23.1],"1.7B, dense, w=0.03":[0.52,0.72,0.93,1.12,1.26,1.73,2.28,2.96,3.44,1.39]},"SS_COCO":[-0.3,-0.3,-0.5,-0.5,-0.3,-0.1,0.0,-0.1,-0.3,-0.2,0.0,0.1,0.1,-0.1],"SS_IN":[-0.2,-0.4,-0.3,-0.2,0.0,0.1,0.0,0.3,0.7,0.3,1.0,0.6,1.0,0.6]};
+const LAYERS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28];
+
+/* ---------- arms of Table 2 ---------- */
+const FAM = {
+  w: { name: "Lower understanding weight", color: "--wgt", shape: "circle" },
+  task: { name: "Task routing", color: "--rte", shape: "square" },
+  opt: { name: "Optimiser-level (w = 1)", color: "--opt" },
+  depth: { name: "Depth allocation", color: "--spl", shape: "pentagon" },
+  ours: { name: "StepShare-Adam", color: "--spl", shape: "star" }
+};
+const ARMS = [
+  { id: "w1", t2: "Dense, w=1", p: "Dense, w=1", fam: "w", label: "Dense, w = 1", opt: "w = 1 (equal weights)",
+    note: "<strong>Equal weights.</strong> Generation receives under 1% of each AdamW step, and FID rises 57% over generation-only training (152 to 238). This arm defines 0% of the gap closed." },
+  { id: "w01", t2: "Dense, 0.1", p: "Dense, w=0.1", fam: "w", label: "Dense, w = 0.1", opt: "w = 0.1",
+    note: "Lowering the understanding weight to 0.1 restores part of generation's share and closes <strong>68%</strong> of the FID gap, at a small cost in intermediate layers." },
+  { id: "w003", t2: "Dense, 0.03", p: "Dense, w=0.03", fam: "w", label: "Dense, w = 0.03", opt: "w = 0.03",
+    note: "w = 0.03 closes <strong>82%</strong> of the gap with no added parameters, but the COCO probe drops by up to <strong>5.4 points</strong> around layer 8, a cost that caption NLL and the last layer do not show." },
+  { id: "w001", t2: "Dense, 0.01", p: "Dense, w=0.01", fam: "w", label: "Dense, w = 0.01", opt: "w = 0.01",
+    note: "w = 0.01 closes <strong>95%</strong> of the gap, and the intermediate-layer COCO deficit deepens to <strong>7.1 points</strong>." },
+  { id: "t1", t2: "Task, w=1", p: "Task, w=1", fam: "task", label: "Task routing, w = 1", opt: "w = 1",
+    note: "A separate feed-forward block for generation image tokens closes <strong>60%</strong> of the gap at equal weights, with no probe cost." },
+  { id: "t01", t2: "Task, 0.1", p: "Task, w=0.1", fam: "task", label: "Task routing, w = 0.1", opt: "w = 0.1",
+    note: "Task routing at w = 0.1 closes <strong>80%</strong> of the gap; worst COCO layer −1.7." },
+  { id: "t003", t2: "Task, 0.03", p: "Task, w=0.03", fam: "task", label: "Task routing, w = 0.03", opt: "w = 0.03",
+    note: "On top of w = 0.03, routing adds 11 points of gap closed (<strong>93%</strong>; not significant after Holm correction) and roughly halves the COCO probe deficit." },
+  { id: "clip", t2: "Per-loss clipping, w=1", p: "Per-loss clipping", fam: "opt", shape: "square-open", label: "Per-loss clipping", opt: "Per-loss clipping",
+    note: "Clipping each loss's gradient separately lowers the gradient ratio to about 5 and closes <strong>60%</strong> of the gap." },
+  { id: "norm", t2: "Per-task norm. grads, w=1", p: "Per-task norm.", fam: "opt", shape: "triangle-open", label: "Per-task normalised gradients", opt: "Per-task normalised gradients",
+    note: "Normalising each task's gradient (ρ = 1) closes <strong>90%</strong> of the gap but costs up to <strong>3.8 COCO probe points</strong> in intermediate layers." },
+  { id: "adam", t2: "Per-task Adam, w=1", p: "Per-task Adam", fam: "opt", shape: "diamond", label: "Per-task Adam", opt: "Per-task Adam (AdaTask)",
+    note: "One AdamW per task closes <strong>92%</strong> of the gap at equal weights: generation gets 29% of the step, but layers 6 to 10 lose up to <strong>3.6 COCO probe points</strong>." },
+  { id: "d1", t2: "Depth alloc. 1 / 0.03", p: "Depth alloc. 1 / 0.03", fam: "depth", label: "Depth allocation 1 / 0.03", opt: "shallow 1, deep 0.03",
+    note: "Lowering the understanding weight only in the deep half closes <strong>72%</strong> of the gap with no probe deficit." },
+  { id: "d03", t2: "Depth alloc. 0.3 / 0.03", p: "Depth alloc. 0.3 / 0.03", fam: "depth", label: "Depth allocation 0.3 / 0.03", opt: "shallow 0.3, deep 0.03",
+    note: "Weight 0.3 in the shallow half and 0.03 in the deep half closes <strong>84%</strong> of the gap; worst COCO layer −0.2." },
+  { id: "d003", t2: "Depth alloc. 0.03 / 1", p: "Depth alloc. 0.03 / 1", fam: "depth", label: "Depth allocation 0.03 / 1", opt: "shallow 0.03, deep 1",
+    note: "Lowering the weight only in the shallow half closes just <strong>61%</strong> and reproduces the COCO deficit (−6.9): the cost comes from the shallow half, the gain from the deep half." },
+  { id: "ss", t2: "StepShare-Adam, w=1", p: null, fam: "ours", label: "StepShare-Adam", opt: "StepShare-Adam (β = 0.3)",
+    note: "<strong>StepShare-Adam</strong>: per-task Adam with generation's step scaled by β = 0.3 in the shallow half. It closes <strong>91%</strong> of the gap with a worst COCO layer of −0.5 and no added parameters." }
+];
+for (const a of ARMS) {
+  a.r = D.T2[a.t2];
+  a.coco = a.p ? D.COCO[a.p] : D.SS_COCO;
+  a.in = a.p ? D.IN[a.p] : D.SS_IN;
+  if (a.r.r1 === null) { a.r.r1 = 0; a.r.r4 = 0; }
+  if (!a.shape) a.shape = FAM[a.fam].shape;
+  a.color = FAM[a.fam].color;
+}
+const byId = Object.fromEntries(ARMS.map(a => [a.id, a]));
+const GROUPS = [["Loss weight w", ["w1", "w01", "w003", "w001"]], ["Task routing + loss weight", ["t1", "t01", "t003"]],
+  ["Optimiser-level, w = 1", ["clip", "norm", "adam"]], ["Depth allocation (shallow / deep w)", ["d1", "d03", "d003"]], ["Ours", ["ss"]]];
+
+const SHARE = [
+  { label: "Dense, w = 1", sh: 1.0, dp: 1.3, all: 0.9 },
+  { label: "Dense, w = 0.03", sh: 15.1, dp: 16.2, all: 14.2 },
+  { label: "Per-task Adam", sh: 37.8, dp: 38.1, all: 29.1 },
+  { label: "StepShare-Adam", sh: 4.2, dp: 37.2, all: 17.6 }
+];
+const RHO = [
+  { label: "w = 1", key: "Dense, w=1 (5 seeds)", color: "--ref" },
+  { label: "per-loss clip", key: "Per-loss clipping, w=1", color: "--opt" },
+  { label: "w = 0.1", key: "Dense, w=0.1", color: "--w1" },
+  { label: "w = 0.03", key: "Dense, w=0.03 (5 seeds)", color: "--w2" },
+  { label: "w = 0.01", key: "Dense, w=0.01", color: "--w3" }
+];
+const GRIDS = [
+  { id: "gen", label: "Generation only", fid: 113 },
+  { id: "dense", label: "Dense, w = 1", fid: 340 },
+  { id: "w003", label: "Dense, w = 0.03", fid: 157 },
+  { id: "split", label: "Per-task Adam", fid: 119 },
+  { id: "ssadam", label: "StepShare-Adam", fid: 142 }
+];
+
+/* ---------- state ---------- */
+let sel = "ss", probe = "coco";
+const root = document.getElementById("root");
+const tip = document.getElementById("tip");
+
+/* ---------- helpers ---------- */
+const NS = "http://www.w3.org/2000/svg";
+function S(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs || {}) if (attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function T(parent, x, y, s, cls, anchor, extra) {
+  const t = S("text", Object.assign({ x, y, class: cls, "text-anchor": anchor || "start" }, extra || {}), parent);
+  t.textContent = s;
+  return t;
+}
+const lin = (d0, d1, r0, r1) => v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+const lgs = (d0, d1, r0, r1) => v => r0 + (Math.log10(v) - Math.log10(d0)) / (Math.log10(d1) - Math.log10(d0)) * (r1 - r0);
+function sgn(v, d) {
+  if (v === null || v === undefined) return "–";
+  const s = Math.abs(v).toFixed(d === undefined ? 1 : d);
+  if (Number(s) === 0) return s;
+  return (v > 0 ? "+" : "−") + s;
+}
+const v = name => `var(${name})`;
+function marker(shape, x, y, r) {
+  const P = pts => "M" + pts.map(p => p[0].toFixed(2) + "," + p[1].toFixed(2)).join("L") + "Z";
+  const poly = (n, rad, rot) => Array.from({ length: n }, (_, k) => {
+    const a = (rot + 360 * k / n) * Math.PI / 180; return [x + rad * Math.cos(a), y + rad * Math.sin(a)];
+  });
+  switch (shape) {
+    case "square": case "square-open": { const s = r * 0.88; return P([[x - s, y - s], [x + s, y - s], [x + s, y + s], [x - s, y + s]]); }
+    case "diamond": { const s = r * 1.25; return P([[x, y - s], [x + s, y], [x, y + s], [x - s, y]]); }
+    case "triangle-open": return P(poly(3, r * 1.25, -90));
+    case "pentagon": return P(poly(5, r * 1.1, -90));
+    case "star": return P(Array.from({ length: 10 }, (_, k) => {
+      const a = (-90 + 36 * k) * Math.PI / 180, rad = k % 2 ? r * 0.72 : r * 1.65; return [x + rad * Math.cos(a), y + rad * Math.sin(a)];
+    }));
+    default: return `M${x - r},${y}a${r},${r} 0 1,0 ${2 * r},0a${r},${r} 0 1,0 ${-2 * r},0Z`;
+  }
+}
+function drawMarker(g, shape, x, y, r, color) {
+  const open = shape.endsWith("-open");
+  return S("path", { d: marker(shape, x, y, r), style: open
+    ? `fill:var(--surface);stroke:${v(color)};stroke-width:1.75`
+    : `fill:${v(color)};stroke:var(--surface);stroke-width:2` }, g);
+}
+function keySvg(kind, color, shape, width, opacity) {
+  const s = S("svg", { width: kind === "line" ? 18 : 12, height: 12, "aria-hidden": "true" });
+  if (kind === "line") S("line", { x1: 0, y1: 6, x2: 18, y2: 6, style: `stroke:${v(color)};stroke-width:${width || 2};stroke-linecap:round;opacity:${opacity || 1}` }, s);
+  else if (kind === "rect") S("rect", { x: 0, y: 1, width: 12, height: 10, rx: 2, style: `fill:${v(color)}` }, s);
+  else drawMarker(s, shape, 6, 6, 4, color);
+  return s;
+}
+function legend(box, items) {
+  box.replaceChildren();
+  for (const it of items) {
+    const k = document.createElement("span");
+    k.className = "k";
+    k.appendChild(keySvg(it.kind, it.color, it.shape, it.width, it.opacity));
+    k.appendChild(document.createTextNode(it.label));
+    box.appendChild(k);
+  }
+}
+function showTip(title, rows, cx, cy) {
+  tip.replaceChildren();
+  if (title) { const h = document.createElement("div"); h.className = "tt-title"; h.textContent = title; tip.appendChild(h); }
+  for (const r of rows) {
+    const d = document.createElement("div"); d.className = "tt-row";
+    if (r.color) { const k = document.createElement("span"); k.className = "tt-key"; k.style.background = v(r.color); d.appendChild(k); }
+    const b = document.createElement("strong"); b.textContent = r.value; d.appendChild(b);
+    if (r.label) { const l = document.createElement("span"); l.className = "l"; l.textContent = r.label; d.appendChild(l); }
+    tip.appendChild(d);
+  }
+  tip.hidden = false;
+  const rb = root.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+  let x = cx - rb.left + 14, y = cy - rb.top + 14;
+  if (x + tw > rb.width - 6) x = cx - rb.left - tw - 14;
+  if (y + th > rb.height - 6) y = cy - rb.top - th - 14;
+  tip.style.left = Math.max(6, x) + "px";
+  tip.style.top = Math.max(6, y) + "px";
+}
+const hideTip = () => { tip.hidden = true; };
+function axes(svg, o) {
+  const g = S("g", {}, svg);
+  for (const t of o.yt) {
+    const yy = o.y(t);
+    S("line", { x1: o.m.l, x2: o.W - o.m.r, y1: yy, y2: yy, class: "gridl" }, g);
+    T(g, o.m.l - 6, yy + 3.5, o.yf ? o.yf(t) : String(t), "tick", "end");
+  }
+  for (const t of o.xt) {
+    const xx = o.x(t);
+    if (o.xgrid) S("line", { x1: xx, x2: xx, y1: o.m.t, y2: o.H - o.m.b, class: "gridl" }, g);
+    T(g, xx, o.H - o.m.b + 15, o.xf ? o.xf(t) : String(t), "tick", "middle");
+  }
+  S("line", { x1: o.m.l, x2: o.W - o.m.r, y1: o.H - o.m.b, y2: o.H - o.m.b, class: "axisl" }, g);
+  if (o.xl) T(g, (o.m.l + o.W - o.m.r) / 2, o.H - 6, o.xl, "axlab", "middle");
+  if (o.yl) T(g, 12, (o.m.t + o.H - o.m.b) / 2, o.yl, "axlab", "middle", { transform: `rotate(-90 12 ${(o.m.t + o.H - o.m.b) / 2})` });
+  return g;
+}
+function newSvg(box, H, label) {
+  box.replaceChildren();
+  const W = Math.max(260, box.clientWidth || 360);
+  const svg = S("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": label }, box);
+  return [svg, W];
+}
+
+/* ---------- panel A: rebalance ---------- */
+function fillSelect() {
+  const s = document.getElementById("arm");
+  for (const [name, ids] of GROUPS) {
+    const og = document.createElement("optgroup"); og.label = name;
+    for (const id of ids) { const o = document.createElement("option"); o.value = id; o.textContent = byId[id].opt; og.appendChild(o); }
+    s.appendChild(og);
+  }
+  s.value = sel;
+  s.addEventListener("change", () => select(s.value));
+}
+function select(id) {
+  sel = id;
+  document.getElementById("arm").value = id;
+  renderA();
+}
+function tile(label, val, sub) {
+  const t = document.createElement("div"); t.className = "tile";
+  const a = document.createElement("div"); a.className = "lbl"; a.textContent = label;
+  const b = document.createElement("div"); b.className = "val"; b.textContent = val;
+  const c = document.createElement("div"); c.className = "sub"; c.textContent = sub;
+  t.append(a, b, c);
+  return t;
+}
+function renderTiles() {
+  const a = byId[sel], r = a.r, box = document.getElementById("tiles");
+  const ref = a.id === "w1";
+  const worst = probe === "coco" ? r.worst : r.inw;
+  box.replaceChildren(
+    tile("Gap closed · guidance 1", Math.round(r.r1) + "%", ref ? `reference arm, ${r.n} seeds` : `± ${r.c1} (95% CI, ${r.n} seeds)`),
+    tile("Gap closed · guidance 4", Math.round(r.r4) + "%", ref ? "reference arm" : `± ${r.c4} (95% CI)`),
+    tile(`Worst probe layer · ${probe === "coco" ? "COCO" : "IN-100"}`, sgn(worst) + " pts", "layers 2–28 vs. und.-only"),
+    tile("Caption NLL change", sgn(r.nll, 2), "vs. 2.55 for und.-only")
+  );
+  document.getElementById("note").innerHTML = a.note; // static, author-written notes
+}
+function renderScatter() {
+  const box = document.getElementById("scatter");
+  const H = 290, m = { l: 46, r: 16, t: 12, b: 40 };
+  const [svg, W] = newSvg(box, H, "FID gap closed against the worst probe layer, one point per arm");
+  const x = lin(-8, 1, m.l, W - m.r), y = lin(-8, 108, H - m.b, m.t);
+  axes(svg, { W, H, m, x, y, xt: [-8, -6, -4, -2, 0], yt: [0, 25, 50, 75, 100], xgrid: true,
+    xf: t => (t < 0 ? "−" + -t : String(t)), xl: "worst probe layer (pts), closer to 0 is better", yl: "FID gap closed (%)" });
+  const key = probe === "coco" ? "worst" : "inw";
+  const P = a => [x(a.r[key]), y(a.r.r1)];
+  for (const [ids, color] of [[["w1", "w01", "w003", "w001"], "--wgt"], [["t1", "t01", "t003"], "--rte"]]) {
+    S("path", { d: "M" + ids.map(id => P(byId[id]).map(n => n.toFixed(1)).join(",")).join("L"),
+      style: `fill:none;stroke:${v(color)};stroke-width:2;stroke-linejoin:round;stroke-linecap:round;opacity:.85` }, svg);
+  }
+  const gp = S("g", {}, svg), gl = S("g", {}, svg);
+  const order = ARMS.filter(a => a.id !== sel).concat([byId[sel]]);
+  for (const a of order) {
+    const [px, py] = P(a), on = a.id === sel;
+    if (on) S("circle", { cx: px, cy: py, r: a.shape === "star" ? 13 : 10, style: "fill:none;stroke:var(--ink);stroke-width:1.5" }, gp);
+    drawMarker(gp, a.shape, px, py, on ? 5.5 : 4.5, a.color);
+    const hit = S("circle", { cx: px, cy: py, r: 12, class: "hit", fill: "transparent", tabindex: 0, role: "button",
+      "aria-label": `${a.label}: ${Math.round(a.r.r1)}% of the gap closed, worst layer ${sgn(a.r[key])} points` }, gp);
+    const tipFor = (cx, cy) => showTip(a.label, [
+      { value: Math.round(a.r.r1) + "%", label: "gap closed (guidance 1)" },
+      { value: sgn(a.r[key]) + " pts", label: "worst probe layer" }], cx, cy);
+    hit.addEventListener("pointermove", e => tipFor(e.clientX, e.clientY));
+    hit.addEventListener("pointerleave", hideTip);
+    hit.addEventListener("focus", () => { const b = hit.getBoundingClientRect(); tipFor(b.right, b.top); });
+    hit.addEventListener("blur", hideTip);
+    hit.addEventListener("click", () => select(a.id));
+    hit.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(a.id); } });
+  }
+  // labels try a few spots around the point and keep the first that clears every marker, the selection ring and
+  // the labels already placed
+  const obstacles = ARMS.map(a => { const [px, py] = P(a), r = a.id === sel ? 14 : 8; return { id: a.id, x0: px - r, y0: py - r, x1: px + r, y1: py + r }; });
+  const placed = [];
+  const hits = (b, c) => !(b.x1 < c.x0 || b.x0 > c.x1 || b.y1 < c.y0 || b.y0 > c.y1);
+  const label = (a, txt, required) => {
+    const [px, py] = P(a), right = px > (m.l + W - m.r) * 0.62;
+    const ring = a.id === sel ? 14 : 8;
+    let spots = [[6, -ring - 5, "end"], [-6, -ring - 5, "start"], [ring + 4, 4, "start"], [-ring - 4, 4, "end"],
+      [6, ring + 13, "end"], [-6, ring + 13, "start"], [6, -ring - 19, "end"], [6, ring + 27, "end"]];
+    if (!right) spots = spots.map(([dx, dy, an]) => [-dx, dy, an === "end" ? "start" : "end"]);
+    for (const [dx, dy, an] of spots) {
+      const t = T(gl, px + dx, py + dy, txt, "ink halo", an), b = t.getBBox();
+      const box = { x0: b.x - 2, y0: b.y - 1, x1: b.x + b.width + 2, y1: b.y + b.height + 1 };
+      const inside = box.x0 >= m.l && box.x1 <= W - 2 && box.y0 >= 0 && box.y1 <= H - m.b;
+      if (inside && !obstacles.some(o => o.id !== a.id && hits(box, o)) && !placed.some(q => hits(box, q))) { placed.push(box); return; }
+      t.remove();
+    }
+    if (!required) return;  // the legend names it; a label that cannot sit clear is dropped
+    const [dx, dy, an] = spots[0];
+    T(gl, px + dx, py + dy, txt, "ink halo", an);
+  };
+  label(byId[sel], byId[sel].label, true);
+  if (sel !== "ss") label(byId.ss, "StepShare-Adam", false);
+  legend(document.getElementById("scatter-legend"), [
+    { kind: "marker", color: "--wgt", shape: "circle", label: "lower w" },
+    { kind: "marker", color: "--rte", shape: "square", label: "task routing" },
+    { kind: "marker", color: "--spl", shape: "pentagon", label: "depth alloc." },
+    { kind: "marker", color: "--opt", shape: "diamond", label: "per-task Adam" },
+    { kind: "marker", color: "--opt", shape: "triangle-open", label: "per-task norm." },
+    { kind: "marker", color: "--opt", shape: "square-open", label: "per-loss clip" },
+    { kind: "marker", color: "--spl", shape: "star", label: "StepShare-Adam" }
+  ]);
+}
+function renderProfile() {
+  const box = document.getElementById("profile");
+  const H = 290, m = { l: 40, r: 14, t: 12, b: 40 };
+  const [svg, W] = newSvg(box, H, "Probe change by layer for the selected arm and two references");
+  const x = lin(1, 29, m.l, W - m.r), y = lin(-8, 2, H - m.b, m.t);
+  S("rect", { x: x(1), y: m.t, width: x(13) - x(1), height: H - m.b - m.t, style: "fill:var(--shade)" }, svg);
+  axes(svg, { W, H, m, x, y, xt: [2, 8, 14, 20, 28], yt: [-8, -6, -4, -2, 0, 2],
+    yf: t => (t < 0 ? "−" + -t : t > 0 ? "+" + t : "0"), xl: "layer", yl: "points vs. und.-only" });
+  S("line", { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), class: "axisl" }, svg);
+  T(svg, x(1) + 6, m.t + 13, "shallow half", "mut");
+  const series = [];
+  for (const id of ["w003", "ss"]) if (id !== sel) series.push({ a: byId[id], ref: true });
+  series.push({ a: byId[sel], ref: false });
+  const data = s => (probe === "coco" ? s.a.coco : s.a.in);
+  for (const s of series) {
+    const d = data(s);
+    S("path", { d: "M" + d.map((val, i) => x(LAYERS[i]).toFixed(1) + "," + y(val).toFixed(1)).join("L"),
+      style: `fill:none;stroke:${v(s.a.color)};stroke-width:${s.ref ? 1.5 : 2.5};stroke-linejoin:round;stroke-linecap:round;opacity:${s.ref ? 0.5 : 1}` }, svg);
+  }
+  const main = data(series[series.length - 1]);
+  const mi = main.indexOf(Math.min(...main));
+  if (main[mi] < -0.9) {
+    // the minimum's label goes below it, where the curve is not, unless the axis is too close
+    const mx = x(LAYERS[mi]), my = y(main[mi]), below = my + 18 < H - m.b - 2;
+    drawMarker(svg, "circle", mx, my, 4, byId[sel].color);
+    T(svg, below ? mx : mx + 8, below ? my + 18 : my + 4, `${sgn(main[mi])} at layer ${LAYERS[mi]}`, "ink halo", below ? "middle" : "start");
+  }
+  const cross = S("line", { y1: m.t, y2: H - m.b, class: "axisl", visibility: "hidden" }, svg);
+  const dots = S("g", {}, svg);
+  const ov = S("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" }, svg);
+  ov.addEventListener("pointermove", e => {
+    const b = svg.getBoundingClientRect(), px = (e.clientX - b.left) * (W / b.width);
+    let i = 0, best = 1e9;
+    LAYERS.forEach((l, k) => { const dd = Math.abs(x(l) - px); if (dd < best) { best = dd; i = k; } });
+    cross.setAttribute("x1", x(LAYERS[i])); cross.setAttribute("x2", x(LAYERS[i])); cross.setAttribute("visibility", "visible");
+    dots.replaceChildren();
+    for (const s of series) drawMarker(dots, "circle", x(LAYERS[i]), y(data(s)[i]), 4, s.a.color);
+    showTip(`Layer ${LAYERS[i]}`, series.slice().reverse().map(s => ({ value: sgn(data(s)[i]), label: s.a.label, color: s.a.color })), e.clientX, e.clientY);
+  });
+  ov.addEventListener("pointerleave", () => { cross.setAttribute("visibility", "hidden"); dots.replaceChildren(); hideTip(); });
+  legend(document.getElementById("profile-legend"), series.slice().reverse().map(s => ({ kind: "line", color: s.a.color,
+    width: s.ref ? 1.5 : 2.5, opacity: s.ref ? 0.5 : 1, label: s.ref ? s.a.label + " (reference)" : s.a.label })));
+  document.getElementById("profile-sub").textContent = `· ${probe === "coco" ? "COCO" : "ImageNet-100"}, vs. und.-only`;
+}
+function renderA() { renderTiles(); renderScatter(); renderProfile(); }
+
+/* ---------- panel B: step split ---------- */
+function renderShare() {
+  const box = document.getElementById("share");
+  const rowH = 22, gap = 6, block = 16 + 2 * rowH + gap + 14, m = { l: 82, r: 46 };
+  const H = SHARE.length * block;
+  const [svg, W] = newSvg(box, H, "Generation's share of the AdamW step in the shallow and deep halves, four arms");
+  const bx = lin(0, 100, m.l, W - m.r);
+  SHARE.forEach((s, i) => {
+    const top = i * block;
+    T(svg, 0, top + 12, s.label, "ink");
+    [["layers 0–13", s.sh], ["layers 14–27", s.dp]].forEach(([name, g], j) => {
+      const yy = top + 18 + j * (rowH + gap), h = rowH - 4;
+      T(svg, m.l - 8, yy + h / 2 + 4, name, "mut", "end");
+      const xg = bx(100 - g), x0 = bx(0), x1 = bx(100), gapPx = 2;
+      const gu = S("g", {}, svg);
+      S("rect", { x: x0, y: yy, width: Math.max(0, xg - x0 - gapPx / 2), height: h, rx: 4, style: "fill:var(--und)" }, gu);
+      S("rect", { x: xg + gapPx / 2, y: yy, width: Math.max(2, x1 - xg - gapPx / 2), height: h, rx: Math.min(4, (x1 - xg) / 2), style: "fill:var(--gen)" }, gu);
+      T(svg, x1 + 6, yy + h / 2 + 4, g.toFixed(1) + "%", "ink");
+      const hit = S("rect", { x: x0, y: yy - 2, width: x1 - x0, height: h + 4, fill: "transparent", class: "hit", tabindex: 0,
+        "aria-label": `${s.label}, ${name}: generation ${g.toFixed(1)}%, understanding ${(100 - g).toFixed(1)}%` }, svg);
+      const show = (cx, cy) => showTip(`${s.label} · ${name}`, [
+        { value: g.toFixed(1) + "%", label: "generation part", color: "--gen" },
+        { value: (100 - g).toFixed(1) + "%", label: "understanding part", color: "--und" },
+        { value: s.all.toFixed(1) + "%", label: "generation, all parameters" }], cx, cy);
+      hit.addEventListener("pointermove", e => show(e.clientX, e.clientY));
+      hit.addEventListener("pointerleave", hideTip);
+      hit.addEventListener("focus", () => { const b = hit.getBoundingClientRect(); show(b.left + b.width * 0.6, b.top); });
+      hit.addEventListener("blur", hideTip);
+    });
+  });
+  legend(document.getElementById("share-legend"), [
+    { kind: "rect", color: "--und", label: "understanding part Δu" }, { kind: "rect", color: "--gen", label: "generation part Δg" }]);
+}
+function renderRho() {
+  const box = document.getElementById("rho");
+  const H = 300, m = { l: 44, r: 92, t: 12, b: 40 };
+  const [svg, W] = newSvg(box, H, "Gradient ratio during training for five arms, log scale");
+  const steps = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const x = lin(1, 9, m.l, W - m.r), y = lgs(0.15, 100, H - m.b, m.t);
+  axes(svg, { W, H, m, x, y, xt: [1, 3, 5, 7, 9], yt: [0.3, 1, 3, 10, 30, 100], xf: t => t + "k", xl: "training step", yl: "gradient ratio ρ (log)" });
+  S("line", { x1: m.l, x2: x(9), y1: y(1), y2: y(1), style: "stroke:var(--muted);stroke-width:1" }, svg);
+  const vals = s => D.RHO[s.key].slice(0, 9);
+  for (const s of RHO) {
+    S("path", { d: "M" + vals(s).map((r, i) => x(steps[i]).toFixed(1) + "," + y(r).toFixed(1)).join("L"),
+      style: `fill:none;stroke:${v(s.color)};stroke-width:2;stroke-linejoin:round;stroke-linecap:round` }, svg);
+    drawMarker(svg, "circle", x(9), y(vals(s)[8]), 4, s.color);
+  }
+  // end labels; when two collide, the label moves and a leader line ties it to its line end
+  const ends = RHO.map(s => ({ label: s.label, cls: "ink", y0: y(vals(s)[8]) }))
+    .concat([{ label: "norm. (ρ = 1)", cls: "mut", y0: y(1) }]).sort((a, b) => a.y0 - b.y0);
+  let last = -1e9;
+  for (const e of ends) { e.y1 = Math.max(e.y0, last + 13); last = e.y1; }
+  for (const e of ends) {
+    const lx = x(9) + 16;
+    if (Math.abs(e.y1 - e.y0) > 2) S("polyline", { points: `${x(9) + 5},${e.y0} ${lx - 3},${e.y1}`, style: "fill:none;stroke:var(--muted);stroke-width:1" }, svg);
+    T(svg, lx, e.y1 + 4, e.label, e.cls);
+  }
+  const cross = S("line", { y1: m.t, y2: H - m.b, class: "axisl", visibility: "hidden" }, svg);
+  const dots = S("g", {}, svg);
+  const ov = S("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" }, svg);
+  ov.addEventListener("pointermove", e => {
+    const b = svg.getBoundingClientRect(), px = (e.clientX - b.left) * (W / b.width);
+    const i = Math.max(0, Math.min(8, Math.round((px - m.l) / ((W - m.r - m.l) / 8))));
+    cross.setAttribute("x1", x(steps[i])); cross.setAttribute("x2", x(steps[i])); cross.setAttribute("visibility", "visible");
+    dots.replaceChildren();
+    for (const s of RHO) drawMarker(dots, "circle", x(steps[i]), y(vals(s)[i]), 4, s.color);
+    showTip(`Steps ${steps[i] - 1}k–${steps[i]}k`, RHO.map(s => ({ value: String(vals(s)[i]), label: s.label, color: s.color }))
+      .sort((a, b) => Number(b.value) - Number(a.value)), e.clientX, e.clientY);
+  });
+  ov.addEventListener("pointerleave", () => { cross.setAttribute("visibility", "hidden"); dots.replaceChildren(); hideTip(); });
+  legend(document.getElementById("rho-legend"), RHO.map(s => ({ kind: "line", color: s.color, label: s.label })));
+}
+function renderB() { renderShare(); renderRho(); }
+
+/* ---------- panel C: samples ---------- */
+function initWipe() {
+  const sa = document.getElementById("wipe-a"), sb = document.getElementById("wipe-b");
+  for (const s of [sa, sb]) for (const g of GRIDS) {
+    const o = document.createElement("option"); o.value = g.id; o.textContent = `${g.label} (FID ${g.fid})`; s.appendChild(o);
+  }
+  sa.value = "dense"; sb.value = "ssadam";
+  const pos = document.getElementById("wipe-pos");
+  const upd = () => {
+    const A = GRIDS.find(g => g.id === sa.value), B = GRIDS.find(g => g.id === sb.value), p = Number(pos.value);
+    const ia = document.getElementById("img-a"), ib = document.getElementById("img-b");
+    if (ia.dataset.id !== A.id) { ia.src = `grids/${A.id}.webp`; ia.dataset.id = A.id; ia.alt = `36 samples, ${A.label}`; }
+    if (ib.dataset.id !== B.id) { ib.src = `grids/${B.id}.webp`; ib.dataset.id = B.id; ib.alt = `36 samples, ${B.label}`; }
+    ib.style.clipPath = `inset(0 0 0 ${p}%)`;
+    document.getElementById("wipe-bar").style.left = p + "%";
+    document.getElementById("wipe-knob").style.left = p + "%";
+    document.getElementById("tag-a").textContent = `${A.label} · FID ${A.fid}`;
+    document.getElementById("tag-b").textContent = `${B.label} · FID ${B.fid}`;
+    pos.setAttribute("aria-valuetext", `${Math.round(p)}% ${A.label}, ${Math.round(100 - p)}% ${B.label}`);
+  };
+  sa.addEventListener("change", upd); sb.addEventListener("change", upd); pos.addEventListener("input", upd);
+  upd();
+}
+
+/* ---------- data tables (the WCAG twin of every chart) ---------- */
+function table(caption, head, rows) {
+  const t = document.createElement("table");
+  const c = document.createElement("caption"); c.textContent = caption; t.appendChild(c);
+  const tr = document.createElement("tr");
+  for (const h of head) { const th = document.createElement("th"); th.scope = "col"; th.textContent = h; tr.appendChild(th); }
+  const thead = document.createElement("thead"); thead.appendChild(tr); t.appendChild(thead);
+  const tb = document.createElement("tbody");
+  for (const r of rows) {
+    const row = document.createElement("tr");
+    r.forEach((cell, i) => { const td = document.createElement(i ? "td" : "th"); if (!i) td.scope = "row"; td.textContent = cell; row.appendChild(td); });
+    tb.appendChild(row);
+  }
+  t.appendChild(tb);
+  return t;
+}
+function buildTables() {
+  const a = document.getElementById("tbl-a");
+  a.appendChild(table("Table 2 of the paper (0.6B, mean over seeds)",
+    ["Arm", "n", "Gap closed, g1 (%)", "Gap closed, g4 (%)", "ΔNLL", "COCO L28", "COCO worst", "IN-100 worst"],
+    ARMS.map(x => [x.label, String(x.r.n), x.id === "w1" ? "0 (ref.)" : `${x.r.r1} ± ${x.r.c1}`, x.id === "w1" ? "0 (ref.)" : `${x.r.r4} ± ${x.r.c4}`,
+      sgn(x.r.nll, 2), sgn(x.r.l28), sgn(x.r.worst), sgn(x.r.inw)])));
+  a.appendChild(table("COCO probe change by layer (points vs. understanding-only)", ["Arm"].concat(LAYERS.map(String)),
+    ARMS.map(x => [x.label].concat(x.coco.map(n => sgn(n))))));
+  a.appendChild(table("ImageNet-100 probe change by layer (points vs. understanding-only)", ["Arm"].concat(LAYERS.map(String)),
+    ARMS.map(x => [x.label].concat(x.in.map(n => sgn(n))))));
+  const b = document.getElementById("tbl-b");
+  b.appendChild(table("Generation's share of the AdamW step (%)", ["Arm", "All parameters", "Layers 0–13", "Layers 14–27"],
+    SHARE.map(s => [s.label, s.all.toFixed(1), s.sh.toFixed(1), s.dp.toFixed(1)])));
+  b.appendChild(table("Gradient ratio ρ per 1000-step interval", ["Arm", "1k", "2k", "3k", "4k", "5k", "6k", "7k", "8k", "9k", "ρ̄"],
+    RHO.map(s => [s.label].concat(D.RHO[s.key].map(String)))));
+  for (const btn of document.querySelectorAll("[data-table]")) {
+    btn.addEventListener("click", () => {
+      const el = document.getElementById(btn.dataset.table), open = el.hidden;
+      el.hidden = !open; btn.setAttribute("aria-expanded", String(open));
+      btn.textContent = open ? "Hide data table" : "Show data table";
+    });
+  }
+}
+
+/* ---------- tabs, probe toggle, theme, sizing ---------- */
+const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+let current = "panel-a";
+function show(tab) {
+  for (const t of tabs) {
+    const on = t === tab;
+    t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+  }
+  current = tab.getAttribute("aria-controls");
+  hideTip(); renderVisible();
+}
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => show(t));
+  t.addEventListener("keydown", e => {
+    const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; n.focus(); show(n); }
+  });
+});
+for (const b of document.querySelectorAll("[data-probe]")) {
+  b.addEventListener("click", () => {
+    probe = b.dataset.probe;
+    for (const o of document.querySelectorAll("[data-probe]")) o.setAttribute("aria-pressed", String(o === b));
+    renderA();
+  });
+}
+function renderVisible() { if (current === "panel-a") renderA(); else if (current === "panel-b") renderB(); }
+
+function themeNow() {
+  try { if (window.parent !== window) return window.parent.document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light"; } catch (e) { /* cross-origin */ }
+  try { const s = localStorage.getItem("theme"); if (s === "dark" || s === "light") return s; } catch (e) { /* storage blocked */ }
+  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+function applyTheme() {
+  if (themeNow() === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  else document.documentElement.removeAttribute("data-theme");
+}
+applyTheme();
+try { if (window.parent !== window) new MutationObserver(applyTheme).observe(window.parent.document.documentElement, { attributes: true, attributeFilter: ["data-theme"] }); } catch (e) { /* cross-origin */ }
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme);
+
+function fit() {
+  try { if (window.frameElement) window.frameElement.style.height = Math.ceil(root.getBoundingClientRect().height) + 2 + "px"; } catch (e) { /* cross-origin */ }
+}
+let lastW = 0;
+new ResizeObserver(() => {
+  const w = root.clientWidth;
+  if (w !== lastW) { lastW = w; renderVisible(); }
+  fit();
+}).observe(root);
+
+fillSelect(); buildTables(); initWipe(); renderA();
+const start = { split: 1, samples: 2 }[location.hash.slice(1)];
+if (start) show(tabs[start]);
+fit();
+})();
+</script>
+</body>
+</html>
