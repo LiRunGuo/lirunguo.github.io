@@ -30,20 +30,28 @@ h1 { font-size: 22px; margin: 0 0 4px; }
 h2 { font-size: 17px; margin: 0 0 4px; }
 p { margin: 0 0 10px; }
 .sub { color: var(--muted); font-size: 14px; }
-section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-top: 16px; }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 16px; margin-top: 16px;
+  box-shadow: 0 1px 2px rgba(16,24,40,.05), 0 4px 14px rgba(16,24,40,.05); }
+h2 .n { color: var(--ours); margin-right: 6px; }
+html.embed body { background: transparent; }
+html.embed main { padding: 0; }
+html.embed .intro { display: none; }
+html.embed section:first-of-type { margin-top: 0; }
+html.embed section { border-radius: 0; border-width: 0 0 1px; box-shadow: none; margin-top: 0; }
 .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 label { font-size: 14px; color: var(--muted); }
-input[type=range] { width: min(360px, 100%); accent-color: var(--ours); }
+input[type=range] { width: min(360px, 100%); accent-color: var(--ours); height: 22px; }
 .chip { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px;
-  padding: 4px 12px; font-size: 13px; cursor: pointer; }
+  padding: 5px 13px; font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color .15s, background .15s; }
+.chip:hover { border-color: var(--ours); }
 .chip[aria-pressed="true"] { border-color: var(--ours); background: var(--accent-bg); color: var(--ours); font-weight: 600; }
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
-.card { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.card { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
 .card .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .card .k { font-size: 12px; color: var(--muted); }
 .good { color: var(--ours); }
 canvas, svg { width: 100%; display: block; }
-.toyfig { position: relative; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+.toyfig { position: relative; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .samples { display: grid; grid-template-columns: 150px 1fr; gap: 8px 12px; align-items: center; margin-top: 10px; }
 .samples .lab { font-size: 13px; font-weight: 600; border-left: 4px solid; padding-left: 8px; }
 .samples img { width: 100%; max-width: 640px; height: auto; border-radius: 4px; display: block; }
@@ -61,13 +69,13 @@ select { background: var(--bg); color: var(--ink); border: 1px solid var(--line)
 </head>
 <body>
 <main>
-  <h1>Late Activation: interactive demo</h1>
+  <div class="intro"><h1>Late Activation: interactive demo</h1>
   <p class="sub">RL tuning makes a text-to-image flow model return nearly the same composition for every seed.
     Late activation lets the base model sample the first, high-noise steps and switches the RL-tuned adapter on below a
-    noise level &tau;. It needs no retraining and no extra network evaluations.</p>
+    noise level &tau;. It needs no retraining and no extra network evaluations.</p></div>
 
   <section id="toy">
-    <h2>1. What the switch does, on a 1-d toy</h2>
+    <h2><span class="n">1</span>What the switch does, on a 1-d toy</h2>
     <p class="sub">Exact probability-flow paths of a four-mode base distribution. The reward-tilted flow (the role of the
       RL-tuned adapter) prefers the upper side of every mode and slightly the top mode. Paths follow the base flow above
       &tau; (gray) and the tilted flow below it (orange).</p>
@@ -83,7 +91,7 @@ select { background: var(--bg); color: var(--ink); border: 1px solid var(--line)
   </section>
 
   <section id="samples">
-    <h2>2. Samples from the same noise</h2>
+    <h2><span class="n">2</span>Samples from the same noise</h2>
     <p class="sub">SD3.5-Medium tuned with DiffusionNFT on PickScore (paper scale, 500 rollouts). Each row uses the same
       four noise seeds; only the sampling schedule changes.</p>
     <div class="row" id="promptChips" role="group" aria-label="prompt"></div>
@@ -93,7 +101,7 @@ select { background: var(--bg); color: var(--ink); border: 1px solid var(--line)
   </section>
 
   <section id="tradeoff">
-    <h2>3. Reward and diversity as &tau; moves</h2>
+    <h2><span class="n">3</span>Reward and diversity as &tau; moves</h2>
     <p class="sub">Held-out results on the same adapter (256 prompts &times; 4 seeds, mean of two training seeds), relative to
       NFT on the whole path. Lower &tau; hands more of the first steps to the base model.</p>
     <div class="row">
@@ -112,6 +120,14 @@ select { background: var(--bg); color: var(--ink); border: 1px solid var(--line)
 </main>
 <script>
 "use strict";
+if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed");
+window.addEventListener("message", e => {  // the project page passes its light or dark theme
+  if (e.data && e.data.laTheme) { document.documentElement.setAttribute("data-theme", e.data.laTheme);
+    if (typeof drawChart === "function") { drawChart(); drawToy(+document.getElementById("toyTau").value); } }
+});
+function reportHeight() { if (parent !== window) parent.postMessage({laDemoHeight: document.documentElement.scrollHeight}, "*"); }
+new ResizeObserver(reportHeight).observe(document.body);
+window.addEventListener("load", reportHeight);
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
 /* ---------- 1. toy: exact rectified-flow paths, v(x, t) = (x - E[x0 | x_t = x]) / t ---------- */
@@ -162,8 +178,9 @@ const summary = paths => { const f = paths.map(p => p[p.length - 1]);
 const REF = {base: summary(toyPaths(0)), tilt: summary(toyPaths(1))};
 
 function drawToy(tau) {
-  const cv = document.getElementById("toyCanvas"), g = cv.getContext("2d");
-  const W = cv.width, H = cv.height, L = 20, R = W - 150, T = 12, B = H - 26;
+  const cv = document.getElementById("toyCanvas"), g = cv.getContext("2d"), dpr = window.devicePixelRatio || 1;
+  cv.width = 900 * dpr; cv.height = 320 * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const W = 900, H = 320, L = 20, R = W - 150, T = 12, B = H - 26;
   const X = t => L + (1 - t) * (R - L), Y = x => T + (10.5 - x) / 21 * (B - T);
   g.clearRect(0, 0, W, H);
   const paths = toyPaths(tau);
