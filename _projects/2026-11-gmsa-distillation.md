@@ -18,7 +18,7 @@ publication: "/publication/2026-11-gmsa-distillation"
 <p style="text-align:center;margin:0 0 0.8em"><span style="display:inline-block;padding:2px 12px;border-radius:999px;background:#eef3fb;color:#2a5fa8;font-weight:600;font-size:0.85em">Preprint · under review</span></p>
 <p style="text-align:center">
   <a class="btn" style="background:#1f2933;color:#fff;border:0;border-radius:999px;text-decoration:none;padding:0.5em 1.15em;margin:0.15em" href="/files/gmsa-distillation-acceleration.pdf"><i class="fas fa-file-pdf"></i> Paper</a>
-  <a class="btn" style="background:#1f2933;color:#fff;border:0;border-radius:999px;text-decoration:none;padding:0.5em 1.15em;margin:0.15em" href="#interactive-demo"><i class="fas fa-chart-bar"></i> Interactive demo</a>
+  <a class="btn" style="background:#1f2933;color:#fff;border:0;border-radius:999px;text-decoration:none;padding:0.5em 1.15em;margin:0.15em" href="#explore-the-results"><i class="fas fa-chart-bar"></i> Explore</a>
   <a class="btn" style="background:#1f2933;color:#fff;border:0;border-radius:999px;text-decoration:none;padding:0.5em 1.15em;margin:0.15em" href="#bibtex"><i class="fas fa-quote-right"></i> BibTeX</a>
 </p>
 
@@ -86,13 +86,55 @@ student and on rCM. The shaded call is the one FBCache skips first.
 The probe predicts each end-to-end speedup within 1% from separately timed parts. The paper reports the full quality
 trade-off, measured on untouched prompts.
 
-## Interactive demo
-{: #interactive-demo}
+## Explore the results
 
-Pick a student to see where it can skip, push the DiT speedup against the measured latency split, and drag across frames
-with and without a skipped call.
+<link rel="stylesheet" href="/files/projects/2026-11-gmsa-distillation/demo/explore.css">
 
-<iframe id="studentprobe-demo" src="/files/projects/2026-11-gmsa-distillation/demo/index.html" width="100%" height="640" loading="lazy" title="StudentProbe interactive demo" style="border:0;border-radius:14px;box-shadow:0 1px 2px rgba(16,24,40,.06),0 6px 18px rgba(16,24,40,.08)"></iframe>
+### Where can a student skip?
+
+Each bar is the fidelity cost of skipping one network call, measured on the student; the line below is the signal FBCache
+uses to decide which call to skip. Pick a student, and hover over a bar for its values.
+
+<div class="sp-pills" id="sp-skip-pills"></div>
+<div class="sp-figure">
+  <div class="sp-legend"><span><span class="sp-sw" style="background:#b9c4d0"></span>fidelity cost (LPIPS)</span><span><span class="sp-sw" style="background:#eb6834"></span>lowers aesthetics</span><span><span class="sp-sw" style="background:#2a78d6"></span>FBCache signal (it skips the lowest first)</span></div>
+  <svg id="sp-skip-svg" viewBox="0 0 600 300" role="img" aria-label="Fidelity cost of each skipped call and FBCache's signal"></svg>
+</div>
+<p class="sp-note" id="sp-skip-note"></p>
+
+### What bounds the speedup?
+
+With four calls, the decoder takes a large share of the time. Speed up the DiT with any accelerator and see where the
+end-to-end gain stops; latencies are measured on one PRO6000 BW.
+
+<div class="sp-pills" id="sp-speed-pills"></div>
+<div class="sp-figure">
+  <div class="sp-legend"><span><span class="sp-sw" style="background:#2a78d6"></span>DiT</span><span><span class="sp-sw" style="background:#eb6834"></span>VAE decoder</span><span><span class="sp-sw" style="background:#b9c4d0"></span>text encoder and other</span></div>
+  <div class="sp-lane" id="sp-lane-0"><span>as released</span><div class="sp-stack"><span></span><span></span><span></span></div><b></b></div>
+  <div class="sp-lane" id="sp-lane-1"><span>accelerated</span><div class="sp-stack"><span></span><span></span><span></span></div><b></b></div>
+  <div class="sp-controls">
+    <label for="sp-dit">DiT speedup: <b id="sp-dit-v"></b></label>
+    <input id="sp-dit" type="range" min="1" max="10" step="0.05" value="2">
+    <label><input id="sp-light" type="checkbox"> use the released lightweight decoder</label>
+    <span><button type="button" class="sp-pill" id="sp-preset">Load the StudentProbe-guided baseline</button></span>
+  </div>
+  <p class="sp-result" id="sp-speed-result"></p>
+</div>
+
+### A skipped call, frame by frame
+
+Drag across the frame to compare the unaccelerated video (left) with the same prompt and seed when one call is skipped
+(right).
+
+<div class="sp-pills" id="sp-frame-pills"></div>
+<div class="sp-compare" id="sp-compare">
+  <img class="sp-bottom" alt=""><img class="sp-top" alt="">
+  <div class="sp-handle"></div><span class="sp-tag sp-l">full</span><span class="sp-tag sp-r"></span>
+</div>
+<div class="sp-pills" id="sp-row-pills"></div>
+<p class="sp-note" id="sp-frame-note"></p>
+
+<script src="/files/projects/2026-11-gmsa-distillation/demo/explore.js"></script>
 <script>
   /* keep the long title clear of the fixed table of contents on 1200-1500 px screens */
   (function () {
@@ -105,10 +147,6 @@ with and without a skipped call.
     }
     window.addEventListener("load", fit); window.addEventListener("resize", fit); fit();
   })();
-  window.addEventListener("message", function (e) {
-    var h = e.data && e.data.studentprobeDemoHeight, f = document.getElementById("studentprobe-demo");
-    if (h && f && Math.abs(f.offsetHeight - (h + 8)) > 2) f.style.height = (h + 8) + "px";   /* only real changes */
-  });
 </script>
 
 ## Links and citation

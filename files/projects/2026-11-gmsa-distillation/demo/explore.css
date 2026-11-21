@@ -1,0 +1,47 @@
+/* Interactive figures of the StudentProbe project page. Colours follow the site theme's variables (light and dark). */
+.sp-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 0.6em 0 0.8em; }
+.sp-pill { font: inherit; font-size: 0.8em; padding: 3px 12px; border-radius: 999px; cursor: pointer;
+           color: var(--global-text-color); background: transparent; border: 1px solid var(--global-border-color); }
+.sp-pill:hover { border-color: var(--global-link-color); }
+.sp-pill[aria-pressed="true"] { color: var(--global-bg-color); background: var(--global-text-color); border-color: var(--global-text-color); }
+
+.sp-figure { max-width: 640px; margin: 0 auto; }
+.sp-figure svg { width: 100%; height: auto; display: block; overflow: visible; }
+.sp-figure svg text { font-family: inherit; }
+.sp-grid { stroke: var(--global-border-color); }
+.sp-tick { fill: var(--global-text-color-light); font-size: 11px; }
+.sp-label { fill: var(--global-text-color); font-size: 12px; }
+.sp-bar { fill: #b9c4d0; }
+.sp-bar.sp-drop { fill: #eb6834; }
+.sp-strip { fill: var(--global-border-color); opacity: 0.35; }
+.sp-line { fill: none; stroke: #2a78d6; stroke-width: 2.2; }
+.sp-dot { fill: #2a78d6; stroke: #2a78d6; stroke-width: 2; }
+.sp-dot.sp-pick { fill: var(--global-bg-color); }
+.sp-mark-sp { fill: #1baf7a; font-size: 12px; font-weight: 700; }
+.sp-mark-fb { fill: #2a78d6; font-size: 12px; font-weight: 700; }
+.sp-legend { display: flex; flex-wrap: wrap; gap: 2px 16px; justify-content: center; font-size: 0.75em;
+             color: var(--global-text-color-light); margin: 0.2em 0 0.4em; }
+.sp-sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+
+.sp-lane { display: grid; grid-template-columns: 7.5em 1fr 4.5em; gap: 10px; align-items: center; font-size: 0.85em; margin: 6px 0; }
+.sp-lane b { text-align: right; font-variant-numeric: tabular-nums; }
+.sp-stack { display: flex; height: 22px; border-radius: 4px; overflow: hidden; }
+.sp-stack span { display: block; height: 100%; border-right: 2px solid var(--global-bg-color); transition: width .35s ease; }
+.sp-controls { display: grid; gap: 4px; font-size: 0.85em; margin: 0.8em 0 0.2em; }
+.sp-controls input[type=range] { width: 100%; }
+.sp-controls input[type=checkbox] { display: inline-block; width: auto; margin: 0 6px 0 0; vertical-align: middle; }
+.sp-controls label { display: block; margin: 0; }
+.sp-result { font-size: 0.9em; margin: 0.6em 0 0; }
+.sp-result strong { font-size: 1.25em; color: #2a78d6; }
+
+.sp-compare { position: relative; max-width: 520px; margin: 0 auto; aspect-ratio: var(--sp-ar, 1.37); border-radius: 4px;
+              overflow: hidden; cursor: ew-resize; touch-action: none; user-select: none; background: #000; }
+.sp-compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; margin: 0; }
+.sp-compare .sp-top { clip-path: inset(0 calc(100% - var(--sp-pos, 50%)) 0 0); }
+.sp-handle { position: absolute; top: 0; bottom: 0; left: var(--sp-pos, 50%); width: 2px; margin-left: -1px; background: #fff; }
+.sp-handle::after { content: "⇆"; position: absolute; top: 50%; left: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px;
+                    border-radius: 50%; background: #fff; color: #1f2933; font-size: 14px; line-height: 30px; text-align: center;
+                    box-shadow: 0 1px 4px rgba(0, 0, 0, .35); }
+.sp-tag { position: absolute; top: 8px; font-size: 12px; color: #fff; background: rgba(0, 0, 0, .55); padding: 1px 8px; border-radius: 999px; }
+.sp-tag.sp-l { left: 8px; } .sp-tag.sp-r { right: 8px; }
+.sp-note { font-size: 0.9em; }
