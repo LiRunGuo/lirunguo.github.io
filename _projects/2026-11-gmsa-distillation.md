@@ -94,7 +94,7 @@ with and without a skipped call.
 
 <iframe id="studentprobe-demo" src="/files/projects/2026-11-gmsa-distillation/demo/index.html" width="100%" height="640" loading="lazy" title="StudentProbe interactive demo" style="border:0;border-radius:14px;box-shadow:0 1px 2px rgba(16,24,40,.06),0 6px 18px rgba(16,24,40,.08)"></iframe>
 <script>
-  // keep the long title clear of the fixed table of contents on 1200-1500 px screens
+  /* keep the long title clear of the fixed table of contents on 1200-1500 px screens */
   (function () {
     function fit() {
       var t = document.querySelector(".page__title"), toc = document.getElementById("toc-sidebar");
@@ -107,7 +107,7 @@ with and without a skipped call.
   })();
   window.addEventListener("message", function (e) {
     var h = e.data && e.data.studentprobeDemoHeight, f = document.getElementById("studentprobe-demo");
-    if (h && f && Math.abs(f.offsetHeight - (h + 8)) > 2) f.style.height = (h + 8) + "px";   // only real changes
+    if (h && f && Math.abs(f.offsetHeight - (h + 8)) > 2) f.style.height = (h + 8) + "px";   /* only real changes */
   });
 </script>
 
