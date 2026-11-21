@@ -355,6 +355,12 @@ function renderModels() {
 }
 
 const render = { probe: renderProbe, infer: renderInfer, preview: renderPreview, models: renderModels };
+const rerender = () => { const t = document.querySelector('.tab[aria-selected="true"]'); if (t) render[t.dataset.tab](); };
+try {  // follow the embedding page's theme toggle (same origin); standalone, the OS setting applies
+  const pd = window.parent !== window && window.parent.document.documentElement;
+  if (pd) { const sync = () => { const t = pd.getAttribute("data-theme"); if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t); rerender(); };
+    new MutationObserver(sync).observe(pd, { attributes: true, attributeFilter: ["data-theme"] }); sync(); }
+} catch (e) {}
 renderProbe();
 const start = document.querySelector(`.tab[data-tab="${location.hash.slice(1)}"]`); if (start) start.click();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { const t = document.querySelector('.tab[aria-selected="true"]').dataset.tab; render[t](); });
