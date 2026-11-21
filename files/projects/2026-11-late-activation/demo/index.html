@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Late Activation Demo</title>
+<style>
+:root {
+  --bg: #ffffff; --panel: #f6f7f9; --ink: #1d2127; --muted: #5f6672; --line: #d9dde3;
+  --base: #8c8c8c; --nft: #0072B2; --ours: #D55E00; --ours-light: #e8935a; --weight: #56B4E9;
+  --aigu: #CC79A7; --early: #4d4d4d; --accent-bg: #fff3ea;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16181c; --panel: #1f2228; --ink: #e8eaed; --muted: #a2a9b4; --line: #343841;
+    --base: #9aa0a6; --nft: #4aa3df; --ours: #ff8a3d; --ours-light: #f2b48c; --weight: #7cc6ef;
+    --aigu: #e09cc4; --early: #c4c7cc; --accent-bg: #2b2119;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16181c; --panel: #1f2228; --ink: #e8eaed; --muted: #a2a9b4; --line: #343841;
+  --base: #9aa0a6; --nft: #4aa3df; --ours: #ff8a3d; --ours-light: #f2b48c; --weight: #7cc6ef;
+  --aigu: #e09cc4; --early: #c4c7cc; --accent-bg: #2b2119;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+main { max-width: 980px; margin: 0 auto; padding: 20px 16px 40px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 0 0 4px; }
+p { margin: 0 0 10px; }
+.sub { color: var(--muted); font-size: 14px; }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-top: 16px; }
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+label { font-size: 14px; color: var(--muted); }
+input[type=range] { width: min(360px, 100%); accent-color: var(--ours); }
+.chip { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px;
+  padding: 4px 12px; font-size: 13px; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--ours); background: var(--accent-bg); color: var(--ours); font-weight: 600; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.card { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.card .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.card .k { font-size: 12px; color: var(--muted); }
+.good { color: var(--ours); }
+canvas, svg { width: 100%; display: block; }
+.toyfig { position: relative; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+.samples { display: grid; grid-template-columns: 150px 1fr; gap: 8px 12px; align-items: center; margin-top: 10px; }
+.samples .lab { font-size: 13px; font-weight: 600; border-left: 4px solid; padding-left: 8px; }
+.samples img { width: 100%; max-width: 640px; height: auto; border-radius: 4px; display: block; }
+.prompt { font-style: italic; color: var(--muted); margin-top: 8px; }
+.note { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.legend span::before { content: ""; display: inline-block; width: 14px; height: 3px; margin-right: 5px; vertical-align: middle;
+  background: var(--c); border-top: 1px dashed transparent; }
+select { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; }
+@media (max-width: 560px) {
+  .samples { grid-template-columns: 1fr; }
+  .samples .lab { margin-top: 6px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>Late Activation: interactive demo</h1>
+  <p class="sub">RL tuning makes a text-to-image flow model return nearly the same composition for every seed.
+    Late activation lets the base model sample the first, high-noise steps and switches the RL-tuned adapter on below a
+    noise level &tau;. It needs no retraining and no extra network evaluations.</p>
+
+  <section id="toy">
+    <h2>1. What the switch does, on a 1-d toy</h2>
+    <p class="sub">Exact probability-flow paths of a four-mode base distribution. The reward-tilted flow (the role of the
+      RL-tuned adapter) prefers the upper side of every mode and slightly the top mode. Paths follow the base flow above
+      &tau; (gray) and the tilted flow below it (orange).</p>
+    <div class="row">
+      <label for="toyTau">Switch at &tau; = <b id="toyTauVal">0.65</b></label>
+      <input id="toyTau" type="range" min="0" max="1" step="0.01" value="0.65" aria-label="tau for the toy">
+      <button class="chip" data-toy="0">Base (&tau; = 0)</button>
+      <button class="chip" data-toy="1">Tilted on the whole path (&tau; = 1)</button>
+      <button class="chip" data-toy="0.65">Late activation</button>
+    </div>
+    <div class="toyfig" style="margin-top:10px"><canvas id="toyCanvas" width="900" height="320" aria-label="toy sampling paths"></canvas></div>
+    <div class="cards" id="toyCards"></div>
+  </section>
+
+  <section id="samples">
+    <h2>2. Samples from the same noise</h2>
+    <p class="sub">SD3.5-Medium tuned with DiffusionNFT on PickScore (paper scale, 500 rollouts). Each row uses the same
+      four noise seeds; only the sampling schedule changes.</p>
+    <div class="row" id="promptChips" role="group" aria-label="prompt"></div>
+    <p class="prompt" id="promptText"></p>
+    <div class="samples" id="sampleGrid"></div>
+    <p class="note">Held-out prompts from the evaluation set; prompts showing real people or named characters are left out.</p>
+  </section>
+
+  <section id="tradeoff">
+    <h2>3. Reward and diversity as &tau; moves</h2>
+    <p class="sub">Held-out results on the same adapter (256 prompts &times; 4 seeds, mean of two training seeds), relative to
+      NFT on the whole path. Lower &tau; hands more of the first steps to the base model.</p>
+    <div class="row">
+      <label for="tau">&tau; = <b id="tauVal">0.96</b></label>
+      <input id="tau" type="range" min="0" max="6" step="1" value="2" aria-label="tau">
+      <label for="metric">Diversity measure</label>
+      <select id="metric"><option value="clip">CLIP diversity</option><option value="lat">Latent diversity</option></select>
+    </div>
+    <div class="cards" id="cards"></div>
+    <svg id="chart" viewBox="0 0 640 330" role="img" aria-label="reward kept against diversity gain"></svg>
+    <div class="legend" id="legend"></div>
+    <p class="note">At matched reward, late activation gives more diversity than weakening the adapter on the whole path
+      (velocity weight, LoRA scale) or stopping training early, and matches AIG-u, which needs two network evaluations per
+      step instead of one.</p>
+  </section>
+</main>
+<script>
+"use strict";
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ---------- 1. toy: exact rectified-flow paths, v(x, t) = (x - E[x0 | x_t = x]) / t ---------- */
+const MU = [-7.5, -2.5, 2.5, 7.5], SD = 0.7, ETA = 2.5, NG = 1201, NS = 24, STEPS = 260;
+const X0 = Float64Array.from({length: NG}, (_, i) => -11 + 22 * i / (NG - 1));
+const nearest = x => MU.reduce((b, m) => Math.abs(x - m) < Math.abs(x - b) ? m : b, MU[0]);
+const reward = x => 0.15 * x + 0.5 * Math.max(-1.5, Math.min(1.5, (x - nearest(x)) / SD));
+const logBase = X0.map(x => { const a = MU.map(m => -0.5 * ((x - m) / SD) ** 2); const mx = Math.max(...a);
+  return mx + Math.log(a.reduce((s, v) => s + Math.exp(v - mx), 0)); });
+const logTilt = logBase.map((v, i) => v + ETA * reward(X0[i]));
+function invNorm(p) {  // Acklam's rational approximation of the standard normal quantile
+  const a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239];
+  const b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
+  const c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
+  const d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416];
+  const q = Math.min(p, 1 - p);
+  let x;
+  if (q < 0.02425) { const r = Math.sqrt(-2 * Math.log(q));
+    x = (((((c[0]*r+c[1])*r+c[2])*r+c[3])*r+c[4])*r+c[5]) / ((((d[0]*r+d[1])*r+d[2])*r+d[3])*r+1);
+    return p < 0.5 ? x : -x; }
+  const r = q - 0.5, s = r * r;
+  x = (((((a[0]*s+a[1])*s+a[2])*s+a[3])*s+a[4])*s+a[5])*r / (((((b[0]*s+b[1])*s+b[2])*s+b[3])*s+b[4])*s+1);
+  return p < 0.5 ? x : -x;
+}
+const START = Array.from({length: NS}, (_, i) => invNorm((i + 0.5) / NS));
+const TS = Array.from({length: STEPS}, (_, i) => 1 - (1 - 0.002) * i / (STEPS - 1));
+function toyPaths(tau) {
+  const paths = START.map(x => [x]);
+  let xs = START.slice();
+  for (let k = 0; k < STEPS - 1; k++) {
+    const t0 = TS[k], t1 = TS[k + 1], logp = t0 <= tau ? logTilt : logBase, inv = 1 / (2 * t0 * t0);
+    xs = xs.map((x, s) => {
+      let mx = -Infinity;
+      const w = new Float64Array(NG);
+      for (let j = 0; j < NG; j++) { const d = x - (1 - t0) * X0[j]; w[j] = logp[j] - d * d * inv; if (w[j] > mx) mx = w[j]; }
+      let z = 0, e = 0;
+      for (let j = 0; j < NG; j++) { const v = Math.exp(w[j] - mx); z += v; e += v * X0[j]; }
+      const nx = x - (t0 - t1) * (x - e / z) / t0;
+      paths[s].push(nx);
+      return nx;
+    });
+  }
+  return paths;
+}
+const summary = paths => { const f = paths.map(p => p[p.length - 1]);
+  const r = f.reduce((s, x) => s + reward(x), 0) / f.length;
+  return {modes: new Set(f.map(nearest)).size, reward: Math.abs(r) < 0.005 ? 0 : r}; };
+const REF = {base: summary(toyPaths(0)), tilt: summary(toyPaths(1))};
+
+function drawToy(tau) {
+  const cv = document.getElementById("toyCanvas"), g = cv.getContext("2d");
+  const W = cv.width, H = cv.height, L = 20, R = W - 150, T = 12, B = H - 26;
+  const X = t => L + (1 - t) * (R - L), Y = x => T + (10.5 - x) / 21 * (B - T);
+  g.clearRect(0, 0, W, H);
+  const paths = toyPaths(tau);
+  g.lineWidth = 1.1;
+  for (const p of paths) {
+    for (let k = 0; k < STEPS - 1; k++) {
+      g.strokeStyle = tau >= 1 ? css("--nft") : TS[k] > tau ? css("--base") : css("--ours");
+      g.beginPath(); g.moveTo(X(TS[k]), Y(p[k])); g.lineTo(X(TS[k + 1]), Y(p[k + 1])); g.stroke();
+    }
+  }
+  if (tau > 0 && tau < 1) { g.setLineDash([3, 3]); g.strokeStyle = css("--muted"); g.beginPath();
+    g.moveTo(X(tau), T); g.lineTo(X(tau), B); g.stroke(); g.setLineDash([]); }
+  const dmax = Math.max(...logBase);  // base density and reward, drawn beside the endpoints
+  g.fillStyle = css("--base"); g.globalAlpha = 0.3; g.beginPath(); g.moveTo(R + 12, Y(-10.5));
+  X0.forEach((x, i) => g.lineTo(R + 12 + 55 * Math.exp(logBase[i] - dmax), Y(x))); g.lineTo(R + 12, Y(10.5)); g.fill();
+  g.globalAlpha = 1; g.strokeStyle = css("--ink"); g.lineWidth = 1; g.beginPath();
+  X0.forEach((x, i) => { const px = R + 85 + 22 * reward(x) / 2.2; i ? g.lineTo(px, Y(x)) : g.moveTo(px, Y(x)); }); g.stroke();
+  g.fillStyle = css("--muted"); g.font = "12px sans-serif";
+  g.fillText("t = 1 (noise)", L, H - 8); g.fillText("t = 0 (image)", R - 78, H - 8);
+  g.fillText("base density", R + 12, H - 8); g.fillText("reward", R + 85, T + 10);
+  if (tau > 0 && tau < 1) g.fillText("τ", X(tau) + 4, B - 4);
+  const s = summary(paths);
+  document.getElementById("toyCards").innerHTML = [
+    ["Modes reached (of 4)", s.modes, `base ${REF.base.modes}, tilted path ${REF.tilt.modes}`],
+    ["Mean reward", s.reward.toFixed(2), `base ${REF.base.reward.toFixed(2)}, tilted path ${REF.tilt.reward.toFixed(2)}`],
+  ].map(([k, v, n]) => `<div class="card"><div class="k">${k}</div><div class="v">${v}</div><div class="k">${n}</div></div>`).join("");
+}
+const toyTau = document.getElementById("toyTau");
+let toyFrame = 0;
+function setToy(v) { toyTau.value = v; document.getElementById("toyTauVal").textContent = (+v).toFixed(2);
+  cancelAnimationFrame(toyFrame); toyFrame = requestAnimationFrame(() => drawToy(+v)); }
+toyTau.addEventListener("input", e => setToy(e.target.value));
+document.querySelectorAll("[data-toy]").forEach(b => b.addEventListener("click", () => setToy(b.dataset.toy)));
+
+/* ---------- 2. samples ---------- */
+const PROMPTS = [
+  [1119, "Two adorable cats. One black and white cat and one orange tabby"],
+  [1425, "The universe is a spheroid region 705 meters in diameter by Clara Peeters"],
+  [913, "a painting of a big tree on the style of vincent Van gogh"],
+  [2022, "a black Rover75 car being driven through a river"],
+  [562, "old crypt, vintage, hyperrealistic, glowing, abandoned"],
+  [2013, "cans stacked on top of each other in a pyramic shape at the grocery store"],
+  [327, "vector logo of a viper snake"],
+];
+const ROWS = [["base", "Base model", "--base"], ["nft", "NFT, whole path", "--nft"],
+  ["tau096", "Late activation, τ = 0.96", "--ours"], ["tau085", "Late activation, τ = 0.85", "--ours-light"]];
+const chips = document.getElementById("promptChips");
+PROMPTS.forEach(([id, text], i) => { const b = document.createElement("button"); b.className = "chip";
+  b.textContent = text.split(/[ ,.]+/).slice(0, 3).join(" "); b.title = text; b.onclick = () => showPrompt(i); chips.appendChild(b); });
+function showPrompt(i) {
+  const [id, text] = PROMPTS[i];
+  [...chips.children].forEach((c, j) => c.setAttribute("aria-pressed", String(j === i)));
+  document.getElementById("promptText").textContent = `“${text}”`;
+  document.getElementById("sampleGrid").innerHTML = ROWS.map(([key, name, color]) =>
+    `<div class="lab" style="border-color:var(${color})">${name}</div>` +
+    `<img src="samples/${id}-${key}.webp" alt="${name}: four seeds" width="524" height="128" loading="lazy">`).join("");
+}
+
+/* ---------- 3. trade-off ---------- */
+const TAU = [
+  {tau: 1.0, off: 0, kept: 100.0, clip: 0.0, lat: 0.0, drift: 0.0},
+  {tau: 0.98, off: 3, kept: 98.5, clip: 14.1, lat: 12.8, drift: -13.8},
+  {tau: 0.96, off: 5, kept: 96.5, clip: 23.9, lat: 20.3, drift: -22.7},
+  {tau: 0.93, off: 8, kept: 91.7, clip: 41.7, lat: 28.5, drift: -34.0},
+  {tau: 0.90, off: 10, kept: 87.7, clip: 53.5, lat: 32.2, drift: -40.6},
+  {tau: 0.85, off: 14, kept: 78.3, clip: 79.4, lat: 37.6, drift: -52.5},
+  {tau: 0.70, off: 23, kept: 50.6, clip: 130.4, lat: 43.3, drift: -74.8},
+];
+const FULL = {kept: 100, clip: 0, lat: 0};
+const BASELINES = [
+  ["AIG-u (2 passes)", "--aigu", false, [{kept: 89.2, clip: 47.3, lat: 19.8}, {kept: 96.0, clip: 23.6, lat: 11.7}, FULL]],
+  ["Velocity weight (2 passes)", "--weight", false, [{kept: 84.6, clip: 49.6, lat: 8.4}, {kept: 96.1, clip: 16.3, lat: 2.4}, FULL]],
+  ["LoRA scale (1 pass)", "--weight", true, [{kept: 83.4, clip: 40.4, lat: 15.4}, {kept: 93.9, clip: 15.1, lat: 6.2}, {kept: 98.1, clip: 4.2, lat: 2.1}, FULL]],
+  ["Early stopping", "--early", false, [{kept: 85.0, clip: 13.6, lat: 8.1}, {kept: 90.7, clip: 5.1, lat: 4.0}, {kept: 94.0, clip: 2.9, lat: 2.8},
+    {kept: 95.6, clip: 2.2, lat: 2.2}, {kept: 97.7, clip: 1.0, lat: 1.0}, {kept: 99.2, clip: 1.0, lat: 0.3}, FULL]],
+];
+const tauIn = document.getElementById("tau"), metricIn = document.getElementById("metric");
+const fmt = v => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + "%";
+function drawChart() {
+  const p = TAU[+tauIn.value], m = metricIn.value, svg = document.getElementById("chart");
+  document.getElementById("tauVal").textContent = p.tau.toFixed(2);
+  document.getElementById("cards").innerHTML = [
+    ["Reward gain kept", p.kept.toFixed(1) + "%"], ["CLIP diversity vs NFT", fmt(p.clip)],
+    ["Latent diversity vs NFT", fmt(p.lat)], ["Drift from base vs NFT", fmt(p.drift)],
+    ["Steps on the base model", `${p.off} of 40`],
+  ].map(([k, v], i) => `<div class="card"><div class="k">${k}</div><div class="v ${i && i < 4 && p.off ? "good" : ""}">${v}</div></div>`).join("");
+  const ymax = m === "clip" ? 140 : 50, L = 70, R = 620, T = 14, B = 290;
+  const X = k => L + (k - 48) / (101 - 48) * (R - L), Y = v => B - (v + (m === "clip" ? 5 : 2)) / (ymax + (m === "clip" ? 5 : 2)) * (B - T);
+  let s = "";
+  for (let k = 50; k <= 100; k += 10) s += `<line x1="${X(k)}" x2="${X(k)}" y1="${T}" y2="${B}" stroke="var(--line)"/>` +
+    `<text x="${X(k)}" y="${B + 16}" font-size="12" fill="var(--muted)" text-anchor="middle">${k}%</text>`;
+  for (let v = 0; v <= ymax; v += m === "clip" ? 20 : 10) s += `<line x1="${L}" x2="${R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/>` +
+    `<text x="${L - 6}" y="${Y(v) + 4}" font-size="12" fill="var(--muted)" text-anchor="end">+${v}%</text>`;
+  s += `<text x="${(L + R) / 2}" y="${B + 34}" font-size="12.5" fill="var(--muted)" text-anchor="middle">PickScore gain kept (%)</text>`;
+  s += `<text transform="translate(12 ${(T + B) / 2}) rotate(-90)" font-size="12.5" fill="var(--muted)" text-anchor="middle">${m === "clip" ? "CLIP" : "Latent"} diversity over NFT</text>`;
+  const line = (pts, color, dashed, w) => `<polyline fill="none" stroke="var(${color})" stroke-width="${w}" ${dashed ? 'stroke-dasharray="5 3"' : ""}
+    points="${pts.map(q => `${X(q.kept)},${Y(q[m])}`).join(" ")}"/>` + pts.map(q => `<circle cx="${X(q.kept)}" cy="${Y(q[m])}" r="${w > 2 ? 3.5 : 2.6}"
+    fill="${dashed ? "var(--bg)" : `var(${color})`}" stroke="var(${color})"/>`).join("");
+  for (const [, color, dashed, pts] of BASELINES) s += line(pts, color, dashed, 1.5);
+  s += line(TAU, "--ours", false, 3);
+  s += `<circle cx="${X(p.kept)}" cy="${Y(p[m])}" r="8" fill="none" stroke="var(--ours)" stroke-width="2"/>` +
+       `<text x="${X(p.kept) - 14}" y="${Y(p[m]) - 22}" font-size="12.5" font-weight="700" fill="var(--ours)" text-anchor="end">τ = ${p.tau.toFixed(2)}</text>`;
+  s += `<text x="${X(100)}" y="${Y(0) + 16}" font-size="12" font-weight="700" fill="var(--nft)" text-anchor="middle">NFT</text>`;
+  svg.innerHTML = s;
+  document.getElementById("legend").innerHTML = [["Late activation (1 pass)", "--ours"], ...BASELINES.map(b => [b[0], b[1]])]
+    .map(([n, c]) => `<span style="--c:var(${c})">${n}</span>`).join("");
+}
+tauIn.addEventListener("input", drawChart);
+metricIn.addEventListener("change", drawChart);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { drawChart(); drawToy(+toyTau.value); });
+
+showPrompt(0);
+drawChart();
+setToy(0.65);
+</script>
+</body>
+</html>
