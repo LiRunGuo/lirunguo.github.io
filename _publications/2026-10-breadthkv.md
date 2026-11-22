@@ -13,7 +13,7 @@ citation_authors:
   - "Li, Runguo"
 ---
 
-**Status:** arXiv preprint · **arXiv:** [2610.05685](https://arxiv.org/abs/2610.05685) · **PDF:** [Download](/files/breadthkv-kv-compression.pdf)
+**Status:** arXiv preprint · **arXiv:** [2610.05685](https://arxiv.org/abs/2610.05685) · **PDF:** [Download](/files/breadthkv-kv-compression.pdf) · **Project page:** [BreadthKV](/projects/2026-10-breadthkv/)
 
 ### Author
 
