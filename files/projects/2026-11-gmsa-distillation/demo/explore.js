@@ -60,9 +60,9 @@
       svgEl("title", {}, r, "Skip call " + k + ": cost (LPIPS) " + c.toFixed(3) + ", Δ aesthetics " + d.aes[i].replace("-", "−") +
         (d.aes[i].slice(-1) === "*" ? " (95% CI excludes 0)" : "") + ", FBCache signal " + d.fb[i].toFixed(3));
       svgEl("text", { x: x + bw / 2, y: T2 + H2 + 22, "text-anchor": "middle", "class": "sp-label" }, svg, k);
-      var top = y(c) - 6;
-      if (k === d.sp) { svgEl("text", { x: x + bw / 2, y: top, "text-anchor": "middle", "class": "sp-mark-sp" }, svg, "StudentProbe"); top -= 16; }
-      if (k === fbPick) svgEl("text", { x: x + bw / 2, y: top, "text-anchor": "middle", "class": "sp-mark-fb" }, svg, "FBCache");
+      var top = y(c) - 6, cx = Math.min(x + bw / 2, R - 40);            /* keep the label inside the plot on narrow screens */
+      if (k === d.sp) { svgEl("text", { x: cx, y: top, "text-anchor": "middle", "class": "sp-mark-sp" }, svg, "StudentProbe"); top -= 16; }
+      if (k === fbPick) svgEl("text", { x: cx, y: top, "text-anchor": "middle", "class": "sp-mark-fb" }, svg, "FBCache");
     });
     svgEl("text", { x: (L + R) / 2, y: T2 + H2 + 40, "text-anchor": "middle", "class": "sp-tick" }, svg, "skipped call");
     svgEl("text", { x: L + 6, y: T2 + 8, "class": "sp-tick" }, svg, "FBCache signal");
