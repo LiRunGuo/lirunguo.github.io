@@ -122,13 +122,29 @@ html[data-theme="dark"] .pi-w { --r: #3987e5; --f: #d95926; --c: #199e70; --b: #
   .page__content img.pi-narrow { max-width: 100%; }
   .pi-hero .pi-tagline { font-size: 1.12em; }
 }
+.pi-stat .t { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .6; margin-bottom: 4px; }
+.page__content a > img.pi-shot { cursor: zoom-in; }
+.pi-defs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: .4em 0 1.6em; }
+.pi-defs > div { border: 1px solid var(--global-border-color); border-radius: 12px; padding: 10px 12px; font-size: .8em; line-height: 1.45; }
+.pi-defs b { display: block; margin-bottom: 2px; }
+.pi-eq { margin: .6em 0 1em; padding: .5em 1em; border-radius: 12px; background: rgba(127,127,127,.08); overflow-x: auto; font-size: .92em; }
+.pi-steps { counter-reset: pi; list-style: none; margin: .4em 0 1em; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.page__content .pi-steps li { counter-increment: pi; position: relative; margin: 0; border: 1px solid var(--global-border-color); border-radius: 12px; padding: 10px 12px 10px 44px; font-size: .84em; line-height: 1.45; }
+.pi-steps li::before { content: counter(pi); position: absolute; left: 12px; top: 11px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 12px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #2a78d6, #eb6834); }
+.pi-take { list-style: none; margin: .4em 0 1.4em; padding: 0; display: grid; gap: 10px; }
+.page__content .pi-take li { margin: 0; border: 1px solid var(--global-border-color); border-radius: 12px; padding: 10px 14px; font-size: .86em; line-height: 1.5; border-left: 4px solid var(--kc, #8a8984); }
+.page__content p.pi-scope { font-size: .8em; opacity: .8; }
+@media (max-width: 700px) { .pi-defs, .pi-steps { grid-template-columns: 1fr; }
+  .page__content table.pi-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; } }
 </style>
 
 <div class="pi-hero">
   <p class="pi-eyebrow">Vision-language models · latent visual reasoning · flow matching</p>
   <p class="pi-tagline">Latent visual imagination needs <span class="pi-pred">prediction</span> more than <span class="pi-gen">generation</span>.</p>
   <p class="pi-btns">
-    <a class="pi-btn" href="#interactive-demo"><i class="fa-solid fa-play" aria-hidden="true"></i> Interactive demo</a>
+    <a class="pi-btn" href="#pi-try"><i class="fa-solid fa-play" aria-hidden="true"></i> Try it</a>
+    <a class="pi-btn" href="#method"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Method</a>
     <a class="pi-btn" href="#key-results"><i class="fa-solid fa-chart-column" aria-hidden="true"></i> Key results</a>
     <span class="pi-btn pi-off"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Paper <small>· soon</small></span>
     <span class="pi-btn pi-off"><i class="fa-brands fa-github" aria-hidden="true"></i> Code <small>· soon</small></span>
@@ -138,93 +154,53 @@ html[data-theme="dark"] .pi-w { --r: #3987e5; --f: #d95926; --c: #199e70; --b: #
 <div class="pi-tldr"><b>TL;DR</b> &nbsp;<span class="pi-name"><b>PredImagine</b></span> trains the latent producer of a VLM to predict the clean intermediate state, with training focused where the question decides the target. It repairs two hidden failures of flow-matching imagination, and its own variants show that generation adds robustness to the noise draw, not accuracy.</div>
 
 <div class="pi-stats">
-  <div class="pi-stat"><span class="k" style="background:#8a8984"></span><div class="v">.870<span class="arr">→</span>.233</div><div class="l">Released WM-VLM-7B on Tetris-2D when only the noise seed changes</div></div>
-  <div class="pi-stat"><span class="k" style="background:#8a8984"></span><div class="v">≤ 2.4%</div><div class="l">How much the default flow's output depends on the question, at any flow time</div></div>
-  <div class="pi-stat"><span class="k" style="background:#eb6834"></span><div class="v">.798<span class="arr">→</span>.810</div><div class="l">PredImagine's flow variant at 7B, from the training draw to a fresh one</div></div>
-  <div class="pi-stat"><span class="k" style="background:#eb6834"></span><div class="v">95%</div><div class="l">Samples where two noise draws of the flow land on the same placement (k = 2)</div></div>
+  <div class="pi-stat"><div class="t">Failure 1</div><div class="v">.870<span class="arr">→</span>.233</div><div class="l">Accuracy of the released WM-VLM-7B on Tetris-2D when only its noise seed changes (chance is .25)</div></div>
+  <div class="pi-stat"><div class="t">Failure 2</div><div class="v">≤ 2.4%</div><div class="l">How much a default flow's imagined latent depends on the question, at any flow time</div></div>
+  <div class="pi-stat"><div class="t" style="color:#eb6834;opacity:1">Repair</div><div class="v">.798<span class="arr">→</span>.810</div><div class="l">PredImagine's flow variant at 7B, from the training noise to a fresh draw: it holds</div></div>
+  <div class="pi-stat"><div class="t">Still open</div><div class="v">95%</div><div class="l">Questions where two noise draws of the flow imagine the same state although two are valid</div></div>
 </div>
 
 ## Summary
 
-Vision-language models can reason about space by imagining an intermediate visual state as latent tokens before they answer, and flow-matching generators of these latents are credited with large gains. We isolate the generative objective in WM-VLM with a controlled protocol: only the producer of the latent changes, every producer is read by one consumer trained on oracle latents, and new rotation tasks fix how many intermediate states are valid. The protocol exposes two hidden failures: the released model behaves as a fixed-noise regressor whose accuracy falls from 0.87 to chance when only its noise seed changes, and a default rectified flow largely ignores the question. **PredImagine** trains the producer to predict the clean intermediate state, with training concentrated where the question decides the target. It repairs both failures, lifts our 7B reproduction to the release's accuracy, and as a flow holds that accuracy under every noise draw we tested; its regression and flow variants show that generation contributes robustness to the noise draw, but neither accuracy nor the ability to commit to one of several valid states.
+Vision-language models can answer spatial questions by first *imagining* an intermediate image as latent tokens, and flow-matching generators of these latents are credited with large accuracy gains. We test where the gains come from with a controlled protocol in WM-VLM and find two hidden failures: the released model is in effect a fixed-noise regressor that collapses when its noise seed changes, and a default flow barely uses the question. **PredImagine** repairs both by training the producer to predict the clean intermediate state where the question decides it. Its regression and flow variants then show what generation adds: robustness to the noise draw, but neither accuracy nor the ability to commit to one of several valid states.
 
-## Key results
+## Background
 
-<span class="pi-kicker">Overview</span>
+WM-VLM answers a spatial question in two parts. A **producer**, a small generation branch inside the VLM, imagines the hidden intermediate image as 361 latent tokens. A **consumer**, the rest of the VLM, reads those tokens and answers. The producer is a flow model: it starts from Gaussian noise and takes *K* Euler steps toward the latent of the intermediate image, so every answer depends on a noise draw.
 
-![Figure 1: PredImagine at a glance.](/images/projects/2026-11-predimagine/fig1-overview.png){: .pi-shot}
+[![Figure 1a: the producer imagines the hidden intermediate image, the consumer reads it and answers.](/images/projects/2026-11-predimagine/fig1a-pipeline.png){: .pi-shot}](/images/projects/2026-11-predimagine/fig1a-pipeline.png)
 
-**Figure 1.** PredImagine changes only the producer's stage-1 training, and every producer is read by one shared consumer. At a fresh noise draw every fixed-noise regressor, the release included, falls to chance, while the flow variant of PredImagine keeps its accuracy on every task (b). With several equally valid intermediates, every producer falls toward chance (c).
+**Figure 1a.** The producer imagines the hidden intermediate image as latent tokens for the consumer to read. PredImagine changes only how the producer is trained (stage 1). To compare producers fairly, each is read by one *shared* consumer trained on oracle latents, the encodings of the true intermediate image.
 {: .pi-cap}
 
-<span class="pi-kicker">Tasks</span>
-
-![Figure 2: Tasks and their gold intermediates.](/images/projects/2026-11-predimagine/fig2-tasks.png){: .pi-shot}
-
-**Figure 2.** All tasks are rotation analogies with four options. ImagineBench-rotation sets the number of valid intermediates: one clockwise strip (IB-cw), either of two strips (IB-both), or the answer shape at any of *k* placements (IB-pos-*k*).
-{: .pi-cap}
-
-<span class="pi-kicker">Failure 1 · the release depends on its noise seed</span>
-
-| Released WM-VLM-7B, Tetris-2D | K1 | K8 |
-|---|---|---|
-| Noise seed 0 | 0.870 / 0.736 | 0.738 / 0.620 |
-| Noise seed 1 | 0.233 / 0.216 | 0.220 / 0.204 |
-| Oracle latents | 0.860 / 0.884 | |
-| Zeroed latents | 0.150 / 0.166 | |
-{: .pi-table}
-
-**Table 2.** Accuracy ID / OOD. The release reproduces its reported accuracy at noise seed 0 and falls near chance at seed 1, the behaviour of a network trained on one fixed noise tensor.
-{: .pi-cap}
-
-<span class="pi-kicker">Failure 2 · the default flow ignores the question</span>
-
-![Figure 3: What the default flow lacks and what PredImagine changes.](/images/projects/2026-11-predimagine/fig3-cond-gap.png){: .pi-shot .pi-narrow}
-
-**Figure 3.** At no flow time does matching the question lower the default flow's error by more than 2.4%. Single ingredients of PredImagine raise this gap only to 16–59%; a producer becomes readable only when it predicts the clean target and trains half or all of its blocks at *t* = 0, which brings its *t* = 0 error near the regressor's.
-{: .pi-cap}
-
-<span class="pi-kicker">What generation adds · robustness, not accuracy</span>
-
-| Shared consumer, K1 s0 | *x*-pred. regression | *t* = 0 flow | Repaired flow | Velocity regression |
-|---|---|---|---|---|
-| Tetris-2D | 0.578 / 0.524 | 0.542 / 0.458 | 0.537 / 0.528 | 0.562 / 0.482 |
-| IB-pos1 (*k* = 1) | 0.653 / 0.725 | 0.590 / 0.675 | 0.593 / 0.656 | 0.354 / 0.415 |
-| IB-cw (*k* = 1) | 0.768 / 0.791 | 0.628 / 0.655 | 0.698 / 0.765 | 0.721 / 0.775 |
-| IB-both (*k* = 2) | 0.598 / 0.642 | 0.468 / 0.518 | 0.483 / 0.550 | 0.649 / 0.672 |
-{: .pi-table}
-
-**Table 4.** Same consumer for every producer of a task; training draw, mean over trainer seeds, ID / OOD. At its training draw the regression variant of PredImagine is as accurate as the flow variants or more in distribution; the flows' advantage is robustness to the noise draw, which fresh training noise alone provides.
-{: .pi-cap}
-
-<span class="pi-kicker">Several valid states · the noise does not choose</span>
-
-![Figure 5: At k = 2 the flow's noise does not choose a placement.](/images/projects/2026-11-predimagine/fig5-valid-states.png){: .pi-shot}
-
-**Figure 5.** With two valid placements, two noise draws of the flow land on the same placement for 95% of samples, and its latents carry the answer's rotation at about chance rate. Hypothesis codes with as many codes as valid states each commit to one placement.
-{: .pi-cap}
-
-## Interactive demo
-
-Three interactive views of the paper's results. Hover over a bar or a point for its value; all numbers come from the paper's tables.
-
-<span class="pi-kicker">Re-draw the noise</span>
-
-<div class="pi-w" id="piA">
-  <div class="pi-row">
-    <span><canvas class="pi-noise" id="piA-noise" width="16" height="16" aria-label="noise tensor"></canvas></span>
-    <span><span class="pi-lab">Noise</span> <span class="pi-chips" id="piA-draw"></span></span>
-  </div>
-  <div class="pi-row">
-    <span><span class="pi-lab">Task</span> <span class="pi-chips" id="piA-task"></span></span>
-    <span><span class="pi-lab">Split</span> <span class="pi-chips" id="piA-split"></span></span>
-  </div>
-  <div class="pi-bars" id="piA-bars"></div>
-  <div class="pi-leg"><span><i style="background:var(--r)"></i>PredImagine, regression variant</span><span><i style="background:var(--f)"></i>PredImagine, flow variant</span><span><i style="background:var(--b)"></i>baselines</span><span><i style="background:var(--g);width:2px"></i>value at the other draw</span></div>
+<div class="pi-defs">
+  <div><b>Noise draw: K and s</b>A read takes K Euler steps from noise seed s. <i>K1 s0</i> is the setting the release reports and the draw every fixed-noise regressor was trained on. <i>K8 s1</i> is a fresh draw.</div>
+  <div><b>Shared and own consumers</b>The shared consumer never saw any producer's output, so accuracy on it reflects the latents alone. An own consumer is trained together with its producer.</div>
+  <div><b>Oracle and zeroed latents</b>Two controls: the consumer reads the encoding of the true intermediate image, or all zeros. They show whether the answer goes through the latents.</div>
+  <div><b>ID, OOD and chance</b>Accuracy in distribution and on held-out shapes, written ID / OOD. Every question has four options, so chance is 0.25.</div>
 </div>
-<p class="pi-cap"><strong>Interactive A.</strong> <span id="piA-note"></span> Every producer is read by its task's shared consumer (trainer seed 42; chance 0.25). Training draw: K1 s0; fresh draw: K8 s1. Values from Fig. 1b and Tab. S5.</p>
 
-<span class="pi-kicker">Build a PredImagine variant</span>
+[![Figure 2: Tasks and their gold intermediates.](/images/projects/2026-11-predimagine/fig2-tasks.png){: .pi-shot}](/images/projects/2026-11-predimagine/fig2-tasks.png)
+
+**Figure 2.** All tasks are rotation analogies: apply the rotation from A to B to C and pick one of four options. Tetris-2D is WM-VLM's dataset. Our ImagineBench-rotation sets the number *k* of valid intermediates: one clockwise strip (IB-cw), either of two strips (IB-both), or the answer shape at any of *k* placements (IB-pos-*k*).
+{: .pi-cap}
+
+## Method
+
+Both failures concern *where* the producer learns the question. At flow time *t* = 0 the producer sees only noise and the question, so only the question can lower its error. There the squared-error optimum is the conditional mean of the target given the question, and one Euler step returns it for any noise (Proposition 1 of the paper). A default flow samples *t* uniformly and spends most of its training denoising the state instead.
+
+PredImagine therefore makes two changes to the producer's training:
+
+<ol class="pi-steps">
+  <li><b>Predict the clean target.</b> The producer outputs the intermediate latent itself, not the velocity, which stays well conditioned in high dimension.</li>
+  <li><b>Train at <i>t</i> = 0.</b> A share ρ of the training blocks sits exactly at <i>t</i> = 0, where the question decides the target; the rest is shifted toward noise.</li>
+</ol>
+
+<div class="pi-eq">\[ \min_\theta\ \mathbb{E}\,\lVert f_\theta(z_t, c, t) - z \rVert^2, \qquad z_t = (1-t)\,\epsilon + t\,z, \qquad t \sim \rho\,\delta_0 + (1-\rho)\,\pi_s \]</div>
+
+Here *z* is the latent of the intermediate image, *c* the question, ε the noise, and π<sub>s</sub> uniform *t* under the time shift *s* = 3. PredImagine adds no parameters and leaves inference unchanged. The noise and the share ρ give three variants, and neighbouring variants differ in one choice, which separates what fresh noise and training over *t* each add.
+
+<span class="pi-kicker">The three variants · click a cell</span>
 
 <div class="pi-w" id="piB">
   <div class="pi-grid2">
@@ -243,9 +219,77 @@ Three interactive views of the paper's results. Hover over a bar or a point for 
     </div>
   </div>
 </div>
-<p class="pi-cap"><strong>Interactive B.</strong> <span id="piB-note"></span> Shared consumer, K1 s0, mean over trainer seeds (Tab. 4); the timestep plot applies the time shift <i>s</i> = 3 to uniform <i>t</i>.</p>
+<p class="pi-cap"><strong>Interactive B.</strong> <span id="piB-note"></span> Bars: shared consumer, K1 s0, mean over trainer seeds (Table 4). The timestep plot applies the time shift <i>s</i> = 3 to uniform <i>t</i>.</p>
 
-<span class="pi-kicker">Several valid answers</span>
+## Key results
+
+<span class="pi-kicker">Failure 1 · the release depends on its noise seed</span>
+
+| Released WM-VLM-7B, Tetris-2D | K1 | K8 |
+|---|---|---|
+| Noise seed 0 | 0.870 / 0.736 | 0.738 / 0.620 |
+| Noise seed 1 | **0.233 / 0.216** | **0.220 / 0.204** |
+| Oracle latents | 0.860 / 0.884 | |
+| Zeroed latents | 0.150 / 0.166 | |
+{: .pi-table}
+
+**Table 2.** Accuracy ID / OOD. The release reproduces its reported accuracy at noise seed 0 and falls near chance at seed 1, as a network trained on one fixed noise tensor would; the public reproduction script defaults to exactly that. Its gain at seed 0 is real and goes through the latents (zeroed: 0.150), but it is a regressor's gain, not generation's.
+{: .pi-cap}
+
+<span class="pi-kicker">Failure 2 · the default flow ignores the question</span>
+
+[![Figure 3: What the default flow lacks and what PredImagine changes.](/images/projects/2026-11-predimagine/fig3-cond-gap.png){: .pi-shot .pi-narrow}](/images/projects/2026-11-predimagine/fig3-cond-gap.png)
+
+**Figure 3.** The conditional gap Δ(*t*) measures how much matching the question to its target lowers the producer's error at flow time *t*; Δ = 0 means the question adds nothing. For the default flow Δ never exceeds 2.4%, and it stays near chance on all four 3B datasets. Single ingredients of PredImagine raise the gap only to 16–59%. A producer becomes readable only when it predicts the clean target and trains half or all of its blocks at *t* = 0, which brings its *t* = 0 error near the regressor's (b).
+{: .pi-cap}
+
+<span class="pi-kicker">PredImagine repairs both · switch the noise draw</span>
+
+<div class="pi-w" id="piA"><a id="pi-try"></a>
+  <div class="pi-row">
+    <span><canvas class="pi-noise" id="piA-noise" width="16" height="16" aria-label="noise tensor"></canvas></span>
+    <span><span class="pi-lab">Noise</span> <span class="pi-chips" id="piA-draw"></span></span>
+  </div>
+  <div class="pi-row">
+    <span><span class="pi-lab">Task</span> <span class="pi-chips" id="piA-task"></span></span>
+    <span><span class="pi-lab">Split</span> <span class="pi-chips" id="piA-split"></span></span>
+  </div>
+  <div class="pi-bars" id="piA-bars"></div>
+  <div class="pi-leg"><span><i style="background:var(--r)"></i>PredImagine, regression variant</span><span><i style="background:var(--f)"></i>PredImagine, flow variant</span><span><i style="background:var(--b)"></i>baselines</span><span><i style="background:var(--g);width:2px"></i>value at the other draw</span></div>
+</div>
+<p class="pi-cap"><strong>Interactive A.</strong> <span id="piA-note"></span> Every producer is read by its task's shared consumer (trainer seed 42). Gray ticks mark the value at the other draw. Values from Figure 1b and Table S5.</p>
+
+| 7B, Tetris-2D, own consumer | Training draw (K1 s0) | Fresh draw (K8 s1) |
+|---|---|---|
+| WM-VLM release | 0.858 / 0.732 | 0.220 / 0.204 |
+| Velocity regression (our reproduction) | 0.502 / 0.438 | 0.275 / 0.258 |
+| Default flow | 0.278 / 0.298 | 0.305 / 0.248 |
+| PredImagine, *x*-prediction regression | 0.880 / 0.724 | 0.230 / 0.208 |
+| PredImagine, repaired flow | 0.920 / 0.726 | **0.917 / 0.692** |
+{: .pi-table}
+
+**Table 3 (excerpt).** Each producer with the consumer trained on it, trainer seed 42, ID / OOD. PredImagine lifts our 7B pipeline from 0.502 (velocity regression) to the release's level (0.880 and 0.920 against 0.858); on the shared consumer the release and both PredImagine variants are statistically level in distribution. Only the flow variant keeps its accuracy at a fresh draw.
+{: .pi-cap}
+
+<span class="pi-kicker">What generation adds · robustness, not accuracy</span>
+
+| Shared consumer, K1 s0 | *x*-pred. regression | *t* = 0 flow | Repaired flow | Velocity regression |
+|---|---|---|---|---|
+| Tetris-2D | 0.578 / 0.524 | 0.542 / 0.458 | 0.537 / 0.528 | 0.562 / 0.482 |
+| IB-pos1 (*k* = 1) | 0.653 / 0.725 | 0.590 / 0.675 | 0.593 / 0.656 | 0.354 / 0.415 |
+| IB-cw (*k* = 1) | 0.768 / 0.791 | 0.628 / 0.655 | 0.698 / 0.765 | 0.721 / 0.775 |
+| IB-both (*k* = 2) | 0.598 / 0.642 | 0.468 / 0.518 | 0.483 / 0.550 | 0.649 / 0.672 |
+{: .pi-table}
+
+**Table 4.** Same consumer for every producer of a task; training draw, mean over trainer seeds, ID / OOD. The first three columns are PredImagine's variants. At its training draw the regression variant is as accurate as the flow variants or more in distribution, so the flows' advantage is robustness to the noise draw, which fresh training noise alone provides.
+{: .pi-cap}
+
+<span class="pi-kicker">Several valid states · the noise does not choose</span>
+
+[![Figure 5: At k = 2 the flow's noise does not choose a placement.](/images/projects/2026-11-predimagine/fig5-valid-states.png){: .pi-shot}](/images/projects/2026-11-predimagine/fig5-valid-states.png)
+
+**Figure 5.** A generator could, in principle, commit to one of several valid intermediates. Ours does not: with two valid placements, two noise draws of the flow land on the same placement for 95% of samples, and its latents carry the answer's rotation at about chance rate. Hypothesis codes with as many codes as valid states each commit to one placement.
+{: .pi-cap}
 
 <div class="pi-w" id="piC">
   <div class="pi-thumbs" id="piC-thumbs"></div>
@@ -257,7 +301,7 @@ Three interactive views of the paper's results. Hover over a bar or a point for 
     </div>
   </div>
 </div>
-<p class="pi-cap"><strong>Interactive C.</strong> <span id="piC-note"></span> Example question drawn with the ImagineBench-rotation generator (90° clockwise); pixel averages are an illustration, the paper's mean is over latent encodings. Curve: IB-pos4 shared consumer, K1 s0 (Fig. 1c, Tab. S7).</p>
+<p class="pi-cap"><strong>Interactive C.</strong> <span id="piC-note"></span> Click a task to see its valid intermediates. The example is drawn with the ImagineBench-rotation generator (90° clockwise); pixel averages are an illustration, since the paper's mean is over latent encodings. Curve: IB-pos4 shared consumer, K1 s0 (Figure 1c, Table S7).</p>
 
 <div class="pi-tip" id="pi-tip" role="tooltip"></div>
 <script>
@@ -306,7 +350,7 @@ Three interactive views of the paper's results. Hover over a bar or a point for 
   }
   var narrow = function () { return window.innerWidth <= 700; };
   /* ---- A: re-draw the noise */
-  var A = { task: "IB-cw", split: 0, draw: 0 }, builtA = "";
+  var A = { task: "Tetris-2D 7B", split: 0, draw: 0 }, builtA = "";
   function renderA() {
     var host = $("piA-bars"), d = DRAWS[A.task], keys = ["release", "dflow", "vel", "regr", "flow"].filter(function (k) { return d[k]; });
     var lw = narrow() ? 100 : 138, sig = A.task + lw;
@@ -449,6 +493,19 @@ Three interactive views of the paper's results. Hover over a bar or a point for 
   noise($("piA-noise"), 0); renderA(); renderB(); renderC();
   window.addEventListener("resize", function () { builtA = ""; renderA(); });
 })();</script>
+
+
+## Takeaways
+
+<ul class="pi-take">
+  <li style="--kc:#2a78d6"><b>For accuracy, predict.</b> In this architecture and on these tasks, the accuracy that latent imagination adds comes with training the producer to predict the intermediate state. At its training draw, a regressor with the same target is as accurate as the flow or more in distribution.</li>
+  <li style="--kc:#eb6834"><b>For robustness to noise, train on fresh noise.</b> A fixed seed avoids the collapse at deployment, but any use that draws new noise, such as search or policy gradients over imagined states, needs the flow variant.</li>
+  <li><b>Sampling distinct valid states is still open.</b> None of our flows selects among valid states, and winner-take-all codes commit to them only when their number equals the number of valid states.</li>
+  <li><b>How to evaluate generated latents.</b> We suggest one consumer trained on oracle latents for all producers, oracle and zeroed reads beside own-consumer accuracy, reads at fresh seeds and step counts, a regressor with the flow's target at equal steps, a set number of valid intermediates before claiming sampling, and multiplicity-corrected paired tests.</li>
+</ul>
+
+The study covers one architecture (WM-VLM) on one backbone family and rotation analogies; most cells have one to three training seeds, and small differences are settled by paired tests in the paper.
+{: .pi-scope}
 
 ## Links and citation
 
