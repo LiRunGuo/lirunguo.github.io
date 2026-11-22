@@ -13,6 +13,7 @@ pdfurl: "/files/certified-sparse-attention.pdf"
 bibtexurl: "/files/bibtex/li2026certified.bib"
 publication: "/publication/2026-10-certified-sparse-attention"
 citation: 'Runguo Li. (2026). &quot;Certified Sparse Attention via Perturbed Retrieval.&quot; arXiv:2610.24991.'
+published: false
 ---
 
 <style>

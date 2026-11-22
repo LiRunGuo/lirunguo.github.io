@@ -13,6 +13,7 @@ pdfurl: "/files/gptq-random-rotation.pdf"
 bibtexurl: "/files/bibtex/li2026gptqrotation.bib"
 publication: "/publication/2026-10-gptq-rotation"
 citation: 'Runguo Li. (2026). &quot;How Much Does Random Rotation Help GPTQ? Sharp Worst-Case Rate Gaps in the High-Rate Regime.&quot; arXiv:2611.01669. Manuscript under review.'
+published: false
 ---
 
 <style>

@@ -14,6 +14,7 @@ tags: ["model hubs", "lossless compression", "delta storage", "entropy coding"]
 # codeurl: ""
 # bibtexurl: ""
 # publication: "/publication/2026-11-tessera-lossless-storage"
+published: false
 ---
 
 <style>

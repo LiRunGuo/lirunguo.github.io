@@ -11,6 +11,7 @@ tags: ["video generation", "autoregressive diffusion", "KV cache", "training-fre
 bibtexurl: "/files/bibtex/li2026tonetether.bib"
 publication: "/publication/2026-11-tonetether"
 citation: 'Runguo Li. (2026). &quot;ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video Generation.&quot; Manuscript under review.'
+published: false
 ---
 
 <style>

@@ -10,6 +10,7 @@ teaser: "/images/projects/2026-11-predimagine/teaser.png"
 tags: ["vision-language models", "latent reasoning", "flow matching"]
 publication: "/publication/2026-11-predimagine"
 # paperurl, pdfurl, codeurl, bibtexurl: add when the paper and code are public
+published: false
 ---
 
 <style>

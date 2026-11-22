@@ -13,6 +13,7 @@ pdfurl: "/files/breadthkv-kv-compression.pdf"
 bibtexurl: "/files/bibtex/li2026breadthkv.bib"
 publication: "/publication/2026-10-breadthkv"
 citation: 'Runguo Li. (2026). &quot;Spend Bytes on Breadth: Precision–Count Trade-offs for Decode-Time KV Compression in Long Chain-of-Thought Reasoning.&quot; arXiv:2610.05685.'
+published: false
 ---
 
 <style>

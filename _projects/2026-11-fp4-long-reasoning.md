@@ -14,6 +14,7 @@ pdfurl: "/files/fp4-long-reasoning.pdf"
 bibtexurl: "/files/bibtex/li2026fp4reasoning.bib"
 # publication: "/publication/2026-11-fp4-long-reasoning"
 citation: 'Runguo Li. (2026). &quot;What FP4 Costs Long Reasoning on Blackwell, Measured Above the Noise.&quot; Manuscript under review.'
+published: false
 ---
 
 <style>
