@@ -3,6 +3,9 @@ title: "Weight Placement Is Not Enough: Synchronization in Multi-Node CPU Decodi
 collection: projects
 permalink: /projects/2026-11-weight-placement/
 date: 2026-11-22
+# Offline while the paper is under double-blind review (the venue forbids advertising a submission on web pages).
+# To put the page back: delete the next line and the two exclude entries for this page in _config.yml.
+published: false
 # No venue under review is named on this page. Paper, code and publication links: add when they are public.
 status: "Under review"
 venue: "Under review"

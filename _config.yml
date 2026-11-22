@@ -170,6 +170,9 @@ exclude:
   - _llm-libs
   # Figures of a project page that is not published yet (_projects/2026-10-tiercut.md, published: false)
   - images/projects/2026-10-tiercut
+  # Figures and data of a project page that is offline during double-blind review (_projects/2026-11-weight-placement.md, published: false)
+  - images/projects/2026-11-weight-placement
+  - files/projects/2026-11-weight-placement
   # AcademicPages template tooling, not part of the site
   - markdown_generator
   - _pages/llm-libs.md
