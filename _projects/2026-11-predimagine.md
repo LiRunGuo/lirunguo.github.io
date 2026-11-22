@@ -259,6 +259,11 @@ Here *z* is the latent of the intermediate image, *c* the question, ε the noise
 </div>
 <p class="pi-cap"><strong>Interactive A.</strong> <span id="piA-note"></span> Every producer is read by its task's shared consumer (trainer seed 42). Gray ticks mark the value at the other draw. Values from Figure 1b and Table S5.</p>
 
+[![Figure 4: What each producer imagines.](/images/projects/2026-11-predimagine/fig4-qualitative.png){: .pi-shot}](/images/projects/2026-11-predimagine/fig4-qualitative.png)
+
+**Figure 4.** What each producer imagines on four random IB-pos1 questions, read in one step at the regressors' training noise (s0) and at a new one (s1). Latents are not decoded: each cell shows the candidate, the answer shape at one of four rotations, that is nearest to the generated latent (✓ marks the answer's rotation). What the regressors imagine changes with the noise seed, and the share with the right rotation falls from 0.59 and 0.79 to 0.23, near chance; what the flow variant of PredImagine imagines does not change (0.88 and 0.87).
+{: .pi-cap}
+
 | 7B, Tetris-2D, own consumer | Training draw (K1 s0) | Fresh draw (K8 s1) |
 |---|---|---|
 | WM-VLM release | 0.858 / 0.732 | 0.220 / 0.204 |
