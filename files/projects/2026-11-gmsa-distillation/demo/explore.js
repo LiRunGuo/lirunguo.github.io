@@ -1,5 +1,5 @@
-/* Interactive figures of the StudentProbe project page: where a student can skip, what bounds the speedup, and a skipped
-   call frame by frame. All numbers come from the paper (Tables 3-4, Fig. 4, Fig. 5). */
+/* Interactive figures of the StudentProbe project page: where a student can skip, what bounds the speedup, and
+   side-by-side video clips. All numbers come from the paper (Tables 3-4, Fig. 4). */
 (function () {
   var NS = "http://www.w3.org/2000/svg";
   var BASE = "/files/projects/2026-11-gmsa-distillation/demo/";
@@ -41,8 +41,8 @@
       skipCur, function (k) { skipCur = k; drawSkip(); });
     svg.innerHTML = "";
     var W = svg.getBoundingClientRect().width < 440 ? 400 : 600;
-    svg.setAttribute("viewBox", "0 0 " + W + " 300");
-    var L = 40, R = W - 6, T1 = 30, H1 = 160, T2 = 212, H2 = 46, n = d.cost.length, bw = (R - L) / n;
+    svg.setAttribute("viewBox", "0 0 " + W + " 284");
+    var L = 52, R = W - 6, T1 = 14, H1 = 160, T2 = 196, H2 = 46, n = d.cost.length, bw = (R - L) / n;
     var fbPick = d.fb.indexOf(Math.min.apply(null, d.fb)) + 1;
     var ymax = Math.max.apply(null, d.cost) * 1.2, y = function (v) { return T1 + H1 - v / ymax * H1; };
     var smax = Math.max.apply(null, d.fb) * 1.25, ys = function (v) { return T2 + H2 - v / smax * H2; };
@@ -57,7 +57,7 @@
       var drop = d.aes[i].charAt(0) === "-" && d.aes[i].slice(-1) === "*";
       var r = svgEl("rect", { x: x + (bw - bwid) / 2, y: y(c), width: bwid, height: T1 + H1 - y(c), rx: 3,
         "class": "sp-bar" + (drop ? " sp-drop" : "") }, svg);
-      svgEl("title", {}, r, "skip call " + k + ": fidelity cost " + c.toFixed(3) + ", Δ aesthetics " + d.aes[i].replace("-", "−") +
+      svgEl("title", {}, r, "Skip call " + k + ": cost (LPIPS) " + c.toFixed(3) + ", Δ aesthetics " + d.aes[i].replace("-", "−") +
         (d.aes[i].slice(-1) === "*" ? " (95% CI excludes 0)" : "") + ", FBCache signal " + d.fb[i].toFixed(3));
       svgEl("text", { x: x + bw / 2, y: T2 + H2 + 22, "text-anchor": "middle", "class": "sp-label" }, svg, k);
       var top = y(c) - 6;
@@ -66,6 +66,7 @@
     });
     svgEl("text", { x: (L + R) / 2, y: T2 + H2 + 40, "text-anchor": "middle", "class": "sp-tick" }, svg, "skipped call");
     svgEl("text", { x: L + 6, y: T2 + 8, "class": "sp-tick" }, svg, "FBCache signal");
+    svgEl("text", { x: 11, y: T1 + H1 / 2, transform: "rotate(-90 11 " + (T1 + H1 / 2) + ")", "text-anchor": "middle", "class": "sp-tick" }, svg, "LPIPS");
     var pts = d.fb.map(function (v, i) { return [L + (i + 0.5) * bw, ys(v)]; });
     svgEl("polyline", { points: pts.map(function (p) { return p.join(","); }).join(" "), "class": "sp-line" }, svg);
     pts.forEach(function (p, i) {
@@ -105,31 +106,37 @@
       (e0 / recE).toFixed(2) + "×.";
   }
 
-  /* 3. a skipped call frame by frame: the images of Fig. 5 (row-major, 25% then 75% of the clip) */
-  var COLS = ["LTX full", "LTX skip 1", "LTX skip 6", "AnyFlow full", "AnyFlow skip 3", "rCM full", "rCM skip 3"];
-  var PAIRS = {
-    ltx1: { label: "LTX-Video, skip call 1", a: 0, b: 1,
-      note: "Skipping LTX's first call gives a slightly different video, high in LPIPS, yet no quality score falls: drift is not damage." },
-    ltx6: { label: "LTX-Video, skip call 6", a: 0, b: 2,
-      note: "Skipping LTX's last call is almost free (LPIPS 0.009); this is the call StudentProbe picks." },
-    any3: { label: "AnyFlow, skip call 3", a: 3, b: 4,
-      note: "AnyFlow's lowest-drift skip lowers aesthetics, which is why the quality check moves StudentProbe to call 2." },
-    rcm3: { label: "rCM, skip call 3", a: 5, b: 6,
-      note: "Reusing rCM's last call carries the previous call's noise into the video through its re-noising sampler." } };
-  var pairCur = "ltx1", rowCur = 0;
+  /* 3. side-by-side clips: the released student against the guided baseline (held-out prompt with median drift), and
+     skipped calls (first prompt of the supplementary video's sections) */
+  var VBASE = "/files/projects/2026-11-gmsa-distillation/videos/";
+  var CLIPS = {
+    vb: [
+      { key: "anyflow", label: "AnyFlow · 3.45×", file: "baseline-anyflow", left: "as released · 8.89 s", right: "guided baseline · 2.58 s",
+        note: "Prompt: “indoor movie theater”." },
+      { key: "rcm", label: "rCM · 3.36×", file: "baseline-rcm", left: "as released · 7.66 s", right: "guided baseline · 2.28 s",
+        note: "Prompt: “A tranquil tableau of the phone booth was tucked away in a quiet alley”." },
+      { key: "wan22", label: "Wan2.2 A14B · 2.69×", file: "baseline-wan22_4s", left: "as released · 29.65 s", right: "guided baseline · 11.04 s",
+        note: "Prompt: “Yoda playing guitar on the stage”." } ],
+    vs: [
+      { key: "ltx", label: "LTX-Video: skip call 1", file: "skip-ltx", left: "as released", right: "call 1 skipped",
+        note: "Skipping LTX-Video's first call gives a different video, far from the original in LPIPS, yet no quality score falls: drift is not damage." },
+      { key: "rcm", label: "rCM: skip the last call", file: "skip-rcm", left: "call 2 skipped (StudentProbe)", right: "call 3 skipped (FBCache)",
+        note: "rCM re-noises before every call, so reusing its last call carries old noise into the video. The cache signal is lowest exactly there." },
+      { key: "anyflow", label: "AnyFlow: call 2 or call 3", file: "skip-anyflow", left: "call 2 skipped (StudentProbe)", right: "call 3 skipped",
+        note: "The two look alike, and call 3 even drifts slightly less (LPIPS 0.074 vs 0.078). Over the held-out videos it lowers aesthetics by 0.10–0.15, which only a quality check catches." } ] };
+  var clipCur = { vb: "anyflow", vs: "ltx" };
 
-  function drawFrames() {
-    var p = PAIRS[pairCur], box = document.getElementById("sp-compare");
-    pills(document.getElementById("sp-frame-pills"), Object.keys(PAIRS).map(function (k) { return { key: k, label: PAIRS[k].label }; }),
-      pairCur, function (k) { pairCur = k; drawFrames(); });
-    pills(document.getElementById("sp-row-pills"), [{ key: 0, label: "25% of the clip" }, { key: 1, label: "75% of the clip" }],
-      rowCur, function (k) { rowCur = k; drawFrames(); });
-    var src = function (c) { var i = String(rowCur * 7 + c); while (i.length < 3) i = "0" + i; return BASE + "frames/f-" + i + ".png"; };
-    var A = box.querySelector(".sp-top"), B = box.querySelector(".sp-bottom");
-    A.onload = function () { box.style.setProperty("--sp-ar", A.naturalWidth / A.naturalHeight); };
-    A.src = src(p.a); B.src = src(p.b); A.alt = COLS[p.a]; B.alt = COLS[p.b];
-    box.querySelector(".sp-r").textContent = COLS[p.b].replace(/^\S+ /, "");
-    document.getElementById("sp-frame-note").textContent = p.note;
+  function drawClips(id) {
+    var list = CLIPS[id], c = list.filter(function (x) { return x.key === clipCur[id]; })[0];
+    pills(document.getElementById("sp-" + id + "-pills"), list, clipCur[id], function (k) { clipCur[id] = k; drawClips(id); });
+    var box = document.getElementById("sp-" + id), v = box.querySelector("video"), labels = box.querySelectorAll(".sp-video-labels span");
+    if (v.getAttribute("data-file") !== c.file) {
+      v.setAttribute("data-file", c.file);
+      v.poster = VBASE + c.file + ".jpg"; v.src = VBASE + c.file + ".mp4";
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+    }
+    labels[0].textContent = c.left; labels[1].textContent = c.right;
+    document.getElementById("sp-" + id + "-note").textContent = c.note;
   }
 
   function init() {
@@ -144,12 +151,7 @@
       drawSpeed();
     };
     drawSpeed();
-    var box = document.getElementById("sp-compare"), drag = false;
-    var setPos = function (x) { var r = box.getBoundingClientRect(); box.style.setProperty("--sp-pos", Math.max(0, Math.min(100, (x - r.left) / r.width * 100)) + "%"); };
-    box.addEventListener("pointerdown", function (e) { drag = true; box.setPointerCapture(e.pointerId); setPos(e.clientX); });
-    box.addEventListener("pointermove", function (e) { if (drag) setPos(e.clientX); });
-    box.addEventListener("pointerup", function () { drag = false; });
-    drawFrames();
+    drawClips("vb"); drawClips("vs");
     var lastW = window.innerWidth, t;
     window.addEventListener("resize", function () {
       if (window.innerWidth === lastW) return;
