@@ -1,6 +1,9 @@
 ---
 title: "Load or Recompute from Shared Tiers: Characterizing and Planning KV Restoration for Agent Serving"
 collection: projects
+# Not published while the manuscript is under review. To publish: remove the next line, and remove
+# "images/projects/2026-10-tiercut" from the exclude list in _config.yml.
+published: false
 permalink: /projects/2026-10-tiercut/
 date: 2026-10-30
 # No venue under review is named on this page; author list, paper, code and BibTeX links to be added later.

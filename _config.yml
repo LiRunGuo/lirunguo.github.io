@@ -168,6 +168,8 @@ include:
   - _pages
 exclude:
   - _llm-libs
+  # Figures of a project page that is not published yet (_projects/2026-10-tiercut.md, published: false)
+  - images/projects/2026-10-tiercut
   # AcademicPages template tooling, not part of the site
   - markdown_generator
   - _pages/llm-libs.md
