@@ -9,7 +9,7 @@ if (!root) return;
 
 const FAM = { w: ["--c-wgt", "circle"], task: ["--c-rte", "square"], opt: ["--c-opt", null], depth: ["--c-spl", "pentagon"], ours: ["--c-spl", "star"] };
 const ARMS = [
-  ["w1", "Dense, w=1", "Dense, w=1", "w", "Dense, w = 1", "Equal weights: generation receives under 1% of each AdamW step, and FID rises 57% over generation-only training. This arm defines 0% of the gap closed."],
+  ["w1", "Dense, w=1", "Dense, w=1", "w", "Dense, w = 1", "Equal weights: generation receives under 1% of each AdamW step, and FID rises 57% over generation-only training. This variant defines 0% of the gap closed."],
   ["w01", "Dense, 0.1", "Dense, w=0.1", "w", "Dense, w = 0.1", "Lowering the understanding weight to 0.1 restores part of generation's share and closes 68% of the FID gap, at a small cost in intermediate layers."],
   ["w003", "Dense, 0.03", "Dense, w=0.03", "w", "Dense, w = 0.03", "w = 0.03 closes 82% of the gap with no added parameters, but the COCO probe drops by up to 5.4 points around layer 8, a cost that caption NLL and the last layer do not show."],
   ["w001", "Dense, 0.01", "Dense, w=0.01", "w", "Dense, w = 0.01", "w = 0.01 closes 95% of the gap, and the intermediate-layer COCO deficit deepens to 7.1 points."],
@@ -137,10 +137,11 @@ function renderReadout() {
   const b = document.createElement("strong"); b.textContent = a.label + ". ";
   const ref = a.id === "w1";
   out.append(b, document.createTextNode(ref
-    ? `Reference arm (${r.n} seeds); worst ${probe === "coco" ? "COCO" : "ImageNet-100"} layer ${sgn(worst)} points.`
+    ? `Reference variant (${r.n} seeds); worst ${probe === "coco" ? "COCO" : "ImageNet-100"} layer ${sgn(worst)} points.`
     : `${r.r1}% ± ${r.c1} of the FID gap closed at guidance 1 and ${r.r4}% ± ${r.c4} at guidance 4; worst ${probe === "coco" ? "COCO" : "ImageNet-100"} layer ${sgn(worst)} points; caption NLL ${sgn(r.nll, 2)}; ${r.n} seeds.`));
   document.getElementById("ss-note").textContent = a.note;
   ex.style.setProperty("--accent", v(a.color));
+  for (const b of ex.querySelectorAll("[data-pick]")) b.setAttribute("aria-pressed", String(b.dataset.pick === sel));
 }
 function renderScatter() {
   const box = document.getElementById("ss-scatter");
@@ -259,6 +260,7 @@ if (ex) {
     for (const o of ex.querySelectorAll("[data-probe]")) o.setAttribute("aria-pressed", String(o === b));
     renderExplore();
   });
+  for (const b of ex.querySelectorAll("[data-pick]")) b.addEventListener("click", () => select(b.dataset.pick));
   buildTable();
   renderExplore();
   let lastW = 0;
