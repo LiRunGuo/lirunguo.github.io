@@ -78,7 +78,7 @@ html[data-theme="dark"] .la-btn:not(.is-primary):not(.is-off) { background: #e8e
 .la-schematic text { font-family: inherit; }
 .la-fig { margin: 1.4em 0; }
 .la-fig img { display: block; width: 100%; border-radius: 10px; background: #fff; }
-.la .la-fig figcaption { font-size: .88em; line-height: 1.6; margin-top: .8em; color: inherit; }
+.la .la-fig figcaption { font-size: .88em; line-height: 1.6; margin-top: .8em; color: inherit; font-family: inherit; font-style: normal; text-align: left; }
 .la-fig figcaption .badge { display: inline-block; font-size: .78em; font-weight: 700; padding: .12em .55em; border-radius: 6px;
   background: var(--la-accent-soft); color: var(--la-accent); margin-right: .5em; }
 .la-fig.is-narrow img { max-width: 620px; margin: 0 auto; }
@@ -104,6 +104,24 @@ html[data-theme="dark"] .la-btn:not(.is-primary):not(.is-off) { background: #e8e
 .la { --la-aigu: #CC79A7; --la-weight: #56B4E9; --la-early: #4d4d4d; }
 html[data-theme="dark"] .la { --la-aigu: #e09cc4; --la-weight: #7cc6ef; --la-early: #c4c7cc; }
 .la-card-title { font-weight: 700; margin: 0 0 .25em; }
+.la-lede { display: grid; gap: .7em; }
+.la-lede > div { display: grid; grid-template-columns: 7.2em 1fr; gap: 1em; align-items: baseline; }
+.la-lede .h { font-size: .74em; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--la-accent); }
+.la-lede p { margin: 0; }
+.la-terms { display: grid; grid-template-columns: repeat(2, 1fr); gap: .1em 1.6em; margin: 0; }
+.la-terms div { padding: .55em 0; border-bottom: 1px solid var(--la-line); font-size: .88em; line-height: 1.5; }
+.la-terms b { display: block; }
+.la-terms span { color: var(--la-muted); }
+.la p.la-hint { font-size: .88em; margin: .8em 0 0; padding: .55em .8em; border-radius: 8px; background: var(--la-accent-soft); line-height: 1.5; }
+.la-list { margin: .6em 0 0; padding-left: 1.2em; font-size: .88em; line-height: 1.6; color: var(--la-muted); }
+.la-list b { color: inherit; }
+.la-list li { margin: .15em 0; }
+.la pre.la-code { margin: .8em 0 0; padding: .9em 1em; border-radius: 10px; background: var(--la-soft); border: 1px solid var(--la-line);
+  font-size: .82em; line-height: 1.55; overflow-x: auto; color: inherit; }
+.la pre.la-code .c { color: var(--la-muted); }
+.la pre.la-code .k { color: var(--la-accent); font-weight: 600; }
+.la-two { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; }
+
 .la-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .6em 1em; margin: .8em 0; }
 .la-controls label { font-size: .85em; color: var(--la-muted); }
 .la-controls input[type=range] { width: min(320px, 100%); accent-color: var(--la-accent); }
@@ -132,6 +150,8 @@ html[data-theme="dark"] .la { --la-aigu: #e09cc4; --la-weight: #7cc6ef; --la-ear
   .la-slider { aspect-ratio: 321 / 157; }
   .la-slider img { object-position: left center; }
   .la-gallery { grid-template-columns: 1fr; }
+  .la-terms, .la-two { grid-template-columns: 1fr; }
+  .la-lede > div { grid-template-columns: 1fr; gap: .1em; }
   .la-gallery .lab { margin-top: .4em; }
 }
 </style>
@@ -145,7 +165,7 @@ html[data-theme="dark"] .la { --la-aigu: #e09cc4; --la-weight: #7cc6ef; --la-ear
   <span class="la-tag">Sample diversity</span>
 </div>
 
-<p class="la-tagline">RL-tuned flow models draw the same picture for every seed. Let the base model take the first few
+<p class="la-tagline">Text-to-image flow models tuned with reinforcement learning draw the same picture for every seed. Let the base model take the first few
 sampling steps and the variety comes back: <b>almost the same reward, more diverse images, no retraining and no extra
 compute.</b></p>
 
@@ -157,7 +177,7 @@ compute.</b></p>
 </div>
 
 <div class="la-stats">
-  <div class="la-stat"><div class="v">96%</div><div class="k">of NFT's reward gain kept (τ = 0.96)</div></div>
+  <div class="la-stat"><div class="v">96%</div><div class="k">of the RL reward gain kept (DiffusionNFT, τ = 0.96)</div></div>
   <div class="la-stat"><div class="v">+25%</div><div class="k">CLIP diversity over the RL-tuned model</div></div>
   <div class="la-stat"><div class="v">−23%</div><div class="k">drift from the base model's image</div></div>
   <div class="la-stat"><div class="v">0</div><div class="k">extra network evaluations, no retraining</div></div>
@@ -189,14 +209,37 @@ where the reward it adds is largely redundant. Training needs those steps; sampl
 
 <h2 id="summary"><span class="la-num">01</span>Summary</h2>
 
-<p>Online RL has become a standard way to align text-to-image flow models with human preferences, but it erodes
-variety: after tuning SD3.5-Medium with DiffusionNFT, held-out CLIP diversity falls to 38% of the base model's.
-Switching the RL-tuned adapter off by noise level shows where this happens. The collapse comes from the first, high-noise
-steps, where the adapter steers every seed toward the same layout, while the reward it adds there is largely recovered
-by the later steps. <b>Late activation</b> therefore samples the first steps with the base model and switches the
-adapter on below a noise level τ. It keeps 96% of the reward gain with 25% higher CLIP diversity and 23% less drift,
-beats early stopping and velocity or LoRA-weight scaling at matched reward, matches annealed guidance at half its
-sampling time, and holds across three rewards and four RL methods.</p>
+<div class="la-lede">
+  <div><span class="h">Problem</span><p>Online RL, here DiffusionNFT (NFT), aligns text-to-image flow models with a reward such
+  as PickScore, a learned model of human preference. It also erodes variety: on SD3.5-Medium, the images for one prompt
+  converge on one composition, and held-out CLIP diversity falls to 38% of the base model's.</p></div>
+  <div><span class="h">Finding</span><p>The RL-tuned adapter can be switched off for part of the sampling path. Doing so by
+  noise level shows that the collapse comes from the first, high-noise steps, where the adapter steers every seed toward
+  the same layout, while the reward it adds there is largely recovered by the later steps.</p></div>
+  <div><span class="h">Method</span><p><b>Late activation</b> samples the first steps with the base model and switches the
+  adapter on below a noise level τ. Nothing is retrained, and each step still runs the network once.</p></div>
+  <div><span class="h">Result</span><p>At τ = 0.96 it keeps 96% of the reward gain with 25% higher CLIP diversity and 23%
+  less drift. At matched reward it beats early stopping and velocity or LoRA-weight scaling, and matches annealed guidance
+  (AIG) at half its sampling time. It holds across three rewards and four RL methods.</p></div>
+</div>
+
+<div class="la-card">
+  <p class="la-card-title">Reading the numbers</p>
+  <div class="la-terms">
+    <div><b>Noise level t and threshold τ</b><span>Sampling runs from pure noise (t = 1) to the image (t = 0). The adapter is on
+    only for t ≤ τ; τ = 0.96 leaves the first 5 of 40 steps to the base model.</span></div>
+    <div><b>Reward gain</b><span>Held-out PickScore of the tuned model minus the base model's. "Kept" is the share of NFT's
+    gain that remains under a sampling schedule.</span></div>
+    <div><b>CLIP diversity</b><span>Mean pairwise distance between the CLIP embeddings of the images drawn for one prompt:
+    how different they look.</span></div>
+    <div><b>Latent diversity</b><span>The same distance on the final latents: how different the images are in layout and
+    pixels.</span></div>
+    <div><b>Drift</b><span>Distance between the tuned model's image and the base model's image from the same noise: how far RL
+    tuning moved each sample.</span></div>
+    <div><b>Passes per step</b><span>Network evaluations per sampling step. Schedules that mix two models, such as AIG and
+    velocity scaling, need two.</span></div>
+  </div>
+</div>
 
 <h2 id="method"><span class="la-num">02</span>How it works</h2>
 
@@ -227,7 +270,8 @@ sampling time, and holds across three rewards and four RL methods.</p>
   <p class="la-card-title">Try the switch on a 1-d toy</p>
   <p class="la-caption" style="margin-top:0">Exact probability-flow paths of a four-mode base distribution. The reward-tilted
   flow, in the role of the RL-tuned adapter, prefers the upper side of every mode and slightly the top one. Paths follow
-  the base flow above τ and the tilted flow below it.</p>
+  the base flow above τ (gray) and the tilted flow below it (orange). Each line is one sample; the four bumps on the right
+  are the modes, standing in for different compositions.</p>
   <div class="la-controls">
     <label for="la-toy-tau">switch at τ = <b id="la-toy-val">0.65</b></label>
     <input id="la-toy-tau" type="range" min="0" max="1" step="0.01" value="0.65" aria-label="toy tau">
@@ -237,6 +281,7 @@ sampling time, and holds across three rewards and four RL methods.</p>
   </div>
   <canvas class="la-canvas" id="la-toy" width="760" height="300" aria-label="toy sampling paths"></canvas>
   <div class="la-mini" id="la-toy-stats"></div>
+  <p class="la-hint" id="la-toy-hint"></p>
 </div>
 
 <h2 id="results"><span class="la-num">03</span>Key results</h2>
@@ -245,7 +290,9 @@ sampling time, and holds across three rewards and four RL methods.</p>
   <img src="/images/projects/2026-11-late-activation/fig4-frontier.png" alt="Figure 4: held-out PickScore gain against CLIP and latent diversity">
   <figcaption><span class="badge">Figure 4</span>On the same adapter, late activation traces the best reward–diversity
   trade-off. Early stopping and velocity or LoRA-weight scaling weaken the adapter everywhere and give up reward where it
-  costs little diversity; AIG comes closest but needs two network evaluations per step.</figcaption>
+  costs little diversity; AIG comes closest but needs two network evaluations per step. Each curve is one way to trade
+  reward for diversity on the same NFT adapter (star); up and to the right is better, and the numbers on the orange curve
+  are τ.</figcaption>
 </figure>
 
 <div class="la-card">
@@ -262,6 +309,12 @@ sampling time, and holds across three rewards and four RL methods.</p>
   <div class="la-mini" id="la-tau-stats"></div>
   <svg class="la-chart" id="la-chart" viewBox="0 0 640 300" role="img" aria-label="reward kept against diversity gain"></svg>
   <div class="la-legend" id="la-legend"></div>
+  <ul class="la-list">
+    <li><b>Velocity weight</b> mixes the base and tuned velocities with a constant weight at every step.</li>
+    <li><b>LoRA scale</b> shrinks the adapter's weights by a constant factor.</li>
+    <li><b>AIG-u</b> (annealed importance guidance) mixes the two velocities with a weight that grows as the noise falls.</li>
+    <li><b>Early stopping</b> uses checkpoints from earlier in RL training.</li>
+  </ul>
 </div>
 
 <div class="la-card">
@@ -280,27 +333,51 @@ sampling time, and holds across three rewards and four RL methods.</p>
 </div>
 <p class="la-caption"><b>Table 2 (excerpt).</b> At about the same reward, late activation leads on latent and CLIP
 diversity with half the network passes of AIG-u and velocity scaling; for more variety, τ = 0.85 nearly doubles DINO
-Vendi over NFT.</p>
+Vendi over NFT. ΔPickScore is the gain over the base model; DINO Vendi is the effective number of distinct images among
+the 16 drawn per prompt.</p>
+</div>
+
+<div class="la-card">
+<div class="la-table-wrap">
+<table class="la-table">
+  <thead><tr><th>RL method, reward</th><th>Reward gain kept</th><th>CLIP diversity</th><th>Drift</th></tr></thead>
+  <tbody>
+    <tr><td>DiffusionNFT, PickScore</td><td>96%</td><td>+25%</td><td>−23%</td></tr>
+    <tr><td>DiffusionNFT, HPSv2.1</td><td>95%</td><td>+30%</td><td>−22%</td></tr>
+    <tr><td>DiffusionNFT, OCR</td><td>99%</td><td>+42% (latent)</td><td>n/a</td></tr>
+    <tr><td>DiffusionART, PickScore</td><td>99%</td><td>+22%</td><td>−16%</td></tr>
+    <tr><td>Flow-GRPO-Fast, PickScore</td><td>93%</td><td>+21%</td><td>−26%</td></tr>
+    <tr><td>Flow-GRPO, released adapter (trained with guidance)</td><td>81%</td><td>+20%</td><td>−36%</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="la-caption"><b>Table 3 (excerpt).</b> Late activation at τ = 0.96 against each adapter on its whole path. It keeps
+93–99% of the gain for the adapters we trained, across three rewards and several RL methods. The adapter released by
+Flow-GRPO's authors, trained with guidance, relies more on the first steps: τ = 0.98 keeps 92% of its gain.</p>
 </div>
 
 <figure class="la-fig la-card">
   <img src="/images/projects/2026-11-late-activation/fig2-endpoint-predictions.webp" alt="Figure 2: endpoint predictions along the sampling path">
   <figcaption><span class="badge">Figure 2</span>NFT's very first prediction already shows the layout of its final
-  sample, for every seed. Under late activation the base model's prediction sets the layout and the adapter refines it.</figcaption>
+  sample, for every seed. Under late activation the base model's prediction sets the layout and the adapter refines it.
+  Each column shows the image the model predicts at that noise level, for one seed of two prompts; the frame color marks
+  which model made the prediction (gray: base, blue: NFT, orange: adapter under late activation).</figcaption>
 </figure>
 
 <figure class="la-fig la-card is-narrow">
   <img src="/images/projects/2026-11-late-activation/fig5-reward-signal.png" alt="Figure 5: where the reward signal enters NFT">
   <figcaption><span class="badge">Figure 5</span>Training cannot skip the high-noise steps: the reward tilt above
   t = 0.85 alone nearly matches NFT, while the tilt below it alone ends below the base model. High noise is where the
-  adapter learns, not where it should act.</figcaption>
+  adapter learns, not where it should act. Each row is a training variant: the bar shows where along the noise level the
+  loss pulls toward the reward, and the dot the reward it reaches after 50 rollouts.</figcaption>
 </figure>
 
 <figure class="la-fig la-card is-narrow">
   <img src="/images/projects/2026-11-late-activation/fig6-recipe.png" alt="Figure 6: a stronger training tilt with late activation">
   <figcaption><span class="badge">Figure 6</span>Over ten training seeds per arm, NFT with β = 0.5 and late activation at
   τ = 0.98 beats default NFT in reward (+0.11), CLIP diversity (+5%) and drift (−12%) at the same training and sampling
-  cost.</figcaption>
+  cost. β sets how strongly NFT pulls toward the reward in training (lower is stronger): a stronger pull raises
+  reward and costs diversity, and late activation gives the diversity back.</figcaption>
 </figure>
 
 <h2 id="samples"><span class="la-num">04</span>More samples</h2>
@@ -309,11 +386,41 @@ Vendi over NFT.</p>
   <div class="la-chips" id="la-prompts" role="group" aria-label="prompt"></div>
   <p class="la-prompt" id="la-prompt-text"></p>
   <div class="la-gallery" id="la-gallery"></div>
-  <p class="la-caption">Held-out prompts, four seeds each, from the same noise in every row; prompts showing real people
-  or named characters are left out.</p>
+  <p class="la-caption">Held-out prompts, four seeds each, from the same noise in every row. Compare the columns within a
+  row: NFT's four images share one composition, τ = 0.96 varies colors and backgrounds again, and τ = 0.85 returns to
+  the base model's layouts with NFT's rendering. Prompts showing real people or named characters are left out.</p>
 </div>
 
-<h2 id="citation"><span class="la-num">05</span>Paper and citation</h2>
+<h2 id="usage"><span class="la-num">05</span>Using it</h2>
+
+<div class="la-card">
+<div class="la-two">
+<div>
+  <p class="la-card-title">A gate around the network call</p>
+  <p class="la-caption" style="margin-top:0">Above τ the sampler calls the network with the adapter disabled. The checkpoint and
+  the sampler stay as they are, and τ can change per request.</p>
+<pre class="la-code"><span class="k">def</span> velocity(x, t, prompt, tau=0.96):
+    <span class="k">if</span> t > tau:                    <span class="c"># first, high-noise steps</span>
+        <span class="k">with</span> adapter_disabled():   <span class="c"># base model composes</span>
+            <span class="k">return</span> model(x, t, prompt)
+    <span class="k">return</span> model(x, t, prompt)     <span class="c"># RL-tuned adapter refines</span></pre>
+</div>
+<div>
+  <p class="la-card-title">Choosing τ</p>
+  <ul class="la-list" style="margin-top:.2em">
+    <li><b>τ = 0.96</b> is a good default: it gives up about 5% of the reward gain for NFT on PickScore and HPSv2.1.</li>
+    <li><b>τ = 0.98</b> suits adapters that rely on the first steps, such as those trained with guidance.</li>
+    <li><b>τ = 0.85</b> gives more variety: a third to a half of NFT's perceptual loss back for a fifth to a quarter of the gain.</li>
+    <li>τ is a noise level, so it means the same for any number of steps. Checking one value takes a 15–20 GPU-minute
+    held-out evaluation.</li>
+  </ul>
+</div>
+</div>
+<p class="la-caption"><b>Scope.</b> All results are on SD3.5-Medium at 512 × 512 with LoRA adapters; other base models such as
+FLUX remain to be tested.</p>
+</div>
+
+<h2 id="citation"><span class="la-num">06</span>Paper and citation</h2>
 
 <div class="la-card"><p class="la-cite" style="margin:0">The paper is under review. The PDF, code and BibTeX will be
 linked here once they are public.</p></div>
@@ -440,6 +547,9 @@ linked here once they are public.</p></div>
     document.getElementById("la-toy-stats").innerHTML =
       '<div><div class="v up">' + s.modes + ' of 4</div><div class="k">modes reached (base ' + REF.base.modes + ', tilted path ' + REF.tilt.modes + ')</div></div>' +
       '<div><div class="v up">' + s.reward.toFixed(2) + '</div><div class="k">mean reward (base ' + REF.base.reward.toFixed(2) + ', tilted path ' + REF.tilt.reward.toFixed(2) + ')</div></div>';
+    document.getElementById("la-toy-hint").textContent = tau <= 0.02 ? "Base flow only: every mode is reached, and the reward stays at the base level."
+      : s.modes < REF.base.modes ? "Tilted from high noise: samples leave their modes for the higher-reward ones, so the reward is highest and a mode is lost. This is the collapse."
+      : "Late activation: each sample stays in the mode the base flow chose and moves to that mode's high-reward side. All modes survive, with part of the reward.";
   }
   var toyPreset = segment("la-toy-preset", function (v) { setToy(v, true); });
   function setToy(v, fromPreset) {
@@ -473,7 +583,7 @@ linked here once they are public.</p></div>
       ["steps on the base model", p.off + " of 40", false]].map(function (c) {
         return '<div><div class="v' + (c[2] ? " up" : "") + '">' + c[1] + '</div><div class="k">' + c[0] + '</div></div>'; }).join("");
     var ymax = m === "clip" ? 140 : 50, y0 = m === "clip" ? 5 : 2, L = 64, R = 624, T = 12, B = 256;
-    function X(k) { return L + (k - 48) / (101 - 48) * (R - L); }
+    function X(k) { return L + (k - 48) / (106 - 48) * (R - L); }
     function Y(v) { return B - (v + y0) / (ymax + y0) * (B - T); }
     var s = "", k, v;
     for (k = 50; k <= 100; k += 10) s += '<line x1="' + X(k) + '" x2="' + X(k) + '" y1="' + T + '" y2="' + B + '" stroke="var(--la-line)"/>' +
@@ -492,8 +602,8 @@ linked here once they are public.</p></div>
     BASELINES.forEach(function (b) { s += line(b[3], b[1], b[2], 1.5); });
     s += line(TAU, "--la-accent", false, 3);
     s += '<circle cx="' + X(p.kept) + '" cy="' + Y(p[m]) + '" r="8" fill="none" stroke="var(--la-accent)" stroke-width="2"/>' +
-      '<text x="' + (X(p.kept) - 14) + '" y="' + (Y(p[m]) - 20) + '" font-size="12.5" font-weight="700" fill="var(--la-accent)" text-anchor="end">τ = ' + p.tau.toFixed(2) + '</text>' +
-      '<text x="' + X(100) + '" y="' + (Y(0) + 16) + '" font-size="12" font-weight="700" fill="var(--la-nft)" text-anchor="middle">NFT</text>';
+      '<text x="' + (X(p.kept) + 13) + '" y="' + (Y(p[m]) - 11) + '" font-size="12.5" font-weight="700" fill="var(--la-accent)" text-anchor="start">τ = ' + p.tau.toFixed(2) + '</text>' +
+      '<text x="' + (X(100) + 9) + '" y="' + (Y(0) + 4) + '" font-size="12" font-weight="700" fill="var(--la-nft)" text-anchor="start">NFT</text>';
     svg.innerHTML = s;
     document.getElementById("la-legend").innerHTML = [["Late activation (1 pass)", "--la-accent"]].concat(BASELINES.map(function (b) { return [b[0], b[1]]; }))
       .map(function (c) { return '<span style="--c:var(' + c[1] + ')">' + c[0] + '</span>'; }).join("");
