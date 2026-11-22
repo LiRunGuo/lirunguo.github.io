@@ -13,7 +13,7 @@ citation_authors:
   - "Li, Runguo"
 ---
 
-**Status:** Manuscript under review · **arXiv:** [2611.01669](https://arxiv.org/abs/2611.01669) · **PDF:** [Download](/files/gptq-random-rotation.pdf)
+**Status:** Manuscript under review · **arXiv:** [2611.01669](https://arxiv.org/abs/2611.01669) · **PDF:** [Download](/files/gptq-random-rotation.pdf) · **Project page:** [interactive summary](/projects/2026-10-gptq-rotation/)
 
 ### Author
 
