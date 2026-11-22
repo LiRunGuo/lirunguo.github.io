@@ -59,8 +59,8 @@ html[data-theme="dark"] .ra-tag{color:#16202b}
 .ra-table{overflow-x:auto}.ra-table table{font-size:.8em;margin:.6em 0;min-width:560px}
 .ra-table td strong{color:var(--ra-green)}
 .ra-table p{font-size:.86em;margin:.2em}
-.ra-slider{position:relative;display:block;width:100%;aspect-ratio:5/4;max-width:520px;margin:0 auto;border-radius:10px;overflow:hidden;user-select:none;touch-action:pan-y;cursor:ew-resize;background:#000}
-.ra-slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;margin:0;max-width:none;image-rendering:pixelated;border-radius:0}
+.ra-slider{position:relative;display:block;width:100%;aspect-ratio:5/4;max-width:480px;margin:0 auto;border-radius:10px;overflow:hidden;user-select:none;touch-action:pan-y;cursor:ew-resize;background:#000}
+.ra-slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;margin:0;max-width:none;border-radius:0}
 .ra-slider .after{clip-path:inset(0 0 0 var(--pos,50%))}
 .ra-slider .line{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.5)}
 .ra-slider .knob{position:absolute;top:50%;left:var(--pos,50%);width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;background:#fff;color:#222;display:grid;place-items:center;font-weight:800;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.35)}
@@ -79,7 +79,7 @@ html[data-theme="dark"] .ra-tag{color:#16202b}
 html[data-theme="dark"] .ra-seg.ref button[aria-pressed=true]{color:#16202b}
 .ra-rc{display:flex;flex-wrap:wrap;gap:.4em .9em;margin:0 0 .7em;font-size:.88em}
 .ra-rc span b{font-variant-numeric:tabular-nums}
-.ra-rank{position:relative;margin:.2em 0 .2em}
+.ra-rank{position:relative;margin:1.3em 0 .2em}
 .ra-rank .row{position:absolute;left:0;right:0;height:30px;display:flex;align-items:center;gap:.6em;transition:top .5s cubic-bezier(.2,.8,.2,1)}
 .ra-rank .no{width:22px;height:22px;border-radius:50%;border:1px solid var(--ra-line);display:grid;place-items:center;font-size:.8em;font-weight:700;flex:none}
 .ra-rank .row.top .no{background:var(--ra-top,var(--ra-gray));border-color:transparent;color:#fff}
@@ -87,16 +87,16 @@ html[data-theme="dark"] .ra-rank .row.top .no{color:#16202b}
 .ra-rank .nm{width:170px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.92em}
 .ra-rank .tr{position:relative;flex:1;height:12px;margin-right:66px;border-radius:999px;background:var(--ra-gray-soft)}
 .ra-rank .fl{position:absolute;left:0;top:0;bottom:0;border-radius:999px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.ra-rank .vl{position:absolute;top:-5px;padding-left:6px;font-size:.88em;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;transition:left .5s cubic-bezier(.2,.8,.2,1)}
+.ra-rank .vl{position:absolute;top:-5px;z-index:2;padding:0 4px 0 6px;border-radius:4px;background:var(--global-bg-color);font-size:.88em;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;transition:left .5s cubic-bezier(.2,.8,.2,1)}
 .ra-rank .k-cache .fl{background:var(--ra-red)}.ra-rank .k-cache_unipc .fl{box-shadow:inset 0 0 0 2px var(--ra-red)}
 .ra-rank .k-oss_unipc .fl{background:var(--ra-green)}.ra-rank .k-oss_euler .fl{box-shadow:inset 0 0 0 2px var(--global-text-color)}
 .ra-rank .k-uniform .fl{background:var(--ra-gray);opacity:.55}
-.ra-rank .r50{position:absolute;top:-8px;bottom:-4px;border-left:2px dashed var(--ra-gray);pointer-events:none;transition:left .5s}
+.ra-rank .r50{position:absolute;z-index:1;top:-8px;bottom:-4px;border-left:2px dashed var(--ra-gray);pointer-events:none;transition:left .5s}
 .ra-rank .r50 span{position:absolute;top:-16px;transform:translateX(-50%);font-size:.72em;white-space:nowrap;opacity:.8}
 .ra-axis{display:flex;justify-content:space-between;font-size:.72em;opacity:.7;margin:.5em 66px 0 202px}
 .ra-read{margin:.8em 0 0;padding:.5em .8em;border-left:3px solid var(--ra-gray);border-radius:4px;background:var(--ra-gray-soft);font-size:.92em;line-height:1.5}
 .ra-read.conv{border-left-color:var(--ra-blue);background:var(--ra-blue-soft)}
-.ra-split{display:grid;grid-template-columns:150px 1fr;gap:.9em 1em;align-items:center}
+.ra-split{display:grid;grid-template-columns:150px 1fr;gap:.9em 1em;align-items:center;margin-bottom:.4em}
 .ra-split .eq{font-size:.82em;opacity:.85;font-variant-numeric:tabular-nums}
 .ra-mini{display:flex;align-items:center;gap:.5em;height:17px}
 .ra-mini .ml{width:58px;flex:none;font-size:.74em;text-align:right;opacity:.75}
@@ -107,7 +107,7 @@ html[data-theme="dark"] .ra-rank .row.top .no{color:#16202b}
 .ra-mini .m-c{background:repeating-linear-gradient(45deg,var(--ra-red) 0 5px,transparent 5px 9px);box-shadow:inset 0 0 0 1px var(--ra-red)}
 .t-std{color:var(--ra-gray);font-weight:700}.t-conv{color:var(--ra-blue);font-weight:700}.t-c{color:var(--ra-red);font-weight:700}
 .ra-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.55em}
-.ra-card{position:relative;margin:0;padding:.3em;border-radius:10px;border:2px solid transparent;background:var(--ra-gray-soft)}
+.ra-card{position:relative;display:block;margin:0;padding:.3em;border-radius:10px;border:2px solid transparent;background:var(--ra-gray-soft)}
 .ra-card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;margin:0}
 .ra-card .t{font-size:.74em;line-height:1.3;margin:.35em .1em 0;min-height:2.6em}
 .ra-card .p{font-size:.9em;font-weight:800;font-variant-numeric:tabular-nums;margin:0 .1em}
@@ -116,52 +116,91 @@ html[data-theme="dark"] .ra-rank .row.top .no{color:#16202b}
 html[data-theme="dark"] .ra-card .bd{color:#16202b}
 @media (max-width:900px){.ra-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.ra-rank .nm{width:108px;font-size:.84em}.ra-axis{margin-left:140px}.ra-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.ra-split{grid-template-columns:1fr}.ra-ctl{grid-template-columns:1fr}.ra-cmp{grid-template-columns:1fr}.ra-cmp .arr,.ra-cmp .h,.ra-cmp span:empty{display:none}.ra-cmp .k{margin-top:.6em}.ra-tldr{font-size:1.04em}}
+
+/* the theme's fixed table of contents (220px, right) covers a full-width title: keep the header in the text column */
+@media screen and (min-width:1200px){.page__inner-wrap>header{max-width:calc(100% - 240px)}}
+.ra-lead{font-size:1em;line-height:1.65;margin:0 0 1em}
+.ra-defs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6em;margin:0 0 1.6em}
+.ra-def{padding:.65em .85em;border-radius:12px;border:1px solid var(--ra-line);background:var(--ra-card);font-size:.86em;line-height:1.5}
+.ra-def b{display:inline-block;margin-right:.35em;color:var(--ra-blue)}
+.ra-def.wide{grid-column:1/-1}
+.ra-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7em;margin:0 0 1em}
+.ra-step{padding:.9em .95em;border-radius:14px;border:1px solid var(--ra-blue);background:var(--ra-blue-soft);font-size:.86em;line-height:1.55}
+.ra-step .n{display:inline-grid;place-items:center;width:1.7em;height:1.7em;border-radius:50%;background:var(--ra-blue);color:#fff;font-weight:800;font-size:.9em;margin-right:.45em}
+html[data-theme="dark"] .ra-step .n{color:#16202b}
+.ra-step .h{font-size:1.05em}
+.ra-step p{margin:.5em 0 0}
+.ra-step .was{display:block;margin-top:.55em;font-size:.92em;color:var(--ra-gray)}
+.ra-eqline{text-align:center;font-size:1.05em;margin:.1em 0 .8em;padding:.5em;border-radius:8px;background:var(--ra-gray-soft);font-variant-numeric:tabular-nums}
+.ra-take{margin:0 0 1.2em;padding:0;list-style:none;display:grid;gap:.55em}
+.ra-take li{padding:.65em .9em .65em 1em;border-left:3px solid var(--ra-green);border-radius:4px;background:var(--ra-card);font-size:.92em;line-height:1.55}
+.ra-take li.scope{border-left-color:var(--ra-gray)}
+.ra-code{margin:0 0 1.6em;padding:.8em 1em;border-radius:12px;border:1px solid var(--ra-line);background:var(--ra-gray-soft);font-size:.74em;line-height:1.6;overflow-x:auto;white-space:pre;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--global-text-color)}
+.ra-abs{margin:0 0 1.6em;border:1px solid var(--ra-line);border-radius:12px;background:var(--ra-card)}
+.ra-abs summary{cursor:pointer;padding:.6em .9em;font-weight:700;font-size:.92em}
+.ra-abs p{margin:0;padding:0 .95em .9em;font-size:.9em;line-height:1.65}
+.ra-how{font-size:.86em;line-height:1.55;margin:.5em .2em 0;padding:.5em .75em;border-radius:8px;background:var(--ra-gray-soft)}
+@media (max-width:760px){.ra-steps{grid-template-columns:1fr}.ra-defs{grid-template-columns:1fr}}
 </style>
 
 <div class="ra">
 <div class="ra-kicker"><span>Diffusion transformers</span><span>Training-free acceleration</span><span>Evaluation protocol</span></div>
 <p class="ra-tldr">Diffusion step caches are scored by their fidelity to the 50-step output, and that score rewards sharing the 50-step sampler's error. <b>RefAudit</b> scores against a converged reference instead, and an optimized static schedule with UniPC then matches or beats every cache we ran on FLUX.1-dev and SD3.5.</p>
-<div class="ra-btns"><a class="ra-btn" href="#ra-try">▶&nbsp; Try it: switch the reference</a><a class="ra-btn ghost" href="#key-results">Key results</a><a class="ra-btn ghost" href="#what-refaudit-changes">The protocol</a><span class="ra-btn muted">Paper &amp; code: coming soon</span></div>
-<figure class="ra-fig"><img src="/images/projects/2026-11-refaudit/fig1-refaudit-overview.webp" alt="Figure 1: RefAudit overview" loading="lazy"><figcaption><span class="ra-tag">Figure 1</span><b class="ra-title">RefAudit: the 50-step reference favors the cache, which shares its error.</b>On FLUX.1-dev at 15 steps, MagCache is closer than OSS + UniPC to the 50-step output only because more of its error points the same way as the reference's (shared error 43.8 vs 30.1, ×10⁻³ MSE). Against a converged reference the order reverses.</figcaption></figure>
+<div class="ra-btns"><a class="ra-btn" href="#how-refaudit-works">The protocol</a><a class="ra-btn ghost" href="#results">Results</a><a class="ra-btn ghost" href="#takeaways">Takeaways</a><span class="ra-btn muted">Paper &amp; code: coming soon</span></div>
+<figure class="ra-fig" id="ra-try"><div class="ra-ix"><div class="ra-ctl"><span class="l">Model</span><div class="ra-seg" id="ra-models"></div><span class="l">Budget</span><div class="ra-seg" id="ra-budgets"></div><span class="l">Reference</span><div class="ra-seg ref" id="ra-ref"><button data-v="x50">50-step output x₅₀</button><button data-v="conv">converged x* (RefAudit)</button></div></div><div class="ra-rc" id="ra-rc"></div><div class="ra-rank" id="ra-rank"></div><div class="ra-axis" id="ra-axis"></div><p class="ra-read" id="ra-read"></p></div><figcaption><span class="ra-tag">Interactive</span><b class="ra-title">Same runs, two references: switch the reference and the ranking flips.</b>Each bar is one sampler at the same number of computed steps; longer means closer to the selected reference (mean PSNR; DrawBench-100 for the image models, 60 VBench prompts for Wan2.1). Red: caches as shipped (outline: the same cache run with UniPC); green: an optimized schedule (OSS) with UniPC; plain outline: OSS with Euler; gray: a uniform grid with a tuned time shift. Try the other models and budgets.</figcaption></figure>
 </div>
 
-## At a glance
+## Background
+
+<div class="ra">
+<p class="ra-lead">A diffusion transformer generates an image or a video by integrating a learned velocity field over about 50 steps, and every step is a full pass through a multi-billion-parameter network. <b>Training-free step caches</b> such as TeaCache, MagCache and TaylorSeer skip the network at some steps and reuse or extrapolate its last result, so only <i>M</i> of the 50 steps are computed. A cache is then judged by how close its output stays to the default 50-step output, and compared with simply sampling at fewer uniform steps.</p>
+<div class="ra-defs">
+<div class="ra-def"><b>x₅₀</b>The output of the model's default 50-step sampler (Euler for FLUX.1-dev and SD3.5, UniPC for Wan2.1). The standard reference.</div>
+<div class="ra-def"><b>x*</b>A converged reference: the same sampling ODE, same prompt and noise, solved until the answer stops changing. It is the sample the model defines. Here: UniPC with exact time conditioning at 200 steps, checked against 1,600-step Euler and an adaptive RK45 solver.</div>
+<div class="ra-def"><b>NFE</b>Number of network evaluations, the cost of a sampler. All comparisons are at equal computed steps <i>M</i>, with end-to-end wall-clock measured as well.</div>
+<div class="ra-def"><b>UniPC</b>A second-order multistep predictor–corrector ODE solver (Zhao et al., 2023). Euler, the default of FLUX.1-dev and SD3.5, is first-order.</div>
+<div class="ra-def wide"><b>OSS</b>Optimal Stepsize (Pei et al., 2025): an existing dynamic program that chooses which <i>M</i> of the 50 timesteps to compute. It is not our method. RefAudit uses it as the baseline a cache should be compared with; our contribution is the evaluation protocol and the analysis behind it.</div>
+</div>
+</div>
+
+## The problem: two biases in the standard protocol
+
+<div class="ra">
+<p class="ra-lead"><b>1. The reference shares the cache's error.</b> The 50-step output is itself a coarse solve, 16.5–19.3 dB from converged solutions. The squared error to it splits exactly into three terms (Eq. 1 below): the error to the converged reference, a constant, and a cross term <i>c</i>(<i>x</i>) = 2⟨<i>x</i> − x*, x₅₀ − x*⟩ / <i>d</i>, the part of a run's error that points the same way as the reference's own error. A run can therefore score well against x₅₀ in two ways: by being accurate, or by making the same mistakes as the reference.</p>
+<figure class="ra-fig" id="ra-eq"><div class="ra-ix"><div class="ra-ctl"><span class="l">Setting</span><div class="ra-seg" id="ra-settings"></div></div><div class="ra-eqline"><span class="t-std">MSE(x, x₅₀)</span> = <span class="t-conv">MSE(x, x*)</span> + MSE(x₅₀, x*) − <span class="t-c">c(x)</span></div><div class="ra-split" id="ra-split"></div><p class="ra-read conv" id="ra-read2"></p></div><figcaption><span class="ra-tag">Interactive</span><b class="ra-title">Where the 50-step score comes from (Eq. 1).</b>For each run: its error to the converged reference (blue), the error it shares with the 50-step output (red, subtracted) and what is left, the standard score (gray; smaller looks better). The middle term is the same for every run. Pixel MSE ×10⁻³, mean over prompts. On Wan2.1 the default sampler is UniPC, so there the UniPC run is the one that shares the reference's error.</figcaption></figure>
+<p class="ra-lead">The shared error is larger for samplers of the reference's own solver family. So if it drives the ranking, changing only that family should flip the verdict. We logged this prediction before the runs, and it held:</p>
+<figure class="ra-fig narrow"><img src="/images/projects/2026-11-refaudit/fig2-reference-family.png" alt="Figure 2: the reference's solver family sets the sign" loading="lazy"><figcaption><span class="ra-tag">Figure 2</span><b class="ra-title">The reference's solver family sets the sign.</b>Each point scores the same two samplers (OSS + UniPC minus OSS + Euler, equal steps) against a reference with <i>N</i> steps from the Euler family (black) or the UniPC family (orange); above zero, OSS + UniPC is closer. At <i>N</i> = 50 (gray band) the sign follows the reference's family, by 4–10 dB either way. From 200 steps on (blue band) both families give the same answer: this is the cross-family check RefAudit asks of a reference. On Qwen-Image the predictions were registered before any run and held in 5 of 6 pairs.</figcaption></figure>
+<p class="ra-lead"><b>2. The baseline is weak.</b> Under Euler, a cache that reuses the last velocity computes exactly Euler on the steps it evaluates, and the residual reuse of TeaCache and MagCache comes within 0.04–0.08 dB of it. Such a cache does not approximate the skipped evaluations; it removes them and takes longer steps. <b>Step caching is step scheduling</b>, so its fair competitor is the best schedule with the same number of steps, not uniform steps at the default time shift.</p>
+</div>
+
+## How RefAudit works
+
+<div class="ra">
+<div class="ra-steps">
+<div class="ra-step"><span class="n">1</span><b class="h">Split the score</b><p>Report the error to a converged reference and the shared error separately (Eq. 1), so that accuracy and resemblance to the reference are not mixed.</p><span class="was">Replaces: PSNR and LPIPS to x₅₀ only.</span></div>
+<div class="ra-step"><span class="n">2</span><b class="h">Check the reference</b><p>Accept a converged reference only after a solver of another family agrees with it. Refining one solver is not enough: on FLUX.1-dev, stock UniPC agrees with its own refinements to 35–36 dB yet stays 26 dB from fine Euler, because it conditions the network on integer timesteps.</p><span class="was">Replaces: x₅₀, taken as given.</span></div>
+<div class="ra-step"><span class="n">3</span><b class="h">Compare at equal NFE</b><p>Give the baseline what the cache has: an optimized schedule (OSS) at the same number of steps, under the same solver. Also run the cache itself with that solver.</p><span class="was">Replaces: fewer uniform steps.</span></div>
+</div>
+<p class="ra-why">The audit script needs only saved outputs. A converged reference costs about one GPU-hour per 100 prompts on FLUX.1-dev and SD3.5.</p>
+<figure class="ra-fig"><img src="/images/projects/2026-11-refaudit/fig1-refaudit-overview.webp" alt="Figure 1: RefAudit overview" loading="lazy"><figcaption><span class="ra-tag">Figure 1</span><b class="ra-title">RefAudit: the 50-step reference favors the cache, which shares its error.</b>The paper's overview. (a) The three choices RefAudit replaces and what each change shows. (b) Eq. 1 on FLUX.1-dev at 15 steps: MagCache is closer to x₅₀ than OSS + UniPC but farther from x*, because it shares more of x₅₀'s error (43.8 vs 30.1, ×10⁻³ MSE). (c) On the <i>same</i> computed steps, the 50-step reference favors the cache and the converged one favors UniPC or ties; on Wan2.1 the cache keeps a small lead. (d) One prompt, with the run closest to each reference marked.</figcaption></figure>
+</div>
+
+## Results
 
 <div class="ra"><div class="ra-stats">
 <div class="ra-stat" style="--ra-c:var(--ra-gray)"><div class="v">up to 18 dB</div><div class="d">change in the gap between two fixed samplers when only the solver family of the 50-step reference changes</div></div>
 <div class="ra-stat" style="--ra-c:var(--ra-green)"><div class="v">1.0–3.1 dB</div><div class="d">OSS + UniPC closer to the converged reference than every cache as shipped on FLUX.1-dev and SD3.5, at the same speed</div></div>
 <div class="ra-stat"><div class="v">#4 → #1</div><div class="d">rank of OSS + UniPC among four runs, against the 50-step output vs. the converged reference (FLUX-15, SD3.5-14)</div></div>
 <div class="ra-stat" style="--ra-c:var(--ra-red)"><div class="v">84 / 100</div><div class="d">prompts on which DreamSim puts OSS-15 + UniPC closer than MagCache-15 to the converged reference (34 against the 50-step output)</div></div>
-</div></div>
-
-## What RefAudit changes
-
-<div class="ra"><div class="ra-cmp">
-<span></span><span class="h s">Standard protocol</span><span></span><span class="h c">RefAudit</span><span class="h o">What it shows</span>
-<span class="k">Score</span><div class="s">PSNR, LPIPS to the 50-step output x₅₀</div><span class="arr">→</span><div class="c">(i) split the score: error to x* + constant − shared error</div><div class="o">MagCache's lead on x₅₀ is shared error, not accuracy</div>
-<span class="k">Reference</span><div class="s">x₅₀, taken as given</div><span class="arr">→</span><div class="c">(ii) converged x*, checked across solver families</div><div class="o">the reference's family alone moves a gap by up to 18 dB</div>
-<span class="k">Baseline</span><div class="s">fewer uniform steps</div><span class="arr">→</span><div class="c">(iii) optimized schedule (OSS) at equal NFE, same solver</div><div class="o">OSS + UniPC 1.0–3.1 dB closer than every cache</div>
 </div>
-<p class="ra-why"><b>Why (iii):</b> under Euler, a step cache that reuses the last velocity <i>is</i> Euler on its computed steps, and residual reuse nearly so. Step caching is step scheduling, so its fair competitor is the best schedule with the same number of steps.</p>
-<figure class="ra-fig" id="ra-eq"><div class="ra-ix"><div class="ra-ctl"><span class="l">Setting</span><div class="ra-seg" id="ra-settings"></div></div><div class="ra-split" id="ra-split"></div><p class="ra-read conv" id="ra-read2"></p></div><figcaption><span class="ra-tag">Interactive</span><b class="ra-title">Where the 50-step score comes from (Eq. 1).</b><span class="t-std">MSE(x, x₅₀)</span> = <span class="t-conv">MSE(x, x*)</span> + MSE(x₅₀, x*) − <span class="t-c">c(x)</span>, where c is the error a run shares with the 50-step output. For each run: its error to the converged reference (blue), the shared error (red, subtracted) and what remains, the standard score (gray). Pixel MSE ×10⁻³, mean over prompts; pick a model above.</figcaption></figure></div>
-
-## Summary
-
-<div class="ra"><div class="ra-box"><p>Training-free step caching (TeaCache, MagCache and their successors) speeds up diffusion transformers by reusing the transformer's last result at some sampling steps, and it is judged by fidelity to the default 50-step output and compared with sampling at fewer uniform steps. We show that this protocol favors caching: the 50-step output is itself a coarse ODE solve, so fidelity to it rewards samplers that share its error, and under Euler a reuse cache is exactly or nearly Euler on its computed steps, so its fair baseline is an optimized timestep schedule. <b>RefAudit</b> splits the standard score into accuracy and shared error, checks the reference across solver families, and compares methods at equal NFE under the same solver; under it, optimized static schedules with UniPC match or beat every cache we ran on FLUX.1-dev and SD3.5, with no run-time decisions or extra memory.</p></div></div>
-
-## Key results
-
-<div class="ra">
-<figure class="ra-fig narrow"><img src="/images/projects/2026-11-refaudit/fig2-reference-family.png" alt="Figure 2: the reference's solver family sets the sign" loading="lazy"><figcaption><span class="ra-tag">Figure 2</span><b class="ra-title">The reference's solver family sets the sign.</b>Against 50-step references, the gap between the same two samplers follows the reference's solver family on every model, by 4–10 dB either way. From 200 steps on, references of both families give the same sign: the cross-family check RefAudit asks of a reference.</figcaption></figure>
-<figure class="ra-fig"><img src="/images/projects/2026-11-refaudit/fig3-ranking-and-pareto.png" alt="Figure 3: ranking under each reference and PSNR against computed steps" loading="lazy"><figcaption><span class="ra-tag">Figure 3</span><b class="ra-title">RefAudit reverses the ranking; on the image models, OSS + UniPC is above every cache shown and the tuned grids, at every budget.</b>Ranked against the 50-step output, OSS + UniPC is last of four runs at FLUX-15 and SD3.5-14; ranked against the converged reference it is first and MagCache is last.</figcaption></figure>
-<figure class="ra-fig" id="ra-try"><div class="ra-ix"><div class="ra-ctl"><span class="l">Model</span><div class="ra-seg" id="ra-models"></div><span class="l">Budget</span><div class="ra-seg" id="ra-budgets"></div><span class="l">Reference</span><div class="ra-seg ref" id="ra-ref"><button data-v="x50">50-step output x₅₀</button><button data-v="conv">converged x* (RefAudit)</button></div></div><div class="ra-rc" id="ra-rc"></div><div class="ra-rank" id="ra-rank"></div><div class="ra-axis" id="ra-axis"></div><p class="ra-read" id="ra-read"></p></div><figcaption><span class="ra-tag">Interactive</span><b class="ra-title">Switch the reference and watch the ranking change.</b>Mean PSNR at equal computed steps (DrawBench-100 for the image models, 60 VBench prompts for Wan2.1) against the 50-step output or the converged reference x* (UniPC with exact time conditioning, 200 steps). Red: caches as shipped (outline: with UniPC); green: OSS + UniPC; outline: OSS + Euler; gray: tuned uniform grid. The values behind Figure 3.</figcaption></figure>
+<figure class="ra-fig"><img src="/images/projects/2026-11-refaudit/fig3-ranking-and-pareto.png" alt="Figure 3: ranking under each reference and PSNR against computed steps" loading="lazy"><figcaption><span class="ra-tag">Figure 3</span><b class="ra-title">RefAudit reverses the ranking; on the image models, OSS + UniPC is above every cache shown and the tuned grids, at every budget.</b>Left: four runs at FLUX-15 and SD3.5-14, ranked against x₅₀ and against x*. OSS + UniPC goes from last to first and MagCache from second to last. Right: PSNR to x* against computed steps. On FLUX.1-dev and SD3.5, OSS + UniPC (green) is above every cache (red) at every budget, and from 15 and 18 steps it is closer to x* than the 50-step sampler itself (dashed). On Wan2.1, whose default sampler is already UniPC, it leads at 10 steps and the caches are 0.2–0.4 dB ahead at 21–25 steps on the default grid; on a grid with a tuned time shift, OSS beats every cache run there by 0.9–1.5 dB.</figcaption></figure>
 </div>
 
 <div class="ra"><div class="ra-table" markdown="1">
 
-<span class="ra-tag">Table 3</span> **At equal NFE, OSS matches or beats every cache on FLUX.1-dev and SD3.5.** Paired PSNR differences (dB), OSS + UniPC minus the cache, against the 50-step output (x₅₀) and the converged reference (x\*); speeds are end-to-end on one H100.
+<span class="ra-tag">Table 3</span> **At equal NFE, OSS matches or beats every cache on FLUX.1-dev and SD3.5.** Paired differences, OSS + UniPC minus the cache at the cache's budget; speeds are end-to-end over the 50-step sampler on one H100.
 
-| Model | Cache (steps) | Speed: cache / OSS | vs x₅₀ | vs x\* | LPIPS vs x\* | vs best cache under UniPC |
+| Model | Cache (steps) | Speed: cache / OSS | PSNR vs x₅₀ | PSNR vs x\* | LPIPS vs x\* | PSNR vs x\*, best cache under UniPC |
 |---|---|---|---|---|---|---|
 | FLUX.1-dev | MagCache (15) | 3.22× / 3.19× | −3.00 | **+1.90** | **−0.101** | +0.29 |
 | FLUX.1-dev | TeaCache (20) | 2.41× / 2.43× | +1.61 | **+3.72** | **−0.163** | +3.18 |
@@ -169,18 +208,43 @@ html[data-theme="dark"] .ra-card .bd{color:#16202b}
 | SD3.5-Large | MagCache (18) | 2.66× / 2.67× | −4.46 | **+1.82** | **−0.123** | −0.11 (tie) |
 | Wan2.1-1.3B | MagCache (21) | 2.20× / 2.22× | +2.72 | −0.44 | +0.016 | (caches already use UniPC) |
 
-The standard score and RefAudit disagree in sign on most image-model rows; giving the caches the same solver closes most of the gap, and on Wan2.1, whose default sampler is already UniPC, caching keeps a small edge on the default grid.
+<p class="ra-how"><b>How to read it.</b> PSNR in dB: positive means OSS + UniPC is closer to that reference. LPIPS: negative means OSS + UniPC is closer. Green marks the RefAudit verdict where it favors OSS + UniPC. The last column gives the cache the same solver (the closest of four ways of running it under UniPC); "tie" means the paired 95% interval covers zero.</p>
+
+On the MagCache rows of the image models the two references disagree in sign: the standard score prefers the cache by 3.0–4.5 dB although it is farther from the converged reference. Giving the caches the same solver closes most of the gap, and OSS + UniPC keeps the lower LPIPS.
 
 </div></div>
 
-<div class="ra"><figure class="ra-fig">
+<div class="ra">
+<figure class="ra-fig" id="ra-one"><div class="ra-ix"><div class="ra-ctl"><span class="l">Reference</span><div class="ra-seg ref" id="ra-ref3"><button data-v="x50">50-step output x₅₀</button><button data-v="conv">converged x*</button></div><span class="l">Show</span><div class="ra-seg" id="ra-view3"><button data-v="img">images</button><button data-v="err">|error| to x*</button></div></div><div class="ra-cards" id="ra-cards"></div><p class="ra-read" id="ra-read3"></p></div><figcaption><span class="ra-tag">Interactive</span><b class="ra-title">One prompt, two references.</b>FLUX.1-dev, DrawBench prompt #2 “A red colored dog.”, seed 0, 15 computed steps. Under each image: its PSNR to the selected reference; the frame marks the 15-step run closest to it. The error maps (brighter = larger error to x*) share one color scale: MagCache's error looks like the 50-step output's. The same prompt as Figure 1(d).</figcaption></figure>
+</div>
+
+## PSNR can mislead too
+
+<div class="ra">
+<p class="ra-lead">A converged reference fixes the reference, not the metric. A uniform grid whose time shift is tuned for PSNR to x* gets the highest PSNR of all, and a visible artifact with it. RefAudit therefore reads fidelity together with LPIPS and a distribution metric.</p>
+<figure class="ra-fig">
 <div class="ra-slider" id="ra-slider" style="--pos:50%" tabindex="0" role="slider" aria-label="Drag to compare OSS + UniPC with the PSNR-tuned uniform grid" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><img src="/images/projects/2026-11-refaudit/compare-oss-unipc.webp" alt="OSS + UniPC, 15 steps (crop)"><img class="after" src="/images/projects/2026-11-refaudit/compare-uniform-shift24.webp" alt="Uniform UniPC grid at shift 24, 15 steps (crop)"><span class="line"></span><span class="knob">⇆</span><span class="lbl l">OSS + UniPC</span><span class="lbl r">uniform, shift 24 · highest PSNR</span></div>
 <img src="/images/projects/2026-11-refaudit/fig4-psnr-artifact.webp" alt="Figure 4: four crops" loading="lazy" style="margin-top:.7em">
-<figcaption><span class="ra-tag">Figure 4</span><b class="ra-title">PSNR can select a visible artifact.</b>Drag the divider. A uniform grid tuned for PSNR to the converged reference has the highest PSNR of these four runs but shows a periodic 16-pixel pattern, one transformer token, which distribution metrics register (ΔFD +35.6 against at most +19.0 for any other run). RefAudit therefore reads fidelity together with a distribution metric. FLUX.1-dev, 15 computed steps, one PartiPrompts image.</figcaption>
-</figure>
-<figure class="ra-fig" id="ra-one"><div class="ra-ix"><div class="ra-ctl"><span class="l">Reference</span><div class="ra-seg ref" id="ra-ref3"><button data-v="x50">50-step output x₅₀</button><button data-v="conv">converged x*</button></div><span class="l">Show</span><div class="ra-seg" id="ra-view3"><button data-v="img">images</button><button data-v="err">|error| to x*</button></div></div><div class="ra-cards" id="ra-cards"></div><p class="ra-read" id="ra-read3"></p></div><figcaption><span class="ra-tag">Interactive</span><b class="ra-title">One prompt, two references.</b>FLUX.1-dev, DrawBench prompt #2 “A red colored dog.”, seed 0, 15 computed steps; PSNR of each run to the selected reference, and the frame marks the 15-step run closest to it. Error maps share one color scale. The same prompt as Figure 1(d).</figcaption></figure></div>
+<figcaption><span class="ra-tag">Figure 4</span><b class="ra-title">PSNR can select a visible artifact.</b>Drag the divider: the grid on the right has the highest PSNR to x* of the four runs below (19.8 dB against 18.9 for OSS + UniPC, DrawBench means) but shows a periodic pattern with a 16-pixel period, the footprint of one transformer token. PSNR, an average over pixels, barely penalizes it; a distribution metric does (ΔFD +35.6 against at most +19.0 for any other run). FLUX.1-dev, 15 computed steps; a 200×160-pixel crop of one 1024² PartiPrompts image, enlarged.</figcaption>
+</figure></div>
 
-## Links and citation
+## Takeaways
+
+<div class="ra">
+<ul class="ra-take">
+<li><b>Sampling an Euler-default model (FLUX.1-dev, SD3.5).</b> An OSS schedule sampled with UniPC runs at the speed of MagCache and TeaCache with no run-time decisions, cached tensors or extra memory. One offline search of about 25 GPU-minutes covers every budget up to 28 steps.</li>
+<li><b>Evaluating an accelerator.</b> Score it against a converged reference that a second solver family confirms, compare it with an optimized schedule under the same solver at equal NFE, and read PSNR together with LPIPS and a distribution metric.</li>
+<li><b>Reproducing the default render.</b> If the goal is the 50-step output itself, for instance a fast preview, x₅₀ is the right target, and there OSS with Euler beats the caches by 1.2–7.0 dB.</li>
+<li class="scope"><b>Models with a multistep default sampler (Wan2.1).</b> Tune the grid's time shift first, then search the schedule on that grid. On the default grid caches keep a 0.2–0.4 dB edge, because the outputs they reuse enter UniPC's history: a design space worth studying.</li>
+</ul>
+<p class="ra-lead">The audit runs on directories of saved outputs (numpy and Pillow only) and will be released with the paper:</p>
+<div class="ra-code">refaudit.py validate  --refs euler1600=DIR unipc200=DIR --family euler1600=euler unipc200=unipc
+refaudit.py decompose --std REF50_DIR --conv UNIPC200_DIR --runs magcache=DIR oss_unipc=DIR
+refaudit.py flips     --std REF50_DIR --conv UNIPC200_DIR --runs magcache=DIR oss_unipc=DIR</div>
+<details class="ra-abs"><summary>Abstract</summary><p>Training-free step caching, which skips the transformer at some sampling steps and reuses its last result, is a popular way to accelerate diffusion transformers. Methods such as TeaCache and MagCache are judged by their fidelity to the default 50-step output and compared with sampling at fewer uniform steps. We show that this protocol favors caching, for two reasons. First, the 50-step output is itself a coarse ODE solve, and fidelity to it rewards samplers that share its error rather than samplers that are accurate. Second, under Euler, reusing the last velocity is exactly Euler on the computed steps, and reusing residuals nearly so: step caching is step scheduling, and its fair baseline is an optimized timestep schedule. RefAudit (i) splits the standard score exactly into the error to a converged reference, a constant and the error shared with the reference, (ii) accepts a reference only after checking it against a solver of another family, and (iii) compares methods at equal NFE under the same solver. On FLUX.1-dev and SD3.5, optimized static schedules with UniPC match or beat every cache we ran, with no run-time decisions or extra memory, and on Wan2.1 they do so on a grid with a tuned time shift. RefAudit also shows that PSNR alone can select a grid with a visible artifact.</p></details>
+</div>
+
+## Paper and code
 
 Paper, code and BibTeX will be linked here once the preprint is public.
 
@@ -289,8 +353,8 @@ Paper, code and BibTeX will be linked here once the preprint is public.
     $("ra-cards").innerHTML = D.images.map(function (x) {
       var isRef = x[ref3] === null, src = view3 === "err" && x.err ? x.err : x.img;
       var p = isRef ? '<span style="opacity:.65;font-weight:600">reference</span>' : x[ref3].toFixed(1) + " dB";
-      return '<figure class="ra-card' + (x === best ? " best" : "") + '" style="--ra-bc:' + col + '"><img src="' + IMG + src + '.webp" alt="' + x.name + '" loading="lazy">' +
-        (x === best ? '<span class="bd">closest</span>' : "") + '<div class="t">' + x.name + '</div><div class="p">' + p + "</div></figure>";
+      return '<figure class="ra-card' + (x === best ? " best" : "") + '" style="--ra-bc:' + col + '"><img src="' + IMG + src + '.webp" alt="' + x.name + (view3 === "err" && x.err ? ", error to the converged reference" : "") + '" loading="lazy">' +
+        (x === best ? '<span class="bd">closest</span>' : "") + '<div class="t">' + x.name.replace("x50", X50) + '</div><div class="p">' + p + "</div></figure>";
     }).join("");
     var r = $("ra-read3"); r.className = "ra-read" + (ref3 === "conv" ? " conv" : "");
     var mag = D.images.find(function (x) { return x.img === "magcache"; });
@@ -302,6 +366,20 @@ Paper, code and BibTeX will be linked here once the preprint is public.
   $("ra-view3").querySelectorAll("button").forEach(function (b) { b.onclick = function () { view3 = b.dataset.v; drawOne(); }; });
 
   drawRank(); drawSplit(); drawOne();
+
+  /* show the flip once without a click: when the ranking figure is first seen, switch x50 -> x* */
+  var touched = false, fig = $("ra-try");
+  fig.addEventListener("pointerdown", function () { touched = true; }, true);
+  fig.addEventListener("keydown", function () { touched = true; }, true);
+  var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!calm && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      setTimeout(function () { if (!touched && ref === "x50") { ref = "conv"; drawRank(); } }, 1600);
+    }, {threshold: 0.6});
+    io.observe($("ra-rank"));
+  }
 })();
 </script>
 {% endraw %}
