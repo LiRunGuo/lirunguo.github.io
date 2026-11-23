@@ -16,6 +16,9 @@
     - title: "DeepSeek-V4.1-Flash — Technical Report Analysis"
       description: "A modular technical analysis based on the official report, model card, and kernels."
       pdf: "/files/course-notes/deepseek-v4-1-flash-technical-report-analysis.pdf"
+    - title: "UIUC CS 498 — Machine Learning Systems"
+      description: "Study notes on roofline analysis, KV caching, FlashAttention, distributed training (DP, TP, PP, ZeRO), LoRA, LLM serving, quantization, and MoE."
+      pdf: "/files/course-notes/uiuc-cs498-machine-learning-systems.pdf"
 
 - name: "Machine Learning and AI"
   description: "Machine learning, reinforcement learning, language models, vision, and optimization."
