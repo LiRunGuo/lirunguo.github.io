@@ -3,7 +3,7 @@
     "name": "Runguo Li",
     "email": "runguol2@illinois.edu",
     "website": "https://runguoli.com",
-    "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 30 public merged pull requests across 17 upstream projects after excluding private repositories, including Kubernetes, UCCL, vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, FlashInfer, and Liger-Kernel. Applying to Ph.D. programs in ML systems for Fall 2028.",
+    "summary": "M.S. student in Information Management at UIUC, working on ML systems for large-scale models: MoE inference engines and expert streaming, KV-cache compression, distributed training and rollout infrastructure, and GPU compiler and kernel-level correctness. 30 public merged pull requests across 17 upstream projects, plus 8 fixes adopted into PyTorch and NVIDIA NCCL mainlines, after excluding private repositories, including Kubernetes, UCCL, vLLM, colibri, DeepSpeed, LLVM, SGLang, JAX, FlashAttention, Triton, Megatron-LM, FlashInfer, and Liger-Kernel. Applying to Ph.D. programs in ML systems for Fall 2028.",
     "profiles": [
       {
         "network": "GitHub",
@@ -266,6 +266,20 @@
       "date": "2026-11",
       "description": "Cross-entropy no longer overwrites caller-owned logits for ignored targets when no gradient is needed (1 merged PR).",
       "url": "https://github.com/linkedin/Liger-Kernel/pulls?q=is%3Apr+author%3ALiRunGuo+is%3Amerged"
+    },
+    {
+      "name": "PyTorch",
+      "category": "open-source contribution",
+      "date": "2026-11",
+      "description": "int32 indexing overflow fixes in the cdist CUDA backward and adaptive max pool CUDA kernels, adopted into main as upstream commits.",
+      "url": "https://github.com/pytorch/pytorch/commits?author=LiRunGuo"
+    },
+    {
+      "name": "NVIDIA NCCL",
+      "category": "open-source contribution",
+      "date": "2026-10",
+      "description": "Six fixes adopted into master and dev as upstream commits: SHM release in CE memcpy mode, CPU-buffer registration, P2P channel capping, GIN signal shadow sizing, per-channel NVLS buffers, and pre-posted receive validation.",
+      "url": "https://github.com/NVIDIA/nccl/commits?author=LiRunGuo"
     }
   ]
 }
