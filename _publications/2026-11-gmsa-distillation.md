@@ -2,6 +2,7 @@
 title: "StudentProbe: What Survives Distillation in Training-Free Video Diffusion Acceleration"
 collection: publications
 category: preprints
+unlisted: true
 permalink: /publication/2026-11-gmsa-distillation
 excerpt: 'StudentProbe measures distilled few-step and autoregressive video students against their own teachers: students keep their teachers&apos; features, while the few wide steps and the decoder decide which training-free accelerators still pay off. Single-author work.'
 date: 2026-11-02
