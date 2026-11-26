@@ -10,7 +10,7 @@ excerpt: "ComposeOPD distills one student from a composition of every model on a
 teaser: "/images/projects/2026-11-composeopd/fig1-teaser.png"
 tags: ["diffusion models", "on-policy distillation", "model composition", "reward fine-tuning"]
 publication: "/publication/2026-11-composeopd"
-published: false
+unlisted: true
 ---
 
 <style>

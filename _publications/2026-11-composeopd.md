@@ -2,6 +2,7 @@
 title: "ComposeOPD: Composing Diffusion Teachers and Published Students, Screened Before Training"
 collection: publications
 category: preprints
+unlisted: true
 permalink: /publication/2026-11-composeopd
 excerpt: 'ComposeOPD distills a composed target built from every model on a diffusion backbone, reward experts and published students alike, and screens the composition weights by sampling before any training.'
 date: 2026-11-16
