@@ -2,6 +2,7 @@
 title: "StudentProbe: What Survives Distillation in Training-Free Video Diffusion Acceleration"
 collection: projects
 permalink: /projects/2026-11-gmsa-distillation/
+unlisted: true
 date: 2026-11-02
 status: "Preprint"
 venue: "Preprint"

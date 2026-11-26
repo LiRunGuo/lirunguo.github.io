@@ -7,7 +7,7 @@ author_profile: false
 
 <p>Research projects behind my papers. Each project page summarizes the work with key results, figure notes, and interactive demos where available.</p>
 
-{% assign items = site.projects | sort: "date" | reverse %}
+{% assign items = site.projects | where_exp: "p", "p.unlisted != true" | sort: "date" | reverse %}
 {% if items.size == 0 %}
 <p><em>Project pages are coming soon.</em></p>
 {% endif %}
