@@ -3,9 +3,9 @@ title: "StepShare: Diagnosing and Rebalancing the Generation Gap in Native Unifi
 collection: projects
 permalink: /projects/2026-11-stepshare/
 date: 2026-11-16
-# No venue under review is named on this page; author list, paper, code and BibTeX links to be added later.
-status: "Under review"
-venue: "Under review"
+# No venue is named on this page (double-blind review); author list, paper, code and BibTeX links to be added later.
+status: "Preprint"
+venue: ""
 excerpt: "At equal loss weights, generation in a native unified model is starved rather than conflicted: it gets under 1% of each AdamW step. StepShare measures and rebalances that share; StepShare-Adam closes 91% of the FID gap with no hidden probe cost and no added parameters."
 teaser: "/images/projects/2026-11-stepshare/teaser.png"
 tags: ["unified multimodal models", "multi-task optimisation", "flow matching", "AdamW"]
@@ -178,7 +178,7 @@ html[data-theme="dark"] .ss { --c-und: #3987e5; --c-gen: #d95926; --c-wgt: #9085
 <div class="ss">
 
 <section class="ss-hero" aria-label="Overview">
-  <div class="ss-kicker"><span class="ss-badge">Under review</span><span>Unified multimodal models · Multi-task optimisation</span></div>
+  <div class="ss-kicker"><span class="ss-badge">Preprint</span><span>Unified multimodal models · Multi-task optimisation</span></div>
   <p class="ss-name"><span>StepShare</span></p>
   <p class="ss-tagline">In a native unified model, generation is <em>starved</em>, not conflicted.</p>
   <p class="ss-lede">One network that both captions and generates images usually generates worse than a generation-only twin, and the usual fix is to give the two tasks separate parameters. <strong>StepShare</strong> shows where the gap comes from instead: it splits every AdamW step exactly into the part each task contributes, and finds that generation receives under 1% of the update. Rebalancing that share, with no added parameters, closes most of the gap, and <strong>StepShare-Adam</strong> closes 91% of it without the hidden cost that plain reweighting leaves in intermediate layers.</p>
@@ -363,7 +363,7 @@ opt_gen = AdamW([{"params": shallow, "lr": beta * lr},   <span class="c"># patch
 <h2 id="links-and-citation">Links and citation</h2>
 
 <div class="ss-links">
-  <div class="ss-link"><div class="h">Paper</div><div class="s">Under review; the PDF and BibTeX will be linked here when they are public.</div></div>
+  <div class="ss-link"><div class="h">Paper</div><div class="s">The PDF and BibTeX will be linked here when they are public.</div></div>
   <div class="ss-link"><div class="h">Code</div><div class="s">Will be released with the paper.</div></div>
 </div>
 
