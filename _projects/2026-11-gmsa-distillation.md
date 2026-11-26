@@ -3,8 +3,8 @@ title: "StudentProbe: What Survives Distillation in Training-Free Video Diffusio
 collection: projects
 permalink: /projects/2026-11-gmsa-distillation/
 date: 2026-11-02
-status: "Preprint, under review"
-venue: "Preprint, under review"
+status: "Preprint"
+venue: "Preprint"
 excerpt: "StudentProbe measures each distilled video student against its own teacher: students keep their teachers' features, while the few wide steps and the decoder decide which training-free accelerators still pay off."
 teaser: "/images/projects/2026-11-gmsa-distillation/teaser.png"
 tags: ["video diffusion", "distillation", "training-free acceleration", "pre-registration"]
@@ -214,7 +214,7 @@ a method for students should beat one call fewer, not the teacher's redundancy.
   title  = {{StudentProbe}: What Survives Distillation in Training-Free Video Diffusion Acceleration},
   author = {Li, Runguo},
   year   = {2026},
-  note   = {Preprint, under review}
+  note   = {Preprint}
 }
 ```
 {% endraw %}

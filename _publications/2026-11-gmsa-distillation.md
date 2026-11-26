@@ -3,15 +3,15 @@ title: "StudentProbe: What Survives Distillation in Training-Free Video Diffusio
 collection: publications
 category: preprints
 permalink: /publication/2026-11-gmsa-distillation
-excerpt: 'StudentProbe measures distilled few-step and autoregressive video students against their own teachers: students keep their teachers&apos; features, while the few wide steps and the decoder decide which training-free accelerators still pay off. Single-author work under review.'
+excerpt: 'StudentProbe measures distilled few-step and autoregressive video students against their own teachers: students keep their teachers&apos; features, while the few wide steps and the decoder decide which training-free accelerators still pay off. Single-author work.'
 date: 2026-11-02
-venue: 'Preprint, under review'
+venue: 'Preprint'
 paperurl: '/files/gmsa-distillation-acceleration.pdf'
 bibtexurl: '/files/bibtex/li2026gmsa.bib'
-citation: 'Runguo Li. (2026). &quot;StudentProbe: What Survives Distillation in Training-Free Video Diffusion Acceleration.&quot; Preprint, under review.'
+citation: 'Runguo Li. (2026). &quot;StudentProbe: What Survives Distillation in Training-Free Video Diffusion Acceleration.&quot; Preprint.'
 ---
 
-**Status:** Preprint, under review · **PDF:** [Download](/files/gmsa-distillation-acceleration.pdf) · **Project page:** [StudentProbe](/projects/2026-11-gmsa-distillation/)
+**Status:** Preprint · **PDF:** [Download](/files/gmsa-distillation-acceleration.pdf) · **Project page:** [StudentProbe](/projects/2026-11-gmsa-distillation/)
 
 ### Author
 
