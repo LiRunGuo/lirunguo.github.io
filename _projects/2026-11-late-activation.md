@@ -2,6 +2,7 @@
 title: "Late Activation: A Better Reward–Diversity Trade-off for RL-Tuned Flow Models"
 collection: projects
 permalink: /projects/2026-11-late-activation/
+unlisted: true
 date: 2026-11-16
 status: "Manuscript"
 venue: "Manuscript"
@@ -10,7 +11,6 @@ teaser: "/images/projects/2026-11-late-activation/teaser.webp"
 tags: ["diffusion models", "reinforcement learning", "sample diversity"]
 publication: "/publication/2026-11-late-activation"
 toc: false   # the floating table of contents covers the long title; the page has its own section links
-published: false
 ---
 
 <style>

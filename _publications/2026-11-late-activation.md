@@ -3,6 +3,7 @@ title: "Late Activation: A Better Reward–Diversity Trade-off for RL-Tuned Flow
 collection: publications
 category: preprints
 permalink: /publication/2026-11-late-activation
+unlisted: true
 excerpt: 'RL tuning collapses the variety of text-to-image flow models in the first, high-noise sampling steps, where the reward is largely redundant; letting the base model take those steps keeps 96% of the reward gain with 25% higher CLIP diversity, at no extra cost.'
 date: 2026-11-16
 venue: 'Manuscript'
