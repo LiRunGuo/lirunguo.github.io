@@ -5,11 +5,11 @@ category: preprints
 permalink: /publication/2026-11-composeopd
 excerpt: 'ComposeOPD distills a composed target built from every model on a diffusion backbone, reward experts and published students alike, and screens the composition weights by sampling before any training.'
 date: 2026-11-16
-venue: 'Under review'
-citation: '&quot;ComposeOPD: Composing Diffusion Teachers and Published Students, Screened Before Training.&quot; Manuscript under review, 2026.'
+venue: 'Manuscript'
+citation: '&quot;ComposeOPD: Composing Diffusion Teachers and Published Students, Screened Before Training.&quot; Manuscript, 2026.'
 ---
 
-**Status:** Manuscript under review · **Project page:** [ComposeOPD](/projects/2026-11-composeopd/)
+**Status:** Manuscript · **Project page:** [ComposeOPD](/projects/2026-11-composeopd/)
 
 ### Abstract
 

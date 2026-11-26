@@ -4,8 +4,8 @@ collection: projects
 permalink: /projects/2026-11-composeopd/
 date: 2026-11-16
 toc: false
-status: "Under review"
-venue: "Under review"
+status: "Manuscript"
+venue: "Manuscript"
 excerpt: "ComposeOPD distills one student from a composition of every model on a diffusion backbone, reward experts and published students alike, and chooses the composition weights by sampling the composed teacher before any training."
 teaser: "/images/projects/2026-11-composeopd/fig1-teaser.png"
 tags: ["diffusion models", "on-policy distillation", "model composition", "reward fine-tuning"]
@@ -176,13 +176,13 @@ html[data-theme="dark"] .cpd-tip { background: #2d333b; color: #e6edf3; border-c
   <div class="htitle" aria-hidden="true">Compose<span>OPD</span></div>
   <div class="hsub" aria-hidden="true">Composing Diffusion Teachers and Published Students, Screened Before Training</div>
   <p class="tagline">One student distilled from every model on a diffusion backbone, with the mix chosen by sampling, before any training.</p>
-  <div class="badges"><span class="badge">Under review · 2026</span><span class="badge">On-policy distillation</span><span class="badge">Text-to-image · SD3.5-Medium</span></div>
+  <div class="badges"><span class="badge">Manuscript · 2026</span><span class="badge">On-policy distillation</span><span class="badge">Text-to-image · SD3.5-Medium</span></div>
   <div class="pills">
     <a class="pill" href="#try-the-screen"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>Try the screen</a>
     <a class="pill" href="#visual-comparison"><svg viewBox="0 0 16 16"><path d="M1 3h6v10H1zM9 3h6v10H9z"/></svg>Compare samples</a>
     <a class="pill" href="#results"><svg viewBox="0 0 16 16"><path d="M2 13h12v1H2zM3 8h2v4H3zM7 5h2v7H7zM11 2h2v10h-2z"/></svg>Results</a>
-    <span class="pill ghost"><svg viewBox="0 0 16 16"><path d="M3 1h7l3 3v11H3zM9 2v3h3"/></svg>Paper · after review</span>
-    <span class="pill ghost"><svg viewBox="0 0 16 16"><path d="M5.5 4 1.5 8l4 4 1-1-3-3 3-3zm5 0-1 1 3 3-3 3 1 1 4-4z"/></svg>Code · after review</span>
+    <span class="pill ghost"><svg viewBox="0 0 16 16"><path d="M3 1h7l3 3v11H3zM9 2v3h3"/></svg>Paper · coming soon</span>
+    <span class="pill ghost"><svg viewBox="0 0 16 16"><path d="M5.5 4 1.5 8l4 4 1-1-3-3 3-3zm5 0-1 1 3 3-3 3 1 1 4-4z"/></svg>Code · coming soon</span>
   </div>
   <div class="strip">
     <figure><img src="/images/projects/2026-11-composeopd/samples/geneval-ours.webp" alt="ComposeOPD sample: a photo of two wine glasses" loading="eager"><figcaption>GenEval prompt</figcaption></figure>
@@ -402,8 +402,8 @@ and DrawBench prompts.</p>
 </ul>
 
 <h2 class="sec" id="citation">Citation</h2>
-<p class="sub">The paper is under review; the PDF and code will be linked here after review.</p>
-<div class="cite" id="cpd-cite"><button type="button" id="cpd-copy">Copy</button>"ComposeOPD: Composing Diffusion Teachers and Published Students, Screened Before Training." Manuscript under review, 2026.</div>
+<p class="sub">The PDF and code will be linked here when they are released.</p>
+<div class="cite" id="cpd-cite"><button type="button" id="cpd-copy">Copy</button>"ComposeOPD: Composing Diffusion Teachers and Published Students, Screened Before Training." Manuscript, 2026.</div>
 
 </div>
 
