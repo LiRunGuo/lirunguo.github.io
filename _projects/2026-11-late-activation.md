@@ -3,8 +3,8 @@ title: "Late Activation: A Better Reward–Diversity Trade-off for RL-Tuned Flow
 collection: projects
 permalink: /projects/2026-11-late-activation/
 date: 2026-11-16
-status: "Under review"
-venue: "Under review"
+status: "Manuscript"
+venue: "Manuscript"
 excerpt: "Let the base model take the first sampling steps of an RL-tuned flow model: 96% of the reward gain, 25% more CLIP diversity, no retraining and no extra compute."
 teaser: "/images/projects/2026-11-late-activation/teaser.webp"
 tags: ["diffusion models", "reinforcement learning", "sample diversity"]
@@ -160,7 +160,7 @@ html[data-theme="dark"] .la { --la-aigu: #e09cc4; --la-weight: #7cc6ef; --la-ear
 <div class="la">
 
 <div class="la-kicker">
-  <span class="la-tag is-accent">Under review · 2026</span>
+  <span class="la-tag is-accent">Manuscript · 2026</span>
   <span class="la-tag">Text-to-image</span>
   <span class="la-tag">RL fine-tuning</span>
   <span class="la-tag">Sample diversity</span>
@@ -423,7 +423,7 @@ FLUX remain to be tested.</p>
 
 <h2 id="citation"><span class="la-num">06</span>Paper and citation</h2>
 
-<div class="la-card"><p class="la-cite" style="margin:0">The paper is under review. The PDF, code and BibTeX will be
+<div class="la-card"><p class="la-cite" style="margin:0">The paper is not yet public. The PDF, code and BibTeX will be
 linked here once they are public.</p></div>
 
 </div>
