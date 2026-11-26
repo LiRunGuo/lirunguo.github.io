@@ -3,12 +3,12 @@ title: "PredImagine: Latent Visual Imagination by Clean-Target Prediction, and W
 collection: publications
 category: preprints
 permalink: /publication/2026-11-predimagine
-excerpt: 'A controlled protocol for latent visual imagination in VLMs exposes two hidden failures of flow-matching producers; PredImagine, a clean-target recipe, repairs both and shows that generation adds robustness to the noise draw, not accuracy. Under review.'
+excerpt: 'A controlled protocol for latent visual imagination in VLMs exposes two hidden failures of flow-matching producers; PredImagine, a clean-target recipe, repairs both and shows that generation adds robustness to the noise draw, not accuracy.'
 date: 2026-11-16
-venue: 'Under review'
+venue: 'Preprint'
 ---
 
-**Status:** Manuscript under review · **Project page:** [PredImagine](/projects/2026-11-predimagine/)
+**Project page:** [PredImagine](/projects/2026-11-predimagine/)
 
 ### Abstract
 

@@ -3,8 +3,6 @@ title: "PredImagine: Latent Visual Imagination by Clean-Target Prediction, and W
 collection: projects
 permalink: /projects/2026-11-predimagine/
 date: 2026-11-16
-status: "Under review"
-venue: "Under review"
 excerpt: "A controlled protocol for latent visual imagination in VLMs exposes two hidden failures of flow-matching producers; PredImagine, a clean-target recipe derived from the flow's one-step optimum, repairs both and shows that generation adds robustness to the noise draw, not accuracy."
 teaser: "/images/projects/2026-11-predimagine/teaser.png"
 tags: ["vision-language models", "latent reasoning", "flow matching"]
@@ -516,7 +514,7 @@ The study covers one architecture (WM-VLM) on one backbone family and rotation a
 ## Links and citation
 
 <p class="pi-btns" style="justify-content:flex-start">
-  <span class="pi-btn pi-off"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Paper <small>· under review</small></span>
+  <span class="pi-btn pi-off"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Paper <small>· soon</small></span>
   <span class="pi-btn pi-off"><i class="fa-brands fa-github" aria-hidden="true"></i> Code <small>· will be released</small></span>
 </p>
 
