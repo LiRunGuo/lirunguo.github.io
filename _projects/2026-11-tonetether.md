@@ -3,14 +3,14 @@ title: "ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video
 collection: projects
 permalink: /projects/2026-11-tonetether/
 date: 2026-11-16
-status: "Under review"
-venue: "Under review"
+status: "Manuscript"
+venue: "Manuscript"
 excerpt: "Drift scores reward long videos that stop changing. ToneTether corrects only the predicted tone of the drift in the KV cache, lowering colour drift by a quarter to a third without freezing the video."
 teaser: "/images/projects/2026-11-tonetether/fig1-teaser.webp"
 tags: ["video generation", "autoregressive diffusion", "KV cache", "training-free"]
 bibtexurl: "/files/bibtex/li2026tonetether.bib"
 publication: "/publication/2026-11-tonetether"
-citation: 'Runguo Li. (2026). &quot;ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video Generation.&quot; Manuscript under review.'
+citation: 'Runguo Li. (2026). &quot;ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video Generation.&quot; Manuscript.'
 published: false
 ---
 
@@ -277,7 +277,7 @@ A stronger tether on all directions removes more colour drift and more motion. T
   title  = {ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video Generation},
   author = {Li, Runguo},
   year   = {2026},
-  note   = {Manuscript under review}
+  note   = {Manuscript}
 }
 ```
 

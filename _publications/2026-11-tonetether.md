@@ -5,12 +5,12 @@ category: preprints
 permalink: /publication/2026-11-tonetether
 excerpt: 'Drift scores reward long videos that stop changing. ToneTether corrects only the predicted global tone of the drift in the KV cache and removes a quarter to a third of the colour drift without a measurable loss of motion or new content.'
 date: 2026-11-16
-venue: 'Under review'
+venue: 'Manuscript'
 bibtexurl: '/files/bibtex/li2026tonetether.bib'
-citation: 'Runguo Li. (2026). &quot;ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video Generation.&quot; Manuscript under review.'
+citation: 'Runguo Li. (2026). &quot;ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video Generation.&quot; Manuscript.'
 ---
 
-**Status:** Manuscript under review · **Project page:** [ToneTether](/projects/2026-11-tonetether/)
+**Status:** Manuscript · **Project page:** [ToneTether](/projects/2026-11-tonetether/)
 
 ### Abstract
 
