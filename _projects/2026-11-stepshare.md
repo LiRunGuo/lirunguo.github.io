@@ -14,7 +14,7 @@ tags: ["unified multimodal models", "multi-task optimisation", "flow matching", 
 # pdfurl: ""
 # codeurl: ""
 # bibtexurl: ""
-# publication: "/publication/2026-11-stepshare"
+publication: "/publication/2026-11-stepshare"
 ---
 
 <style>
