@@ -3,9 +3,9 @@ title: "RefAudit: Re-evaluating Diffusion Step Caching as Step Scheduling Agains
 collection: projects
 permalink: /projects/2026-11-refaudit/
 date: 2026-11-16
-# No venue under review is named on this page; author list, paper, code and BibTeX links to be added later.
-status: "Under review"
-venue: "Under review"
+# No venue is named on this page; the arXiv link, author list, code and BibTeX are added when the preprint is public.
+status: "Preprint"
+venue: ""
 excerpt: "The standard protocol for scoring training-free step caching rewards samplers that share the 50-step reference's error; RefAudit separates accuracy from shared error, and under it optimized static schedules with UniPC match or beat every cache we ran on FLUX.1-dev and SD3.5."
 teaser: "/images/projects/2026-11-refaudit/teaser.png"
 tags: ["diffusion models", "evaluation", "step caching", "ODE solvers"]
