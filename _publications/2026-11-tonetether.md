@@ -3,6 +3,7 @@ title: "ToneTether: Lowering Drift Without Freezing in Long Autoregressive Video
 collection: publications
 category: preprints
 permalink: /publication/2026-11-tonetether
+unlisted: true
 excerpt: 'Drift scores reward long videos that stop changing. ToneTether corrects only the predicted global tone of the drift in the KV cache and removes a quarter to a third of the colour drift without a measurable loss of motion or new content.'
 date: 2026-11-16
 venue: 'Manuscript'
