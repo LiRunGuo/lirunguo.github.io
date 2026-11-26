@@ -2,6 +2,7 @@
 title: "PredImagine: Latent Visual Imagination by Clean-Target Prediction, and What Flow Matching Adds"
 collection: projects
 permalink: /projects/2026-11-predimagine/
+unlisted: true
 date: 2026-11-16
 excerpt: "A controlled protocol for latent visual imagination in VLMs exposes two hidden failures of flow-matching producers; PredImagine, a clean-target recipe derived from the flow's one-step optimum, repairs both and shows that generation adds robustness to the noise draw, not accuracy."
 teaser: "/images/projects/2026-11-predimagine/teaser.png"
